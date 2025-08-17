@@ -62,7 +62,6 @@ import {
   Globe,
   Star,
   Lock,
-  FileText,
   Brain,
   Settings,
   ArrowDown
@@ -10103,7 +10102,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                         onClick={() => navigateCalendar("next")}
                         className="p-2 hover:bg-slate-700 rounded transition-colors"
                       >
-                        <span className="text-slate-400">�����</span>
+                        <span className="text-slate-400">�������</span>
                       </button>
                     </div>
                   </div>
