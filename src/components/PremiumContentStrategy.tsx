@@ -981,7 +981,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
 
       // Deduct credit first
       await deductCredits('regenerate', 1);
-      console.log('��������� Credit deducted for advanced metric regeneration');
+      console.log('�������� Credit deducted for advanced metric regeneration');
 
       const strategyConfig = {
         niche: strategyPlan.niche || 'General',
@@ -6394,9 +6394,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                                                       <div className="font-semibold text-white text-sm group-hover:text-slate-200 transition-colors">Copy Text</div>
                                                       <div className="text-xs text-slate-400 group-hover:text-slate-300/80 transition-colors">Copy to clipboard</div>
                                                     </div>
-                                                    <svg className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                                    </svg>
+                                                    <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" />
                                                   </div>
                                                 </button>
                                               </div>
@@ -6567,9 +6565,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                                                         <div className="font-semibold text-white text-sm group-hover:text-slate-200 transition-colors">Copy Text</div>
                                                         <div className="text-xs text-slate-400 group-hover:text-slate-300/80 transition-colors">Copy to clipboard</div>
                                                       </div>
-                                                      <svg className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                                      </svg>
+                                                      <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" />
                                                     </div>
                                                   </button>
                                                 </div>
@@ -6750,9 +6746,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                                                           <div className="font-semibold text-white text-sm group-hover:text-slate-200 transition-colors">Copy Text</div>
                                                           <div className="text-xs text-slate-400 group-hover:text-slate-300/80 transition-colors">Copy to clipboard</div>
                                                         </div>
-                                                        <svg className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                                        </svg>
+                                                        <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" />
                                                       </div>
                                                     </button>
                                                   </div>
@@ -6878,9 +6872,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                                                           <div className="font-semibold text-white text-sm group-hover:text-slate-200 transition-colors">Copy Text</div>
                                                           <div className="text-xs text-slate-400 group-hover:text-slate-300/80 transition-colors">Copy to clipboard</div>
                                                         </div>
-                                                        <svg className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                                        </svg>
+                                                        <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" />
                                                       </div>
                                                     </button>
                                                   </div>
@@ -7006,9 +6998,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                                                           <div className="font-semibold text-white text-sm group-hover:text-slate-200 transition-colors">Copy Text</div>
                                                           <div className="text-xs text-slate-400 group-hover:text-slate-300/80 transition-colors">Copy to clipboard</div>
                                                         </div>
-                                                        <svg className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                                        </svg>
+                                                        <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" />
                                                       </div>
                                                     </button>
                                                   </div>
@@ -7134,9 +7124,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                                                           <div className="font-semibold text-white text-sm group-hover:text-slate-200 transition-colors">Copy Text</div>
                                                           <div className="text-xs text-slate-400 group-hover:text-slate-300/80 transition-colors">Copy to clipboard</div>
                                                         </div>
-                                                        <svg className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                                        </svg>
+                                                        <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" />
                                                       </div>
                                                     </button>
                                                   </div>
@@ -7380,9 +7368,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                                                           <div className="font-semibold text-white text-sm group-hover:text-slate-200 transition-colors">Copy Text</div>
                                                           <div className="text-xs text-slate-400 group-hover:text-slate-300/80 transition-colors">Copy to clipboard</div>
                                                         </div>
-                                                        <svg className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                                        </svg>
+                                                        <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" />
                                                       </div>
                                                     </button>
                                                   </div>
@@ -7633,9 +7619,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                                                 <div className="font-semibold text-white text-sm group-hover:text-slate-200 transition-colors">Copy Text</div>
                                                 <div className="text-xs text-slate-400 group-hover:text-slate-300/80 transition-colors">Copy to clipboard</div>
                                               </div>
-                                              <svg className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                              </svg>
+                                              <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" />
                                             </div>
                                           </button>
                                         </div>
@@ -7832,9 +7816,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                                                 <div className="font-semibold text-white text-sm group-hover:text-slate-200 transition-colors">Copy Text</div>
                                                 <div className="text-xs text-slate-400 group-hover:text-slate-300/80 transition-colors">Copy to clipboard</div>
                                               </div>
-                                              <svg className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                              </svg>
+                                              <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" />
                                             </div>
                                           </button>
                                         </div>
@@ -8230,9 +8212,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                                                 <div className="font-semibold text-white text-sm group-hover:text-slate-200 transition-colors">Copy Text</div>
                                                 <div className="text-xs text-slate-400 group-hover:text-slate-300/80 transition-colors">Copy to clipboard</div>
                                               </div>
-                                              <svg className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                              </svg>
+                                              <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" />
                                             </div>
                                           </button>
                                         </div>
@@ -10378,7 +10358,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                     }}
                     className="px-3 py-1 bg-slate-700 hover:bg-slate-600 text-slate-300 text-xs rounded transition-colors"
                   >
-                    �������� Refresh
+                    ������� Refresh
                   </button>
                 </div>
                 <div className="overflow-x-auto">
