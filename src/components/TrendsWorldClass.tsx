@@ -661,9 +661,20 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
                     )}
                   </p>
                 </div>
-                <Button variant="ghost" size="sm">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowAdvancedFilters(true)}
+                >
                   <Filter className="w-4 h-4" />
                   Advanced Filters
+                  {(activeFilters.platforms.length > 0 ||
+                    activeFilters.categories.length > 0 ||
+                    activeFilters.trendingOnly) && (
+                    <Badge variant="primary" className="ml-2 text-xs">
+                      Active
+                    </Badge>
+                  )}
                 </Button>
               </div>
 
