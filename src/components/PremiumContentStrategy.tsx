@@ -48,6 +48,9 @@ import {
   Briefcase,
   Scale,
   AlertTriangle,
+  FileText,
+  Network,
+  Sparkles,
   Building,
   Gavel,
   Rocket,
@@ -59,7 +62,6 @@ import {
   Globe,
   Star,
   Lock,
-  FileText,
   Brain,
   Settings,
   ArrowDown
@@ -9428,7 +9430,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                             onClick={sendEntireStrategyToCanvas}
                             className="px-6 py-3 bg-gradient-to-r from-emerald-600 to-blue-600 hover:from-emerald-500 hover:to-blue-500 text-white rounded-xl text-lg font-semibold transition-all duration-200 flex items-center space-x-3 shadow-lg hover:shadow-xl"
                           >
-                            <span className="text-xl">📄</span>
+                            <FileText className="w-5 h-5" />
                             <span>Send as Text</span>
                           </button>
 
@@ -9437,9 +9439,9 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                               onClick={sendStrategyAsMindMap}
                               className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-xl text-lg font-semibold transition-all duration-200 flex items-center space-x-3 shadow-lg hover:shadow-xl"
                             >
-                              <span className="text-xl">🧠</span>
+                              <Network className="w-5 h-5" />
                               <span>Send as Mind Map</span>
-                              <span className="text-xl">✨</span>
+                              <Sparkles className="w-5 h-5" />
                             </button>
                           )}
                         </div>
@@ -10100,7 +10102,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                         onClick={() => navigateCalendar("next")}
                         className="p-2 hover:bg-slate-700 rounded transition-colors"
                       >
-                        <span className="text-slate-400">�����</span>
+                        <span className="text-slate-400">�������</span>
                       </button>
                     </div>
                   </div>
