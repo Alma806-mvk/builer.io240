@@ -1,19 +1,18 @@
 import React from "react";
 import {
-  Home,
-  Sparkles,
-  Image,
-  FileText,
-  Video,
-  Palette,
+  LayoutDashboard,
+  Wand2,
+  Layers3,
+  Paintbrush,
+  ImageIcon,
   Settings,
   Zap,
   TrendingUp,
   Youtube,
-  Target,
-  Calendar,
-  History,
-  BarChart3
+  Crosshair,
+  CalendarDays,
+  Clock3,
+  BarChart4
 } from "lucide-react";
 import {
   Sidebar,
