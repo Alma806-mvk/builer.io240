@@ -52,6 +52,19 @@ export const TestDailyTrends: React.FC<TestDailyTrendsProps> = ({ onClose }) => 
     }
   };
 
+  const testCreateData = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await createTestTrendsData();
+      setResult({ type: 'Test Data Created', data });
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const testManualTrigger = async () => {
     setLoading(true);
     setError(null);
