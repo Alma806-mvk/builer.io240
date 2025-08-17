@@ -65,6 +65,7 @@ import {
   Brain,
   Settings,
   ArrowDown,
+  ChevronRight,
   Send,
   GitBranch,
   Clipboard
@@ -980,7 +981,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
 
       // Deduct credit first
       await deductCredits('regenerate', 1);
-      console.log('�������� Credit deducted for advanced metric regeneration');
+      console.log('��������� Credit deducted for advanced metric regeneration');
 
       const strategyConfig = {
         niche: strategyPlan.niche || 'General',
@@ -10377,7 +10378,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                     }}
                     className="px-3 py-1 bg-slate-700 hover:bg-slate-600 text-slate-300 text-xs rounded transition-colors"
                   >
-                    ������� Refresh
+                    �������� Refresh
                   </button>
                 </div>
                 <div className="overflow-x-auto">
