@@ -1736,6 +1736,11 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Test Modal */}
+      {showTestModal && (
+        <TestDailyTrends onClose={() => setShowTestModal(false)} />
+      )}
     </div>
   );
 };
