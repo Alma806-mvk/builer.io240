@@ -537,31 +537,88 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
             {/* Enhanced Platform Overview */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card>
-                <h3 className="heading-4 mb-6">Platform Performance</h3>
-                <div className="space-y-4">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="heading-4">Platform Performance</h3>
+                  <Badge variant="primary" className="text-xs">
+                    AI Generated
+                  </Badge>
+                </div>
+                <div className="space-y-6">
                   {platformTrends.map((platform) => (
                     <div
                       key={platform.platform}
-                      className="flex items-center space-x-4 p-4 rounded-xl bg-[var(--surface-tertiary)] hover:bg-[var(--surface-quaternary)] transition-all duration-200"
+                      className="p-4 rounded-xl bg-[var(--surface-tertiary)] hover:bg-[var(--surface-quaternary)] transition-all duration-200"
                     >
-                      <div
-                        className="w-4 h-4 rounded-full"
-                        style={{ backgroundColor: platform.color }}
-                      />
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between mb-2">
-                          <h4 className="font-semibold text-[var(--text-primary)]">
-                            {platform.platform}
-                          </h4>
-                          <div className="flex items-center space-x-2">
-                            <Badge variant="success">+{platform.growth}%</Badge>
-                            <span className="text-sm text-[var(--text-secondary)]">
-                              {platform.engagement}% engagement
-                            </span>
+                      {/* Platform Header */}
+                      <div className="flex items-center space-x-4 mb-4">
+                        <div
+                          className="w-6 h-6 rounded-full flex items-center justify-center"
+                          style={{ backgroundColor: platform.color }}
+                        >
+                          <span className="text-white text-xs font-bold">
+                            {platform.platform.charAt(0)}
+                          </span>
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between">
+                            <h4 className="font-semibold text-[var(--text-primary)]">
+                              {platform.platform}
+                            </h4>
+                            <div className="flex items-center space-x-2">
+                              <Badge variant="success">+{platform.growth}%</Badge>
+                              <span className="text-sm text-[var(--text-secondary)]">
+                                {platform.engagement}% engagement
+                              </span>
+                            </div>
                           </div>
                         </div>
+                      </div>
+
+                      {/* Enhanced Metrics */}
+                      {(platform.activeCreators || platform.avgViews) && (
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 text-sm">
+                          {platform.activeCreators && (
+                            <div>
+                              <span className="text-[var(--text-secondary)]">Active Creators</span>
+                              <div className="font-semibold text-[var(--text-primary)]">
+                                {(platform.activeCreators / 1000).toFixed(0)}K
+                              </div>
+                            </div>
+                          )}
+                          {platform.avgViews && (
+                            <div>
+                              <span className="text-[var(--text-secondary)]">Avg Views</span>
+                              <div className="font-semibold text-[var(--text-primary)]">
+                                {(platform.avgViews / 1000000).toFixed(1)}M
+                              </div>
+                            </div>
+                          )}
+                          {platform.audienceDemographics && (
+                            <>
+                              <div>
+                                <span className="text-[var(--text-secondary)]">Primary Age</span>
+                                <div className="font-semibold text-[var(--text-primary)]">
+                                  {platform.audienceDemographics.primaryAge}
+                                </div>
+                              </div>
+                              <div>
+                                <span className="text-[var(--text-secondary)]">Top Markets</span>
+                                <div className="font-semibold text-[var(--text-primary)]">
+                                  {platform.audienceDemographics.topCountries.slice(0, 2).join(', ')}
+                                </div>
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Trending Topics */}
+                      <div className="mb-4">
+                        <span className="text-xs text-[var(--text-secondary)] mb-2 block">
+                          Trending Topics:
+                        </span>
                         <div className="flex flex-wrap gap-1">
-                          {platform.topTrends.slice(0, 3).map((trend) => (
+                          {platform.topTrends.slice(0, 4).map((trend) => (
                             <span
                               key={trend}
                               className="px-2 py-1 text-xs bg-[var(--surface-quaternary)] text-[var(--text-tertiary)] rounded-md"
@@ -571,6 +628,28 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
                           ))}
                         </div>
                       </div>
+
+                      {/* Content Types & Best Times */}
+                      {(platform.contentTypes || platform.bestPostingTimes) && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                          {platform.contentTypes && (
+                            <div>
+                              <span className="text-[var(--text-secondary)]">Content Types:</span>
+                              <div className="text-[var(--text-primary)] mt-1">
+                                {platform.contentTypes.join(', ')}
+                              </div>
+                            </div>
+                          )}
+                          {platform.bestPostingTimes && (
+                            <div>
+                              <span className="text-[var(--text-secondary)]">Best Times:</span>
+                              <div className="text-[var(--text-primary)] mt-1">
+                                {platform.bestPostingTimes.join(', ')}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
