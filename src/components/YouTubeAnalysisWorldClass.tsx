@@ -186,6 +186,7 @@ const YouTubeAnalysisWorldClass: React.FC<YouTubeAnalysisWorldClassProps> = ({
   const [copied, setCopied] = useState(false);
   const [detailedAnalysisSection, setDetailedAnalysisSection] = useState<ParsedChannelAnalysisSection | null>(null);
   const [currentTime, setCurrentTime] = useState<number | null>(null);
+  const [isSummaryExpanded, setIsSummaryExpanded] = useState(true);
 
   // Fix hydration issue by setting current time on client only
   useEffect(() => {
@@ -361,8 +362,10 @@ Provide actionable insights based on current market trends and their performance
         setLoadingPhase(`Researching ${topic.title} (${i + 1}/12)...`);
         
         // Make individual API call with Google search for this specific topic
+        console.log(`🔍 Processing analysis topic ${i + 1}/12: ${topic.title}`);
+
         const searchResult = await generateTextContent({
-          userInput: topic.prompt,
+          userInput: `${topic.prompt}\n\nIMPORTANT: Focus ONLY on "${topic.title}" analysis. Do not repeat information from other analysis sections.`,
           contentType: ContentType.YoutubeChannelStats,
           platform: Platform.YouTube,
           userPlan: userPlan,
@@ -372,21 +375,27 @@ Provide actionable insights based on current market trends and their performance
         if (searchResult?.text) {
           // Extract specific insights and data from the search result
           const analysisContent = searchResult.text;
-          
+
+          // Add unique identifier to prevent content duplication
+          const uniqueContent = `[Analysis ${i + 1}/12: ${topic.title}]\n\n${analysisContent}`;
+
           // Extract actionable ideas from the analysis
           const ideas = extractIdeasFromContent(analysisContent);
-          
+
+          console.log(`✅ Completed analysis ${i + 1}: ${topic.title} (${analysisContent.length} chars)`);
+
           sections.push({
             title: topic.title,
-            content: analysisContent,
+            content: uniqueContent,
             ideas: ideas
           });
         } else {
           // Fallback if API call fails
+          console.warn(`❌ Failed to get data for analysis ${i + 1}: ${topic.title}`);
           sections.push({
             title: topic.title,
-            content: `Unable to retrieve specific data for ${topic.title}. This analysis requires real-time web search data.`,
-            ideas: ["Retry analysis with better internet connection", "Contact support if issue persists"]
+            content: `[Analysis ${i + 1}/12: ${topic.title}]\n\nUnable to retrieve specific data for ${topic.title}. This analysis requires real-time web search data. Please try again with a stable internet connection.`,
+            ideas: ["Retry analysis with better internet connection", "Contact support if issue persists", "Check if the channel name or URL is correct"]
           });
         }
         
@@ -531,14 +540,71 @@ Provide actionable insights based on current market trends and their performance
     }
   }, [channelUrl, userPlan, generateComprehensiveAnalysis]);
 
-  // Handle copying to clipboard
+  // Handle copying to clipboard with fallback methods
   const handleCopyToClipboard = useCallback((text: string) => {
-    navigator.clipboard.writeText(text).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }).catch(err => {
-      console.error('Failed to copy:', err);
-    });
+    // Method 1: Try modern Clipboard API
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      }).catch(err => {
+        console.warn('Clipboard API failed, trying fallback:', err);
+        // Fallback to legacy method
+        fallbackCopyToClipboard(text);
+      });
+    } else {
+      // Method 2: Fallback for environments where Clipboard API is not available
+      fallbackCopyToClipboard(text);
+    }
+  }, []);
+
+  // Fallback clipboard method
+  const fallbackCopyToClipboard = useCallback((text: string) => {
+    try {
+      // Create a temporary textarea element
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      textArea.style.top = '-999999px';
+      document.body.appendChild(textArea);
+
+      // Select and copy the text
+      textArea.focus();
+      textArea.select();
+
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textArea);
+
+      if (successful) {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+        console.log('Text copied successfully using fallback method');
+      } else {
+        throw new Error('Copy command failed');
+      }
+    } catch (err) {
+      console.error('All copy methods failed:', err);
+      // Show user a message to manually copy
+      showManualCopyDialog(text);
+    }
+  }, []);
+
+  // Show manual copy dialog as last resort
+  const showManualCopyDialog = useCallback((text: string) => {
+    const truncatedText = text.length > 200 ? text.substring(0, 200) + '...' : text;
+    alert(`Copy failed. Please manually copy this text:\n\n${truncatedText}\n\n[Content has been downloaded as a file instead]`);
+
+    // Automatically trigger download as alternative
+    const blob = new Blob([text], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `youtube-analysis-copy-${Date.now()}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   }, []);
 
   // Handle summarizing analysis
@@ -549,6 +615,10 @@ Provide actionable insights based on current market trends and their performance
     }
 
     setIsSummarizing(true);
+    // Clear previous summary and expand new one
+    setAnalysisSummary(null);
+    setIsSummaryExpanded(true);
+
     try {
       const fullAnalysisText = parsedAnalysis
         .map((section) => `## ${section.title}\n${section.content}`)
@@ -947,10 +1017,45 @@ Provide actionable insights based on current market trends and their performance
             </Button>
             <Button variant="secondary" size="sm" onClick={() => {
               if (parsedAnalysis) {
-                const fullText = parsedAnalysis
-                  .map(s => `## ${s.title}\n${s.content}`)
-                  .join('\n\n');
-                handleCopyToClipboard(fullText);
+                const timestamp = new Date().toLocaleString();
+                const channelName = channelUrl || 'YouTube Channel';
+                const fullText = `# Complete YouTube Analysis Export
+## Channel: ${channelName}
+## Export Date: ${timestamp}
+## Total Sections: ${parsedAnalysis.length}
+
+${parsedAnalysis
+  .map((s, index) => `## Section ${index + 1}: ${s.title}
+
+### Analysis Content:
+${s.content}
+
+${s.ideas && s.ideas.length > 0 ? `### Actionable Insights (${s.ideas.length} items):
+${s.ideas.map((idea, i) => `${i + 1}. ${idea}`).join('\n')}
+` : ''}
+---
+
+`)
+  .join('')}
+
+Total Analysis Cards Exported: ${parsedAnalysis.length}
+Export completed successfully.`;
+
+                // Primary action: Download file
+                const blob = new Blob([fullText], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `complete-youtube-analysis-${channelName.replace(/[^a-zA-Z0-9]/g, '-')}-${Date.now()}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                // Secondary action: Try to copy to clipboard (with error handling)
+                setTimeout(() => {
+                  handleCopyToClipboard(fullText);
+                }, 100);
               }
             }}>
               <Download className="w-4 h-4" />
@@ -988,14 +1093,49 @@ Provide actionable insights based on current market trends and their performance
                 variant="primary"
                 size="sm"
                 onClick={() => {
-                  const fullText = parsedAnalysis
-                    .map(s => `## ${s.title}\n${s.content}`)
-                    .join('\n\n');
-                  handleCopyToClipboard(fullText);
+                  const timestamp = new Date().toLocaleString();
+                  const channelName = channelUrl || 'YouTube Channel';
+                  const fullText = `# YouTube Channel Analysis Report
+## Channel: ${channelName}
+## Generated: ${timestamp}
+## Total Analysis Cards: ${parsedAnalysis.length}
+
+${parsedAnalysis
+  .map((s, index) => `## ${index + 1}. ${s.title}
+
+${s.content}
+
+${s.ideas && s.ideas.length > 0 ? `### Strategic Action Items:
+${s.ideas.map((idea, i) => `${i + 1}. ${idea}`).join('\n')}
+
+` : ''}---
+`)
+  .join('\n')}
+
+## Analysis Summary
+This comprehensive analysis contains ${parsedAnalysis.length} detailed sections covering all aspects of YouTube channel performance, growth opportunities, and strategic recommendations.
+
+Generated by CreateGen Studio - AI-Powered YouTube Analytics`;
+
+                  // Primary action: Download file
+                  const blob = new Blob([fullText], { type: 'text/plain' });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement('a');
+                  a.href = url;
+                  a.download = `youtube-analysis-${channelName.replace(/[^a-zA-Z0-9]/g, '-')}-${Date.now()}.txt`;
+                  document.body.appendChild(a);
+                  a.click();
+                  document.body.removeChild(a);
+                  URL.revokeObjectURL(url);
+
+                  // Secondary action: Try to copy to clipboard (with fallbacks)
+                  setTimeout(() => {
+                    handleCopyToClipboard(fullText);
+                  }, 100);
                 }}
                 icon={copied ? <CheckCircle className="w-4 h-4" /> : <Download className="w-4 h-4" />}
               >
-                {copied ? "Analysis Copied!" : "Export Analysis"}
+                {copied ? "Analysis Downloaded & Copied!" : "Export Full Analysis"}
               </Button>
               <Button
                 variant="secondary"
@@ -1013,22 +1153,81 @@ Provide actionable insights based on current market trends and their performance
           {analysisSummary && (
             <Card variant="glow" className="bg-gradient-to-r from-[var(--color-info-bg)] to-[var(--surface-tertiary)] border-[var(--color-info-border)] shadow-xl">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="heading-4 mb-0 text-[var(--color-info-text)] flex items-center">
-                  <Sparkles className="h-6 w-6 mr-3 text-[var(--accent-cyan-light)]" />
-                  Executive Summary
-                </h3>
+                <div className="flex items-center">
+                  <h3 className="heading-4 mb-0 text-[var(--color-info-text)] flex items-center">
+                    <Sparkles className="h-6 w-6 mr-3 text-[var(--accent-cyan-light)]" />
+                    Executive Summary
+                  </h3>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setIsSummaryExpanded(!isSummaryExpanded)}
+                    icon={isSummaryExpanded ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                    className="ml-4"
+                  >
+                    {isSummaryExpanded ? "Collapse" : "Expand"}
+                  </Button>
+                </div>
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => handleCopyToClipboard(analysisSummary)}
+                  onClick={() => {
+                    const timestamp = new Date().toLocaleString();
+                    const channelName = channelUrl || 'YouTube Channel';
+                    const summaryText = `# Executive Summary - ${channelName}
+## Generated: ${timestamp}
+
+${analysisSummary}
+
+Generated by CreateGen Studio - AI-Powered YouTube Analytics`;
+
+                    // Create downloadable file for summary
+                    const blob = new Blob([summaryText], { type: 'text/plain' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `youtube-summary-${channelName.replace(/[^a-zA-Z0-9]/g, '-')}-${Date.now()}.txt`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+
+                    // Try to copy with fallback
+                    setTimeout(() => {
+                      handleCopyToClipboard(summaryText);
+                    }, 100);
+                  }}
                   icon={<Download className="w-4 h-4" />}
                 >
-                  Copy Summary
+                  Download Summary
                 </Button>
               </div>
-              <div className="body-lg text-[var(--text-secondary)] leading-relaxed whitespace-pre-wrap">
-                {analysisSummary}
-              </div>
+
+              <AnimatePresence>
+                {isSummaryExpanded && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    className="overflow-hidden"
+                  >
+                    <div className="body-lg text-[var(--text-secondary)] leading-relaxed whitespace-pre-wrap">
+                      {analysisSummary}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {!isSummaryExpanded && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="text-sm text-[var(--text-tertiary)] italic"
+                >
+                  Click "Expand" to view the executive summary...
+                </motion.div>
+              )}
             </Card>
           )}
 
@@ -1125,10 +1324,39 @@ Provide actionable insights based on current market trends and their performance
                   <Button
                     variant="primary"
                     size="sm"
-                    onClick={() => handleCopyToClipboard(detailedAnalysisSection.content)}
+                    onClick={() => {
+                      const timestamp = new Date().toLocaleString();
+                      const fullText = `# ${detailedAnalysisSection.title}
+## Generated: ${timestamp}
+
+${detailedAnalysisSection.content}
+
+${detailedAnalysisSection.ideas && detailedAnalysisSection.ideas.length > 0 ? `
+## Strategic Action Items:
+${detailedAnalysisSection.ideas.map((idea, i) => `${i + 1}. ${idea}`).join('\n')}
+` : ''}
+
+Generated by CreateGen Studio - YouTube Analysis`;
+
+                      // Create downloadable file for this section
+                      const blob = new Blob([fullText], { type: 'text/plain' });
+                      const url = URL.createObjectURL(blob);
+                      const a = document.createElement('a');
+                      a.href = url;
+                      a.download = `${detailedAnalysisSection.title.replace(/[^a-zA-Z0-9]/g, '-')}-${Date.now()}.txt`;
+                      document.body.appendChild(a);
+                      a.click();
+                      document.body.removeChild(a);
+                      URL.revokeObjectURL(url);
+
+                      // Try to copy with fallback
+                      setTimeout(() => {
+                        handleCopyToClipboard(fullText);
+                      }, 100);
+                    }}
                     icon={<Download className="w-4 h-4" />}
                   >
-                    Copy Analysis
+                    Download & Copy
                   </Button>
                   <Button
                     variant="ghost"
@@ -1168,7 +1396,10 @@ Provide actionable insights based on current market trends and their performance
                             <Button
                               variant="ghost"
                               size="sm"
-                              onClick={() => handleCopyToClipboard(idea)}
+                              onClick={() => {
+                                // For individual ideas, just try clipboard with fallback
+                                handleCopyToClipboard(idea);
+                              }}
                               icon={<Download className="w-3 h-3" />}
                             >
                               Copy
