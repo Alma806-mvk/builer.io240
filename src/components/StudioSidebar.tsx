@@ -1,18 +1,18 @@
 import React from "react";
 import {
-  LayoutDashboard,
+  Home,
   Wand2,
   Layers3,
-  Paintbrush,
+  Palette,
   ImageIcon,
   Settings,
   Zap,
   TrendingUp,
   Youtube,
-  Crosshair,
-  CalendarDays,
+  Brain,
+  CalendarClock,
   Clock3,
-  BarChart4
+  BarChart3
 } from "lucide-react";
 import {
   Sidebar,
