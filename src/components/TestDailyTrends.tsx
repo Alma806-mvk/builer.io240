@@ -110,7 +110,16 @@ export const TestDailyTrends: React.FC<TestDailyTrendsProps> = ({ onClose }) => 
           <Button variant="ghost" onClick={onClose}>✕</Button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <Button
+            onClick={testCreateData}
+            disabled={loading}
+            variant="primary"
+            className="flex items-center space-x-2"
+          >
+            <Database className="w-4 h-4" />
+            <span>Create Test Data</span>
+          </Button>
           <Button 
             onClick={testGetTodaysTrends}
             disabled={loading}
