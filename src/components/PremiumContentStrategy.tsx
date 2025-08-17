@@ -3810,7 +3810,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
   const handleGenerateStrategy = () => {
     console.log("��� Generate Strategy button clicked!");
     console.log("📊 Current strategy config:", strategyConfig);
-    console.log("��� Is loading:", isLoading);
+    console.log("����� Is loading:", isLoading);
     console.log("✅ Niche filled:", !!strategyConfig.niche);
     console.log("✅ Target audience filled:", !!strategyConfig.targetAudience);
     console.log("🎯 Calling onGenerateStrategy with config...");
@@ -4773,7 +4773,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                       Premium
                     </Badge>
                   )}
-                  <Badge variant={isLoading ? 'warning' : strategyPlan ? 'success' : 'neutral'}>
+                  <Badge variant={isLoading ? 'warning' : strategyPlan ? 'success' : 'neutral'} className={isLoading ? 'mt-4' : ''}>
                     {isLoading ? 'Creating...' : strategyPlan ? 'Ready' : 'Configure'}
                   </Badge>
                 </div>
