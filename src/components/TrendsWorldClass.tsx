@@ -288,9 +288,17 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
           badge="Pro Search"
           actions={
             <div className="flex items-center space-x-3">
-              <Button variant="ghost" size="sm" onClick={onRefreshData}>
-                <RefreshCw className="w-4 h-4" />
-                Refresh
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  refetchTrends();
+                  onRefreshData?.();
+                }}
+                disabled={trendsLoading}
+              >
+                <RefreshCw className={`w-4 h-4 ${trendsLoading ? 'animate-spin' : ''}`} />
+                {trendsLoading ? 'Loading...' : 'Refresh'}
               </Button>
               <Button variant="ghost" size="sm" onClick={onExportData}>
                 <Download className="w-4 h-4" />
