@@ -50,7 +50,19 @@ import {
   AlertTriangle,
   Building,
   Gavel,
-  Rocket
+  Rocket,
+  Palette,
+  Crown,
+  Bookmark,
+  Download,
+  Search,
+  Globe,
+  Star,
+  Lock,
+  FileText,
+  Brain,
+  Settings,
+  ArrowDown
 } from "lucide-react";
 
 // Import our world-class design system components
@@ -1356,7 +1368,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
     };
 
     (window as any).testUltimateAccess = () => {
-      console.log("��� Ultimate Templates Test:", {
+      console.log("����� Ultimate Templates Test:", {
         hasAccess: hasUltimateAccess(),
         devPremiumOverride,
         planId: billingInfo?.subscription?.planId,
