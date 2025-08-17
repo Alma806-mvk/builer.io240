@@ -9414,9 +9414,15 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                           <p className="text-slate-400 text-sm">
                             Choose how to send your strategy to canvas:
                           </p>
-                          <p className="text-slate-400 text-xs mt-1">
-                            📄 <strong>Text:</strong> Complete strategy as formatted text ����
-                            🧠 <strong>Mind Map:</strong> Visual mind map with niche, pillars & keywords
+                          <p className="text-slate-400 text-xs mt-1 flex items-center justify-center gap-4">
+                            <span className="flex items-center gap-1">
+                              <Send className="w-3 h-3" />
+                              <strong>Text:</strong> Complete strategy as formatted text
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <GitBranch className="w-3 h-3" />
+                              <strong>Mind Map:</strong> Visual mind map with niche, pillars & keywords
+                            </span>
                           </p>
                         </div>
                       </div>
