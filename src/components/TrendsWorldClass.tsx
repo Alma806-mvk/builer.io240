@@ -306,6 +306,14 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
                 <Download className="w-4 h-4" />
                 Export
               </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowTestModal(true)}
+              >
+                <Target className="w-4 h-4" />
+                Test System
+              </Button>
               <Button variant="primary" size="sm">
                 <Sparkles className="w-4 h-4" />
                 Discover Trends
@@ -1141,7 +1149,7 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
                                     {deepAnalysis.data?.intelligence?.contentGaps?.count || 0} untapped opportunities
                                   </div>
                                 </div>
-                                <div className="text-2xl">��</div>
+                                <div className="text-2xl">🎯</div>
                               </div>
 
                               <div className="flex items-center justify-between p-3 bg-[var(--surface-tertiary)] rounded-lg">
