@@ -64,7 +64,11 @@ import {
   Lock,
   Brain,
   Settings,
-  ArrowDown
+  ArrowDown,
+  ChevronRight,
+  Send,
+  GitBranch,
+  Clipboard
 } from "lucide-react";
 
 // Import our world-class design system components
@@ -4762,7 +4766,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
               icon={<CompassIcon />}
               badge={isPremium ? "Premium" : "Free"}
               actions={
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-3 mt-8">
                   {isPremium && (
                     <Badge variant="primary">
                       <CrownIcon className="w-3 h-3" />
@@ -6384,17 +6388,13 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                                                   <div className="absolute inset-0 bg-gradient-to-r from-slate-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                                   <div className="relative flex items-center space-x-4 px-4 py-3.5">
                                                     <div className="w-10 h-10 bg-gradient-to-br from-slate-600/20 to-slate-700/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                                      <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                                      </svg>
+                                                      <Clipboard className="w-5 h-5 text-slate-400" />
                                                     </div>
                                                     <div className="flex-1 text-left">
                                                       <div className="font-semibold text-white text-sm group-hover:text-slate-200 transition-colors">Copy Text</div>
                                                       <div className="text-xs text-slate-400 group-hover:text-slate-300/80 transition-colors">Copy to clipboard</div>
                                                     </div>
-                                                    <svg className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                                    </svg>
+                                                    <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" />
                                                   </div>
                                                 </button>
                                               </div>
@@ -6559,17 +6559,13 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                                                     <div className="absolute inset-0 bg-gradient-to-r from-slate-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                                     <div className="relative flex items-center space-x-4 px-4 py-3.5">
                                                       <div className="w-10 h-10 bg-gradient-to-br from-slate-600/20 to-slate-700/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                                        <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                                        </svg>
+                                                        <Clipboard className="w-5 h-5 text-slate-400" />
                                                       </div>
                                                       <div className="flex-1 text-left">
                                                         <div className="font-semibold text-white text-sm group-hover:text-slate-200 transition-colors">Copy Text</div>
                                                         <div className="text-xs text-slate-400 group-hover:text-slate-300/80 transition-colors">Copy to clipboard</div>
                                                       </div>
-                                                      <svg className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                                      </svg>
+                                                      <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" />
                                                     </div>
                                                   </button>
                                                 </div>
@@ -6744,17 +6740,13 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                                                       <div className="absolute inset-0 bg-gradient-to-r from-slate-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                                       <div className="relative flex items-center space-x-4 px-4 py-3.5">
                                                         <div className="w-10 h-10 bg-gradient-to-br from-slate-600/20 to-slate-700/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                                          <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                                          </svg>
+                                                          <Clipboard className="w-5 h-5 text-slate-400" />
                                                         </div>
                                                         <div className="flex-1 text-left">
                                                           <div className="font-semibold text-white text-sm group-hover:text-slate-200 transition-colors">Copy Text</div>
                                                           <div className="text-xs text-slate-400 group-hover:text-slate-300/80 transition-colors">Copy to clipboard</div>
                                                         </div>
-                                                        <svg className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                                        </svg>
+                                                        <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" />
                                                       </div>
                                                     </button>
                                                   </div>
@@ -6874,17 +6866,13 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                                                       <div className="absolute inset-0 bg-gradient-to-r from-slate-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                                       <div className="relative flex items-center space-x-4 px-4 py-3.5">
                                                         <div className="w-10 h-10 bg-gradient-to-br from-slate-600/20 to-slate-700/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                                          <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                                          </svg>
+                                                          <Clipboard className="w-5 h-5 text-slate-400" />
                                                         </div>
                                                         <div className="flex-1 text-left">
                                                           <div className="font-semibold text-white text-sm group-hover:text-slate-200 transition-colors">Copy Text</div>
                                                           <div className="text-xs text-slate-400 group-hover:text-slate-300/80 transition-colors">Copy to clipboard</div>
                                                         </div>
-                                                        <svg className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                                        </svg>
+                                                        <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" />
                                                       </div>
                                                     </button>
                                                   </div>
@@ -7004,17 +6992,13 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                                                       <div className="absolute inset-0 bg-gradient-to-r from-slate-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                                       <div className="relative flex items-center space-x-4 px-4 py-3.5">
                                                         <div className="w-10 h-10 bg-gradient-to-br from-slate-600/20 to-slate-700/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                                          <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                                          </svg>
+                                                          <Clipboard className="w-5 h-5 text-slate-400" />
                                                         </div>
                                                         <div className="flex-1 text-left">
                                                           <div className="font-semibold text-white text-sm group-hover:text-slate-200 transition-colors">Copy Text</div>
                                                           <div className="text-xs text-slate-400 group-hover:text-slate-300/80 transition-colors">Copy to clipboard</div>
                                                         </div>
-                                                        <svg className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                                        </svg>
+                                                        <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" />
                                                       </div>
                                                     </button>
                                                   </div>
@@ -7134,17 +7118,13 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                                                       <div className="absolute inset-0 bg-gradient-to-r from-slate-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                                       <div className="relative flex items-center space-x-4 px-4 py-3.5">
                                                         <div className="w-10 h-10 bg-gradient-to-br from-slate-600/20 to-slate-700/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                                          <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                                          </svg>
+                                                          <Clipboard className="w-5 h-5 text-slate-400" />
                                                         </div>
                                                         <div className="flex-1 text-left">
                                                           <div className="font-semibold text-white text-sm group-hover:text-slate-200 transition-colors">Copy Text</div>
                                                           <div className="text-xs text-slate-400 group-hover:text-slate-300/80 transition-colors">Copy to clipboard</div>
                                                         </div>
-                                                        <svg className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                                        </svg>
+                                                        <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" />
                                                       </div>
                                                     </button>
                                                   </div>
@@ -7382,17 +7362,13 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                                                       <div className="absolute inset-0 bg-gradient-to-r from-slate-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                                       <div className="relative flex items-center space-x-4 px-4 py-3.5">
                                                         <div className="w-10 h-10 bg-gradient-to-br from-slate-600/20 to-slate-700/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                                          <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                                          </svg>
+                                                          <Clipboard className="w-5 h-5 text-slate-400" />
                                                         </div>
                                                         <div className="flex-1 text-left">
                                                           <div className="font-semibold text-white text-sm group-hover:text-slate-200 transition-colors">Copy Text</div>
                                                           <div className="text-xs text-slate-400 group-hover:text-slate-300/80 transition-colors">Copy to clipboard</div>
                                                         </div>
-                                                        <svg className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                                        </svg>
+                                                        <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" />
                                                       </div>
                                                     </button>
                                                   </div>
@@ -7637,17 +7613,13 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                                             <div className="absolute inset-0 bg-gradient-to-r from-slate-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                             <div className="relative flex items-center space-x-4 px-4 py-3.5">
                                               <div className="w-10 h-10 bg-gradient-to-br from-slate-600/20 to-slate-700/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                                <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                                </svg>
+                                                <Clipboard className="w-5 h-5 text-slate-400" />
                                               </div>
                                               <div className="flex-1 text-left">
                                                 <div className="font-semibold text-white text-sm group-hover:text-slate-200 transition-colors">Copy Text</div>
                                                 <div className="text-xs text-slate-400 group-hover:text-slate-300/80 transition-colors">Copy to clipboard</div>
                                               </div>
-                                              <svg className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                              </svg>
+                                              <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" />
                                             </div>
                                           </button>
                                         </div>
@@ -7838,17 +7810,13 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                                             <div className="absolute inset-0 bg-gradient-to-r from-slate-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                             <div className="relative flex items-center space-x-4 px-4 py-3.5">
                                               <div className="w-10 h-10 bg-gradient-to-br from-slate-600/20 to-slate-700/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                                <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                                </svg>
+                                                <Clipboard className="w-5 h-5 text-slate-400" />
                                               </div>
                                               <div className="flex-1 text-left">
                                                 <div className="font-semibold text-white text-sm group-hover:text-slate-200 transition-colors">Copy Text</div>
                                                 <div className="text-xs text-slate-400 group-hover:text-slate-300/80 transition-colors">Copy to clipboard</div>
                                               </div>
-                                              <svg className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                              </svg>
+                                              <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" />
                                             </div>
                                           </button>
                                         </div>
@@ -8238,17 +8206,13 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                                             <div className="absolute inset-0 bg-gradient-to-r from-slate-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                             <div className="relative flex items-center space-x-4 px-4 py-3.5">
                                               <div className="w-10 h-10 bg-gradient-to-br from-slate-600/20 to-slate-700/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                                <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                                </svg>
+                                                <Clipboard className="w-5 h-5 text-slate-400" />
                                               </div>
                                               <div className="flex-1 text-left">
                                                 <div className="font-semibold text-white text-sm group-hover:text-slate-200 transition-colors">Copy Text</div>
                                                 <div className="text-xs text-slate-400 group-hover:text-slate-300/80 transition-colors">Copy to clipboard</div>
                                               </div>
-                                              <svg className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                              </svg>
+                                              <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-slate-400 group-hover:translate-x-1 transition-all duration-300" />
                                             </div>
                                           </button>
                                         </div>
@@ -9430,7 +9394,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                             onClick={sendEntireStrategyToCanvas}
                             className="px-6 py-3 bg-gradient-to-r from-emerald-600 to-blue-600 hover:from-emerald-500 hover:to-blue-500 text-white rounded-xl text-lg font-semibold transition-all duration-200 flex items-center space-x-3 shadow-lg hover:shadow-xl"
                           >
-                            <FileText className="w-5 h-5" />
+                            <Send className="w-5 h-5" />
                             <span>Send as Text</span>
                           </button>
 
@@ -9439,9 +9403,9 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                               onClick={sendStrategyAsMindMap}
                               className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-xl text-lg font-semibold transition-all duration-200 flex items-center space-x-3 shadow-lg hover:shadow-xl"
                             >
-                              <Network className="w-5 h-5" />
+                              <GitBranch className="w-5 h-5" />
                               <span>Send as Mind Map</span>
-                              <Sparkles className="w-5 h-5" />
+                              <Brain className="w-5 h-5" />
                             </button>
                           )}
                         </div>
@@ -9450,9 +9414,15 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                           <p className="text-slate-400 text-sm">
                             Choose how to send your strategy to canvas:
                           </p>
-                          <p className="text-slate-400 text-xs mt-1">
-                            📄 <strong>Text:</strong> Complete strategy as formatted text ����
-                            🧠 <strong>Mind Map:</strong> Visual mind map with niche, pillars & keywords
+                          <p className="text-slate-400 text-xs mt-1 flex items-center justify-center gap-4">
+                            <span className="flex items-center gap-1">
+                              <Send className="w-3 h-3" />
+                              <strong>Text:</strong> Complete strategy as formatted text
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <GitBranch className="w-3 h-3" />
+                              <strong>Mind Map:</strong> Visual mind map with niche, pillars & keywords
+                            </span>
                           </p>
                         </div>
                       </div>
