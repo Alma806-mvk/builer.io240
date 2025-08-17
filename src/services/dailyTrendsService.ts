@@ -235,31 +235,67 @@ export function getFallbackTrendsData(): DailyTrendsData {
     platforms: [
       {
         platform: 'TikTok',
-        topTrends: ['productivity hacks', 'quick recipes', 'life tips'],
+        topTrends: ['productivity hacks', 'quick recipes', 'life tips', 'dance trends'],
         growth: 156,
         engagement: 78,
-        color: '#ff0050'
+        color: '#ff0050',
+        activeCreators: 285000,
+        avgViews: 1200000,
+        contentTypes: ['short_videos', 'trends', 'challenges'],
+        bestPostingTimes: ['6-9AM', '7-9PM'],
+        audienceDemographics: {
+          primaryAge: '16-24',
+          genderSplit: '60% female, 40% male',
+          topCountries: ['US', 'UK', 'Canada']
+        }
       },
       {
         platform: 'YouTube',
-        topTrends: ['AI tutorials', 'investment guides', 'tech reviews'],
+        topTrends: ['AI tutorials', 'investment guides', 'tech reviews', 'how-to content'],
         growth: 89,
         engagement: 65,
-        color: '#ff0000'
+        color: '#ff0000',
+        activeCreators: 425000,
+        avgViews: 850000,
+        contentTypes: ['long_form', 'tutorials', 'reviews'],
+        bestPostingTimes: ['2-4PM', '8-10PM'],
+        audienceDemographics: {
+          primaryAge: '25-34',
+          genderSplit: '55% male, 45% female',
+          topCountries: ['US', 'India', 'UK']
+        }
       },
       {
         platform: 'Instagram',
-        topTrends: ['fashion trends', 'food photography', 'travel'],
+        topTrends: ['fashion trends', 'food photography', 'travel', 'reels content'],
         growth: 134,
         engagement: 72,
-        color: '#e4405f'
+        color: '#e4405f',
+        activeCreators: 375000,
+        avgViews: 650000,
+        contentTypes: ['reels', 'stories', 'posts'],
+        bestPostingTimes: ['11AM-1PM', '7-9PM'],
+        audienceDemographics: {
+          primaryAge: '18-29',
+          genderSplit: '65% female, 35% male',
+          topCountries: ['US', 'Brazil', 'India']
+        }
       },
       {
         platform: 'LinkedIn',
-        topTrends: ['career advice', 'industry insights', 'networking'],
+        topTrends: ['career advice', 'industry insights', 'networking', 'thought leadership'],
         growth: 67,
         engagement: 45,
-        color: '#0077b5'
+        color: '#0077b5',
+        activeCreators: 125000,
+        avgViews: 125000,
+        contentTypes: ['articles', 'posts', 'videos'],
+        bestPostingTimes: ['8-10AM', '12-2PM'],
+        audienceDemographics: {
+          primaryAge: '30-49',
+          genderSplit: '50% male, 50% female',
+          topCountries: ['US', 'UK', 'Germany']
+        }
       }
     ],
     generatedAt: new Date().toISOString(),
