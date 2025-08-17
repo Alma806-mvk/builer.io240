@@ -53,6 +53,7 @@ import { useDeepAnalysis, useFormattedAnalysis } from "../hooks/useDeepAnalysis"
 import { TrendSearchResult } from "../services/enhancedTrendSearchService";
 import InteractiveAnalysisControls from "./InteractiveAnalysisControls";
 import { useDailyTrends, DailyTrendsData } from "../services/dailyTrendsService";
+import { TestDailyTrends } from "./TestDailyTrends";
 
 interface TrendData {
   id: string;
