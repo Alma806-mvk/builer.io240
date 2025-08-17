@@ -124,6 +124,7 @@ interface StrategyWorldClassProps {
   isPremium?: boolean;
   subscriptionPlan?: string;
   onUpgrade?: () => void;
+  sidebarExpanded?: boolean;
 }
 
 const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
