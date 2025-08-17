@@ -920,7 +920,7 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
             className={`flex items-center space-x-2 py-[0.626rem] px-[0.842rem] rounded-lg font-medium transition-all duration-200 whitespace-nowrap ${
               sidebarExpanded
                 ? "text-[0.8em]" // 5% smaller when sidebar is open
-                : "text-[0.92em]" // 10% bigger when sidebar is closed
+                : "text-[0.95em]" // 13% bigger when sidebar is closed (10% + 3%)
             } ${
               activeSection === id
                 ? "bg-[var(--brand-primary)] text-white shadow-lg"
