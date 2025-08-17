@@ -927,7 +927,11 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-quaternary)]"
             }`}
           >
-            <Icon className="w-[0.935rem] h-[0.935rem]" />
+            <Icon className={`${
+              sidebarExpanded
+                ? "w-[0.89rem] h-[0.89rem]" // 5% smaller when sidebar is open
+                : "w-[1.03rem] h-[1.03rem]" // 10% bigger when sidebar is closed
+            }`} />
             <span className="hidden sm:inline">{label}</span>
           </button>
         ))}
