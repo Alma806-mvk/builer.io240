@@ -539,14 +539,71 @@ Provide actionable insights based on current market trends and their performance
     }
   }, [channelUrl, userPlan, generateComprehensiveAnalysis]);
 
-  // Handle copying to clipboard
+  // Handle copying to clipboard with fallback methods
   const handleCopyToClipboard = useCallback((text: string) => {
-    navigator.clipboard.writeText(text).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }).catch(err => {
-      console.error('Failed to copy:', err);
-    });
+    // Method 1: Try modern Clipboard API
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      }).catch(err => {
+        console.warn('Clipboard API failed, trying fallback:', err);
+        // Fallback to legacy method
+        fallbackCopyToClipboard(text);
+      });
+    } else {
+      // Method 2: Fallback for environments where Clipboard API is not available
+      fallbackCopyToClipboard(text);
+    }
+  }, []);
+
+  // Fallback clipboard method
+  const fallbackCopyToClipboard = useCallback((text: string) => {
+    try {
+      // Create a temporary textarea element
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      textArea.style.top = '-999999px';
+      document.body.appendChild(textArea);
+
+      // Select and copy the text
+      textArea.focus();
+      textArea.select();
+
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textArea);
+
+      if (successful) {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+        console.log('Text copied successfully using fallback method');
+      } else {
+        throw new Error('Copy command failed');
+      }
+    } catch (err) {
+      console.error('All copy methods failed:', err);
+      // Show user a message to manually copy
+      showManualCopyDialog(text);
+    }
+  }, []);
+
+  // Show manual copy dialog as last resort
+  const showManualCopyDialog = useCallback((text: string) => {
+    const truncatedText = text.length > 200 ? text.substring(0, 200) + '...' : text;
+    alert(`Copy failed. Please manually copy this text:\n\n${truncatedText}\n\n[Content has been downloaded as a file instead]`);
+
+    // Automatically trigger download as alternative
+    const blob = new Blob([text], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `youtube-analysis-copy-${Date.now()}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   }, []);
 
   // Handle summarizing analysis
