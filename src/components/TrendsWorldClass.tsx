@@ -556,8 +556,26 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
             <Card>
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h3 className="heading-4">Trending Now</h3>
-                  <p className="body-base">High-opportunity keywords and topics</p>
+                  <h3 className="heading-4 flex items-center space-x-2">
+                    <span>Trending Now</span>
+                    {dailyTrendsData?.isFallback && (
+                      <Badge variant="warning" className="text-xs">Fallback Data</Badge>
+                    )}
+                    {trendsError && (
+                      <Badge variant="error" className="text-xs">Error Loading</Badge>
+                    )}
+                    {dailyTrendsData?.manualTrigger && (
+                      <Badge variant="primary" className="text-xs">Manual Update</Badge>
+                    )}
+                  </h3>
+                  <p className="body-base">
+                    High-opportunity keywords and topics
+                    {dailyTrendsData?.date && (
+                      <span className="text-xs text-[var(--text-tertiary)] ml-2">
+                        • Updated {dailyTrendsData.date}
+                      </span>
+                    )}
+                  </p>
                 </div>
                 <Button variant="ghost" size="sm">
                   <Filter className="w-4 h-4" />
