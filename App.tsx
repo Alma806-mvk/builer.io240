@@ -2603,7 +2603,7 @@ export const App = ({
           const { text: strategyText, responseMimeType: strategyMimeType } =
             strategyResult;
 
-          console.log("�� Strategy generation debug:");
+          console.log("��� Strategy generation debug:");
           console.log("���� Strategy text length:", strategyText?.length);
           console.log("🏷️ Mime type received:", strategyMimeType);
           console.log("📝 Strategy text preview:", strategyText?.substring(0, 200));
@@ -2629,7 +2629,7 @@ export const App = ({
                 };
 
                 setAllGeneratedStrategies(prev => [newStrategy, ...prev]);
-                console.log("💾 Strategy stored with ID:", newStrategy.id);
+                console.log("���� Strategy stored with ID:", newStrategy.id);
 
                 // Show success message
                 addHistoryItemToState({
@@ -9732,7 +9732,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
               >
                 <option value="straight">���� Straight</option>
                 <option value="curved">〜 Curved</option>
-                <option value="elbow">������������� Elbow</option>
+                <option value="elbow">����������� Elbow</option>
                 <option value="dashed">┄ Dashed</option>
                 <option value="dotted">⋯ Dotted</option>
                 <option value="double">�� Double</option>
@@ -17271,7 +17271,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                       onClick={() => setGeneratedStrategyPlan(null)}
                       className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors flex items-center gap-2 -mt-2"
                     >
-                      <Home className="w-4 h-4" />
+                      <Home className="w-4 h-4 -mt-1" />
                       Back to Overview
                     </button>
                   </div>
