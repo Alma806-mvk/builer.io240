@@ -50,7 +50,19 @@ import {
   AlertTriangle,
   Building,
   Gavel,
-  Rocket
+  Rocket,
+  Palette,
+  Crown,
+  Bookmark,
+  Download,
+  Search,
+  Globe,
+  Star,
+  Lock,
+  FileText,
+  Brain,
+  Settings,
+  ArrowDown
 } from "lucide-react";
 
 // Import our world-class design system components
@@ -233,67 +245,67 @@ const SafeStrategyValue = ({ value }: { value: any }) => {
 
 // Premium icons
 const CompassIcon = ({ className = "" }) => (
-  <span className={className}>🧭</span>
+  <Compass className={className} />
 );
 const MoreVerticalIcon = ({ className = "" }) => (
-  <span className={className}>⋮</span>
+  <MoreVertical className={className} />
 );
 const SaveIcon = ({ className = "" }) => (
-  <span className={className}>💾</span>
+  <Save className={className} />
 );
 const RefreshIcon = ({ className = "" }) => (
-  <span className={className}>��</span>
+  <RefreshCw className={className} />
 );
 const CopyIcon = ({ className = "" }) => (
-  <span className={className}>📋</span>
+  <Copy className={className} />
 );
 const CanvasIcon = ({ className = "" }) => (
-  <span className={className}>🎨</span>
+  <Palette className={className} />
 );
-const CrownIcon = ({ className = "" }) => <span className={className}>👑</span>;
+const CrownIcon = ({ className = "" }) => <Crown className={className} />;
 const ChartBarIcon = ({ className = "" }) => (
-  <span className={className}>���</span>
+  <BarChart3 className={className} />
 );
 const CalendarIcon = ({ className = "" }) => (
-  <span className={className}>📅</span>
+  <Calendar className={className} />
 );
 const TargetIcon = ({ className = "" }) => (
-  <span className={className}>🎯</span>
+  <Target className={className} />
 );
 const TrendingUpIcon = ({ className = "" }) => (
-  <span className={className}>📈</span>
+  <TrendingUp className={className} />
 );
 const FilterIcon = ({ className = "" }) => (
-  <span className={className}>🔧</span>
+  <Settings className={className} />
 );
 const BookmarkIcon = ({ className = "" }) => (
-  <span className={className}>���</span>
+  <Bookmark className={className} />
 );
-const ShareIcon = ({ className = "" }) => <span className={className}>🔗</span>;
+const ShareIcon = ({ className = "" }) => <Share2 className={className} />;
 const DownloadIcon = ({ className = "" }) => (
-  <span className={className}>��</span>
+  <Download className={className} />
 );
-const BoltIcon = ({ className = "" }) => <span className={className}>⚡</span>;
-const EyeIcon = ({ className = "" }) => <span className={className}>����</span>;
-const UsersIcon = ({ className = "" }) => <span className={className}>👥</span>;
-const BulbIcon = ({ className = "" }) => <span className={className}>💡</span>;
+const BoltIcon = ({ className = "" }) => <Zap className={className} />;
+const EyeIcon = ({ className = "" }) => <Eye className={className} />;
+const UsersIcon = ({ className = "" }) => <Users className={className} />;
+const BulbIcon = ({ className = "" }) => <Lightbulb className={className} />;
 const SearchIcon = ({ className = "" }) => (
-  <span className={className}>🔍</span>
+  <Search className={className} />
 );
-const GlobeIcon = ({ className = "" }) => <span className={className}>🌍</span>;
+const GlobeIcon = ({ className = "" }) => <Globe className={className} />;
 const CheckCircleIcon = ({ className = "" }) => (
-  <span className={className}>✅</span>
+  <CheckCircle className={className} />
 );
-const StarIcon = ({ className = "" }) => <span className={className}>⭐</span>;
+const StarIcon = ({ className = "" }) => <Star className={className} />;
 const LockClosedIcon = ({ className = "" }) => (
-  <span className={className}>���</span>
+  <Lock className={className} />
 );
 const DocumentTextIcon = ({ className = "" }) => (
-  <span className={className}>📄</span>
+  <FileText className={className} />
 );
-const BrainIcon = ({ className = "" }) => <span className={className}>���</span>;
+const BrainIcon = ({ className = "" }) => <Brain className={className} />;
 const DocumentArrowDownIcon = ({ className = "" }) => (
-  <span className={className}>��</span>
+  <ArrowDown className={className} />
 );
 
 interface PremiumContentStrategyProps {
@@ -963,7 +975,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
 
       // Deduct credit first
       await deductCredits('regenerate', 1);
-      console.log('������ Credit deducted for advanced metric regeneration');
+      console.log('�������� Credit deducted for advanced metric regeneration');
 
       const strategyConfig = {
         niche: strategyPlan.niche || 'General',
@@ -1356,7 +1368,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
     };
 
     (window as any).testUltimateAccess = () => {
-      console.log("��� Ultimate Templates Test:", {
+      console.log("����� Ultimate Templates Test:", {
         hasAccess: hasUltimateAccess(),
         devPremiumOverride,
         planId: billingInfo?.subscription?.planId,
@@ -10380,7 +10392,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                     }}
                     className="px-3 py-1 bg-slate-700 hover:bg-slate-600 text-slate-300 text-xs rounded transition-colors"
                   >
-                    ����� Refresh
+                    ������� Refresh
                   </button>
                 </div>
                 <div className="overflow-x-auto">
@@ -11278,7 +11290,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
               <div className="space-y-4">
                 <div className="flex items-center space-x-3 mb-6">
                   <div className="p-2 rounded-lg bg-gradient-to-br from-[var(--brand-primary-background)] to-[var(--brand-secondary-background)] border border-[var(--brand-primary-border)]">
-                    <span className="text-2xl">💎</span>
+                    <span className="text-2xl">���</span>
                   </div>
                   <div>
                     <h3 className="heading-4">

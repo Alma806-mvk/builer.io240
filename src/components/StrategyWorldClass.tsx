@@ -124,6 +124,7 @@ interface StrategyWorldClassProps {
   isPremium?: boolean;
   subscriptionPlan?: string;
   onUpgrade?: () => void;
+  sidebarExpanded?: boolean;
 }
 
 const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
@@ -141,6 +142,7 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
   isPremium = false,
   subscriptionPlan = "free",
   onUpgrade,
+  sidebarExpanded = true,
 }) => {
   const [activeSection, setActiveSection] = useState<'overview' | 'goals' | 'pillars' | 'platforms' | 'campaigns' | 'analytics' | 'monetization' | 'risk' | 'competitors' | 'journey' | 'resources' | 'compliance' | 'generated'>('overview');
   const [selectedStrategy, setSelectedStrategy] = useState<GeneratedStrategy | null>(null);
@@ -915,13 +917,21 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
           <button
             key={id}
             onClick={() => setActiveSection(id as any)}
-            className={`flex items-center space-x-2 py-[0.626rem] px-[0.842rem] rounded-lg font-medium transition-all duration-200 whitespace-nowrap text-[0.842em] ${
+            className={`flex items-center space-x-2 py-[0.626rem] px-[0.842rem] rounded-lg font-medium transition-all duration-200 whitespace-nowrap ${
+              sidebarExpanded
+                ? "text-[0.8em]" // 5% smaller when sidebar is open
+                : "text-[0.958em]" // 13.8% bigger when sidebar is closed (14% - 0.2%)
+            } ${
               activeSection === id
                 ? "bg-[var(--brand-primary)] text-white shadow-lg"
                 : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-quaternary)]"
             }`}
           >
-            <Icon className="w-[0.935rem] h-[0.935rem]" />
+            <Icon className={`${
+              sidebarExpanded
+                ? "w-[0.89rem] h-[0.89rem]" // 5% smaller when sidebar is open
+                : "w-[1.068rem] h-[1.068rem]" // 13.8% bigger when sidebar is closed (14% - 0.2%)
+            }`} />
             <span className="hidden sm:inline">{label}</span>
           </button>
         ))}

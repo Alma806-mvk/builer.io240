@@ -8613,7 +8613,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                   "����",
                   "���",
                   "����������",
-                  "������",
+                  "��������",
                   "��",
                   "⚡",
                   "��",
@@ -15728,7 +15728,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                   {/* AI Assistant */}
                   <ToolbarButton
                     title="AI Assistant"
-                    icon={<span className="text-lg emoji-icon">������</span>}
+                    icon={<span className="text-lg emoji-icon">�������</span>}
                     onClick={() => {
                       const newAIState = !showAIAssistant;
                       setShowAIAssistant(newAIState);
@@ -17347,6 +17347,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                   isPremium={isPremium}
                   subscriptionPlan={userPlan}
                   onUpgrade={() => setShowUpgradeModal(true)}
+                  sidebarExpanded={sidebarExpanded}
                 />
               )}
             </>
@@ -18461,7 +18462,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                       <span>📐</span> Golden Ratio Guides
                     </span>
                     <span className="flex items-center gap-2">
-                      <span>🎯</span> Click-Through Rate Optimizer
+                      <span>��</span> Click-Through Rate Optimizer
                     </span>
                     <span className="flex items-center gap-2">
                       <span>��️</span> Smart Background Removal

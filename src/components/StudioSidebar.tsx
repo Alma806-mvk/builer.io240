@@ -2,17 +2,16 @@ import React from "react";
 import {
   Home,
   Sparkles,
-  Image,
-  FileText,
-  Video,
+  Layers3,
   Palette,
+  ImageIcon,
   Settings,
   Zap,
   TrendingUp,
   Youtube,
-  Target,
+  Brain,
   Calendar,
-  History,
+  Clock3,
   BarChart3
 } from "lucide-react";
 import {
@@ -61,20 +60,20 @@ interface StudioSidebarProps {
 const createItems = [
   { title: "Dashboard", tab: "studioHub", icon: Home },
   { title: "Generator", tab: "generator", icon: Sparkles },
-  { title: "Canvas", tab: "canvas", icon: Image },
+  { title: "Canvas", tab: "canvas", icon: Layers3 },
   { title: "Creativity", tab: "creativity", icon: Palette },
-  { title: "Thumbnails", tab: "thumbnailMaker", icon: FileText },
+  { title: "Thumbnails", tab: "thumbnailMaker", icon: ImageIcon },
 ];
 
 const intelligenceItems = [
   { title: "Trends", tab: "trends", icon: TrendingUp },
   { title: "YT Analysis", tab: "channelAnalysis", icon: Youtube },
-  { title: "Strategy", tab: "strategy", icon: Target },
+  { title: "Strategy", tab: "strategy", icon: Brain },
 ];
 
 const planningItems = [
   { title: "Calendar", tab: "calendar", icon: Calendar },
-  { title: "History", tab: "history", icon: History },
+  { title: "History", tab: "history", icon: Clock3 },
   { title: "YT Stats", tab: "youtubeStats", icon: BarChart3 },
 ];
 
