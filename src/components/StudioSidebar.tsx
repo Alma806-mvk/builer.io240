@@ -59,7 +59,7 @@ interface StudioSidebarProps {
 
 const createItems = [
   { title: "Dashboard", tab: "studioHub", icon: Home },
-  { title: "Generator", tab: "generator", icon: Wand2 },
+  { title: "Generator", tab: "generator", icon: Sparkles },
   { title: "Canvas", tab: "canvas", icon: Layers3 },
   { title: "Creativity", tab: "creativity", icon: Palette },
   { title: "Thumbnails", tab: "thumbnailMaker", icon: ImageIcon },
@@ -72,7 +72,7 @@ const intelligenceItems = [
 ];
 
 const planningItems = [
-  { title: "Calendar", tab: "calendar", icon: CalendarClock },
+  { title: "Calendar", tab: "calendar", icon: Calendar },
   { title: "History", tab: "history", icon: Clock3 },
   { title: "YT Stats", tab: "youtubeStats", icon: BarChart3 },
 ];
