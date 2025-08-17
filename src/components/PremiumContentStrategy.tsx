@@ -287,14 +287,14 @@ const DownloadIcon = ({ className = "" }) => (
 );
 const BoltIcon = ({ className = "" }) => <Zap className={className} />;
 const EyeIcon = ({ className = "" }) => <Eye className={className} />;
-const UsersIcon = ({ className = "" }) => <span className={className}>👥</span>;
-const BulbIcon = ({ className = "" }) => <span className={className}>💡</span>;
+const UsersIcon = ({ className = "" }) => <Users className={className} />;
+const BulbIcon = ({ className = "" }) => <Lightbulb className={className} />;
 const SearchIcon = ({ className = "" }) => (
-  <span className={className}>🔍</span>
+  <Search className={className} />
 );
-const GlobeIcon = ({ className = "" }) => <span className={className}>����</span>;
+const GlobeIcon = ({ className = "" }) => <Globe className={className} />;
 const CheckCircleIcon = ({ className = "" }) => (
-  <span className={className}>✅</span>
+  <CheckCircle className={className} />
 );
 const StarIcon = ({ className = "" }) => <span className={className}>⭐</span>;
 const LockClosedIcon = ({ className = "" }) => (
@@ -10297,7 +10297,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                       onClick={generateContentIdea}
                       className="px-3 py-1 bg-purple-600 hover:bg-purple-500 text-white text-xs rounded transition-colors"
                     >
-                      ���� AI Idea
+                      🤖 AI Idea
                     </button>
                   </div>
                   <div className="space-y-3">
