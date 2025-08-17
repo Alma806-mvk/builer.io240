@@ -615,6 +615,10 @@ Provide actionable insights based on current market trends and their performance
     }
 
     setIsSummarizing(true);
+    // Clear previous summary and expand new one
+    setAnalysisSummary(null);
+    setIsSummaryExpanded(true);
+
     try {
       const fullAnalysisText = parsedAnalysis
         .map((section) => `## ${section.title}\n${section.content}`)
