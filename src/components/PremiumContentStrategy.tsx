@@ -6387,9 +6387,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                                                   <div className="absolute inset-0 bg-gradient-to-r from-slate-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                                   <div className="relative flex items-center space-x-4 px-4 py-3.5">
                                                     <div className="w-10 h-10 bg-gradient-to-br from-slate-600/20 to-slate-700/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                                      <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                                      </svg>
+                                                      <Clipboard className="w-5 h-5 text-slate-400" />
                                                     </div>
                                                     <div className="flex-1 text-left">
                                                       <div className="font-semibold text-white text-sm group-hover:text-slate-200 transition-colors">Copy Text</div>
@@ -6562,9 +6560,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                                                     <div className="absolute inset-0 bg-gradient-to-r from-slate-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                                     <div className="relative flex items-center space-x-4 px-4 py-3.5">
                                                       <div className="w-10 h-10 bg-gradient-to-br from-slate-600/20 to-slate-700/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                                        <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                                        </svg>
+                                                        <Clipboard className="w-5 h-5 text-slate-400" />
                                                       </div>
                                                       <div className="flex-1 text-left">
                                                         <div className="font-semibold text-white text-sm group-hover:text-slate-200 transition-colors">Copy Text</div>
@@ -7630,9 +7626,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                                             <div className="absolute inset-0 bg-gradient-to-r from-slate-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                             <div className="relative flex items-center space-x-4 px-4 py-3.5">
                                               <div className="w-10 h-10 bg-gradient-to-br from-slate-600/20 to-slate-700/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                                <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                                </svg>
+                                                <Clipboard className="w-5 h-5 text-slate-400" />
                                               </div>
                                               <div className="flex-1 text-left">
                                                 <div className="font-semibold text-white text-sm group-hover:text-slate-200 transition-colors">Copy Text</div>
@@ -7831,9 +7825,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                                             <div className="absolute inset-0 bg-gradient-to-r from-slate-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                             <div className="relative flex items-center space-x-4 px-4 py-3.5">
                                               <div className="w-10 h-10 bg-gradient-to-br from-slate-600/20 to-slate-700/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                                <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                                </svg>
+                                                <Clipboard className="w-5 h-5 text-slate-400" />
                                               </div>
                                               <div className="flex-1 text-left">
                                                 <div className="font-semibold text-white text-sm group-hover:text-slate-200 transition-colors">Copy Text</div>
@@ -8231,9 +8223,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                                             <div className="absolute inset-0 bg-gradient-to-r from-slate-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                             <div className="relative flex items-center space-x-4 px-4 py-3.5">
                                               <div className="w-10 h-10 bg-gradient-to-br from-slate-600/20 to-slate-700/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                                <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                                </svg>
+                                                <Clipboard className="w-5 h-5 text-slate-400" />
                                               </div>
                                               <div className="flex-1 text-left">
                                                 <div className="font-semibold text-white text-sm group-hover:text-slate-200 transition-colors">Copy Text</div>
