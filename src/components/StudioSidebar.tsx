@@ -1,7 +1,7 @@
 import React from "react";
 import {
   Home,
-  Wand2,
+  Sparkles,
   Layers3,
   Palette,
   ImageIcon,
@@ -10,7 +10,7 @@ import {
   TrendingUp,
   Youtube,
   Brain,
-  CalendarClock,
+  Calendar,
   Clock3,
   BarChart3
 } from "lucide-react";
