@@ -1826,6 +1826,14 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
       {showTestModal && (
         <TestDailyTrends onClose={() => setShowTestModal(false)} />
       )}
+
+      {/* Advanced Filters Modal */}
+      <AdvancedFiltersModal
+        isOpen={showAdvancedFilters}
+        onClose={() => setShowAdvancedFilters(false)}
+        onApplyFilters={setActiveFilters}
+        currentFilters={activeFilters}
+      />
     </div>
   );
 };
