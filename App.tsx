@@ -2613,7 +2613,7 @@ export const App = ({
                 parseJsonSafely<ContentStrategyPlanOutput>(strategyText);
               if (parsed) {
                 console.log("✅ Strategy JSON parsed successfully");
-                console.log("📊 Strategy object keys:", Object.keys(parsed));
+                console.log("��� Strategy object keys:", Object.keys(parsed));
                 setGeneratedStrategyPlan(parsed);
 
                 // Store the generated strategy
@@ -4492,7 +4492,7 @@ ${strategyPlan.goals.map((goal) => `• ${goal}`).join("\n")}
 ${strategyPlan.contentPillars.map((pillar) => `���� ${pillar.pillarName}: ${pillar.description.substring(0, 100)}${pillar.description.length > 100 ? "..." : ""}`).join("\n")}
 
 ���� POSTING SCHEDULE:
-${strategyPlan.suggestedWeeklySchedule.map((item) => `������ ${item.dayOfWeek}: ${item.contentType} (${item.optimalTime})`).join("\n")}
+${strategyPlan.suggestedWeeklySchedule.map((item) => `������� ${item.dayOfWeek}: ${item.contentType} (${item.optimalTime})`).join("\n")}
 
 🔍 SEO KEYWORDS:
 ${strategyPlan.seoStrategy.primaryKeywords.join(", ")}
@@ -17269,7 +17269,8 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                       onClick={() => setGeneratedStrategyPlan(null)}
                       className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors flex items-center gap-2"
                     >
-                      ��� Back to Overview
+                      <Home className="w-4 h-4" />
+                      Back to Overview
                     </button>
                   </div>
 
