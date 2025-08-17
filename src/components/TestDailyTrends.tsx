@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button } from './ui/WorldClassComponents';
 import { RefreshCw, Zap, Database, Clock } from 'lucide-react';
 import { getTodaysTrends, getMostRecentTrends, getHistoricalTrends } from '../services/dailyTrendsService';
+import { createTestTrendsData } from '../utils/createTestTrendsData';
 
 interface TestDailyTrendsProps {
   onClose?: () => void;
