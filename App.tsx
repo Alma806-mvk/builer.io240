@@ -8909,7 +8909,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 <option value="light">⚪ Light</option>
                 <option value="dark">���� Dark</option>
                 <option value="blue">�� Blue</option>
-                <option value="green">������ Green</option>
+                <option value="green">������� Green</option>
                 <option value="purple">������ Purple</option>
                 <option value="orange">🟠 Orange</option>
                 <option value="red">🔴 Red</option>
@@ -9313,7 +9313,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
               >
                 <option value="todo">○ To Do</option>
                 <option value="in-progress">◐ In Progress</option>
-                <option value="review">���������� Review</option>
+                <option value="review">������������ Review</option>
                 <option value="testing">���� Testing</option>
                 <option value="done">���� Done</option>
                 <option value="blocked">✗ Blocked</option>
@@ -17267,7 +17267,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                     </h2>
                     <button
                       onClick={() => setGeneratedStrategyPlan(null)}
-                      className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors"
+                      className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors flex items-center gap-2"
                     >
                       ��� Back to Overview
                     </button>
