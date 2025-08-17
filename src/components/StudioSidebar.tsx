@@ -58,23 +58,23 @@ interface StudioSidebarProps {
 }
 
 const createItems = [
-  { title: "Dashboard", tab: "studioHub", icon: LayoutDashboard },
+  { title: "Dashboard", tab: "studioHub", icon: Home },
   { title: "Generator", tab: "generator", icon: Wand2 },
   { title: "Canvas", tab: "canvas", icon: Layers3 },
-  { title: "Creativity", tab: "creativity", icon: Paintbrush },
+  { title: "Creativity", tab: "creativity", icon: Palette },
   { title: "Thumbnails", tab: "thumbnailMaker", icon: ImageIcon },
 ];
 
 const intelligenceItems = [
   { title: "Trends", tab: "trends", icon: TrendingUp },
   { title: "YT Analysis", tab: "channelAnalysis", icon: Youtube },
-  { title: "Strategy", tab: "strategy", icon: Crosshair },
+  { title: "Strategy", tab: "strategy", icon: Brain },
 ];
 
 const planningItems = [
-  { title: "Calendar", tab: "calendar", icon: CalendarDays },
+  { title: "Calendar", tab: "calendar", icon: CalendarClock },
   { title: "History", tab: "history", icon: Clock3 },
-  { title: "YT Stats", tab: "youtubeStats", icon: BarChart4 },
+  { title: "YT Stats", tab: "youtubeStats", icon: BarChart3 },
 ];
 
 const settingsItems = [
