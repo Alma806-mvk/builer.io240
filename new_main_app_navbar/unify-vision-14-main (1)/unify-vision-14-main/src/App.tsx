@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
 import Billing from "./pages/Billing";
 import Settings from "./pages/Settings";
+import { SimpleTrendsTest } from "./components/SimpleTrendsTest";
 
 const queryClient = new QueryClient();
 
