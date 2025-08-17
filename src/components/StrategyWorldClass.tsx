@@ -920,7 +920,7 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
             className={`flex items-center space-x-2 py-[0.626rem] px-[0.842rem] rounded-lg font-medium transition-all duration-200 whitespace-nowrap ${
               sidebarExpanded
                 ? "text-[0.8em]" // 5% smaller when sidebar is open
-                : "text-[0.96em]" // 14% bigger when sidebar is closed (10% + 3% + 1%)
+                : "text-[0.958em]" // 13.8% bigger when sidebar is closed (14% - 0.2%)
             } ${
               activeSection === id
                 ? "bg-[var(--brand-primary)] text-white shadow-lg"
@@ -930,7 +930,7 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
             <Icon className={`${
               sidebarExpanded
                 ? "w-[0.89rem] h-[0.89rem]" // 5% smaller when sidebar is open
-                : "w-[1.07rem] h-[1.07rem]" // 14% bigger when sidebar is closed (10% + 3% + 1%)
+                : "w-[1.068rem] h-[1.068rem]" // 13.8% bigger when sidebar is closed (14% - 0.2%)
             }`} />
             <span className="hidden sm:inline">{label}</span>
           </button>
