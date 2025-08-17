@@ -310,7 +310,9 @@ import {
   Settings as SettingsIcon,
   Crown as CrownIcon,
   Gem as GemIcon,
-  LogOut as ExitIcon
+  LogOut as ExitIcon,
+  Target,
+  Home
 } from "lucide-react";
 
 import html2canvas from "html2canvas";
@@ -12415,7 +12417,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
               borderBottom: `1px solid ${canvasItem.borderColor || "#374151"}33`,
             }}
           >
-            <span>����� {canvasItem.codeLanguage || "javascript"}</span>
+            <span>������ {canvasItem.codeLanguage || "javascript"}</span>
             {showCopyButton && (
               <button
                 onClick={(e) => {
