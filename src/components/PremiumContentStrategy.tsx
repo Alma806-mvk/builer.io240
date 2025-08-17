@@ -279,14 +279,14 @@ const FilterIcon = ({ className = "" }) => (
   <Settings className={className} />
 );
 const BookmarkIcon = ({ className = "" }) => (
-  <span className={className}>���</span>
+  <Bookmark className={className} />
 );
-const ShareIcon = ({ className = "" }) => <span className={className}>🔗</span>;
+const ShareIcon = ({ className = "" }) => <Share2 className={className} />;
 const DownloadIcon = ({ className = "" }) => (
-  <span className={className}>��</span>
+  <Download className={className} />
 );
-const BoltIcon = ({ className = "" }) => <span className={className}>⚡</span>;
-const EyeIcon = ({ className = "" }) => <span className={className}>����</span>;
+const BoltIcon = ({ className = "" }) => <Zap className={className} />;
+const EyeIcon = ({ className = "" }) => <Eye className={className} />;
 const UsersIcon = ({ className = "" }) => <span className={className}>👥</span>;
 const BulbIcon = ({ className = "" }) => <span className={className}>💡</span>;
 const SearchIcon = ({ className = "" }) => (
@@ -10297,7 +10297,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                       onClick={generateContentIdea}
                       className="px-3 py-1 bg-purple-600 hover:bg-purple-500 text-white text-xs rounded transition-colors"
                     >
-                      🤖 AI Idea
+                      ���� AI Idea
                     </button>
                   </div>
                   <div className="space-y-3">
