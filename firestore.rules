@@ -213,6 +213,16 @@ service cloud.firestore {
       // Update/Delete: Prevent modification of logs
       allow update, delete: if false;
     }
+
+    // Daily Trends - Public read access, Cloud Functions write only
+    match /dailyTrends/{date} {
+      // Read: Allow all authenticated users to read daily trends
+      allow get, list: if request.auth != null;
+
+      // Write: Only allow Cloud Functions (no userId field in request)
+      // Cloud Functions run with admin privileges
+      allow write: if false; // Only Cloud Functions can write
+    }
     
     // =====================================
     // HELPER FUNCTIONS
