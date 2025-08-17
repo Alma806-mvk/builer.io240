@@ -259,15 +259,75 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
   ];
 
   const filteredTrends = useMemo(() => {
-    return trendingData.filter(trend => {
+    let filtered = trendingData.filter(trend => {
+      // Basic search filter
       const matchesSearch = trend.keyword.toLowerCase().includes(searchQuery.toLowerCase()) ||
                            trend.category.toLowerCase().includes(searchQuery.toLowerCase());
+
+      // Basic dropdown filters
       const matchesPlatform = selectedPlatform === "all" || trend.platform === selectedPlatform;
       const matchesCategory = selectedCategory === "all" || trend.category === selectedCategory;
-      
-      return matchesSearch && matchesPlatform && matchesCategory;
+
+      // Advanced filters
+      const matchesAdvancedPlatforms = activeFilters.platforms.length === 0 ||
+                                       activeFilters.platforms.includes(trend.platform);
+      const matchesAdvancedCategories = activeFilters.categories.length === 0 ||
+                                        activeFilters.categories.includes(trend.category);
+      const matchesVolume = trend.volume >= activeFilters.volumeRange[0] &&
+                           trend.volume <= activeFilters.volumeRange[1];
+      const matchesGrowth = trend.growth >= activeFilters.growthRange[0] &&
+                           trend.growth <= activeFilters.growthRange[1];
+      const matchesOpportunity = trend.opportunity >= activeFilters.opportunityRange[0] &&
+                                trend.opportunity <= activeFilters.opportunityRange[1];
+      const matchesDifficulty = trend.difficulty >= activeFilters.difficultyRange[0] &&
+                               trend.difficulty <= activeFilters.difficultyRange[1];
+      const matchesTrendingOnly = !activeFilters.trendingOnly || trend.trending;
+
+      return matchesSearch && matchesPlatform && matchesCategory &&
+             matchesAdvancedPlatforms && matchesAdvancedCategories &&
+             matchesVolume && matchesGrowth && matchesOpportunity &&
+             matchesDifficulty && matchesTrendingOnly;
     });
-  }, [trendingData, searchQuery, selectedPlatform, selectedCategory]);
+
+    // Apply sorting
+    filtered.sort((a, b) => {
+      let aVal: any, bVal: any;
+
+      switch (activeFilters.sortBy) {
+        case 'opportunity':
+          aVal = a.opportunity;
+          bVal = b.opportunity;
+          break;
+        case 'volume':
+          aVal = a.volume;
+          bVal = b.volume;
+          break;
+        case 'growth':
+          aVal = a.growth;
+          bVal = b.growth;
+          break;
+        case 'difficulty':
+          aVal = a.difficulty;
+          bVal = b.difficulty;
+          break;
+        case 'keyword':
+          aVal = a.keyword.toLowerCase();
+          bVal = b.keyword.toLowerCase();
+          break;
+        default:
+          aVal = a.opportunity;
+          bVal = b.opportunity;
+      }
+
+      if (activeFilters.sortOrder === 'asc') {
+        return aVal > bVal ? 1 : -1;
+      } else {
+        return aVal < bVal ? 1 : -1;
+      }
+    });
+
+    return filtered;
+  }, [trendingData, searchQuery, selectedPlatform, selectedCategory, activeFilters]);
 
   const getTrendIcon = (growth: number) => {
     if (growth > 100) return <TrendingUp className="w-4 h-4 text-[var(--color-success)]" />;
@@ -1183,7 +1243,7 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
                                     {deepAnalysis.data?.intelligence?.riskAssessment?.level || 'Unknown'} volatility detected
                                   </div>
                                 </div>
-                                <div className="text-2xl">{formattedAnalysis?.intelligence?.riskAssessment?.emoji || '🛡���'}</div>
+                                <div className="text-2xl">{formattedAnalysis?.intelligence?.riskAssessment?.emoji || '🛡️'}</div>
                               </div>
                             </div>
                           </div>
