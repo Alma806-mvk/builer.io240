@@ -1036,7 +1036,7 @@ ${s.ideas.map((idea, i) => `${i + 1}. ${idea}`).join('\n')}
 Total Analysis Cards Exported: ${parsedAnalysis.length}
 Export completed successfully.`;
 
-                // Create downloadable file
+                // Primary action: Download file
                 const blob = new Blob([fullText], { type: 'text/plain' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
@@ -1047,7 +1047,10 @@ Export completed successfully.`;
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
 
-                handleCopyToClipboard(fullText);
+                // Secondary action: Try to copy to clipboard (with error handling)
+                setTimeout(() => {
+                  handleCopyToClipboard(fullText);
+                }, 100);
               }
             }}>
               <Download className="w-4 h-4" />
