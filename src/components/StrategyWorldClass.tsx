@@ -930,7 +930,7 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
             <Icon className={`${
               sidebarExpanded
                 ? "w-[0.89rem] h-[0.89rem]" // 5% smaller when sidebar is open
-                : "w-[1.03rem] h-[1.03rem]" // 10% bigger when sidebar is closed
+                : "w-[1.06rem] h-[1.06rem]" // 13% bigger when sidebar is closed (10% + 3%)
             }`} />
             <span className="hidden sm:inline">{label}</span>
           </button>
