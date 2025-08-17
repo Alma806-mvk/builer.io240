@@ -17262,7 +17262,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 <div className="flex-grow bg-slate-800/70 backdrop-blur-sm p-6 rounded-xl shadow-2xl flex flex-col space-y-6">
                   <div className="flex items-center justify-between mb-6">
                     <h2 className="text-2xl font-semibold text-sky-400 mb-1 flex items-center">
-                      <CompassIcon className="w-7 h-7 mr-3 text-sky-400" />
+                      <Target className="w-7 h-7 mr-3 text-sky-400" />
                       Content Strategy Plan
                     </h2>
                     <button
