@@ -186,6 +186,7 @@ const YouTubeAnalysisWorldClass: React.FC<YouTubeAnalysisWorldClassProps> = ({
   const [copied, setCopied] = useState(false);
   const [detailedAnalysisSection, setDetailedAnalysisSection] = useState<ParsedChannelAnalysisSection | null>(null);
   const [currentTime, setCurrentTime] = useState<number | null>(null);
+  const [isSummaryExpanded, setIsSummaryExpanded] = useState(true);
 
   // Fix hydration issue by setting current time on client only
   useEffect(() => {
