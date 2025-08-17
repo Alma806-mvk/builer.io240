@@ -211,7 +211,7 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
     },
   ];
 
-  const platformTrends: PlatformTrend[] = [
+  const platformTrends: PlatformTrend[] = dailyTrendsData?.platforms || [
     {
       platform: "TikTok",
       topTrends: ["productivity hacks", "morning routine", "aesthetic room"],
