@@ -273,10 +273,10 @@ const TargetIcon = ({ className = "" }) => (
   <Target className={className} />
 );
 const TrendingUpIcon = ({ className = "" }) => (
-  <span className={className}>📈</span>
+  <TrendingUp className={className} />
 );
 const FilterIcon = ({ className = "" }) => (
-  <span className={className}>🔧</span>
+  <Settings className={className} />
 );
 const BookmarkIcon = ({ className = "" }) => (
   <span className={className}>���</span>
@@ -975,7 +975,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
 
       // Deduct credit first
       await deductCredits('regenerate', 1);
-      console.log('������ Credit deducted for advanced metric regeneration');
+      console.log('�������� Credit deducted for advanced metric regeneration');
 
       const strategyConfig = {
         niche: strategyPlan.niche || 'General',
@@ -4423,7 +4423,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
         <!-- Growth & Scalability -->
         ${plan?.scalabilityPlanning ? `
           <div class="section">
-            <h2>��� Growth & Scalability Roadmap</h2>
+            <h2>📈 Growth & Scalability Roadmap</h2>
 
             ${plan.scalabilityPlanning.growthPhases ? `
               <h3>Growth Phases</h3>
@@ -11290,7 +11290,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
               <div className="space-y-4">
                 <div className="flex items-center space-x-3 mb-6">
                   <div className="p-2 rounded-lg bg-gradient-to-br from-[var(--brand-primary-background)] to-[var(--brand-secondary-background)] border border-[var(--brand-primary-border)]">
-                    <span className="text-2xl">💎</span>
+                    <span className="text-2xl">���</span>
                   </div>
                   <div>
                     <h3 className="heading-4">
