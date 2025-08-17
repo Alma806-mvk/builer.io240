@@ -245,19 +245,19 @@ const SafeStrategyValue = ({ value }: { value: any }) => {
 
 // Premium icons
 const CompassIcon = ({ className = "" }) => (
-  <span className={className}>🧭</span>
+  <Compass className={className} />
 );
 const MoreVerticalIcon = ({ className = "" }) => (
-  <span className={className}>⋮</span>
+  <MoreVertical className={className} />
 );
 const SaveIcon = ({ className = "" }) => (
-  <span className={className}>💾</span>
+  <Save className={className} />
 );
 const RefreshIcon = ({ className = "" }) => (
-  <span className={className}>��</span>
+  <RefreshCw className={className} />
 );
 const CopyIcon = ({ className = "" }) => (
-  <span className={className}>📋</span>
+  <Copy className={className} />
 );
 const CanvasIcon = ({ className = "" }) => (
   <span className={className}>🎨</span>
@@ -292,7 +292,7 @@ const BulbIcon = ({ className = "" }) => <span className={className}>💡</span>
 const SearchIcon = ({ className = "" }) => (
   <span className={className}>🔍</span>
 );
-const GlobeIcon = ({ className = "" }) => <span className={className}>🌍</span>;
+const GlobeIcon = ({ className = "" }) => <span className={className}>����</span>;
 const CheckCircleIcon = ({ className = "" }) => (
   <span className={className}>✅</span>
 );
@@ -10392,7 +10392,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                     }}
                     className="px-3 py-1 bg-slate-700 hover:bg-slate-600 text-slate-300 text-xs rounded transition-colors"
                   >
-                    ����� Refresh
+                    ������� Refresh
                   </button>
                 </div>
                 <div className="overflow-x-auto">
