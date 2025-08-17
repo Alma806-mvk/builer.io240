@@ -361,8 +361,10 @@ Provide actionable insights based on current market trends and their performance
         setLoadingPhase(`Researching ${topic.title} (${i + 1}/12)...`);
         
         // Make individual API call with Google search for this specific topic
+        console.log(`🔍 Processing analysis topic ${i + 1}/12: ${topic.title}`);
+
         const searchResult = await generateTextContent({
-          userInput: topic.prompt,
+          userInput: `${topic.prompt}\n\nIMPORTANT: Focus ONLY on "${topic.title}" analysis. Do not repeat information from other analysis sections.`,
           contentType: ContentType.YoutubeChannelStats,
           platform: Platform.YouTube,
           userPlan: userPlan,
@@ -372,21 +374,27 @@ Provide actionable insights based on current market trends and their performance
         if (searchResult?.text) {
           // Extract specific insights and data from the search result
           const analysisContent = searchResult.text;
-          
+
+          // Add unique identifier to prevent content duplication
+          const uniqueContent = `[Analysis ${i + 1}/12: ${topic.title}]\n\n${analysisContent}`;
+
           // Extract actionable ideas from the analysis
           const ideas = extractIdeasFromContent(analysisContent);
-          
+
+          console.log(`✅ Completed analysis ${i + 1}: ${topic.title} (${analysisContent.length} chars)`);
+
           sections.push({
             title: topic.title,
-            content: analysisContent,
+            content: uniqueContent,
             ideas: ideas
           });
         } else {
           // Fallback if API call fails
+          console.warn(`❌ Failed to get data for analysis ${i + 1}: ${topic.title}`);
           sections.push({
             title: topic.title,
-            content: `Unable to retrieve specific data for ${topic.title}. This analysis requires real-time web search data.`,
-            ideas: ["Retry analysis with better internet connection", "Contact support if issue persists"]
+            content: `[Analysis ${i + 1}/12: ${topic.title}]\n\nUnable to retrieve specific data for ${topic.title}. This analysis requires real-time web search data. Please try again with a stable internet connection.`,
+            ideas: ["Retry analysis with better internet connection", "Contact support if issue persists", "Check if the channel name or URL is correct"]
           });
         }
         
