@@ -1,0 +1,16 @@
+rules_version = '2';
+
+// Firebase Storage Security Rules
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Allow users to access their own files
+    match /users/{userId}/{allPaths=**} {
+      allow read, write, list: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // For development: temporarily allow all authenticated users (REMOVE IN PRODUCTION)
+    match /{allPaths=**} {
+      allow read, write, list: if request.auth != null;
+    }
+  }
+}

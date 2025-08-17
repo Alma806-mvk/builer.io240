@@ -1,0 +1,14 @@
+import React from "react";
+
+// This component has been replaced with Konva.js implementation
+// All div-based canvas rendering has been removed for Konva upgrade
+
+export const TextElement: React.FC<any> = () => {
+  return (
+    <div id="konva-text-element">
+      {/* Text elements will be rendered using Konva.js */}
+    </div>
+  );
+};
+
+export default TextElement;

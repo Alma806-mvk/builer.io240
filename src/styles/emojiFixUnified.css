@@ -1,0 +1,135 @@
+/* Unified Emoji Fix - Resolves corrupted emoji display across the app */
+
+/* Import proper emoji fonts */
+@import url("https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap");
+
+/* Reset and unify all emoji rendering */
+.emoji-icon,
+span[data-emoji],
+span:contains-emoji,
+[class*="emoji"] {
+  font-family: 
+    "Noto Color Emoji", 
+    "Apple Color Emoji", 
+    "Segoe UI Emoji",
+    "Segoe UI Symbol", 
+    "Noto Emoji",
+    "EmojiOne Color",
+    "Android Emoji",
+    "Twemoji Mozilla",
+    "system-ui", 
+    sans-serif !important;
+  
+  /* Rendering optimizations */
+  font-display: swap;
+  font-feature-settings: "liga" on;
+  font-variant-emoji: emoji;
+  text-rendering: optimizeQuality;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  /* Layout properties */
+  display: inline-block;
+  vertical-align: text-top;
+  line-height: 1;
+  text-align: center;
+  
+  /* Size consistency */
+  font-size: inherit;
+  min-width: 1em;
+  min-height: 1em;
+  
+  /* Performance */
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Fix specific emoji characters that commonly break */
+*:before,
+*:after {
+  font-family: 
+    "Noto Color Emoji", 
+    "Apple Color Emoji", 
+    "Segoe UI Emoji",
+    system-ui, 
+    sans-serif;
+}
+
+/* Force proper emoji rendering in all common containers */
+button .emoji-icon,
+span .emoji-icon,
+div .emoji-icon,
+p .emoji-icon,
+h1 .emoji-icon,
+h2 .emoji-icon,
+h3 .emoji-icon,
+h4 .emoji-icon,
+h5 .emoji-icon,
+h6 .emoji-icon,
+a .emoji-icon,
+li .emoji-icon {
+  font-synthesis: none;
+  font-variant: normal;
+}
+
+/* Override any conflicting font settings */
+.emoji-icon * {
+  font-family: inherit !important;
+}
+
+/* Size variants */
+.emoji-sm { font-size: 0.875rem !important; }
+.emoji-base { font-size: 1rem !important; }
+.emoji-lg { font-size: 1.25rem !important; }
+.emoji-xl { font-size: 1.5rem !important; }
+.emoji-2xl { font-size: 2rem !important; }
+
+/* Fix common broken emojis */
+*[data-emoji="✨"],
+*:contains("✨") { font-family: "Noto Color Emoji", sans-serif !important; }
+*[data-emoji="🚀"],
+*:contains("🚀") { font-family: "Noto Color Emoji", sans-serif !important; }
+*[data-emoji="💳"],
+*:contains("💳") { font-family: "Noto Color Emoji", sans-serif !important; }
+*[data-emoji="📝"],
+*:contains("📝") { font-family: "Noto Color Emoji", sans-serif !important; }
+*[data-emoji="🎨"],
+*:contains("🎨") { font-family: "Noto Color Emoji", sans-serif !important; }
+*[data-emoji="🔍"],
+*:contains("🔍") { font-family: "Noto Color Emoji", sans-serif !important; }
+*[data-emoji="⚙️"],
+*:contains("⚙️") { font-family: "Noto Color Emoji", sans-serif !important; }
+
+/* Fallback for browsers without color emoji support */
+@supports not (font-variant-emoji: emoji) {
+  .emoji-icon {
+    font-family: 
+      "Segoe UI Symbol",
+      "Symbola",
+      "DejaVu Sans",
+      sans-serif !important;
+  }
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .emoji-icon {
+    filter: brightness(1.1) contrast(1.05);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .emoji-icon {
+    filter: contrast(1.5);
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .emoji-icon {
+    transition: none !important;
+    animation: none !important;
+  }
+}

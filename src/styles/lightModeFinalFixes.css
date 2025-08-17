@@ -1,0 +1,377 @@
+/* ============================================================================
+   CREATEGEN STUDIO - FINAL LIGHT MODE FIXES
+   Specific fixes for the last 3 remaining dark components
+   ============================================================================ */
+
+[data-theme="light"] {
+  
+  /* ============================================
+     CONTENT CALENDAR SPECIFIC FIXES
+  ============================================ */
+  
+  /* Calendar main container - matches the dark container in image 1 */
+  div[data-tab-content="calendar"] {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    color: #0f172a !important;
+  }
+  
+  /* Calendar header with navigation */
+  div[data-tab-content="calendar"] .bg-slate-900,
+  div[data-tab-content="calendar"] .bg-slate-800,
+  div[data-tab-content="calendar"] header {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+    backdrop-filter: blur(20px) !important;
+    color: #0f172a !important;
+  }
+  
+  /* Calendar navigation buttons */
+  div[data-tab-content="calendar"] button {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    color: #334155 !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+  }
+  
+  div[data-tab-content="calendar"] button:hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    border-color: #0ea5e9 !important;
+    color: #0f172a !important;
+  }
+  
+  /* Calendar grid container */
+  div[data-tab-content="calendar"] .grid {
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+  }
+  
+  /* Calendar day cells */
+  div[data-tab-content="calendar"] .grid > div {
+    background: #ffffff !important;
+    border: 1px solid #f1f5f9 !important;
+    color: #0f172a !important;
+    min-height: 120px !important;
+  }
+  
+  div[data-tab-content="calendar"] .grid > div:hover {
+    background: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+  }
+  
+  /* Calendar day headers */
+  div[data-tab-content="calendar"] .grid > div:first-child,
+  div[data-tab-content="calendar"] .grid > div:nth-child(-n+7) {
+    background: #f8fafc !important;
+    font-weight: 600 !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+  }
+  
+  /* Previous/next month days */
+  div[data-tab-content="calendar"] .grid > div.text-slate-400 {
+    background: #f8fafc !important;
+    color: #94a3b8 !important;
+  }
+  
+  /* ============================================
+     CREATIVITY STUDIO SPECIFIC FIXES
+  ============================================ */
+  
+  /* Creativity main container - matches the dark container in image 2 */
+  div[data-tab-content="creativity"] {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    color: #0f172a !important;
+  }
+  
+  /* Creativity stats section */
+  div[data-tab-content="creativity"] .grid:first-child > div {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 24px !important;
+    color: #0f172a !important;
+  }
+  
+  /* Creativity tool buttons container */
+  div[data-tab-content="creativity"] .bg-slate-900,
+  div[data-tab-content="creativity"] .bg-slate-800 {
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    color: #0f172a !important;
+  }
+  
+  /* Individual creativity tool buttons */
+  div[data-tab-content="creativity"] .bg-slate-900 button,
+  div[data-tab-content="creativity"] .bg-slate-800 button {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    color: #334155 !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 16px !important;
+    margin: 8px !important;
+  }
+  
+  div[data-tab-content="creativity"] .bg-slate-900 button:hover,
+  div[data-tab-content="creativity"] .bg-slate-800 button:hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    border-color: #0ea5e9 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(14, 165, 233, 0.15) !important;
+  }
+  
+  /* Bottom creativity techniques container */
+  div[data-tab-content="creativity"] .space-y-4:last-child {
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 24px !important;
+  }
+  
+  /* Individual technique cards */
+  div[data-tab-content="creativity"] .space-y-4:last-child > div {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 20px !important;
+    color: #0f172a !important;
+  }
+  
+  div[data-tab-content="creativity"] .space-y-4:last-child > div:hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    border-color: #0ea5e9 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.1) !important;
+  }
+  
+  /* ============================================
+     AI CONTENT GENERATOR SPECIFIC FIXES
+  ============================================ */
+  
+  /* AI Generator main container - matches the dark container in image 3 */
+  div[data-tab-content="generator"] {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    color: #0f172a !important;
+  }
+  
+  /* Generator stats cards at top */
+  div[data-tab-content="generator"] .grid:first-child > div {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 24px !important;
+    color: #0f172a !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+  }
+  
+  /* Quick Start section */
+  div[data-tab-content="generator"] .space-y-6 > div:nth-child(2) {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 32px !important;
+    color: #0f172a !important;
+  }
+  
+  /* Quick Start feature cards */
+  div[data-tab-content="generator"] .grid.grid-cols-4 > div {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 20px !important;
+    color: #0f172a !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  div[data-tab-content="generator"] .grid.grid-cols-4 > div:hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    border-color: #0ea5e9 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(14, 165, 233, 0.15) !important;
+  }
+  
+  /* Platform and Content Type sections */
+  div[data-tab-content="generator"] .grid.grid-cols-2 > div {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 24px !important;
+    color: #0f172a !important;
+  }
+  
+  /* Platform selection buttons */
+  div[data-tab-content="generator"] .space-x-4 button {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    color: #334155 !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 12px 24px !important;
+  }
+  
+  div[data-tab-content="generator"] .space-x-4 button:hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    border-color: #0ea5e9 !important;
+  }
+  
+  div[data-tab-content="generator"] .space-x-4 button.bg-blue-500,
+  div[data-tab-content="generator"] .space-x-4 button.selected {
+    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%) !important;
+    color: #ffffff !important;
+    border-color: #0ea5e9 !important;
+  }
+  
+  /* ============================================
+     UNIVERSAL OVERRIDES FOR STUBBORN ELEMENTS
+  ============================================ */
+  
+  /* Override any remaining dark backgrounds in these specific tabs */
+  div[data-tab-content="calendar"] .bg-slate-950,
+  div[data-tab-content="calendar"] .bg-slate-900,
+  div[data-tab-content="calendar"] .bg-slate-800,
+  div[data-tab-content="calendar"] .bg-slate-700,
+  div[data-tab-content="creativity"] .bg-slate-950,
+  div[data-tab-content="creativity"] .bg-slate-900,
+  div[data-tab-content="creativity"] .bg-slate-800,
+  div[data-tab-content="creativity"] .bg-slate-700,
+  div[data-tab-content="generator"] .bg-slate-950,
+  div[data-tab-content="generator"] .bg-slate-900,
+  div[data-tab-content="generator"] .bg-slate-800,
+  div[data-tab-content="generator"] .bg-slate-700 {
+    background: #ffffff !important;
+    color: #0f172a !important;
+  }
+  
+  /* Override text colors in these tabs */
+  div[data-tab-content="calendar"] .text-white,
+  div[data-tab-content="calendar"] .text-slate-100,
+  div[data-tab-content="calendar"] .text-slate-200,
+  div[data-tab-content="creativity"] .text-white,
+  div[data-tab-content="creativity"] .text-slate-100,
+  div[data-tab-content="creativity"] .text-slate-200,
+  div[data-tab-content="generator"] .text-white,
+  div[data-tab-content="generator"] .text-slate-100,
+  div[data-tab-content="generator"] .text-slate-200 {
+    color: #0f172a !important;
+  }
+  
+  div[data-tab-content="calendar"] .text-slate-300,
+  div[data-tab-content="calendar"] .text-slate-400,
+  div[data-tab-content="creativity"] .text-slate-300,
+  div[data-tab-content="creativity"] .text-slate-400,
+  div[data-tab-content="generator"] .text-slate-300,
+  div[data-tab-content="generator"] .text-slate-400 {
+    color: #334155 !important;
+  }
+  
+  /* Override borders in these tabs */
+  div[data-tab-content="calendar"] .border-slate-700,
+  div[data-tab-content="calendar"] .border-slate-600,
+  div[data-tab-content="creativity"] .border-slate-700,
+  div[data-tab-content="creativity"] .border-slate-600,
+  div[data-tab-content="generator"] .border-slate-700,
+  div[data-tab-content="generator"] .border-slate-600 {
+    border-color: #e2e8f0 !important;
+  }
+  
+  /* ============================================
+     COMPONENT-SPECIFIC ELEMENT TARGETING
+  ============================================ */
+  
+  /* Calendar specific elements based on DOM structure */
+  .calendar-grid,
+  .calendar-container,
+  div[class*="calendar"] {
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    color: #0f172a !important;
+  }
+  
+  /* Creativity specific elements */
+  .creativity-tools,
+  .creativity-container,
+  div[class*="creativity"] {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    color: #0f172a !important;
+  }
+  
+  /* Generator specific elements */
+  .generator-container,
+  .generator-section,
+  div[class*="generator"] {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    color: #0f172a !important;
+  }
+  
+  /* ============================================
+     SHADOW AND VISUAL EFFECTS
+  ============================================ */
+  
+  /* Enhanced shadows for these components */
+  div[data-tab-content="calendar"] .shadow-lg,
+  div[data-tab-content="creativity"] .shadow-lg,
+  div[data-tab-content="generator"] .shadow-lg {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+  }
+  
+  div[data-tab-content="calendar"] .shadow-xl,
+  div[data-tab-content="creativity"] .shadow-xl,
+  div[data-tab-content="generator"] .shadow-xl {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+  }
+  
+  /* ============================================
+     RESPONSIVE ADJUSTMENTS
+  ============================================ */
+  
+  @media (max-width: 768px) {
+    /* Mobile adjustments for these specific components */
+    div[data-tab-content="calendar"] .grid > div,
+    div[data-tab-content="creativity"] .grid > div,
+    div[data-tab-content="generator"] .grid > div {
+      padding: 16px !important;
+      border-radius: 12px !important;
+    }
+    
+    div[data-tab-content="calendar"] button,
+    div[data-tab-content="creativity"] button,
+    div[data-tab-content="generator"] button {
+      padding: 10px 16px !important;
+      font-size: 14px !important;
+    }
+  }
+}
+
+/* ============================================
+   EMERGENCY OVERRIDES FOR MAXIMUM SPECIFICITY
+============================================ */
+
+/* Use ultra-high specificity for really stubborn elements */
+html[data-theme="light"] body div[data-tab-content="calendar"],
+html[data-theme="light"] body div[data-tab-content="creativity"],
+html[data-theme="light"] body div[data-tab-content="generator"] {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+  color: #0f172a !important;
+}
+
+html[data-theme="light"] body div[data-tab-content="calendar"] .bg-slate-900,
+html[data-theme="light"] body div[data-tab-content="calendar"] .bg-slate-800,
+html[data-theme="light"] body div[data-tab-content="creativity"] .bg-slate-900,
+html[data-theme="light"] body div[data-tab-content="creativity"] .bg-slate-800,
+html[data-theme="light"] body div[data-tab-content="generator"] .bg-slate-900,
+html[data-theme="light"] body div[data-tab-content="generator"] .bg-slate-800 {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+html[data-theme="light"] body div[data-tab-content="calendar"] .text-white,
+html[data-theme="light"] body div[data-tab-content="creativity"] .text-white,
+html[data-theme="light"] body div[data-tab-content="generator"] .text-white {
+  color: #0f172a !important;
+}

@@ -1,0 +1,597 @@
+/* Enhanced Theme System */
+@import './lightModeFinalFixes.css';
+@import './lightModeDOMSpecific.css';
+@import './lightModeTargetedFixes.css';
+@import './lightModeNuclearOption.css';
+@import './lightModeSimple.css';
+@import './lightModeDarkElementHunter.css';
+@import './lightModeSpecificComponents.css';
+@import './componentEnhancements.css';
+@import './canvasAndInteractive.css';
+@import './modalsAndOverlays.css';
+@import './accessibilityAndRefinements.css';
+
+/* Theme Variables - Set dynamically by ThemeProvider */
+:root {
+  /* Colors are set dynamically via CSS custom properties */
+  --theme-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Base body styling */
+body {
+  background: var(--theme-bg-primary, #0f172a);
+  color: var(--theme-text-primary, #f8fafc);
+  transition: var(--theme-transition);
+}
+
+/* Universal theme-aware classes */
+.theme-bg-primary {
+  background-color: var(--theme-bg-primary) !important;
+}
+.theme-bg-secondary {
+  background-color: var(--theme-bg-secondary) !important;
+}
+.theme-bg-tertiary {
+  background-color: var(--theme-bg-tertiary) !important;
+}
+
+.theme-text-primary {
+  color: var(--theme-text-primary) !important;
+}
+.theme-text-secondary {
+  color: var(--theme-text-secondary) !important;
+}
+.theme-text-tertiary {
+  color: var(--theme-text-tertiary) !important;
+}
+
+.theme-border-primary {
+  border-color: var(--theme-border-primary) !important;
+}
+.theme-border-secondary {
+  border-color: var(--theme-border-secondary) !important;
+}
+
+/* Enhanced theme-specific overrides */
+[data-theme="light"] {
+  /* Main app background override */
+  &,
+  body {
+    background: var(--theme-bg-primary) !important;
+    color: var(--theme-text-primary) !important;
+  }
+
+  /* Tab Navigation Improvements */
+  .border-slate-700 {
+    border-color: var(--theme-border-primary) !important;
+  }
+
+  /* Tab buttons visibility improvements */
+  nav button {
+    background-color: rgba(226, 232, 240, 0.5) !important;
+    border: 1px solid var(--theme-border-secondary) !important;
+    color: var(--theme-text-secondary) !important;
+    transition: all 0.2s ease !important;
+  }
+
+  nav button:hover {
+    background-color: rgba(203, 213, 225, 0.8) !important;
+    border-color: var(--theme-accent-primary) !important;
+    color: var(--theme-text-primary) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15) !important;
+  }
+
+  /* Active tab styling */
+  nav button.border-sky-400 {
+    background: linear-gradient(135deg, #0ea5e9, #3b82f6) !important;
+    color: white !important;
+    border-color: #0ea5e9 !important;
+    box-shadow: 0 4px 20px rgba(14, 165, 233, 0.3) !important;
+  }
+
+  /* Tab icons visibility - Make them black/dark in light mode with higher specificity */
+  header nav button svg,
+  header nav button img,
+  nav button[data-tab] svg,
+  nav button[data-tab] img,
+  .flex.items-center.gap-2.overflow-x-auto button svg,
+  .flex.items-center.gap-2.overflow-x-auto button img {
+    filter: brightness(0) saturate(100%) invert(0) !important;
+  }
+
+  header nav button:hover svg,
+  header nav button:hover img,
+  nav button[data-tab]:hover svg,
+  nav button[data-tab]:hover img,
+  .flex.items-center.gap-2.overflow-x-auto button:hover svg,
+  .flex.items-center.gap-2.overflow-x-auto button:hover img {
+    filter: brightness(0) saturate(100%) invert(0) contrast(1.2) !important;
+  }
+
+  /* Active tab icons stay white (inverted) with higher specificity */
+  header nav button.border-sky-400 svg,
+  header nav button.border-sky-400 img,
+  nav button[data-tab].border-sky-400 svg,
+  nav button[data-tab].border-sky-400 img,
+  nav button[aria-current="page"] svg,
+  nav button[aria-current="page"] img,
+  .flex.items-center.gap-2.overflow-x-auto button.border-sky-400 svg,
+  .flex.items-center.gap-2.overflow-x-auto button.border-sky-400 img {
+    filter: brightness(0) saturate(100%) invert(100%) !important;
+  }
+
+  /* Background overrides for light mode */
+  .bg-slate-900,
+  .bg-slate-950 {
+    background-color: var(--theme-bg-primary) !important;
+  }
+  .bg-slate-800 {
+    background-color: var(--theme-bg-secondary) !important;
+  }
+  .bg-slate-700 {
+    background-color: var(--theme-bg-tertiary) !important;
+  }
+  .bg-slate-600 {
+    background-color: #e8e0d6 !important;
+  }
+
+  /* Special gradient handling for main app background */
+  .min-h-screen.bg-gradient-to-br {
+    background: var(--theme-bg-primary) !important;
+  }
+
+  /* Other gradient backgrounds for light mode */
+  .bg-gradient-to-br:not(.min-h-screen) {
+    background: linear-gradient(
+      to bottom right,
+      var(--theme-bg-secondary),
+      var(--theme-bg-tertiary)
+    ) !important;
+  }
+  .bg-gradient-to-r {
+    background: linear-gradient(
+      to right,
+      var(--theme-bg-secondary),
+      var(--theme-bg-tertiary)
+    ) !important;
+  }
+
+  /* Text color overrides for light mode */
+  .text-white {
+    color: var(--theme-text-primary) !important;
+  }
+  .text-slate-300 {
+    color: var(--theme-text-secondary) !important;
+  }
+  .text-slate-400 {
+    color: var(--theme-text-tertiary) !important;
+  }
+  .text-slate-200 {
+    color: var(--theme-text-secondary) !important;
+  }
+  .text-slate-100 {
+    color: var(--theme-text-primary) !important;
+  }
+
+  /* Border overrides for light mode */
+  .border-slate-700 {
+    border-color: var(--theme-border-primary) !important;
+  }
+  .border-slate-600 {
+    border-color: var(--theme-border-secondary) !important;
+  }
+  .border-slate-500 {
+    border-color: var(--theme-border-primary) !important;
+  }
+
+  /* Shadow overrides for light mode */
+  .shadow-slate-900 {
+    box-shadow: 0 25px 50px -12px rgba(44, 35, 23, 0.15) !important;
+  }
+  .shadow-black {
+    box-shadow: 0 25px 50px -12px rgba(44, 35, 23, 0.15) !important;
+  }
+  .shadow-2xl {
+    box-shadow: 0 25px 50px -12px rgba(44, 35, 23, 0.08) !important;
+  }
+  .shadow-lg {
+    box-shadow:
+      0 10px 15px -3px rgba(44, 35, 23, 0.1),
+      0 4px 6px -2px rgba(44, 35, 23, 0.05) !important;
+  }
+  .shadow-md {
+    box-shadow:
+      0 4px 6px -1px rgba(44, 35, 23, 0.1),
+      0 2px 4px -1px rgba(44, 35, 23, 0.06) !important;
+  }
+
+  /* Header and Logo Improvements */
+  header {
+    background: rgba(248, 251, 255, 0.95) !important;
+    border-color: var(--theme-border-primary) !important;
+    backdrop-filter: blur(20px) !important;
+  }
+
+  /* Remove white container around logo */
+  header img {
+    background: transparent !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+  }
+
+  /* Header text improvements */
+  header .text-white {
+    color: var(--theme-text-primary) !important;
+  }
+
+  header .text-slate-300 {
+    color: var(--theme-text-secondary) !important;
+  }
+
+  /* Card and panel backgrounds */
+  .backdrop-blur-xl {
+    background-color: rgba(248, 251, 255, 0.85) !important;
+    border: 1px solid rgba(226, 232, 240, 0.3) !important;
+  }
+  .backdrop-blur-sm {
+    background-color: rgba(241, 248, 255, 0.85) !important;
+    border: 1px solid rgba(226, 232, 240, 0.2) !important;
+  }
+
+  /* Enhanced content containers */
+  .bg-slate-800\\/70 {
+    background: rgba(248, 251, 255, 0.9) !important;
+    border: 2px solid var(--theme-border-primary) !important;
+  }
+
+  .bg-slate-800\\/30 {
+    background: rgba(241, 248, 255, 0.7) !important;
+    border: 1px solid var(--theme-border-secondary) !important;
+  }
+
+  /* Form elements and inputs */
+  select,
+  input,
+  textarea,
+  .bg-slate-900 select,
+  .bg-slate-800 select,
+  .bg-slate-700 select,
+  [class*="bg-slate-"]:is(select, input, textarea),
+  [class*="bg-gray-"]:is(select, input, textarea) {
+    background-color: var(--theme-bg-primary) !important;
+    color: var(--theme-text-primary) !important;
+    border-color: var(--theme-border-primary) !important;
+  }
+
+  /* More specific form element overrides */
+  .bg-slate-900,
+  .bg-slate-800,
+  .bg-slate-700,
+  .bg-gray-900,
+  .bg-gray-800,
+  .bg-gray-700 {
+    background-color: var(--theme-bg-secondary) !important;
+  }
+
+  /* Comprehensive CSS override using attribute selectors for slate backgrounds */
+  select[class*="bg-slate-"],
+  input[class*="bg-slate-"],
+  textarea[class*="bg-slate-"],
+  button[class*="bg-slate-"]:not([class*="bg-blue-"]):not(
+      [class*="bg-purple-"]
+    ):not([class*="bg-green-"]):not([class*="bg-red-"]) {
+    background-color: var(--theme-bg-primary) !important;
+    color: var(--theme-text-primary) !important;
+    border-color: var(--theme-border-primary) !important;
+  }
+
+  /* Override any element with slate borders */
+  [class*="border-slate-"] {
+    border-color: var(--theme-border-primary) !important;
+  }
+
+  /* Specific override for form elements */
+  select,
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  textarea {
+    background-color: var(--theme-bg-primary) !important;
+    color: var(--theme-text-primary) !important;
+    border-color: var(--theme-border-primary) !important;
+  }
+
+  /* Override select options */
+  select option {
+    background-color: var(--theme-bg-primary) !important;
+    color: var(--theme-text-primary) !important;
+  }
+
+  /* Override for form elements with specific padding classes */
+  select[class*="bg-slate-700"],
+  input[class*="bg-slate-700"],
+  textarea[class*="bg-slate-700"],
+  select[class*="px-3"][class*="py-2"],
+  input[class*="px-3"][class*="py-2"],
+  textarea[class*="px-3"][class*="py-2"] {
+    background-color: var(--theme-bg-primary) !important;
+    color: var(--theme-text-primary) !important;
+    border-color: var(--theme-border-primary) !important;
+  }
+
+  /* Target specific dark elements */
+  [style*="background-color: rgb(30, 41, 59)"],
+  [style*="background-color: rgb(51, 65, 85)"],
+  [style*="background: rgb(30, 41, 59)"],
+  [style*="background: rgb(51, 65, 85)"] {
+    background-color: var(--theme-bg-primary) !important;
+    color: var(--theme-text-primary) !important;
+  }
+
+  /* Dropdown and select styling */
+  select:focus,
+  input:focus,
+  textarea:focus {
+    border-color: var(--theme-accent-primary) !important;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1) !important;
+  }
+
+  /* Button overrides */
+  button:not(.bg-blue-500):not(.bg-purple-500):not(.bg-green-500):not(
+      .bg-red-500
+    ):not([class*="bg-gradient"]) {
+    background-color: var(--theme-bg-secondary) !important;
+    color: var(--theme-text-primary) !important;
+    border-color: var(--theme-border-primary) !important;
+    box-shadow: 0 2px 4px rgba(14, 165, 233, 0.1) !important;
+  }
+
+  button:not(.bg-blue-500):not(.bg-purple-500):not(.bg-green-500):not(
+      .bg-red-500
+    ):not([class*="bg-gradient"]):hover {
+    background-color: var(--theme-bg-tertiary) !important;
+    border-color: var(--theme-accent-primary) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2) !important;
+  }
+
+  /* Ensure proper text colors for all text elements */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  span,
+  div,
+  label {
+    color: var(--theme-text-primary) !important;
+  }
+
+  /* Placeholder text */
+  ::placeholder {
+    color: var(--theme-text-tertiary) !important;
+    opacity: 0.7;
+  }
+}
+
+[data-theme="midnight"] {
+  .bg-gradient-to-br {
+    background: linear-gradient(
+      to bottom right,
+      var(--theme-bg-primary),
+      var(--theme-bg-secondary)
+    ) !important;
+  }
+}
+
+[data-theme="cosmic"] {
+  .bg-gradient-to-br {
+    background: var(--theme-gradient-primary) !important;
+  }
+}
+
+[data-theme="ocean"] {
+  .bg-gradient-to-br {
+    background: var(--theme-gradient-primary) !important;
+  }
+}
+
+/* Theme transition animations - optimized to prevent blinking */
+/* Remove global transition and apply only to specific elements */
+.theme-transition {
+  transition: var(--theme-transition);
+}
+
+/* Apply transitions only to specific elements that need them */
+button:not(.no-transition),
+.card:not(.no-transition),
+.modal:not(.no-transition),
+input:not(.no-transition),
+select:not(.no-transition),
+textarea:not(.no-transition) {
+  transition: var(--theme-transition);
+}
+
+/* Special effects for theme switching */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 1s ease-in-out;
+}
+
+/* Premium CreateGen Logo Animations */
+@keyframes creategen-shimmer {
+  0% {
+    transform: translateX(-120%) skewX(-15deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(120%) skewX(-15deg);
+    opacity: 0;
+  }
+}
+
+@keyframes creategen-pulse {
+  0%,
+  100% {
+    filter: brightness(1) drop-shadow(0 0 12px rgba(14, 165, 233, 0.4))
+      drop-shadow(0 0 24px rgba(168, 85, 247, 0.2));
+    background-size: 100% 100%;
+  }
+  50% {
+    filter: brightness(1.15) drop-shadow(0 0 20px rgba(14, 165, 233, 0.7))
+      drop-shadow(0 0 40px rgba(168, 85, 247, 0.4));
+    background-size: 110% 110%;
+  }
+}
+
+@keyframes creategen-gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.creategen-glow {
+  background: linear-gradient(
+    45deg,
+    #0ea5e9,
+    #3b82f6,
+    #8b5cf6,
+    #a855f7,
+    #0ea5e9
+  ) !important;
+  background-size: 300% 300% !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  animation:
+    creategen-pulse 2.5s ease-in-out infinite,
+    creategen-gradient-shift 4s ease-in-out infinite !important;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+}
+
+.creategen-glow:hover {
+  animation:
+    creategen-pulse 1.2s ease-in-out infinite,
+    creategen-gradient-shift 2s ease-in-out infinite !important;
+  transform: scale(1.02) !important;
+}
+
+.creategen-shimmer {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: linear-gradient(
+    110deg,
+    transparent 0%,
+    transparent 40%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0.9) 55%,
+    rgba(255, 255, 255, 0.6) 60%,
+    transparent 70%,
+    transparent 100%
+  ) !important;
+  animation: creategen-shimmer 3s ease-in-out infinite !important;
+  animation-delay: 0.5s !important;
+  mix-blend-mode: overlay !important;
+  pointer-events: none !important;
+}
+
+/* Theme-aware gradients */
+.theme-gradient-primary {
+  background: var(--theme-gradient-primary) !important;
+}
+
+.theme-gradient-secondary {
+  background: var(--theme-gradient-secondary) !important;
+}
+
+.theme-gradient-accent {
+  background: var(--theme-gradient-accent) !important;
+}
+
+/* Enhanced hover effects for different themes */
+.theme-hover-glow {
+  transition:
+    var(--theme-transition),
+    box-shadow 0.3s ease;
+}
+
+.theme-hover-glow:hover {
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.4);
+}
+
+/* Light mode specific hover effects */
+[data-theme="light"] .theme-hover-glow:hover {
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
+}
+
+/* Theme-specific scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--theme-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--theme-border-primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--theme-accent-primary);
+}
+
+/* Theme transition loading state */
+.theme-transitioning {
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.theme-transitioning * {
+  transition: none !important;
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .animate-shimmer {
+    animation: none;
+  }
+}
+
+/* Theme-aware focus styles */
+:focus-visible {
+  outline: 2px solid var(--theme-accent-primary);
+  outline-offset: 2px;
+}

@@ -1,0 +1,251 @@
+/* ============================================
+   🔒 ISOLATED NAVBAR STYLES
+   Matching new_main_app_navbar design system
+   ============================================ */
+
+/* Isolated navbar container matching the original design */
+.isolated-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  width: 100%;
+  height: 64px; /* 4rem */
+  background: hsl(240 10% 4% / 0.8); /* --background-primary/80 */
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid hsl(240 4% 16%); /* --border-secondary */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.isolated-navbar-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px; /* 1.5rem */
+}
+
+/* Left side - Search section */
+.isolated-navbar-search {
+  display: flex;
+  align-items: center;
+  gap: 16px; /* 1rem */
+  flex: 1;
+  max-width: 448px; /* 28rem */
+}
+
+.isolated-navbar-search-container {
+  position: relative;
+  width: 100%;
+}
+
+.isolated-navbar-search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  color: #94a3b8; /* Gray-400 */
+  pointer-events: none;
+}
+
+.isolated-navbar-search-input {
+  width: 100%;
+  height: 40px; /* 2.5rem */
+  padding: 8px 12px 8px 40px;
+  background: hsl(240 6% 10%); /* --background-secondary */
+  border: 1px solid hsl(240 4% 20%); /* --border-primary */
+  border-radius: 6px;
+  color: hsl(0 0% 98%); /* --text-primary */
+  font-size: 14px;
+  transition: all 0.2s ease;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.isolated-navbar-search-input::placeholder {
+  color: hsl(240 4% 46%); /* --text-quaternary */
+}
+
+.isolated-navbar-search-input:focus {
+  outline: none;
+  border-color: hsl(262 83% 58%); /* --accent-purple */
+  box-shadow: 0 0 0 2px hsl(262 83% 58% / 0.2);
+  background: hsl(240 6% 10%);
+}
+
+/* Right side - Actions section */
+.isolated-navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* 0.75rem */
+}
+
+/* Credits display - matching original gradient design */
+.isolated-navbar-credits {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: linear-gradient(to right, hsl(240 6% 10%), hsl(240 5% 15%), hsl(240 6% 10%));
+  border: 1px solid hsl(262 83% 58% / 0.3);
+  border-radius: 12px;
+  box-shadow: 0 1px 2px 0 hsl(240 10% 4% / 0.2);
+}
+
+.isolated-navbar-credits-icon {
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, hsl(262 83% 58%) 0%, hsl(194 93% 56%) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.isolated-navbar-credits-icon svg {
+  width: 12px;
+  height: 12px;
+  color: white;
+}
+
+.isolated-navbar-credits-count {
+  font-size: 14px;
+  font-weight: 700;
+  color: hsl(0 0% 98%); /* --text-primary */
+}
+
+.isolated-navbar-credits-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: hsl(240 4% 64%); /* --text-tertiary */
+}
+
+/* Action buttons - matching original button design */
+.isolated-navbar-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: hsl(240 5% 84%); /* --text-secondary */
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.isolated-navbar-btn:hover {
+  background: hsl(240 5% 18%); /* --hover-overlay */
+  color: hsl(0 0% 98%); /* --text-primary */
+  box-shadow: 0 0 0 1px hsl(262 83% 58% / 0.3), 0 0 20px hsl(262 83% 58% / 0.2);
+}
+
+.isolated-navbar-btn:active {
+  transform: translateY(0);
+}
+
+.isolated-navbar-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Notification badge */
+.isolated-navbar-notification-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  background: #ef4444; /* Red-500 */
+  border-radius: 50%;
+  border: 1px solid rgba(2, 6, 23, 1);
+}
+
+/* Upgrade button - premium variant styling */
+.isolated-navbar-upgrade {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  height: 32px;
+  background: linear-gradient(135deg, hsl(262 83% 58%) 0%, hsl(194 93% 56%) 100%);
+  border: 1px solid hsl(262 83% 58% / 0.3);
+  border-radius: 6px;
+  color: hsl(0 0% 98%);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 6px -1px hsl(240 10% 4% / 0.3), 0 2px 4px -1px hsl(240 10% 4% / 0.2);
+}
+
+.isolated-navbar-upgrade:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 0 1px hsl(262 83% 58% / 0.3), 0 0 20px hsl(262 83% 58% / 0.2);
+}
+
+.isolated-navbar-upgrade:active {
+  transform: scale(0.98);
+}
+
+/* User menu styling */
+.isolated-navbar-user-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  height: 36px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: hsl(240 5% 84%);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.isolated-navbar-user-btn:hover {
+  background: hsl(240 5% 18%);
+  color: hsl(0 0% 98%);
+  box-shadow: 0 0 0 1px hsl(262 83% 58% / 0.3), 0 0 20px hsl(262 83% 58% / 0.2);
+}
+
+/* User avatar */
+.isolated-navbar-avatar {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, hsl(262 83% 58%) 0%, hsl(194 93% 56%) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.isolated-navbar-avatar svg {
+  width: 16px;
+  height: 16px;
+  color: hsl(0 0% 98%);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .isolated-navbar-content {
+    padding: 0 16px;
+  }
+  
+  .isolated-navbar-search {
+    max-width: 200px;
+  }
+  
+  .isolated-navbar-credits-label {
+    display: none;
+  }
+}

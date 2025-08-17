@@ -1,0 +1,340 @@
+/* ============================================================================
+   CREATEGEN STUDIO - ULTIMATE LIGHT MODE OVERRIDES
+   Nuclear option overrides - maximum force to ensure light mode works
+   ============================================================================ */
+
+/* Apply to HTML element with maximum specificity */
+html.theme-light,
+html[data-theme="light"],
+body.theme-light,
+#root.theme-light {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+/* Universal selector with attribute targeting */
+[data-theme="light"] *,
+[data-theme="light"] *::before,
+[data-theme="light"] *::after {
+  /* Force CSS variables */
+  --tw-bg-opacity: 1 !important;
+  --tw-text-opacity: 1 !important;
+  --tw-border-opacity: 1 !important;
+}
+
+/* Target ALL Tailwind background classes */
+[data-theme="light"] .bg-slate-950,
+[data-theme="light"] .bg-slate-900,
+[data-theme="light"] .bg-slate-800,
+[data-theme="light"] .bg-slate-700,
+[data-theme="light"] .bg-slate-600,
+[data-theme="light"] .bg-gray-950,
+[data-theme="light"] .bg-gray-900,
+[data-theme="light"] .bg-gray-800,
+[data-theme="light"] .bg-gray-700,
+[data-theme="light"] .bg-gray-600 {
+  background-color: rgb(255 255 255) !important;
+}
+
+/* Target ALL Tailwind background classes with opacity */
+[data-theme="light"] .bg-slate-950\\/95,
+[data-theme="light"] .bg-slate-950\\/90,
+[data-theme="light"] .bg-slate-950\\/80,
+[data-theme="light"] .bg-slate-950\\/70,
+[data-theme="light"] .bg-slate-950\\/60,
+[data-theme="light"] .bg-slate-950\\/50,
+[data-theme="light"] .bg-slate-950\\/40,
+[data-theme="light"] .bg-slate-950\\/30,
+[data-theme="light"] .bg-slate-950\\/20,
+[data-theme="light"] .bg-slate-950\\/10,
+[data-theme="light"] .bg-slate-900\\/95,
+[data-theme="light"] .bg-slate-900\\/90,
+[data-theme="light"] .bg-slate-900\\/80,
+[data-theme="light"] .bg-slate-900\\/70,
+[data-theme="light"] .bg-slate-900\\/60,
+[data-theme="light"] .bg-slate-900\\/50,
+[data-theme="light"] .bg-slate-900\\/40,
+[data-theme="light"] .bg-slate-900\\/30,
+[data-theme="light"] .bg-slate-900\\/20,
+[data-theme="light"] .bg-slate-900\\/10,
+[data-theme="light"] .bg-slate-800\\/95,
+[data-theme="light"] .bg-slate-800\\/90,
+[data-theme="light"] .bg-slate-800\\/80,
+[data-theme="light"] .bg-slate-800\\/70,
+[data-theme="light"] .bg-slate-800\\/60,
+[data-theme="light"] .bg-slate-800\\/50,
+[data-theme="light"] .bg-slate-800\\/40,
+[data-theme="light"] .bg-slate-800\\/30,
+[data-theme="light"] .bg-slate-800\\/20,
+[data-theme="light"] .bg-slate-800\\/10,
+[data-theme="light"] .bg-slate-700\\/95,
+[data-theme="light"] .bg-slate-700\\/90,
+[data-theme="light"] .bg-slate-700\\/80,
+[data-theme="light"] .bg-slate-700\\/70,
+[data-theme="light"] .bg-slate-700\\/60,
+[data-theme="light"] .bg-slate-700\\/50,
+[data-theme="light"] .bg-slate-700\\/40,
+[data-theme="light"] .bg-slate-700\\/30,
+[data-theme="light"] .bg-slate-700\\/20,
+[data-theme="light"] .bg-slate-700\\/10 {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* Target ALL Tailwind text classes */
+[data-theme="light"] .text-white,
+[data-theme="light"] .text-slate-100,
+[data-theme="light"] .text-slate-200,
+[data-theme="light"] .text-slate-300,
+[data-theme="light"] .text-gray-100,
+[data-theme="light"] .text-gray-200,
+[data-theme="light"] .text-gray-300 {
+  color: rgb(15 23 42) !important;
+}
+
+[data-theme="light"] .text-slate-400,
+[data-theme="light"] .text-slate-500,
+[data-theme="light"] .text-gray-400,
+[data-theme="light"] .text-gray-500 {
+  color: rgb(51 65 85) !important;
+}
+
+/* Target ALL Tailwind border classes */
+[data-theme="light"] .border-slate-700,
+[data-theme="light"] .border-slate-600,
+[data-theme="light"] .border-slate-500,
+[data-theme="light"] .border-gray-700,
+[data-theme="light"] .border-gray-600,
+[data-theme="light"] .border-gray-500 {
+  border-color: rgb(226 232 240) !important;
+}
+
+/* Target border opacity variants */
+[data-theme="light"] .border-slate-700\\/50,
+[data-theme="light"] .border-slate-700\\/40,
+[data-theme="light"] .border-slate-700\\/30,
+[data-theme="light"] .border-slate-700\\/20,
+[data-theme="light"] .border-slate-700\\/10 {
+  border-color: rgba(226, 232, 240, 0.8) !important;
+}
+
+/* Navigation specific overrides */
+[data-theme="light"] nav,
+[data-theme="light"] header,
+[data-theme="light"] .navigation {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(20px) !important;
+}
+
+/* Button overrides */
+[data-theme="light"] button {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+  color: #334155 !important;
+  border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] button:hover {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+  border-color: #0ea5e9 !important;
+}
+
+/* Card and panel overrides */
+[data-theme="light"] .card,
+[data-theme="light"] .panel,
+[data-theme="light"] .rounded-lg,
+[data-theme="light"] .rounded-xl,
+[data-theme="light"] .rounded-2xl {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Icon visibility fixes */
+[data-theme="light"] svg,
+[data-theme="light"] img {
+  filter: brightness(0) saturate(100%) invert(20%) sepia(8%) saturate(1200%) hue-rotate(200deg) brightness(95%) contrast(95%);
+}
+
+[data-theme="light"] .active svg,
+[data-theme="light"] .border-sky-400 svg,
+[data-theme="light"] button.border-sky-400 svg {
+  filter: brightness(0) saturate(100%) invert(100%) !important;
+}
+
+/* Force backdrop and modal overrides */
+[data-theme="light"] .backdrop-blur-xl,
+[data-theme="light"] .backdrop-blur-lg,
+[data-theme="light"] .backdrop-blur-md {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+/* Input and form element overrides */
+[data-theme="light"] input,
+[data-theme="light"] textarea,
+[data-theme="light"] select {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* Shadow overrides */
+[data-theme="light"] .shadow-2xl,
+[data-theme="light"] .shadow-xl,
+[data-theme="light"] .shadow-lg,
+[data-theme="light"] .shadow-md {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Gradient overrides */
+[data-theme="light"] .bg-gradient-to-br,
+[data-theme="light"] .bg-gradient-to-r,
+[data-theme="light"] .bg-gradient-to-l {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%) !important;
+}
+
+/* ============================================
+   EXTREME MEASURES - ATTRIBUTE SELECTORS
+============================================ */
+
+/* Use CSS attribute selectors to catch everything */
+[data-theme="light"] [class*="bg-slate-9"],
+[data-theme="light"] [class*="bg-slate-8"],
+[data-theme="light"] [class*="bg-slate-7"],
+[data-theme="light"] [class*="bg-gray-9"],
+[data-theme="light"] [class*="bg-gray-8"],
+[data-theme="light"] [class*="bg-gray-7"] {
+  background-color: #ffffff !important;
+}
+
+[data-theme="light"] [class*="text-white"],
+[data-theme="light"] [class*="text-slate-1"],
+[data-theme="light"] [class*="text-slate-2"],
+[data-theme="light"] [class*="text-slate-3"],
+[data-theme="light"] [class*="text-gray-1"],
+[data-theme="light"] [class*="text-gray-2"],
+[data-theme="light"] [class*="text-gray-3"] {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] [class*="border-slate-"],
+[data-theme="light"] [class*="border-gray-"] {
+  border-color: #e2e8f0 !important;
+}
+
+/* ============================================
+   INLINE STYLE HUNTING
+============================================ */
+
+/* Hunt down inline styles */
+[data-theme="light"] [style*="background-color: rgb(15"],
+[data-theme="light"] [style*="background-color: rgb(30"],
+[data-theme="light"] [style*="background-color: rgb(51"],
+[data-theme="light"] [style*="background: rgb(15"],
+[data-theme="light"] [style*="background: rgb(30"],
+[data-theme="light"] [style*="background: rgb(51"] {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+}
+
+[data-theme="light"] [style*="color: rgb(248"],
+[data-theme="light"] [style*="color: rgb(203"],
+[data-theme="light"] [style*="color: rgb(148"] {
+  color: #0f172a !important;
+}
+
+/* ============================================
+   GLOBAL RESET FOR LIGHT MODE
+============================================ */
+
+[data-theme="light"] {
+  /* CSS Custom Properties Override */
+  --theme-bg-primary: #ffffff;
+  --theme-bg-secondary: #f8fafc;
+  --theme-bg-tertiary: #f1f5f9;
+  --theme-text-primary: #0f172a;
+  --theme-text-secondary: #334155;
+  --theme-text-tertiary: #64748b;
+  --theme-border-primary: #e2e8f0;
+  --theme-border-secondary: #cbd5e1;
+  --theme-accent-primary: #0ea5e9;
+  --theme-accent-secondary: #3b82f6;
+  
+  /* Tailwind CSS Variables Override */
+  --tw-prose-body: #0f172a;
+  --tw-prose-headings: #0f172a;
+  --tw-prose-lead: #334155;
+  --tw-prose-links: #0ea5e9;
+  --tw-prose-bold: #0f172a;
+  --tw-prose-counters: #64748b;
+  --tw-prose-bullets: #cbd5e1;
+  --tw-prose-hr: #e2e8f0;
+  --tw-prose-quotes: #0f172a;
+  --tw-prose-quote-borders: #e2e8f0;
+  --tw-prose-captions: #64748b;
+  --tw-prose-code: #0f172a;
+  --tw-prose-pre-code: #0f172a;
+  --tw-prose-pre-bg: #f8fafc;
+  --tw-prose-th-borders: #cbd5e1;
+  --tw-prose-td-borders: #e2e8f0;
+}
+
+/* ============================================
+   FORCE HTML AND BODY
+============================================ */
+
+html[data-theme="light"],
+html[data-theme="light"] body {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+/* ============================================
+   LAST RESORT - UNIVERSAL OVERRIDE
+============================================ */
+
+[data-theme="light"] * {
+  /* Override any remaining dark backgrounds */
+  background-color: var(--theme-bg-primary, #ffffff) !important;
+  color: var(--theme-text-primary, #0f172a) !important;
+  border-color: var(--theme-border-primary, #e2e8f0) !important;
+}
+
+/* But restore specific accent colors */
+[data-theme="light"] .bg-blue-500,
+[data-theme="light"] .bg-blue-600,
+[data-theme="light"] .bg-purple-500,
+[data-theme="light"] .bg-purple-600,
+[data-theme="light"] .bg-green-500,
+[data-theme="light"] .bg-green-600,
+[data-theme="light"] .bg-red-500,
+[data-theme="light"] .bg-red-600,
+[data-theme="light"] .bg-yellow-500,
+[data-theme="light"] .bg-yellow-600 {
+  background-color: revert !important;
+  color: white !important;
+}
+
+/* Navigation specific restoration */
+[data-theme="light"] nav *,
+[data-theme="light"] header * {
+  background-color: transparent !important;
+}
+
+[data-theme="light"] nav,
+[data-theme="light"] header {
+  background: rgba(255, 255, 255, 0.95) !important;
+}
+
+[data-theme="light"] nav button,
+[data-theme="light"] header button {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+  color: #334155 !important;
+  border: 2px solid #e2e8f0 !important;
+}
+
+[data-theme="light"] nav button.border-sky-400,
+[data-theme="light"] header button.border-sky-400 {
+  background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%) !important;
+  color: #ffffff !important;
+}

@@ -1,0 +1,930 @@
+import React, { useState, useEffect } from "react";
+import { auth } from "./config/firebase";
+import { signOut } from "firebase/auth";
+import { App as MainApp } from "../App";
+// import Auth from "./components/Auth"; // COMMENTED OUT - Use PremiumAuth instead
+import PremiumAuth from "./components/PremiumAuth";
+import {
+  UserCircleIcon,
+  ChevronDownIcon,
+  CreditCardIcon,
+  LaptopIcon,
+  SparklesIcon,
+  ColumnsIcon,
+  SearchCircleIcon,
+  PlayCircleIcon,
+  PhotoIcon,
+  CompassIcon,
+  CalendarDaysIcon,
+  TrendingUpIcon,
+  ListChecksIcon,
+  GlobeAltIcon,
+} from "./components/IconComponents";
+import { EmojiIcons, StatusIndicators } from "./components/ConsistentIcons";
+import AppNotifications from "./utils/appNotifications";
+import LoadingSpinner from "./components/LoadingSpinner";
+import FreeCreditsPopup from "./components/FreeCreditsPopup";
+import { SmartUpgradePrompt } from "./components/SmartUpgradePrompts";
+import {
+  SubscriptionProvider,
+  useSubscription,
+} from "./context/SubscriptionContext";
+import { AuthProvider, useAuth } from "./context/AuthContext";
+import { CreditProvider } from "./context/CreditContext";
+import { ThemeProvider } from "./context/ThemeContext";
+import BillingPage from "./components/BillingPage";
+import { mockSubscriptionService } from "./services/mockSubscriptionService";
+import AccountPage from "./components/AccountPage";
+import OnboardingSurvey from "./components/OnboardingSurvey";
+import OnboardingProvider, { useOnboarding } from "./context/OnboardingContext";
+import OnboardingManager from "./components/OnboardingManager";
+import DevOnboardingControls from "./components/DevOnboardingControls";
+import FeedbackWidget from "./components/FeedbackWidget";
+import EnhancedThemeToggle from "./components/EnhancedThemeToggle";
+import FloatingThemePanel from "./components/FloatingThemePanel";
+
+import {
+  HeroSection,
+  TestimonialsSection,
+  PricingPreview,
+} from "./components/LandingPageComponents";
+
+import YouTubeCallback from "./components/YouTubeCallback";
+import YouTubeOAuthTest from "./components/YouTubeOAuthTest";
+
+import "./components/Auth.css\";\nimport \"./utils/commandPaletteHandlers";
+
+// Global error handler for Builder.io environment
+if (
+  typeof window !== "undefined" &&
+  window.location.hostname.includes("builder.codes")
+) {
+  // Suppress fetch errors that are expected in Builder.io environment
+  const originalConsoleError = console.error;
+  console.error = (...args) => {
+    const message = args[0]?.toString() || "";
+    if (
+      message.includes("Failed to fetch") ||
+      message.includes("NetworkError") ||
+      message.includes("CORS") ||
+      message.includes("Missing or insufficient permissions") ||
+      message.includes("permission-denied")
+    ) {
+      // Convert to warning for expected network/permission errors
+      console.warn(
+        "🟡 Expected restriction in Builder.io environment:",
+        ...args,
+      );
+
+      // Show notification for network issues (only once per session)
+      if (!sessionStorage.getItem("network-notification-shown")) {
+        AppNotifications.networkError(
+          "Running in limited network environment. Some features may not work.",
+        );
+        sessionStorage.setItem("network-notification-shown", "true");
+      }
+
+      return;
+    }
+    originalConsoleError(...args);
+  };
+
+  // Handle unhandled promise rejections from Firebase
+  window.addEventListener("unhandledrejection", (event) => {
+    const error = event.reason;
+    if (
+      error?.message?.includes("Failed to fetch") ||
+      error?.message?.includes("NetworkError")
+    ) {
+      console.warn(
+        "🟡 Handled Firebase network error in Builder.io environment:",
+        error.message,
+      );
+      event.preventDefault(); // Prevent the error from being logged as unhandled
+    }
+  });
+}
+
+// Global error handler for INTERNAL Firebase Function errors
+window.addEventListener("unhandledrejection", (event) => {
+  const error = event.reason;
+  if (
+    error?.message?.includes("INTERNAL") ||
+    error?.code === "internal" ||
+    error?.toString?.().includes("INTERNAL")
+  ) {
+    console.warn("🚨 Caught global INTERNAL error:", error);
+
+    // Show user-friendly notification
+    const notification = document.createElement("div");
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+      color: white;
+      padding: 16px 20px;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      z-index: 10000;
+      font-family: system-ui, sans-serif;
+      font-size: 14px;
+      max-width: 350px;
+      border: 1px solid rgba(255,255,255,0.2);
+    `;
+    notification.innerHTML = `
+      <div style="display: flex; align-items: center; margin-bottom: 8px;">
+        <span style="font-size: 20px; margin-right: 8px;">⚠️</span>
+        <strong>Service Temporarily Unavailable</strong>
+      </div>
+      <p style="margin: 0; line-height: 1.4; opacity: 0.9;">
+        Payment services are being configured. Please try again in a few moments.
+      </p>
+    `;
+    document.body.appendChild(notification);
+
+    // Remove notification after 5 seconds
+    setTimeout(() => {
+      if (document.body.contains(notification)) {
+        notification.style.transition = "opacity 0.5s ease";
+        notification.style.opacity = "0";
+        setTimeout(() => {
+          if (document.body.contains(notification)) {
+            document.body.removeChild(notification);
+          }
+        }, 500);
+      }
+    }, 5000);
+
+    event.preventDefault(); // Prevent the error from being logged as unhandled
+  }
+});
+
+function AppContent() {
+  const { user, loading, needsOnboarding, completeOnboarding } = useAuth();
+  const { startAnonymousOnboarding } = useOnboarding();
+  const [showAuth, setShowAuth] = useState(false);
+
+  // Debug showAuth changes
+  React.useEffect(() => {
+    console.log("🔥 showAuth changed to:", showAuth);
+  }, [showAuth]);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const [currentPage, setCurrentPage] = useState<"app" | "billing" | "account">(
+    "app",
+  );
+  const [forceLoaded, setForceLoaded] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [showAppDirectly, setShowAppDirectly] = useState(false);
+  const [showFreeCreditsPopup, setShowFreeCreditsPopup] =
+    useState<boolean>(false);
+  const [showUpgradePopup, setShowUpgradePopup] = useState<boolean>(false);
+
+  const { billingInfo, refreshBilling, needsSignInForGenerations } =
+    useSubscription();
+
+  // Listen for custom events to show popup
+  React.useEffect(() => {
+    const handleShowPopup = () => {
+      console.log("Custom event received: showing FreeCreditsPopup");
+      setShowFreeCreditsPopup(true);
+    };
+
+    window.addEventListener("showFreeCreditsPopup", handleShowPopup);
+    return () =>
+      window.removeEventListener("showFreeCreditsPopup", handleShowPopup);
+  }, []);
+
+  // Global fallback: Listen for clicks on generate buttons for anonymous users
+  React.useEffect(() => {
+    if (user) return; // Only for anonymous users
+
+    const handleClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const button = target.closest("button");
+
+      if (button && !user) {
+        const buttonText = button.textContent?.toLowerCase() || "";
+        console.log("🔥 Button clicked by anonymous user:", buttonText);
+
+        const isGenerateButton =
+          buttonText.includes("generate") &&
+          !buttonText.includes("generating") &&
+          !buttonText.includes("start creating");
+
+        if (isGenerateButton) {
+          console.log("🔥 GENERATE BUTTON DETECTED - showing popup");
+          e.preventDefault();
+          e.stopPropagation();
+          setShowFreeCreditsPopup(true);
+          return false;
+        }
+      }
+    };
+
+    document.addEventListener("click", handleClick, true);
+    return () => document.removeEventListener("click", handleClick, true);
+  }, [user]);
+
+  // Global premium testing utility for development
+  React.useEffect(() => {
+    if (import.meta.env.DEV) {
+      (window as any).enablePremiumFeatures = () => {
+        localStorage.setItem("dev_force_premium", "true");
+        console.log("🔧 Premium features enabled! Refreshing...");
+        setTimeout(() => window.location.reload(), 100);
+      };
+
+      (window as any).disablePremiumFeatures = () => {
+        localStorage.removeItem("dev_force_premium");
+        console.log("🔧 Premium features disabled! Refreshing...");
+        setTimeout(() => window.location.reload(), 100);
+      };
+
+      (window as any).testPremiumFeatures = () => {
+        const premium = localStorage.getItem("dev_force_premium") === "true";
+        const billing = billingInfo;
+        const mockSub = mockSubscriptionService.getSubscription(
+          user?.uid || "",
+        );
+
+        console.log("🔧 COMPREHENSIVE Premium Feature Debug:");
+        console.log("==========================================");
+        console.log("Dev Override Active:", premium);
+        console.log("Current User ID:", user?.uid);
+        console.log("Billing Info:", billing);
+        console.log("Mock Subscription:", mockSub);
+        console.log("Billing Status:", billing?.status);
+        console.log("Subscription Plan:", billing?.subscription?.planId);
+        console.log(
+          "Should Show Premium Features:",
+          premium || billing?.status === "active",
+        );
+        console.log(
+          "LocalStorage Keys:",
+          Object.keys(localStorage).filter(
+            (k) => k.includes("mock") || k.includes("premium"),
+          ),
+        );
+        console.log("==========================================");
+
+        return {
+          devOverride: premium,
+          billingStatus: billing?.status,
+          plan: billing?.subscription?.planId,
+          mockSubscription: mockSub,
+          shouldShowPremium: premium || billing?.status === "active",
+          localStorageKeys: Object.keys(localStorage).filter(
+            (k) => k.includes("mock") || k.includes("premium"),
+          ),
+        };
+      };
+
+      (window as any).fixPremiumFeatures = () => {
+        console.log("🔧 Attempting to fix premium features...");
+
+        // Enable premium override
+        localStorage.setItem("dev_force_premium", "true");
+
+        // Force subscription to pro if user exists
+        if (user?.uid) {
+          mockSubscriptionService.simulateUpgrade(user.uid, "pro");
+          console.log("✅ Set subscription to Pro");
+        }
+
+        // Force refresh billing
+        refreshBilling();
+
+        console.log("🔄 Refreshing page in 1 second...");
+        setTimeout(() => window.location.reload(), 1000);
+      };
+
+      // Emergency premium unlock (simpler method)
+      (window as any).unlockPremium = () => {
+        console.log("🚨 EMERGENCY PREMIUM UNLOCK");
+        localStorage.setItem("dev_force_premium", "true");
+        localStorage.setItem("emergency_premium", "true");
+        if (user?.uid) {
+          mockSubscriptionService.simulateUpgrade(user.uid, "enterprise");
+        }
+        alert("Premium features unlocked! Reloading page...");
+        window.location.reload();
+      };
+
+      console.log("🔧 Premium testing utilities available:");
+      console.log(
+        "  - enablePremiumFeatures()  - Force enable premium features",
+      );
+      console.log("  - disablePremiumFeatures() - Disable premium override");
+      console.log(
+        "  - testPremiumFeatures()    - Comprehensive premium status check",
+      );
+      console.log(
+        "  - fixPremiumFeatures()     - Auto-fix premium feature issues",
+      );
+      console.log("  - unlockPremium()          - EMERGENCY premium unlock");
+      console.log("");
+      console.log("🚨 QUICK FIX for locked premium features:");
+      console.log("  1. Type: unlockPremium()");
+      console.log("  2. Go to Generator tab");
+      console.log("  3. Premium features should be unlocked!");
+      console.log("");
+      console.log("�� Premium feature fixes applied:");
+      console.log("  - Enhanced subscription state management");
+      console.log("  - Improved dev tools with force refresh capability");
+      console.log("  - Added comprehensive debugging utilities");
+    }
+  }, []);
+
+  // Scroll detection for header change
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 100);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Tab menu configuration for scrolled header
+  const mainTabs = [
+    {
+      id: "generator",
+      label: "Generator",
+      icon: <SparklesIcon className="h-4 w-4" />,
+    },
+    {
+      id: "canvas",
+      label: "Canvas",
+      icon: <ColumnsIcon className="h-4 w-4" />,
+    },
+    {
+      id: "channelAnalysis",
+      label: "YT Analysis",
+      icon: <SearchCircleIcon className="h-4 w-4" />,
+    },
+    {
+      id: "youtubeStats",
+      label: "YT Stats",
+      icon: <PlayCircleIcon className="h-4 w-4" />,
+    },
+    {
+      id: "thumbnailMaker",
+      label: "Thumbnails",
+      icon: <PhotoIcon className="h-4 w-4" />,
+    },
+    {
+      id: "strategy",
+      label: "Strategy",
+      icon: <CompassIcon className="h-4 w-4" />,
+    },
+    {
+      id: "calendar",
+      label: "Calendar",
+      icon: <CalendarDaysIcon className="h-4 w-4" />,
+    },
+    {
+      id: "trends",
+      label: "Trends",
+      icon: <TrendingUpIcon className="h-4 w-4" />,
+    },
+    {
+      id: "history",
+      label: "History",
+      icon: <ListChecksIcon className="h-4 w-4" />,
+    },
+    {
+      id: "search",
+      label: "Web Search",
+      icon: <GlobeAltIcon className="h-4 w-4" />,
+    },
+  ];
+
+  // Fallback: Force loading to complete after 3 seconds
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      console.log(
+        "AppContent: Force loading timeout - bypassing loading state",
+      );
+      setForceLoaded(true);
+    }, 3000);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      setShowUserMenu(false);
+      // Reset any direct app access and return to landing page
+      setShowAppDirectly(false);
+      setShowAuth(false);
+      setCurrentPage("app"); // Reset to default page state
+      // Force a page refresh to ensure clean state
+      window.location.reload();
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
+
+  const handleSignInClick = () => {
+    console.log("🔥 handleSignInClick called - setting showAuth to true");
+    setShowAuth(true);
+  };
+
+  const handleStartCreating = () => {
+    setShowAppDirectly(true);
+    // Trigger onboarding for anonymous users
+    if (!user) {
+      console.log("🎆 Starting anonymous onboarding flow");
+      startAnonymousOnboarding();
+    }
+  };
+
+  const handleCloseAuth = () => {
+    setShowAuth(false);
+  };
+
+  // Removed loading screen for smooth premium app experience
+  // Auth state changes are handled seamlessly without blocking UI
+
+  // Note: Onboarding is now handled by OnboardingManager wrapper
+
+  if (!user && !showAuth && !showAppDirectly) {
+    return (
+      <div
+        className="min-h-screen"
+        style={{
+          background: `linear-gradient(to bottom right, var(--theme-bg-primary), var(--theme-bg-secondary))`,
+          color: `var(--theme-text-primary)`,
+        }}
+      >
+        {/* Header with Sign In button */}
+        <header className="fixed top-0 left-0 right-0 z-50 border-b border-slate-700/50 bg-slate-800/30 backdrop-blur-sm">
+          <div className="container mx-auto px-4 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets%2Fd24fc98344b34135a3d7a6c5ab404264%2F974186563556499e8c2efb8ec9044c37?format=webp&width=800"
+                  alt="CreateGen Studio Logo"
+                  className="w-8 h-8 rounded-lg flex-shrink-0"
+                />
+                <div className="text-lg font-medium tracking-tight text-white">
+                  <span className="bg-gradient-to-r from-sky-400 to-purple-400 bg-clip-text text-transparent font-semibold">
+                    CreateGen
+                  </span>
+                  <span className="text-slate-300 ml-1">Studio</span>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-3">
+                {/* Developer Toggle Button */}
+                <button
+                  onClick={() => {
+                    if (!user) return;
+
+                    const currentPlan =
+                      billingInfo?.subscription?.planId || "free";
+
+                    // If user is not pro, show upgrade popup instead of toggling
+                    if (currentPlan === "free") {
+                      setShowUpgradePopup(true);
+                      return;
+                    }
+
+                    // For pro/enterprise users, continue with the developer toggle
+                    const plans = ["free", "pro", "enterprise"];
+                    const currentIndex = plans.indexOf(currentPlan);
+                    const nextIndex = (currentIndex + 1) % plans.length;
+                    const nextPlan = plans[nextIndex] as
+                      | "free"
+                      | "pro"
+                      | "enterprise";
+
+                    // Use the actual mock subscription service
+                    console.log(
+                      "🔧 Header toggle: switching from",
+                      currentPlan,
+                      "to",
+                      nextPlan,
+                    );
+
+                    if (nextPlan === "free") {
+                      mockSubscriptionService.resetToFree(user.uid);
+                    } else {
+                      mockSubscriptionService.simulateUpgrade(
+                        user.uid,
+                        nextPlan === "enterprise" ? "business" : nextPlan,
+                      );
+                    }
+
+                    // Force refresh billing info
+                    setTimeout(() => {
+                      refreshBilling();
+                    }, 100);
+                  }}
+                  className={`px-3 py-1.5 ${
+                    (billingInfo?.subscription?.planId || "free") === "free"
+                      ? "bg-gradient-to-r from-sky-600 to-purple-600 hover:from-sky-500 hover:to-purple-500"
+                      : "bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-500 hover:to-red-500"
+                  } text-white rounded-md text-xs font-medium transition-colors flex items-center space-x-1.5 border ${
+                    (billingInfo?.subscription?.planId || "free") === "free"
+                      ? "border-sky-500/30"
+                      : "border-orange-500/30"
+                  }`}
+                  title={
+                    (billingInfo?.subscription?.planId || "free") === "free"
+                      ? "Upgrade to Pro - Unlock premium features"
+                      : "Developer: Toggle Subscription Plan"
+                  }
+                >
+                  <span>
+                    {(billingInfo?.subscription?.planId || "free") === "free" ? "⭐" : "🔧"}
+                  </span>
+                  <span className="capitalize">
+                    {billingInfo?.subscription?.planId || "free"}
+                  </span>
+                </button>
+
+                <button
+                  onClick={handleSignInClick}
+                  className="px-4 py-2 bg-gradient-to-r from-sky-600 to-purple-600 hover:from-sky-500 hover:to-purple-500 text-white rounded-lg font-medium transition-colors flex items-center space-x-2"
+                >
+                  <UserCircleIcon className="h-4 w-4" />
+                  <span>Sign In</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* Enhanced Landing Page */}
+        <div className="pt-20">
+          <HeroSection
+            onSignInClick={handleSignInClick}
+            onStartCreating={handleStartCreating}
+          />
+          <TestimonialsSection />
+          <PricingPreview onSignInClick={handleSignInClick} />
+        </div>
+      </div>
+    );
+  }
+
+  if (showAuth) {
+    return (
+      <div className="relative">
+        <button
+          onClick={handleCloseAuth}
+          className="fixed top-6 right-6 z-50 w-10 h-10 bg-slate-800/80 hover:bg-slate-700/80 text-white rounded-full flex items-center justify-center transition-all backdrop-blur-sm border border-slate-600/50 hover:border-slate-500/70"
+        >
+          ✕
+        </button>
+        <PremiumAuth onAuthSuccess={handleCloseAuth} />
+      </div>
+    );
+  }
+
+  // Check for YouTube OAuth callback
+  if (window.location.pathname === '/youtube-callback') {
+    return <YouTubeCallback />;
+  }
+
+  // Check for YouTube OAuth test callback (fallback)
+  if (window.location.pathname === '/youtube-oauth-test') {
+    return <YouTubeOAuthTest />;
+  }
+
+  // Main app (authenticated or showAppDirectly mode)
+  return (
+    <div
+      className="min-h-screen relative"
+      style={{
+        background: `linear-gradient(to bottom right, var(--theme-bg-primary), var(--theme-bg-secondary))`,
+        color: `var(--theme-text-primary)`,
+      }}
+    >
+      {/* User menu overlay - simple approach (only for authenticated users) */}
+      {user && showUserMenu && (
+        <div
+          className="fixed inset-0"
+          style={{ zIndex: 99999 }}
+          onMouseDown={(e) => {
+            // Only close if clicking the overlay, not the menu
+            if (e.target === e.currentTarget) {
+              setShowUserMenu(false);
+            }
+          }}
+        >
+          {/* User menu */}
+          <div
+            className="absolute top-20 right-4 w-56 bg-slate-800 border border-slate-600 rounded-xl shadow-2xl"
+            style={{ pointerEvents: "auto" }}
+            onMouseDown={(e) => e.stopPropagation()}
+          >
+            <div className="p-4 border-b border-slate-700">
+              <div className="flex items-center space-x-3">
+                <div className="relative">
+                  <UserCircleIcon className="h-10 w-10 text-slate-300" />
+                  <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-gradient-to-r from-sky-400 to-purple-400 rounded-full ring-2 ring-slate-800 flex items-center justify-center">
+                    <div className="w-2 h-2 bg-white rounded-full"></div>
+                  </div>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-white">
+                    {user.displayName || "User"}
+                  </p>
+                  <p className="text-xs text-slate-400">{user.email}</p>
+                  <div className="flex items-center mt-1">
+                    <span
+                      className={`text-xs px-2 py-0.5 rounded-full ${
+                        (billingInfo?.subscription?.planId &&
+                          billingInfo.subscription.planId !== "free") ||
+                        billingInfo?.status === "active"
+                          ? "bg-gradient-to-r from-sky-500/20 to-purple-500/20 text-sky-400 border border-sky-400/30"
+                          : "bg-slate-700/50 text-slate-400 border border-slate-600/50"
+                      }`}
+                    >
+                      {billingInfo?.subscription?.planId &&
+                      billingInfo.subscription.planId !== "free"
+                        ? `${billingInfo.subscription.planId.charAt(0).toUpperCase() + billingInfo.subscription.planId.slice(1)} Account 🔧`
+                        : billingInfo?.status === "active"
+                          ? "Pro Account"
+                          : "Free Account"}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="p-2" style={{ pointerEvents: "auto" }}>
+              <button
+                onClick={() => {
+                  if (!user) return;
+
+                  const plans = ["free", "pro", "enterprise"];
+                  const currentPlan =
+                    billingInfo?.subscription?.planId || "free";
+                  const currentIndex = plans.indexOf(currentPlan);
+                  const nextIndex = (currentIndex + 1) % plans.length;
+                  const nextPlan = plans[nextIndex] as
+                    | "free"
+                    | "pro"
+                    | "enterprise";
+
+                  // Use the actual mock subscription service
+                  console.log(
+                    "�� Header toggle: switching from",
+                    currentPlan,
+                    "to",
+                    nextPlan,
+                  );
+
+                  if (nextPlan === "free") {
+                    mockSubscriptionService.resetToFree(user.uid);
+                  } else {
+                    mockSubscriptionService.simulateUpgrade(
+                      user.uid,
+                      nextPlan === "enterprise" ? "business" : nextPlan,
+                    );
+                  }
+
+                  // Force refresh billing info
+                  setTimeout(() => {
+                    refreshBilling();
+                  }, 100);
+                }}
+                className="px-3 py-1.5 bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-500 hover:to-red-500 text-white rounded-md text-xs font-medium transition-colors flex items-center space-x-1.5 border border-orange-500/30"
+                title="Developer: Toggle Subscription Plan"
+              >
+                <span>🔧</span>
+                <span className="capitalize">
+                  {billingInfo?.subscription?.planId || "free"}
+                </span>
+                {localStorage.getItem("dev_force_premium") === "true" && (
+                  <span className="bg-green-500 text-white px-1 rounded text-xs">
+                    OVERRIDE
+                  </span>
+                )}
+              </button>
+
+              <button
+                onClick={() => {
+                  console.log("Sign out clicked!");
+                  handleSignOut();
+                  setShowUserMenu(false);
+                }}
+                className="w-full text-left px-3 py-2.5 text-sm text-slate-300 hover:bg-red-600/20 hover:text-red-400 rounded-lg flex items-center space-x-3 cursor-pointer border-none bg-transparent"
+                style={{ pointerEvents: "auto" }}
+              >
+                <svg
+                  className="h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                  />
+                </svg>
+                <span>Sign Out</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Anonymous user menu overlay */}
+      {!user && showUserMenu && (
+        <div
+          className="fixed inset-0"
+          style={{ zIndex: 99999 }}
+          onMouseDown={(e) => {
+            // Only close if clicking the overlay, not the menu
+            if (e.target === e.currentTarget) {
+              setShowUserMenu(false);
+            }
+          }}
+        >
+          {/* Anonymous user menu */}
+          <div
+            className="absolute top-20 right-4 w-56 bg-slate-800 border border-slate-600 rounded-xl shadow-2xl"
+            style={{ pointerEvents: "auto" }}
+            onMouseDown={(e) => e.stopPropagation()}
+          >
+            <div className="p-4 border-b border-slate-700">
+              <div className="flex items-center space-x-3">
+                <div className="relative">
+                  <UserCircleIcon className="h-10 w-10 text-slate-300" />
+                  <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-gradient-to-r from-green-400 to-blue-400 rounded-full ring-2 ring-slate-800 flex items-center justify-center">
+                    <div className="w-2 h-2 bg-white rounded-full"></div>
+                  </div>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-white">Guest User</p>
+                  <p className="text-xs text-slate-400">Anonymous</p>
+                  <div className="flex items-center mt-1">
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 border border-green-400/30">
+                      Free Trial
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="p-2" style={{ pointerEvents: "auto" }}>
+              <button
+                onClick={() => {
+                  console.log("Sign in clicked for anonymous user!");
+                  setShowAuth(true);
+                  setShowUserMenu(false);
+                }}
+                className="w-full text-left px-3 py-2.5 text-sm text-slate-300 hover:bg-green-600/20 hover:text-green-400 rounded-lg flex items-center space-x-3 cursor-pointer border-none bg-transparent"
+                style={{ pointerEvents: "auto" }}
+              >
+                <svg
+                  className="h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                  />
+                </svg>
+                <span>Sign In</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Main app content */}
+      {currentPage === "billing" ? (
+        <div className="pt-20">
+          <div className="container mx-auto px-4 py-4">
+            <button
+              onClick={() => setCurrentPage("app")}
+              className="group relative inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-slate-800/80 to-slate-700/80 hover:from-slate-700/90 hover:to-slate-600/90 backdrop-blur-xl border border-slate-600/50 hover:border-slate-500/70 rounded-xl text-white hover:text-sky-300 transition-all duration-300 mb-6 shadow-lg hover:shadow-xl transform hover:scale-105"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-sky-600/10 to-blue-600/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <svg
+                className="relative w-5 h-5 text-sky-400 group-hover:text-sky-300 transition-colors"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+              <span className="relative font-medium">Back to App</span>
+            </button>
+          </div>
+          <BillingPage />
+        </div>
+      ) : currentPage === "account" ? (
+        <div className="pt-20">
+          <div className="container mx-auto px-4 py-4">
+            <button
+              onClick={() => setCurrentPage("app")}
+              className="group relative inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-slate-800/80 to-slate-700/80 hover:from-slate-700/90 hover:to-slate-600/90 backdrop-blur-xl border border-slate-600/50 hover:border-slate-500/70 rounded-xl text-white hover:text-sky-300 transition-all duration-300 mb-6 shadow-lg hover:shadow-xl transform hover:scale-105"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-sky-600/10 to-blue-600/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <svg
+                className="relative w-5 h-5 text-sky-400 group-hover:text-sky-300 transition-colors"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+              <span className="relative font-medium">Back to App</span>
+            </button>
+          </div>
+          <AccountPage onNavigateToBilling={() => setCurrentPage("billing")} />
+        </div>
+      ) : (
+        <MainApp
+          onSignInRequired={() => {
+            console.log("onSignInRequired called for anonymous user");
+            setShowFreeCreditsPopup(true);
+          }}
+          onShowAuth={() => {
+            console.log("onShowAuth called - showing auth modal directly");
+            setShowAuth(true);
+          }}
+          onNavigateToBilling={() => setCurrentPage("billing")}
+          onNavigateToAccount={() => setCurrentPage("account")}
+        />
+      )}
+
+      {/* Developer Tools - Only visible in development */}
+      <DevOnboardingControls />
+
+      {/* Feedback Widget - Always visible */}
+      <FeedbackWidget />
+
+      {/* Floating Theme Panel - Always accessible */}
+      <FloatingThemePanel />
+
+      {/* Free Credits Popup for anonymous users */}
+      <FreeCreditsPopup
+        isOpen={showFreeCreditsPopup}
+        onClose={() => setShowFreeCreditsPopup(false)}
+        onSignUp={() => {
+          setShowFreeCreditsPopup(false);
+          setShowAuth(true);
+        }}
+      />
+
+      {/* Upgrade Popup for non-pro users */}
+      {showUpgradePopup && (
+        <SmartUpgradePrompt
+          trigger="premium_feature"
+          onUpgrade={() => {
+            setShowUpgradePopup(false);
+            setCurrentPage("billing");
+            // Scroll to plans section
+            setTimeout(() => {
+              const plansSection = document.getElementById('plans-section');
+              if (plansSection) {
+                plansSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }, 100);
+          }}
+          onDismiss={() => setShowUpgradePopup(false)}
+        />
+      )}
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <AuthProvider>
+        <SubscriptionProvider>
+          <CreditProvider>
+            <OnboardingProvider>
+              <OnboardingManager>
+                <AppContent />
+              </OnboardingManager>
+            </OnboardingProvider>
+          </CreditProvider>
+        </SubscriptionProvider>
+      </AuthProvider>
+    </ThemeProvider>
+  );
+}

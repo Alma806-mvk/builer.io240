@@ -1,0 +1,447 @@
+/* Modals, Overlays, and Special UI Elements - Light Mode Enhancements */
+
+[data-theme="light"] {
+  /* ============================================
+     MODAL IMPROVEMENTS
+  ============================================ */
+
+  /* Modal backdrop */
+  .modal-backdrop,
+  .bg-black\\/50,
+  .bg-slate-900\\/80,
+  .bg-gray-900\\/80,
+  .fixed.inset-0.bg-black {
+    background: rgba(15, 23, 42, 0.4) !important;
+    backdrop-filter: blur(12px) !important;
+    transition: all 0.3s ease !important;
+  }
+
+  /* Modal container */
+  .modal-container {
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 20px !important;
+    box-shadow: 
+      0 25px 50px -12px rgba(0, 0, 0, 0.15),
+      0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(20px) !important;
+    transform: translateY(0) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  /* Modal header */
+  .modal-header {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+    border-radius: 18px 18px 0 0 !important;
+    padding: 24px !important;
+  }
+
+  /* Modal body */
+  .modal-body {
+    background: #ffffff !important;
+    padding: 24px !important;
+  }
+
+  /* Modal footer */
+  .modal-footer {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+    border-top: 2px solid #e2e8f0 !important;
+    border-radius: 0 0 18px 18px !important;
+    padding: 20px 24px !important;
+  }
+
+  /* Modal close button */
+  .modal-close {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 50% !important;
+    width: 36px !important;
+    height: 36px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s ease !important;
+    color: #64748b !important;
+  }
+
+  .modal-close:hover {
+    background: #ffffff !important;
+    border-color: #dc2626 !important;
+    color: #dc2626 !important;
+    transform: scale(1.1) !important;
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.2) !important;
+  }
+
+  /* ============================================
+     DROPDOWN & MENU OVERLAYS
+  ============================================ */
+
+  /* Dropdown menu */
+  .dropdown-menu,
+  .menu-overlay {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    box-shadow: 
+      0 20px 25px -5px rgba(0, 0, 0, 0.1),
+      0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+    backdrop-filter: blur(20px) !important;
+    padding: 8px !important;
+  }
+
+  /* Menu items */
+  .menu-item,
+  .dropdown-item {
+    color: #334155 !important;
+    border-radius: 10px !important;
+    padding: 12px 16px !important;
+    margin: 2px 0 !important;
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+  }
+
+  .menu-item:hover,
+  .dropdown-item:hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    color: #0f172a !important;
+    transform: translateX(4px) !important;
+    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.1) !important;
+  }
+
+  .menu-item.active {
+    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3) !important;
+  }
+
+  /* Menu dividers */
+  .menu-divider {
+    height: 1px !important;
+    background: #f1f5f9 !important;
+    margin: 8px 0 !important;
+  }
+
+  /* ============================================
+     NOTIFICATION & TOAST OVERLAYS
+  ============================================ */
+
+  /* Toast container */
+  .toast-container {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    z-index: 9999 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+
+  /* Toast notifications */
+  .toast {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 16px 20px !important;
+    min-width: 300px !important;
+    box-shadow: 
+      0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+    backdrop-filter: blur(20px) !important;
+    transform: translateX(100%) !important;
+    animation: slideInRight 0.3s ease-out forwards !important;
+  }
+
+  .toast.success {
+    border-left: 4px solid #059669 !important;
+    background: linear-gradient(135deg, rgba(240, 253, 244, 0.95) 0%, rgba(255, 255, 255, 0.95) 100%) !important;
+  }
+
+  .toast.error {
+    border-left: 4px solid #dc2626 !important;
+    background: linear-gradient(135deg, rgba(254, 242, 242, 0.95) 0%, rgba(255, 255, 255, 0.95) 100%) !important;
+  }
+
+  .toast.warning {
+    border-left: 4px solid #d97706 !important;
+    background: linear-gradient(135deg, rgba(255, 251, 235, 0.95) 0%, rgba(255, 255, 255, 0.95) 100%) !important;
+  }
+
+  .toast.info {
+    border-left: 4px solid #0284c7 !important;
+    background: linear-gradient(135deg, rgba(239, 246, 255, 0.95) 0%, rgba(255, 255, 255, 0.95) 100%) !important;
+  }
+
+  @keyframes slideInRight {
+    0% { transform: translateX(100%); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+  }
+
+  /* ============================================
+     SIDEBAR & PANEL OVERLAYS
+  ============================================ */
+
+  /* Sliding sidebar */
+  .sidebar-overlay {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-right: 2px solid #e2e8f0 !important;
+    box-shadow: 
+      4px 0 25px rgba(0, 0, 0, 0.1),
+      inset -1px 0 0 rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(20px) !important;
+  }
+
+  /* Panel overlays */
+  .panel-overlay {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    box-shadow: 
+      0 20px 25px -5px rgba(0, 0, 0, 0.1),
+      0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+    backdrop-filter: blur(20px) !important;
+  }
+
+  /* ============================================
+     LOADING & SKELETON OVERLAYS
+  ============================================ */
+
+  /* Loading overlay */
+  .loading-overlay {
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(8px) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* Loading spinner enhanced */
+  .loading-spinner-enhanced {
+    width: 48px !important;
+    height: 48px !important;
+    border: 4px solid #f1f5f9 !important;
+    border-top: 4px solid #0ea5e9 !important;
+    border-radius: 50% !important;
+    animation: spin 1s linear infinite !important;
+    box-shadow: 0 0 20px rgba(14, 165, 233, 0.3) !important;
+  }
+
+  /* Skeleton loading elements */
+  .skeleton {
+    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%) !important;
+    background-size: 200% 100% !important;
+    animation: shimmer 2s infinite !important;
+    border-radius: 8px !important;
+  }
+
+  .skeleton.text {
+    height: 16px !important;
+    margin: 8px 0 !important;
+  }
+
+  .skeleton.title {
+    height: 24px !important;
+    width: 60% !important;
+    margin: 12px 0 !important;
+  }
+
+  .skeleton.avatar {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 50% !important;
+  }
+
+  .skeleton.card {
+    height: 200px !important;
+    border-radius: 12px !important;
+  }
+
+  /* ============================================
+     CONTEXT MENUS
+  ============================================ */
+
+  /* Right-click context menu */
+  .context-menu {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    box-shadow: 
+      0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+    backdrop-filter: blur(20px) !important;
+    padding: 6px !important;
+    min-width: 180px !important;
+  }
+
+  .context-menu-item {
+    padding: 10px 14px !important;
+    border-radius: 6px !important;
+    color: #334155 !important;
+    transition: all 0.15s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    font-size: 14px !important;
+  }
+
+  .context-menu-item:hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    color: #0f172a !important;
+    transform: translateX(2px) !important;
+  }
+
+  .context-menu-item.danger:hover {
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%) !important;
+    color: #dc2626 !important;
+  }
+
+  /* ============================================
+     POPOVER & TOOLTIP ENHANCEMENTS
+  ============================================ */
+
+  /* Enhanced tooltips */
+  .tooltip-enhanced {
+    background: rgba(15, 23, 42, 0.95) !important;
+    color: #ffffff !important;
+    border: 1px solid #334155 !important;
+    border-radius: 8px !important;
+    padding: 8px 12px !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+    backdrop-filter: blur(10px) !important;
+    max-width: 200px !important;
+    text-align: center !important;
+    z-index: 9999 !important;
+  }
+
+  /* Popover enhanced */
+  .popover-enhanced {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    box-shadow: 
+      0 20px 25px -5px rgba(0, 0, 0, 0.1),
+      0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+    backdrop-filter: blur(20px) !important;
+    padding: 20px !important;
+    max-width: 320px !important;
+  }
+
+  .popover-arrow {
+    fill: #ffffff !important;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1)) !important;
+  }
+
+  /* ============================================
+     SEARCH & FILTER OVERLAYS
+  ============================================ */
+
+  /* Search overlay */
+  .search-overlay {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    box-shadow: 
+      0 20px 25px -5px rgba(0, 0, 0, 0.1),
+      0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+    backdrop-filter: blur(20px) !important;
+  }
+
+  /* Search results */
+  .search-result {
+    padding: 12px 16px !important;
+    border-radius: 8px !important;
+    margin: 4px 0 !important;
+    transition: all 0.15s ease !important;
+    color: #334155 !important;
+  }
+
+  .search-result:hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    color: #0f172a !important;
+    transform: translateX(4px) !important;
+  }
+
+  .search-result.selected {
+    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%) !important;
+    color: #ffffff !important;
+  }
+
+  /* ============================================
+     SPECIAL EFFECTS & ANIMATIONS
+  ============================================ */
+
+  /* Fade in animation */
+  .fade-in {
+    animation: fadeIn 0.3s ease-out !important;
+  }
+
+  @keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Scale in animation */
+  .scale-in {
+    animation: scaleIn 0.2s ease-out !important;
+  }
+
+  @keyframes scaleIn {
+    0% { opacity: 0; transform: scale(0.95); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+
+  /* Slide up animation */
+  .slide-up {
+    animation: slideUp 0.3s ease-out !important;
+  }
+
+  @keyframes slideUp {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ============================================
+     RESPONSIVE OVERLAY IMPROVEMENTS
+  ============================================ */
+
+  @media (max-width: 768px) {
+    /* Mobile modal adjustments */
+    .modal-container {
+      margin: 16px !important;
+      border-radius: 16px !important;
+      max-height: calc(100vh - 32px) !important;
+      overflow-y: auto !important;
+    }
+
+    /* Mobile toast adjustments */
+    .toast-container {
+      top: 16px !important;
+      right: 16px !important;
+      left: 16px !important;
+    }
+
+    .toast {
+      min-width: auto !important;
+      width: 100% !important;
+    }
+
+    /* Mobile sidebar adjustments */
+    .sidebar-overlay {
+      width: 100% !important;
+      max-width: 320px !important;
+    }
+
+    /* Mobile context menu */
+    .context-menu {
+      position: fixed !important;
+      bottom: 20px !important;
+      left: 20px !important;
+      right: 20px !important;
+      border-radius: 16px !important;
+    }
+  }
+}

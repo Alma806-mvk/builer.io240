@@ -1,0 +1,345 @@
+/* Timeline Wizard Specific Styles */
+
+/* Enhanced timeline animations */
+.timeline-step {
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.timeline-step::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.3), transparent);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+  z-index: -1;
+}
+
+.timeline-step.active::before {
+  width: 80px;
+  height: 80px;
+}
+
+.timeline-step.completed::before {
+  width: 70px;
+  height: 70px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.2), transparent);
+}
+
+/* Step content animations */
+.step-content {
+  animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Enhanced form controls for wizard */
+.wizard-input {
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(100, 116, 139, 0.4);
+  border-radius: 12px;
+  padding: 16px;
+  color: #f1f5f9;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+}
+
+.wizard-input:focus {
+  outline: none;
+  border-color: rgba(59, 130, 246, 0.6);
+  box-shadow: 
+    0 0 0 3px rgba(59, 130, 246, 0.15),
+    0 8px 24px rgba(59, 130, 246, 0.25);
+  background: rgba(30, 41, 59, 0.8);
+  transform: translateY(-1px);
+}
+
+.wizard-input::placeholder {
+  color: rgba(148, 163, 184, 0.7);
+}
+
+/* Platform selection cards */
+.platform-card {
+  background: rgba(30, 41, 59, 0.4);
+  backdrop-filter: blur(12px);
+  border: 2px solid rgba(100, 116, 139, 0.3);
+  border-radius: 16px;
+  padding: 20px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.platform-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.platform-card:hover::before {
+  opacity: 1;
+}
+
+.platform-card:hover {
+  border-color: rgba(59, 130, 246, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.2);
+}
+
+.platform-card.selected {
+  border-color: rgba(59, 130, 246, 0.8);
+  background: rgba(59, 130, 246, 0.1);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+}
+
+.platform-card.selected::before {
+  opacity: 1;
+}
+
+/* Content type selector */
+.content-type-select {
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(100, 116, 139, 0.4);
+  border-radius: 12px;
+  padding: 16px;
+  color: #f1f5f9;
+  font-size: 18px;
+  width: 100%;
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 16px center;
+  background-repeat: no-repeat;
+  background-size: 16px;
+  padding-right: 48px;
+}
+
+.content-type-select:focus {
+  outline: none;
+  border-color: rgba(59, 130, 246, 0.6);
+  box-shadow: 
+    0 0 0 3px rgba(59, 130, 246, 0.15),
+    0 8px 24px rgba(59, 130, 246, 0.25);
+  background: rgba(30, 41, 59, 0.8);
+}
+
+/* Progress indicator */
+.progress-indicator {
+  height: 2px;
+  background: rgba(100, 116, 139, 0.3);
+  border-radius: 1px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+  border-radius: 1px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 8px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5));
+  animation: shimmer 2s infinite;
+}
+
+/* Tips section */
+.tips-card {
+  background: rgba(30, 41, 59, 0.4);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(100, 116, 139, 0.3);
+  border-radius: 16px;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.tips-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(34, 197, 94, 0.05));
+  opacity: 0.5;
+  z-index: -1;
+}
+
+/* Navigation buttons */
+.nav-button {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.nav-button:hover::before {
+  left: 100%;
+}
+
+.nav-button:hover {
+  transform: translateY(-1px);
+}
+
+.nav-button:active {
+  transform: translateY(0);
+}
+
+/* Generate button special effects */
+.generate-button {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  box-shadow: 
+    0 8px 24px rgba(59, 130, 246, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.generate-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.6s ease;
+}
+
+.generate-button:hover::before {
+  left: 100%;
+}
+
+.generate-button:hover {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  box-shadow: 
+    0 12px 32px rgba(59, 130, 246, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Loading animation for generate button */
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Step indicator dots */
+.step-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 20px 0;
+}
+
+.step-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(100, 116, 139, 0.5);
+  transition: all 0.3s ease;
+}
+
+.step-dot.active {
+  background: #3b82f6;
+  transform: scale(1.5);
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.5);
+}
+
+.step-dot.completed {
+  background: #10b981;
+  transform: scale(1.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .platform-card {
+    padding: 16px;
+  }
+  
+  .wizard-input {
+    padding: 12px;
+    font-size: 16px;
+  }
+  
+  .content-type-select {
+    padding: 12px;
+    font-size: 16px;
+  }
+  
+  .tips-card {
+    padding: 16px;
+  }
+}
+
+/* Dark mode enhancements */
+@media (prefers-color-scheme: dark) {
+  .wizard-input {
+    background: rgba(15, 23, 42, 0.8);
+    border-color: rgba(100, 116, 139, 0.5);
+  }
+  
+  .platform-card {
+    background: rgba(15, 23, 42, 0.6);
+    border-color: rgba(100, 116, 139, 0.4);
+  }
+  
+  .content-type-select {
+    background: rgba(15, 23, 42, 0.8);
+    border-color: rgba(100, 116, 139, 0.5);
+  }
+}

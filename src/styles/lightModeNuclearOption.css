@@ -1,0 +1,442 @@
+/* ============================================================================
+   CREATEGEN STUDIO - NUCLEAR OPTION LIGHT MODE OVERRIDES
+   Absolute final catch-all for any remaining dark elements
+   ============================================================================ */
+
+/* Maximum specificity overrides using CSS cascade layers */
+@layer light-mode-nuclear {
+  
+  html[data-theme="light"] {
+    
+    /* ============================================
+       ABSOLUTE BACKGROUND OVERRIDES
+    ============================================ */
+    
+    /* Target every possible element with dark backgrounds */
+    *, *::before, *::after {
+      /* Only override if element has a dark slate background */
+      &[class*="bg-slate-9"] {
+        background-color: #ffffff !important;
+        background: #ffffff !important;
+      }
+      
+      &[class*="bg-slate-8"] {
+        background-color: #f8fafc !important;
+        background: #f8fafc !important;
+      }
+      
+      &[class*="bg-slate-7"] {
+        background-color: #f1f5f9 !important;
+        background: #f1f5f9 !important;
+      }
+      
+      &[class*="bg-gray-9"] {
+        background-color: #ffffff !important;
+        background: #ffffff !important;
+      }
+      
+      &[class*="bg-gray-8"] {
+        background-color: #f8fafc !important;
+        background: #f8fafc !important;
+      }
+    }
+    
+    /* ============================================
+       ABSOLUTE TEXT COLOR OVERRIDES
+    ============================================ */
+    
+    /* Target every possible element with light text */
+    *, *::before, *::after {
+      &[class*="text-white"] {
+        color: #0f172a !important;
+      }
+      
+      &[class*="text-slate-1"],
+      &[class*="text-slate-2"],
+      &[class*="text-slate-3"] {
+        color: #334155 !important;
+      }
+      
+      &[class*="text-slate-4"],
+      &[class*="text-slate-5"] {
+        color: #64748b !important;
+      }
+      
+      &[class*="text-gray-1"],
+      &[class*="text-gray-2"],
+      &[class*="text-gray-3"],
+      &[class*="text-gray-4"] {
+        color: #334155 !important;
+      }
+    }
+    
+    /* ============================================
+       ELEMENT TYPE TARGETING
+    ============================================ */
+    
+    /* All header elements */
+    header,
+    .header,
+    [role="banner"] {
+      background: rgba(255, 255, 255, 0.95) !important;
+      color: #0f172a !important;
+      border-color: #e2e8f0 !important;
+      backdrop-filter: blur(20px) !important;
+    }
+    
+    /* All navigation elements */
+    nav,
+    .nav,
+    .navigation,
+    [role="navigation"] {
+      background: rgba(255, 255, 255, 0.95) !important;
+      color: #0f172a !important;
+      border-color: #e2e8f0 !important;
+    }
+    
+    /* All sidebar elements */
+    aside,
+    .sidebar,
+    .side-nav,
+    [role="complementary"] {
+      background: rgba(255, 255, 255, 0.95) !important;
+      color: #0f172a !important;
+      border-color: #e2e8f0 !important;
+      backdrop-filter: blur(20px) !important;
+    }
+    
+    /* All main content areas */
+    main,
+    .main,
+    .content,
+    [role="main"] {
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%) !important;
+      color: #0f172a !important;
+    }
+    
+    /* All sections and articles */
+    section,
+    article,
+    .section,
+    .article {
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+      color: #0f172a !important;
+      border-color: #e2e8f0 !important;
+    }
+    
+    /* All containers and wrappers */
+    .container,
+    .wrapper,
+    .content-wrapper,
+    .page-wrapper {
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+      color: #0f172a !important;
+    }
+    
+    /* ============================================
+       COMPONENT SPECIFIC NUCLEAR OVERRIDES
+    ============================================ */
+    
+    /* All button elements */
+    button:not([class*="bg-blue"]):not([class*="bg-green"]):not([class*="bg-red"]):not([class*="bg-purple"]):not([class*="bg-yellow"]),
+    .btn:not([class*="bg-blue"]):not([class*="bg-green"]):not([class*="bg-red"]):not([class*="bg-purple"]):not([class*="bg-yellow"]),
+    [role="button"]:not([class*="bg-blue"]):not([class*="bg-green"]):not([class*="bg-red"]):not([class*="bg-purple"]):not([class*="bg-yellow"]) {
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+      color: #334155 !important;
+      border: 2px solid #e2e8f0 !important;
+      border-radius: 12px !important;
+      
+      &:hover {
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+        border-color: #0ea5e9 !important;
+        color: #0f172a !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 4px 15px rgba(14, 165, 233, 0.15) !important;
+      }
+    }
+    
+    /* All form elements */
+    input,
+    textarea,
+    select,
+    .form-control,
+    .input,
+    [role="textbox"],
+    [role="combobox"] {
+      background: #ffffff !important;
+      color: #0f172a !important;
+      border: 2px solid #e2e8f0 !important;
+      border-radius: 12px !important;
+      
+      &:focus {
+        border-color: #0ea5e9 !important;
+        box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1) !important;
+        outline: none !important;
+      }
+      
+      &::placeholder {
+        color: #94a3b8 !important;
+        opacity: 0.8 !important;
+      }
+    }
+    
+    /* All card elements */
+    .card,
+    .panel,
+    .widget,
+    .component {
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+      color: #0f172a !important;
+      border: 2px solid #e2e8f0 !important;
+      border-radius: 16px !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+      
+      &:hover {
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+        border-color: #0ea5e9 !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 25px rgba(14, 165, 233, 0.15) !important;
+      }
+    }
+    
+    /* All modal and dialog elements */
+    .modal,
+    .dialog,
+    .popup,
+    .overlay,
+    [role="dialog"],
+    [role="alertdialog"] {
+      &[class*="bg-slate"],
+      &[class*="bg-gray"] {
+        background: #ffffff !important;
+        color: #0f172a !important;
+        border: 2px solid #e2e8f0 !important;
+        border-radius: 20px !important;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+      }
+    }
+    
+    /* ============================================
+       LAYOUT ELEMENT NUCLEAR OVERRIDES
+    ============================================ */
+    
+    /* Grid and flex containers */
+    .grid,
+    .flex,
+    .d-flex,
+    .grid-container,
+    .flex-container {
+      &[class*="bg-slate"],
+      &[class*="bg-gray"] {
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+        color: #0f172a !important;
+      }
+    }
+    
+    /* List elements */
+    ul,
+    ol,
+    li,
+    .list,
+    .list-item {
+      &[class*="bg-slate"],
+      &[class*="bg-gray"] {
+        background: #ffffff !important;
+        color: #0f172a !important;
+        border-color: #e2e8f0 !important;
+      }
+    }
+    
+    /* Table elements */
+    table,
+    thead,
+    tbody,
+    tr,
+    td,
+    th,
+    .table,
+    .table-row,
+    .table-cell {
+      &[class*="bg-slate"],
+      &[class*="bg-gray"] {
+        background: #ffffff !important;
+        color: #0f172a !important;
+        border-color: #e2e8f0 !important;
+      }
+    }
+    
+    /* ============================================
+       SVG AND ICON NUCLEAR OVERRIDES
+    ============================================ */
+    
+    /* All SVG and icon elements */
+    svg:not([class*="keep-original"]),
+    .icon:not([class*="keep-original"]),
+    [class*="icon"]:not([class*="keep-original"]) {
+      filter: brightness(0) saturate(100%) invert(20%) sepia(8%) saturate(1200%) hue-rotate(200deg) brightness(95%) contrast(95%) !important;
+      
+      /* But keep active/selected icons white */
+      .active &,
+      .selected &,
+      [aria-selected="true"] &,
+      [aria-current="page"] &,
+      .border-sky-400 & {
+        filter: brightness(0) saturate(100%) invert(100%) !important;
+      }
+    }
+    
+    /* ============================================
+       UTILITY CLASS NUCLEAR OVERRIDES
+    ============================================ */
+    
+    /* Backdrop blur elements */
+    .backdrop-blur-sm,
+    .backdrop-blur-md,
+    .backdrop-blur-lg,
+    .backdrop-blur-xl {
+      background: rgba(255, 255, 255, 0.9) !important;
+      border: 1px solid #e2e8f0 !important;
+      backdrop-filter: blur(20px) !important;
+    }
+    
+    /* Shadow elements */
+    .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important; }
+    .shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important; }
+    .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important; }
+    .shadow-xl { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important; }
+    .shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15) !important; }
+    
+    /* Border radius elements */
+    .rounded-sm { border-radius: 4px !important; }
+    .rounded-md { border-radius: 8px !important; }
+    .rounded-lg { border-radius: 12px !important; }
+    .rounded-xl { border-radius: 16px !important; }
+    .rounded-2xl { border-radius: 20px !important; }
+    .rounded-3xl { border-radius: 24px !important; }
+    
+    /* ============================================
+       RESPONSIVE NUCLEAR OVERRIDES
+    ============================================ */
+    
+    @media (max-width: 768px) {
+      /* Mobile nuclear overrides */
+      * {
+        &[class*="bg-slate"],
+        &[class*="bg-gray"] {
+          background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+          color: #0f172a !important;
+          border-color: #e2e8f0 !important;
+        }
+      }
+      
+      /* Mobile navigation */
+      .mobile-nav,
+      .mobile-menu,
+      .hamburger-menu {
+        background: rgba(255, 255, 255, 0.95) !important;
+        color: #0f172a !important;
+        backdrop-filter: blur(20px) !important;
+      }
+    }
+    
+    /* ============================================
+       ANIMATION AND TRANSITION SUPPORT
+    ============================================ */
+    
+    /* Ensure smooth transitions for all nuclear overrides */
+    * {
+      transition-property: background-color, color, border-color, box-shadow, transform !important;
+      transition-duration: 0.2s !important;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+    
+    /* ============================================
+       EMERGENCY INLINE STYLE OVERRIDES
+    ============================================ */
+    
+    /* Target any remaining inline styles with specific RGB values */
+    [style*="background-color: rgb(15"],
+    [style*="background-color: rgb(30"],
+    [style*="background-color: rgb(51"],
+    [style*="background-color: rgb(71"],
+    [style*="background: rgb(15"],
+    [style*="background: rgb(30"],
+    [style*="background: rgb(51"],
+    [style*="background: rgb(71"] {
+      background-color: #ffffff !important;
+      background: #ffffff !important;
+    }
+    
+    [style*="color: rgb(248"],
+    [style*="color: rgb(203"],
+    [style*="color: rgb(148"],
+    [style*="color: rgb(100"],
+    [style*="color: rgb(255"] {
+      color: #0f172a !important;
+    }
+    
+    /* ============================================
+       ACCESSIBILITY NUCLEAR OVERRIDES
+    ============================================ */
+    
+    /* High contrast mode */
+    @media (prefers-contrast: high) {
+      * {
+        &[class*="bg-slate"],
+        &[class*="bg-gray"] {
+          background: #ffffff !important;
+          color: #000000 !important;
+          border: 3px solid #000000 !important;
+          font-weight: 600 !important;
+        }
+      }
+    }
+    
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        transition: none !important;
+        animation: none !important;
+        transform: none !important;
+      }
+    }
+  }
+}
+
+/* ============================================
+   FINAL FALLBACK OVERRIDES
+============================================ */
+
+/* If cascade layers aren't supported, use ultra-high specificity */
+html[data-theme="light"] body div div div div {
+  &[class*="bg-slate-9"] {
+    background: #ffffff !important;
+  }
+  
+  &[class*="bg-slate-8"] {
+    background: #f8fafc !important;
+  }
+  
+  &[class*="text-white"] {
+    color: #0f172a !important;
+  }
+  
+  &[class*="text-slate-"] {
+    color: #334155 !important;
+  }
+}
+
+/* CSS Variables override for any remaining CSS custom properties */
+html[data-theme="light"] {
+  --tw-bg-slate-950: 255 255 255 !important;
+  --tw-bg-slate-900: 248 250 252 !important;
+  --tw-bg-slate-800: 241 245 249 !important;
+  --tw-bg-slate-700: 226 232 240 !important;
+  --tw-text-slate-100: 15 23 42 !important;
+  --tw-text-slate-200: 51 65 85 !important;
+  --tw-text-slate-300: 51 65 85 !important;
+  --tw-text-slate-400: 100 116 139 !important;
+  --tw-text-white: 15 23 42 !important;
+  --tw-border-slate-700: 226 232 240 !important;
+  --tw-border-slate-600: 226 232 240 !important;
+}

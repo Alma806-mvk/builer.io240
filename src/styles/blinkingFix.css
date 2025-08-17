@@ -1,0 +1,47 @@
+/* Fix for blinking issue in Studio Hub */
+
+/* Disable animations and transitions that cause blinking on interactions */
+.studio-hub-container * {
+  /* Override framer-motion animations that cause blinking */
+  animation: none !important;
+}
+
+/* Specific override for motion components that are causing issues */
+.studio-hub-container [data-framer-name],
+.studio-hub-container [style*="transform"],
+.studio-hub-container [style*="opacity"] {
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Keep only essential hover effects with minimal transitions */
+.studio-hub-container button:hover,
+.studio-hub-container .card:hover {
+  transition: background-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+/* Disable motion on scroll to prevent blinking during scroll */
+.studio-hub-container {
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* Prevent layout shifts that cause blinking */
+.studio-hub-container > * {
+  contain: layout style paint !important;
+}
+
+/* Add performance optimizations */
+.studio-hub-container {
+  contain: strict;
+  content-visibility: auto;
+}
+
+/* Force GPU acceleration for better performance without blinking */
+.studio-hub-container .quick-launch,
+.studio-hub-container .project-card,
+.studio-hub-container .activity-item {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}

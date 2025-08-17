@@ -1,0 +1,479 @@
+/* ============================================================================
+   CREATEGEN STUDIO - SPECIFIC COMPONENT LIGHT MODE OVERRIDES
+   Targeted fixes for specific components shown in the images
+   ============================================================================ */
+
+[data-theme="light"] {
+  
+  /* ============================================
+     AI CONTENT GENERATOR FIXES
+  ============================================ */
+
+  /* Main generator container background */
+  .ai-content-generator {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    color: #0f172a !important;
+  }
+
+  /* Generator header and title */
+  .ai-content-generator h1,
+  .ai-content-generator h2,
+  .ai-content-generator .title {
+    color: #0f172a !important;
+  }
+
+  /* Generator configuration sections */
+  .generator-config-section {
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+  }
+
+  /* Platform selection buttons */
+  .platform-selector button {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    color: #334155 !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+  }
+
+  .platform-selector button.selected,
+  .platform-selector button.active {
+    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%) !important;
+    color: #ffffff !important;
+    border-color: #0ea5e9 !important;
+  }
+
+  /* Content type selection */
+  .content-type-selector {
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+  }
+
+  /* Quick start section */
+  .quick-start-section {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 24px !important;
+  }
+
+  .quick-start-item {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 16px !important;
+    transition: all 0.3s ease !important;
+  }
+
+  .quick-start-item:hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    border-color: #0ea5e9 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(14, 165, 233, 0.15) !important;
+  }
+
+  /* ============================================
+     CONTENT CALENDAR FIXES
+  ============================================ */
+
+  /* Calendar header */
+  .calendar-header {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+    backdrop-filter: blur(20px) !important;
+  }
+
+  /* Calendar navigation */
+  .calendar-nav button {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    color: #334155 !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+  }
+
+  .calendar-nav button:hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    border-color: #0ea5e9 !important;
+  }
+
+  /* Calendar grid container */
+  .calendar-grid {
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+  }
+
+  /* Calendar day headers */
+  .calendar-day-header {
+    background: #f8fafc !important;
+    color: #334155 !important;
+    font-weight: 600 !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+  }
+
+  /* Calendar day cells */
+  .calendar-day-cell {
+    background: #ffffff !important;
+    border: 1px solid #f1f5f9 !important;
+    color: #0f172a !important;
+    min-height: 120px !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .calendar-day-cell:hover {
+    background: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+  }
+
+  .calendar-day-cell.other-month {
+    background: #f8fafc !important;
+    color: #94a3b8 !important;
+  }
+
+  .calendar-day-cell.today {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%) !important;
+    border-color: #3b82f6 !important;
+    color: #1e40af !important;
+    font-weight: 600 !important;
+  }
+
+  /* Calendar events */
+  .calendar-event {
+    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%) !important;
+    color: #ffffff !important;
+    border-radius: 6px !important;
+    padding: 4px 8px !important;
+    margin: 2px 0 !important;
+    font-size: 12px !important;
+  }
+
+  /* ============================================
+     STRATEGY PLANNER FIXES
+  ============================================ */
+
+  /* Strategy header and controls */
+  .strategy-header {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+    backdrop-filter: blur(20px) !important;
+  }
+
+  /* Strategic goals containers */
+  .strategic-goals-container {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 24px !important;
+  }
+
+  /* Individual goal items */
+  .strategic-goal-item {
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 20px !important;
+    margin-bottom: 16px !important;
+    transition: all 0.3s ease !important;
+  }
+
+  .strategic-goal-item:hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    border-color: #0ea5e9 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(14, 165, 233, 0.15) !important;
+  }
+
+  /* Progress bars in strategy planner */
+  .strategy-progress-bar {
+    background: #e2e8f0 !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+  }
+
+  .strategy-progress-fill {
+    background: linear-gradient(90deg, #0ea5e9 0%, #3b82f6 100%) !important;
+    height: 8px !important;
+    border-radius: 8px !important;
+    transition: width 0.3s ease !important;
+  }
+
+  /* Strategy tabs */
+  .strategy-tabs {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 8px !important;
+    backdrop-filter: blur(10px) !important;
+  }
+
+  .strategy-tabs button {
+    background: transparent !important;
+    color: #64748b !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 12px 24px !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .strategy-tabs button:hover {
+    background: #f8fafc !important;
+    color: #334155 !important;
+  }
+
+  .strategy-tabs button.active {
+    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3) !important;
+  }
+
+  /* ============================================
+     MANAGE YOUR PLAN PAGE FIXES
+  ============================================ */
+
+  /* Plan management header */
+  .plan-management-header {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+    backdrop-filter: blur(20px) !important;
+  }
+
+  /* Current plan card */
+  .current-plan-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 24px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+  }
+
+  /* Usage statistics */
+  .usage-stats-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 24px !important;
+  }
+
+  /* Account status */
+  .account-status-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 24px !important;
+  }
+
+  /* Upgrade prompt section */
+  .upgrade-prompt-section {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 32px !important;
+    text-align: center !important;
+  }
+
+  /* Plan selection cards */
+  .plan-selection-card {
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 24px !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+  }
+
+  .plan-selection-card:hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    border-color: #0ea5e9 !important;
+    transform: translateY(-4px) scale(1.02) !important;
+    box-shadow: 0 16px 40px rgba(14, 165, 233, 0.15) !important;
+  }
+
+  .plan-selection-card.recommended {
+    border-color: #10b981 !important;
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%) !important;
+  }
+
+  /* ============================================
+     CREATIVITY STUDIO FIXES
+  ============================================ */
+
+  /* Creativity tools grid */
+  .creativity-tools-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    gap: 24px !important;
+    padding: 32px !important;
+  }
+
+  .creativity-tool-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 24px !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+  }
+
+  .creativity-tool-card:hover {
+    background: linear-gradient(135deg, #fef3f2 0%, #fee2e2 100%) !important;
+    border-color: #ef4444 !important;
+    transform: translateY(-4px) scale(1.02) !important;
+    box-shadow: 0 16px 40px rgba(239, 68, 68, 0.15) !important;
+  }
+
+  /* Creativity generators */
+  .creativity-generator {
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 20px !important;
+    margin-bottom: 16px !important;
+  }
+
+  .creativity-generator:hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    border-color: #0ea5e9 !important;
+  }
+
+  /* ============================================
+     GENERAL MODAL AND OVERLAY FIXES
+  ============================================ */
+
+  /* Modal backdrop */
+  .modal-backdrop {
+    background: rgba(15, 23, 42, 0.4) !important;
+    backdrop-filter: blur(12px) !important;
+  }
+
+  /* Modal content */
+  .modal-content {
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 20px !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+  }
+
+  /* Modal header */
+  .modal-header {
+    background: #f8fafc !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+    border-radius: 20px 20px 0 0 !important;
+    padding: 24px !important;
+  }
+
+  /* Modal body */
+  .modal-body {
+    background: #ffffff !important;
+    padding: 32px !important;
+  }
+
+  /* Modal footer */
+  .modal-footer {
+    background: #f8fafc !important;
+    border-top: 2px solid #e2e8f0 !important;
+    border-radius: 0 0 20px 20px !important;
+    padding: 24px !important;
+  }
+
+  /* ============================================
+     TOOLTIP AND POPOVER FIXES
+  ============================================ */
+
+  .tooltip {
+    background: #0f172a !important;
+    color: #ffffff !important;
+    border-radius: 8px !important;
+    padding: 8px 12px !important;
+    font-size: 14px !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+  }
+
+  .popover {
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  /* ============================================
+     RESPONSIVE FIXES
+  ============================================ */
+
+  @media (max-width: 768px) {
+    /* Mobile adjustments for all components */
+    .strategic-goals-container,
+    .current-plan-card,
+    .creativity-tool-card {
+      padding: 20px !important;
+      border-radius: 12px !important;
+    }
+
+    .calendar-day-cell {
+      min-height: 80px !important;
+      padding: 8px !important;
+    }
+
+    .strategy-tabs button {
+      padding: 10px 16px !important;
+      font-size: 14px !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    /* Small mobile adjustments */
+    .strategic-goals-container,
+    .current-plan-card,
+    .creativity-tool-card {
+      padding: 16px !important;
+      border-radius: 12px !important;
+    }
+
+    .calendar-day-cell {
+      min-height: 60px !important;
+      padding: 4px !important;
+    }
+  }
+}
+
+/* ============================================
+   EMERGENCY OVERRIDES FOR REALLY STUBBORN ELEMENTS
+============================================ */
+
+/* Use !important with maximum specificity for elements that resist all other attempts */
+html[data-theme="light"] body * {
+  /* Force override any remaining dark elements */
+  --slate-950: #ffffff !important;
+  --slate-900: #f8fafc !important;
+  --slate-800: #f1f5f9 !important;
+  --slate-700: #e2e8f0 !important;
+  --slate-600: #cbd5e1 !important;
+  --slate-500: #94a3b8 !important;
+  --slate-400: #64748b !important;
+  --slate-300: #475569 !important;
+  --slate-200: #334155 !important;
+  --slate-100: #1e293b !important;
+}
+
+/* Target any remaining inline styles */
+[data-theme="light"] [style*="background-color: rgb(15, 23, 42)"],
+[data-theme="light"] [style*="background-color: rgb(30, 41, 59)"],
+[data-theme="light"] [style*="background-color: rgb(51, 65, 85)"],
+[data-theme="light"] [style*="background-color: rgb(71, 85, 105)"],
+[data-theme="light"] [style*="background: rgb(15, 23, 42)"],
+[data-theme="light"] [style*="background: rgb(30, 41, 59)"],
+[data-theme="light"] [style*="background: rgb(51, 65, 85)"],
+[data-theme="light"] [style*="background: rgb(71, 85, 105)"] {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+}
+
+[data-theme="light"] [style*="color: rgb(248, 250, 252)"],
+[data-theme="light"] [style*="color: rgb(203, 213, 225)"],
+[data-theme="light"] [style*="color: rgb(148, 163, 184)"],
+[data-theme="light"] [style*="color: rgb(100, 116, 139)"] {
+  color: #0f172a !important;
+}

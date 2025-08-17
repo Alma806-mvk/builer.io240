@@ -1,0 +1,231 @@
+/* Landing page comprehensive styles - completely isolated from app styles */
+
+/* Base landing page container with dark theme design system */
+.landing-page {
+  /* Reset and override any existing styles */
+  font-family: system-ui, -apple-system, sans-serif !important;
+  
+  /* Dark theme CSS variables for landing page */
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 210 40% 98%;
+  --primary-foreground: 222.2 47.4% 11.2%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 212.7 26.8% 83.9%;
+  --radius: 0.5rem;
+  
+  /* Landing page brand colors */
+  --brand-1: 268 83% 60%; /* vibrant purple */
+  --brand-2: 190 95% 55%; /* bright cyan */
+  --brand-foreground: 0 0% 100%;
+  --brand-alt: 190 95% 55%;
+
+  /* Landing page specific gradients and effects */
+  --gradient-primary: linear-gradient(135deg, hsl(var(--brand-1)), hsl(var(--brand-2)));
+  --gradient-subtle: radial-gradient(1200px 600px at 50% -10%, hsl(var(--brand-2) / 0.12), transparent 60%), linear-gradient(180deg, transparent, hsl(var(--background)));
+  --shadow-glow: 0 0 40px hsl(var(--brand-2) / 0.35);
+  --shadow-elevated: 0 10px 30px -10px hsl(var(--brand-1) / 0.25);
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Sidebar variables (for components) */
+  --sidebar-background: 240 5.9% 10%;
+  --sidebar-foreground: 240 4.8% 95.9%;
+  --sidebar-primary: 224.3 76.3% 48%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 240 3.7% 15.9%;
+  --sidebar-accent-foreground: 240 4.8% 95.9%;
+  --sidebar-border: 240 3.7% 15.9%;
+  --sidebar-ring: 217.2 91.2% 59.8%;
+}
+
+/* Force landing page base styles with dark theme */
+.landing-page,
+.landing-page * {
+  border-color: hsl(var(--border)) !important;
+}
+
+.landing-page {
+  background-color: hsl(var(--background)) !important;
+  color: hsl(var(--foreground)) !important;
+}
+
+/* Landing page utility classes */
+.landing-page .bg-background { background-color: hsl(var(--background)) !important; }
+.landing-page .bg-foreground { background-color: hsl(var(--foreground)) !important; }
+.landing-page .bg-card { background-color: hsl(var(--card)) !important; }
+.landing-page .bg-primary { background-color: hsl(var(--primary)) !important; }
+.landing-page .bg-secondary { background-color: hsl(var(--secondary)) !important; }
+.landing-page .bg-muted { background-color: hsl(var(--muted)) !important; }
+.landing-page .bg-accent { background-color: hsl(var(--accent)) !important; }
+.landing-page .bg-destructive { background-color: hsl(var(--destructive)) !important; }
+
+.landing-page .text-background { color: hsl(var(--background)) !important; }
+.landing-page .text-foreground { color: hsl(var(--foreground)) !important; }
+.landing-page .text-card-foreground { color: hsl(var(--card-foreground)) !important; }
+.landing-page .text-primary { color: hsl(var(--primary)) !important; }
+.landing-page .text-primary-foreground { color: hsl(var(--primary-foreground)) !important; }
+.landing-page .text-secondary-foreground { color: hsl(var(--secondary-foreground)) !important; }
+.landing-page .text-muted-foreground { color: hsl(var(--muted-foreground)) !important; }
+.landing-page .text-accent-foreground { color: hsl(var(--accent-foreground)) !important; }
+.landing-page .text-destructive { color: hsl(var(--destructive)) !important; }
+.landing-page .text-destructive-foreground { color: hsl(var(--destructive-foreground)) !important; }
+
+.landing-page .border { border-color: hsl(var(--border)) !important; }
+.landing-page .border-border { border-color: hsl(var(--border)) !important; }
+.landing-page .border-input { border-color: hsl(var(--input)) !important; }
+.landing-page .border-primary { border-color: hsl(var(--primary)) !important; }
+.landing-page .border-secondary { border-color: hsl(var(--secondary)) !important; }
+.landing-page .border-destructive { border-color: hsl(var(--destructive)) !important; }
+
+/* Brand-specific classes for landing page */
+.landing-page .text-brand { color: hsl(var(--brand-1)) !important; }
+.landing-page .text-brand-alt { color: hsl(var(--brand-2)) !important; }
+.landing-page .text-brand-foreground { color: hsl(var(--brand-foreground)) !important; }
+.landing-page .bg-brand { background-color: hsl(var(--brand-1)) !important; }
+.landing-page .bg-brand-alt { background-color: hsl(var(--brand-2)) !important; }
+
+/* Gradient backgrounds */
+.landing-page .bg-gradient-primary {
+  background: var(--gradient-primary) !important;
+}
+
+.landing-page .bg-gradient-subtle {
+  background: var(--gradient-subtle) !important;
+}
+
+/* Shadow effects */
+.landing-page .shadow-glow {
+  box-shadow: var(--shadow-glow) !important;
+}
+
+.landing-page .shadow-elevated {
+  box-shadow: var(--shadow-elevated) !important;
+}
+
+/* Animation keyframes */
+@keyframes fade-in {
+  0% { 
+    opacity: 0; 
+    transform: translateY(10px); 
+  }
+  100% { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes scale-in {
+  0% { 
+    transform: scale(0.95); 
+    opacity: 0; 
+  }
+  100% { 
+    transform: scale(1); 
+    opacity: 1; 
+  }
+}
+
+/* Animation classes */
+.landing-page .animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards !important;
+}
+
+.landing-page .animate-scale-in {
+  animation: scale-in 0.2s ease-out forwards !important;
+}
+
+/* Container and layout */
+.landing-page .container {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 1rem !important;
+}
+
+@media (min-width: 640px) {
+  .landing-page .container {
+    padding: 0 1.5rem !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .landing-page .container {
+    padding: 0 2rem !important;
+  }
+}
+
+/* Button styles for landing page */
+.landing-page .btn-gradient {
+  background: var(--gradient-primary) !important;
+  color: hsl(var(--brand-foreground)) !important;
+  box-shadow: var(--shadow-glow) !important;
+  border: none !important;
+  transition: opacity 0.3s ease !important;
+}
+
+.landing-page .btn-gradient:hover {
+  opacity: 0.95 !important;
+}
+
+/* Backdrop blur support */
+.landing-page .backdrop-blur {
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+/* Responsive grid utilities */
+.landing-page .grid {
+  display: grid !important;
+}
+
+.landing-page .grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+}
+
+.landing-page .grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.landing-page .grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+}
+
+.landing-page .grid-cols-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+}
+
+@media (min-width: 640px) {
+  .landing-page .sm\\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  .landing-page .sm\\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+  .landing-page .sm\\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .landing-page .lg\\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  .landing-page .lg\\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+  .landing-page .lg\\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}

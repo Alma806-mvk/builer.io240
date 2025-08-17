@@ -1,0 +1,368 @@
+/* ============================================================================
+   CREATEGEN STUDIO - LIGHT MODE ICON & VISUAL FIXES
+   Specific fixes for icon visibility and visual contrast in light mode
+   ============================================================================ */
+
+[data-theme="light"] {
+  
+  /* ============================================
+     NAVIGATION ICON VISIBILITY FIXES
+  ============================================ */
+
+  /* All navigation icons - comprehensive selector coverage */
+  nav button svg,
+  nav button img,
+  header nav button svg,
+  header nav button img,
+  .flex.items-center.gap-2 button svg,
+  .flex.items-center.gap-2 button img,
+  .overflow-x-auto button svg,
+  .overflow-x-auto button img,
+  [role="navigation"] button svg,
+  [role="navigation"] button img,
+  .tab-navigation button svg,
+  .tab-navigation button img {
+    /* Dark icons for better contrast on light backgrounds */
+    filter: brightness(0) saturate(100%) invert(15%) sepia(10%) saturate(1200%) hue-rotate(200deg) brightness(95%) contrast(95%) !important;
+    transition: all 0.3s ease !important;
+    width: 20px !important;
+    height: 20px !important;
+    opacity: 0.8 !important;
+  }
+
+  /* Icon hover states - slightly darker */
+  nav button:hover svg,
+  nav button:hover img,
+  header nav button:hover svg,
+  header nav button:hover img,
+  .flex.items-center.gap-2 button:hover svg,
+  .flex.items-center.gap-2 button:hover img,
+  .overflow-x-auto button:hover svg,
+  .overflow-x-auto button:hover img {
+    filter: brightness(0) saturate(100%) invert(8%) sepia(15%) saturate(1500%) hue-rotate(200deg) brightness(90%) contrast(110%) !important;
+    opacity: 1 !important;
+    transform: scale(1.1) !important;
+  }
+
+  /* Active tab icons - keep white for contrast on blue background */
+  nav button.border-sky-400 svg,
+  nav button.border-sky-400 img,
+  nav button[aria-selected="true"] svg,
+  nav button[aria-selected="true"] img,
+  nav button[aria-current="page"] svg,
+  nav button[aria-current="page"] img,
+  nav button.active svg,
+  nav button.active img,
+  .flex.items-center.gap-2 button.border-sky-400 svg,
+  .flex.items-center.gap-2 button.border-sky-400 img,
+  .overflow-x-auto button.border-sky-400 svg,
+  .overflow-x-auto button.border-sky-400 img {
+    filter: brightness(0) saturate(100%) invert(100%) !important;
+    opacity: 1 !important;
+    transform: scale(1) !important;
+  }
+
+  /* ============================================
+     GENERAL ICON IMPROVEMENTS
+  ============================================ */
+
+  /* All icons in light mode need better contrast */
+  .icon,
+  [class*="icon"],
+  .w-4.h-4,
+  .w-5.h-5,
+  .w-6.h-6 {
+    filter: brightness(0) saturate(100%) invert(20%) sepia(8%) saturate(1000%) hue-rotate(200deg) brightness(92%) contrast(98%) !important;
+    transition: filter 0.2s ease !important;
+  }
+
+  /* Interactive icon hover states */
+  button .icon:hover,
+  button [class*="icon"]:hover,
+  .interactive .icon:hover,
+  .clickable .icon:hover {
+    filter: brightness(0) saturate(100%) invert(8%) sepia(20%) saturate(1500%) hue-rotate(200deg) brightness(85%) contrast(115%) !important;
+  }
+
+  /* ============================================
+     SIDEBAR & MENU ICON FIXES
+  ============================================ */
+
+  /* Sidebar navigation icons */
+  .sidebar button svg,
+  .sidebar button img,
+  .side-nav button svg,
+  .side-nav button img,
+  aside button svg,
+  aside button img {
+    filter: brightness(0) saturate(100%) invert(25%) sepia(10%) saturate(800%) hue-rotate(200deg) brightness(90%) contrast(100%) !important;
+    opacity: 0.75 !important;
+  }
+
+  .sidebar button:hover svg,
+  .sidebar button:hover img,
+  .side-nav button:hover svg,
+  .side-nav button:hover img,
+  aside button:hover svg,
+  aside button:hover img {
+    filter: brightness(0) saturate(100%) invert(10%) sepia(25%) saturate(1200%) hue-rotate(200deg) brightness(85%) contrast(110%) !important;
+    opacity: 1 !important;
+  }
+
+  /* ============================================
+     BUTTON ICON CONTRAST
+  ============================================ */
+
+  /* General button icons */
+  button:not(.bg-blue-500):not(.bg-purple-500):not(.bg-green-500):not(.bg-red-500) svg,
+  button:not(.bg-blue-500):not(.bg-purple-500):not(.bg-green-500):not(.bg-red-500) img {
+    filter: brightness(0) saturate(100%) invert(20%) sepia(8%) saturate(1000%) hue-rotate(200deg) brightness(92%) contrast(98%) !important;
+    opacity: 0.8 !important;
+  }
+
+  button:not(.bg-blue-500):not(.bg-purple-500):not(.bg-green-500):not(.bg-red-500):hover svg,
+  button:not(.bg-blue-500):not(.bg-purple-500):not(.bg-green-500):not(.bg-red-500):hover img {
+    filter: brightness(0) saturate(100%) invert(8%) sepia(20%) saturate(1300%) hue-rotate(200deg) brightness(88%) contrast(105%) !important;
+    opacity: 1 !important;
+  }
+
+  /* ============================================
+     SPECIFIC COMPONENT ICON FIXES
+  ============================================ */
+
+  /* YouTube component icons */
+  .youtube-widget svg,
+  .youtube-widget img,
+  .youtube-stats svg,
+  .youtube-stats img {
+    filter: brightness(0) saturate(100%) invert(20%) sepia(8%) saturate(1000%) hue-rotate(200deg) brightness(92%) contrast(98%) !important;
+  }
+
+  /* Trend discovery icons */
+  .trend-card svg,
+  .trend-card img,
+  .trend-widget svg,
+  .trend-widget img {
+    filter: brightness(0) saturate(100%) invert(15%) sepia(12%) saturate(1200%) hue-rotate(210deg) brightness(90%) contrast(100%) !important;
+  }
+
+  /* Canvas toolbar icons */
+  .canvas-toolbar svg,
+  .canvas-toolbar img,
+  .toolbar svg,
+  .toolbar img {
+    filter: brightness(0) saturate(100%) invert(25%) sepia(8%) saturate(900%) hue-rotate(200deg) brightness(88%) contrast(102%) !important;
+  }
+
+  /* Strategy planner icons */
+  .strategy-card svg,
+  .strategy-card img,
+  .metrics-card svg,
+  .metrics-card img {
+    filter: brightness(0) saturate(100%) invert(18%) sepia(10%) saturate(1100%) hue-rotate(205deg) brightness(90%) contrast(100%) !important;
+  }
+
+  /* ============================================
+     LOGO & BRANDING FIXES
+  ============================================ */
+
+  /* Main logo adjustments */
+  header .logo,
+  .brand-logo,
+  .app-logo {
+    filter: none !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    border-radius: 12px !important;
+    padding: 8px !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  /* ============================================
+     STATUS & INDICATOR ICONS
+  ============================================ */
+
+  /* Success icons */
+  .text-green-500 svg,
+  .text-green-600 svg,
+  .success-icon {
+    filter: brightness(0) saturate(100%) invert(35%) sepia(75%) saturate(4000%) hue-rotate(120deg) brightness(95%) contrast(110%) !important;
+  }
+
+  /* Warning icons */
+  .text-yellow-500 svg,
+  .text-yellow-600 svg,
+  .warning-icon {
+    filter: brightness(0) saturate(100%) invert(55%) sepia(85%) saturate(2000%) hue-rotate(25deg) brightness(100%) contrast(105%) !important;
+  }
+
+  /* Error icons */
+  .text-red-500 svg,
+  .text-red-600 svg,
+  .error-icon {
+    filter: brightness(0) saturate(100%) invert(25%) sepia(85%) saturate(3000%) hue-rotate(340deg) brightness(95%) contrast(115%) !important;
+  }
+
+  /* Info icons */
+  .text-blue-500 svg,
+  .text-blue-600 svg,
+  .info-icon {
+    filter: brightness(0) saturate(100%) invert(45%) sepia(75%) saturate(1500%) hue-rotate(200deg) brightness(95%) contrast(110%) !important;
+  }
+
+  /* ============================================
+     DROPDOWN & MENU ICONS
+  ============================================ */
+
+  /* Dropdown arrows and menu icons */
+  .dropdown svg,
+  .menu svg,
+  .select svg,
+  select + svg {
+    filter: brightness(0) saturate(100%) invert(30%) sepia(5%) saturate(800%) hue-rotate(200deg) brightness(85%) contrast(105%) !important;
+    pointer-events: none !important;
+  }
+
+  /* ============================================
+     ACCESSIBILITY ICON IMPROVEMENTS
+  ============================================ */
+
+  /* Ensure icons meet contrast requirements */
+  @media (prefers-contrast: high) {
+    nav button svg,
+    nav button img,
+    button svg,
+    button img,
+    .icon,
+    [class*="icon"] {
+      filter: brightness(0) saturate(100%) invert(5%) sepia(30%) saturate(2000%) hue-rotate(200deg) brightness(80%) contrast(130%) !important;
+    }
+
+    nav button.border-sky-400 svg,
+    nav button.border-sky-400 img,
+    nav button[aria-selected="true"] svg,
+    nav button[aria-selected="true"] img {
+      filter: brightness(0) saturate(100%) invert(100%) !important;
+    }
+  }
+
+  /* ============================================
+     MOBILE ICON ADJUSTMENTS
+  ============================================ */
+
+  @media (max-width: 768px) {
+    /* Larger icons for better mobile usability */
+    nav button svg,
+    nav button img {
+      width: 18px !important;
+      height: 18px !important;
+    }
+
+    .canvas-toolbar svg,
+    .canvas-toolbar img {
+      width: 20px !important;
+      height: 20px !important;
+    }
+
+    /* Touch-friendly icon padding */
+    button svg,
+    button img {
+      margin: 2px !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    nav button svg,
+    nav button img {
+      width: 16px !important;
+      height: 16px !important;
+    }
+  }
+
+  /* ============================================
+     DARK ICON VARIANTS FOR SPECIAL CASES
+  ============================================ */
+
+  /* Force dark icons for very light backgrounds */
+  .bg-white svg:not(.keep-original),
+  .bg-gray-50 svg:not(.keep-original),
+  .bg-slate-50 svg:not(.keep-original) {
+    filter: brightness(0) saturate(100%) invert(10%) sepia(20%) saturate(1500%) hue-rotate(200deg) brightness(85%) contrast(115%) !important;
+  }
+
+  /* ============================================
+     SPECIAL ICON OVERRIDES
+  ============================================ */
+
+  /* Charts and analytics icons */
+  .chart-icon,
+  .analytics-icon,
+  .stats-icon {
+    filter: brightness(0) saturate(100%) invert(20%) sepia(15%) saturate(1300%) hue-rotate(210deg) brightness(88%) contrast(108%) !important;
+  }
+
+  /* Social media icons - keep brand colors when appropriate */
+  .youtube-icon {
+    filter: brightness(0) saturate(100%) invert(20%) sepia(85%) saturate(3000%) hue-rotate(340deg) brightness(95%) contrast(115%) !important;
+  }
+
+  .twitter-icon {
+    filter: brightness(0) saturate(100%) invert(45%) sepia(85%) saturate(1800%) hue-rotate(180deg) brightness(95%) contrast(110%) !important;
+  }
+
+  .instagram-icon {
+    filter: brightness(0) saturate(100%) invert(30%) sepia(75%) saturate(2000%) hue-rotate(300deg) brightness(95%) contrast(115%) !important;
+  }
+
+  /* ============================================
+     PRINT MODE ICON FIXES
+  ============================================ */
+
+  @media print {
+    svg, img {
+      filter: brightness(0) saturate(100%) invert(0%) !important;
+      opacity: 0.8 !important;
+    }
+  }
+}
+
+/* ============================================================================
+   HIGH SPECIFICITY OVERRIDES FOR STUBBORN ELEMENTS
+   ============================================================================ */
+
+[data-theme="light"] {
+  /* Ultra-specific selectors for elements that resist styling */
+  
+  /* Navigation with multiple class combinations */
+  .flex.items-center.gap-2.overflow-x-auto.px-4 button svg,
+  .flex.items-center.gap-2.overflow-x-auto.px-4 button img,
+  header.bg-slate-800 nav button svg,
+  header.bg-slate-800 nav button img {
+    filter: brightness(0) saturate(100%) invert(15%) sepia(10%) saturate(1200%) hue-rotate(200deg) brightness(95%) contrast(95%) !important;
+  }
+
+  /* Active states with complex selectors */
+  .flex.items-center.gap-2.overflow-x-auto.px-4 button.border-sky-400 svg,
+  .flex.items-center.gap-2.overflow-x-auto.px-4 button.border-sky-400 img,
+  header.bg-slate-800 nav button.border-sky-400 svg,
+  header.bg-slate-800 nav button.border-sky-400 img {
+    filter: brightness(0) saturate(100%) invert(100%) !important;
+  }
+
+  /* Inline style overrides */
+  svg[style*="filter"],
+  img[style*="filter"] {
+    filter: brightness(0) saturate(100%) invert(15%) sepia(10%) saturate(1200%) hue-rotate(200deg) brightness(95%) contrast(95%) !important;
+  }
+
+  /* Component-specific overrides */
+  .studio-hub svg,
+  .content-generator svg,
+  .youtube-analyzer svg,
+  .trend-discovery svg,
+  .content-calendar svg,
+  .strategy-planner svg,
+  .thumbnail-studio svg,
+  .creativity-studio svg {
+    filter: brightness(0) saturate(100%) invert(18%) sepia(8%) saturate(1100%) hue-rotate(205deg) brightness(92%) contrast(100%) !important;
+  }
+}

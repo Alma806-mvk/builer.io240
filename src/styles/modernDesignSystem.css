@@ -1,0 +1,186 @@
+/* Modern Design System - Isolated for Profile and Billing Pages Only */
+
+.modern-design-scope {
+  /* === CORE DESIGN TOKENS === */
+  
+  /* Background System */
+  --background-primary: 240 10% 4%;        /* Deep space black #0A0A0B */
+  --background-secondary: 240 6% 10%;      /* Elevated surface #1A1A1D */
+  --background-tertiary: 240 5% 15%;       /* Card surfaces #262629 */
+  --background-glass: 240 10% 4% / 0.8;    /* Glass overlay */
+  
+  /* Text Hierarchy */
+  --text-primary: 0 0% 98%;                /* Pure white for headlines */
+  --text-secondary: 240 5% 84%;            /* Soft white for body */
+  --text-tertiary: 240 4% 64%;             /* Muted text */
+  --text-quaternary: 240 4% 46%;           /* Subtle text */
+  
+  /* Brand Gradient System */
+  --gradient-primary: linear-gradient(135deg, hsl(262 83% 58%) 0%, hsl(194 93% 56%) 100%);
+  --gradient-primary-muted: linear-gradient(135deg, hsl(262 83% 58% / 0.1) 0%, hsl(194 93% 56% / 0.1) 100%);
+  --gradient-text: linear-gradient(135deg, hsl(262 83% 68%) 0%, hsl(194 93% 66%) 100%);
+  
+  /* Accent Colors */
+  --accent-purple: 262 83% 58%;            /* Primary purple #8B5CF6 */
+  --accent-cyan: 194 93% 56%;              /* Primary cyan #06B6D4 */
+  --accent-success: 142 76% 36%;           /* Success green */
+  --accent-warning: 48 96% 53%;            /* Warning amber */
+  --accent-error: 0 84% 60%;               /* Error red */
+  
+  /* Interactive States */
+  --hover-overlay: 240 5% 18%;             /* Hover state */
+  --active-overlay: 240 5% 22%;            /* Active/pressed state */
+  --focus-ring: 262 83% 58%;               /* Focus outline */
+  
+  /* Shadows & Elevation */
+  --shadow-sm: 0 1px 2px 0 hsl(240 10% 4% / 0.2);
+  --shadow-md: 0 4px 6px -1px hsl(240 10% 4% / 0.3), 0 2px 4px -1px hsl(240 10% 4% / 0.2);
+  --shadow-lg: 0 10px 15px -3px hsl(240 10% 4% / 0.4), 0 4px 6px -2px hsl(240 10% 4% / 0.3);
+  --shadow-xl: 0 20px 25px -5px hsl(240 10% 4% / 0.5), 0 10px 10px -5px hsl(240 10% 4% / 0.2);
+  --shadow-glow: 0 0 0 1px hsl(262 83% 58% / 0.3), 0 0 20px hsl(262 83% 58% / 0.2);
+  --shadow-design-sm: var(--shadow-sm);
+  --shadow-design-md: var(--shadow-md);
+  --shadow-design-lg: var(--shadow-lg);
+  --shadow-design-xl: var(--shadow-xl);
+  
+  /* Border System */
+  --border-primary: 240 4% 20%;            /* Default borders */
+  --border-secondary: 240 4% 16%;          /* Subtle borders */
+  --border-accent: 262 83% 58%;            /* Accent borders */
+  
+  /* Modern Design Background - Override main app gradient */
+  background: hsl(var(--background-primary)) !important;
+  color: hsl(var(--text-primary));
+  min-height: 100vh;
+}
+
+/* Text Colors */
+.modern-design-scope .text-text-primary { color: hsl(var(--text-primary)); }
+.modern-design-scope .text-text-secondary { color: hsl(var(--text-secondary)); }
+.modern-design-scope .text-text-tertiary { color: hsl(var(--text-tertiary)); }
+.modern-design-scope .text-text-quaternary { color: hsl(var(--text-quaternary)); }
+
+/* Background Colors */
+.modern-design-scope .bg-bg-primary { background-color: hsl(var(--background-primary)); }
+.modern-design-scope .bg-bg-secondary { background-color: hsl(var(--background-secondary)); }
+.modern-design-scope .bg-bg-tertiary { background-color: hsl(var(--background-tertiary)); }
+
+/* Accent Colors */
+.modern-design-scope .text-accent-purple { color: hsl(var(--accent-purple)); }
+.modern-design-scope .text-accent-cyan { color: hsl(var(--accent-cyan)); }
+.modern-design-scope .text-accent-success { color: hsl(var(--accent-success)); }
+.modern-design-scope .text-accent-warning { color: hsl(var(--accent-warning)); }
+.modern-design-scope .text-accent-error { color: hsl(var(--accent-error)); }
+
+.modern-design-scope .bg-accent-success\/20 { background-color: hsl(var(--accent-success) / 0.2); }
+.modern-design-scope .border-accent-success\/30 { border-color: hsl(var(--accent-success) / 0.3); }
+
+/* Border Colors */
+.modern-design-scope .border-border-primary { border-color: hsl(var(--border-primary)); }
+.modern-design-scope .border-border-secondary { border-color: hsl(var(--border-secondary)); }
+.modern-design-scope .border-border-accent { border-color: hsl(var(--border-accent)); }
+.modern-design-scope .bg-border-secondary { background-color: hsl(var(--border-secondary)); }
+
+/* Gradient Effects */
+.modern-design-scope .gradient-text {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+.modern-design-scope .bg-gradient-primary {
+  background: var(--gradient-primary);
+}
+
+.modern-design-scope .bg-gradient-primary-muted {
+  background: var(--gradient-primary-muted);
+}
+
+/* Glass effect */
+.modern-design-scope .glass-card {
+  background: hsl(var(--background-glass));
+  backdrop-filter: blur(20px);
+  border: 1px solid hsl(var(--border-secondary));
+}
+
+/* Hover glow effect */
+.modern-design-scope .hover-glow {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modern-design-scope .hover-glow:hover {
+  box-shadow: var(--shadow-glow);
+}
+
+/* Box Shadows */
+.modern-design-scope .shadow-design-sm { box-shadow: var(--shadow-design-sm); }
+.modern-design-scope .shadow-design-md { box-shadow: var(--shadow-design-md); }
+.modern-design-scope .shadow-design-lg { box-shadow: var(--shadow-design-lg); }
+.modern-design-scope .shadow-design-xl { box-shadow: var(--shadow-design-xl); }
+
+/* Animation keyframes */
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50% }
+  50% { background-position: 100% 50% }
+}
+
+/* Transition utilities */
+.modern-design-scope .duration-normal { transition-duration: 200ms; }
+.modern-design-scope .transition-all { transition-property: all; }
+
+/* Interactive states */
+.modern-design-scope .hover\:shadow-design-lg:hover {
+  box-shadow: var(--shadow-design-lg);
+}
+
+.modern-design-scope .hover\:border-border-primary:hover {
+  border-color: hsl(var(--border-primary));
+}
+
+.modern-design-scope .hover\:text-text-primary:hover {
+  color: hsl(var(--text-primary));
+}
+
+.modern-design-scope .hover\:opacity-90:hover {
+  opacity: 0.9;
+}
+
+/* Ring effects for borders */
+.modern-design-scope .ring-1 {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+
+.modern-design-scope .ring-border-accent\/20 {
+  --tw-ring-color: hsl(var(--border-accent) / 0.2);
+}
+
+/* Override any conflicting styles from main app */
+.modern-design-scope * {
+  border-color: inherit;
+}
+
+/* Ensure buttons inherit the modern styling */
+.modern-design-scope .bg-gradient-primary.hover\:opacity-90:hover {
+  background: var(--gradient-primary);
+  opacity: 0.9;
+}
+
+/* Position utilities needed */
+.modern-design-scope .absolute { position: absolute; }
+.modern-design-scope .relative { position: relative; }
+.modern-design-scope .-top-3 { top: -0.75rem; }
+.modern-design-scope .right-4 { right: 1rem; }
+.modern-design-scope .left-1\/2 { left: 50%; }
+.modern-design-scope .transform { transform: var(--tw-transform); }
+.modern-design-scope .-translate-x-1\/2 { --tw-translate-x: -50%; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+
+/* Grid and flexbox utilities */
+.modern-design-scope .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.modern-design-scope .grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.modern-design-scope .gap-4 { gap: 1rem; }
+.modern-design-scope .gap-6 { gap: 1.5rem; }

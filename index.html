@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+
+    <!-- Mobile Optimization -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="CreateGen Studio">
+    <meta name="application-name" content="CreateGen Studio">
+    <meta name="msapplication-TileColor" content="#0ea5e9">
+    <meta name="theme-color" content="#0ea5e9">
+
+    <!-- PWA Support -->
+    <link rel="manifest" href="/manifest.json">
+    <title>CreateGen Studio</title>
+    <link rel="icon" href="https://cdn.builder.io/api/v1/image/assets%2Fbaec1708d640404a98345f341e00b6af%2Fe30a23253e8b490aaaf12c51b252a496?format=webp&width=32&height=32" type="image/webp" />
+    <link rel="icon" href="https://cdn.builder.io/api/v1/image/assets%2Fbaec1708d640404a98345f341e00b6af%2Fe30a23253e8b490aaaf12c51b252a496?format=webp&width=16&height=16" sizes="16x16" type="image/webp" />
+    <link rel="icon" href="https://cdn.builder.io/api/v1/image/assets%2Fbaec1708d640404a98345f341e00b6af%2Fe30a23253e8b490aaaf12c51b252a496?format=webp&width=32&height=32" sizes="32x32" type="image/webp" />
+    <link rel="apple-touch-icon" href="https://cdn.builder.io/api/v1/image/assets%2Fbaec1708d640404a98345f341e00b6af%2Fe30a23253e8b490aaaf12c51b252a496?format=webp&width=180&height=180" sizes="180x180" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=SF+Pro+Display:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Preload emoji fonts for instant icon rendering -->
+    <link rel="preload" as="font" type="font/woff2" href="data:," crossorigin />
+    <style>
+      /* Critical emoji font loading */
+      @font-face {
+        font-family: "TabIcons";
+        src:
+          local("Apple Color Emoji"), local("Segoe UI Emoji"),
+          local("Noto Color Emoji");
+        font-display: block;
+        unicode-range:
+          U+1F4CA, U+1F50D, U+25B6, U+1F4F7, U+1F9ED, U+1F4C5, U+1F4C8, U+2705,
+          U+1F30D, U+2728;
+      }
+      /* Force immediate emoji rendering */
+      .preload-emojis::before {
+        content: "📊🔍▶️📷🧭📅📈✅���✨";
+        font-family:
+          "TabIcons", "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji";
+        position: absolute;
+        left: -9999px;
+        opacity: 0;
+        pointer-events: none;
+      }
+    </style>
+    <link rel="stylesheet" href="index.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              slate: {
+                900: "#0f172a",
+                800: "#1e293b",
+                700: "#334155",
+                600: "#475569",
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      /* Custom scrollbar for better aesthetics */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #0f172a; /* slate-900 */
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #334155; /* slate-700 */
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #475569; /* slate-600 */
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gradient-to-br from-slate-900 via-slate-800 to-black min-h-screen"
+  >
+    <!-- Immediate emoji preloader for instant tab icon rendering -->
+    <div class="preload-emojis" aria-hidden="true"></div>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

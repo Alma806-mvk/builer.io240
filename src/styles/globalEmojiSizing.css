@@ -1,0 +1,131 @@
+/* Global emoji sizing fix for consistent appearance */
+
+/* Apply consistent sizing to all emoji-containing spans */
+span:not(.emoji-icon) {
+  /* Check if content contains emoji unicode ranges */
+  unicode-bidi: isolate;
+}
+
+/* Force all emoji characters to have minimum size */
+:is(span, div, button, option):has-text(
+  "🔧",
+  "🚀",
+  "💡",
+  "⚡",
+  "🎯",
+  "🔥",
+  "💰",
+  "📊",
+  "🎨",
+  "✨",
+  "🌟",
+  "💎",
+  "🎉",
+  "📱",
+  "💻",
+  "🖥️",
+  "📈",
+  "📉",
+  "📋",
+  "📝",
+  "✅",
+  "❌",
+  "⭐",
+  "💫",
+  "🎭",
+  "🎪",
+  "🎵",
+  "🎬",
+  "🎮",
+  "🎲",
+  "🎳",
+  "🏆",
+  "🏅",
+  "🥇",
+  "🎁",
+  "🎂",
+  "🎃",
+  "🎄",
+  "🎊",
+  "🎈",
+  "💼",
+  "🏢",
+  "🐛",
+  "⬆️",
+  "⬇️",
+  "➡️",
+  "⬅️",
+  "🚨",
+  "⚠️",
+  "☕",
+  "📄",
+  "📖",
+  "🖌️",
+  "🗄️",
+  "🛡️",
+  "🔍",
+  "⚙️",
+  "💳",
+  "📷",
+  "🌐",
+  "📅"
+) {
+  font-size: 1rem !important;
+  line-height: 1.2 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  min-width: 1rem !important;
+  min-height: 1rem !important;
+}
+
+/* Specific sizing for different text sizes */
+.text-xs span {
+  font-size: 0.75rem !important;
+}
+
+.text-sm span {
+  font-size: 0.875rem !important;
+}
+
+.text-base span {
+  font-size: 1rem !important;
+}
+
+.text-lg span {
+  font-size: 1.125rem !important;
+}
+
+.text-xl span {
+  font-size: 1.25rem !important;
+}
+
+.text-2xl span {
+  font-size: 1.5rem !important;
+}
+
+/* Emoji-specific styling for better rendering */
+* {
+  font-variant-emoji: unicode;
+}
+
+/* Ensure emojis don't break layouts */
+span[title*="emoji"],
+span:contains("🔧"),
+span:contains("🚀"),
+span:contains("💡"),
+span:contains("⚡"),
+span:contains("🎯"),
+span:contains("🔥"),
+span:contains("💰"),
+span:contains("📊"),
+span:contains("🎨"),
+span:contains("✨") {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  width: auto;
+  height: auto;
+  min-width: 1em;
+  min-height: 1em;
+}

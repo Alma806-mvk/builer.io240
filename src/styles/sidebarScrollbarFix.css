@@ -1,0 +1,38 @@
+/* Fix for sidebar scrollbar when collapsed */
+
+/* Hide scrollbars completely when sidebar is collapsed */
+[data-state="collapsed"] [data-sidebar="content"],
+[data-state="collapsed"] [data-sidebar="sidebar"],
+.group[data-state="collapsed"] [data-sidebar="content"],
+.group[data-state="collapsed"] [data-sidebar="sidebar"] {
+  overflow: hidden !important;
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE and Edge */
+}
+
+/* Hide webkit scrollbars when sidebar is collapsed */
+[data-state="collapsed"] [data-sidebar="content"]::-webkit-scrollbar,
+[data-state="collapsed"] [data-sidebar="sidebar"]::-webkit-scrollbar,
+.group[data-state="collapsed"] [data-sidebar="content"]::-webkit-scrollbar,
+.group[data-state="collapsed"] [data-sidebar="sidebar"]::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+}
+
+/* Also target the collapsible icon state */
+[data-collapsible="icon"] [data-sidebar="content"],
+[data-collapsible="icon"] [data-sidebar="sidebar"],
+.group[data-collapsible="icon"] [data-sidebar="content"],
+.group[data-collapsible="icon"] [data-sidebar="sidebar"] {
+  overflow: hidden !important;
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE and Edge */
+}
+
+[data-collapsible="icon"] [data-sidebar="content"]::-webkit-scrollbar,
+[data-collapsible="icon"] [data-sidebar="sidebar"]::-webkit-scrollbar,
+.group[data-collapsible="icon"] [data-sidebar="content"]::-webkit-scrollbar,
+.group[data-collapsible="icon"] [data-sidebar="sidebar"]::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+}

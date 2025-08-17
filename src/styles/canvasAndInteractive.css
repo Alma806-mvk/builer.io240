@@ -1,0 +1,410 @@
+/* Canvas and Interactive Elements - Light Mode Enhancements */
+
+[data-theme="light"] {
+  /* ============================================
+     CANVAS SPECIFIC IMPROVEMENTS
+  ============================================ */
+
+  /* Canvas main container */
+  .canvas-container,
+  [class*="canvas-"] {
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    box-shadow: 
+      0 8px 25px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+  }
+
+  /* Canvas grid background */
+  .canvas-grid {
+    background-image: 
+      radial-gradient(circle, #e2e8f0 1px, transparent 1px) !important;
+    background-size: 20px 20px !important;
+  }
+
+  /* Canvas elements (text, shapes, etc.) */
+  .canvas-element {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 2px solid #cbd5e1 !important;
+    box-shadow: 
+      0 4px 15px rgba(0, 0, 0, 0.1),
+      0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    backdrop-filter: blur(10px) !important;
+  }
+
+  .canvas-element:hover {
+    border-color: #0ea5e9 !important;
+    box-shadow: 
+      0 8px 25px rgba(14, 165, 233, 0.2),
+      0 0 0 1px rgba(14, 165, 233, 0.1) !important;
+    transform: translateZ(0) !important;
+  }
+
+  .canvas-element.selected {
+    border-color: #0ea5e9 !important;
+    box-shadow: 
+      0 0 0 3px rgba(14, 165, 233, 0.15),
+      0 8px 25px rgba(14, 165, 233, 0.2) !important;
+  }
+
+  /* Canvas text elements */
+  .canvas-text {
+    color: #0f172a !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  /* Canvas toolbar */
+  .canvas-toolbar {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+    border: 1px solid #e2e8f0 !important;
+    backdrop-filter: blur(20px) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
+  }
+
+  /* Canvas tools buttons */
+  .canvas-tool-btn {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 2px solid #e2e8f0 !important;
+    color: #334155 !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  .canvas-tool-btn:hover {
+    background: rgba(240, 249, 255, 0.95) !important;
+    border-color: #0ea5e9 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15) !important;
+  }
+
+  .canvas-tool-btn.active {
+    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%) !important;
+    color: #ffffff !important;
+    border-color: #0ea5e9 !important;
+    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3) !important;
+  }
+
+  /* ============================================
+     DRAGGABLE & RESIZABLE ELEMENTS
+  ============================================ */
+
+  /* Drag handles */
+  .drag-handle {
+    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%) !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: 
+      0 2px 8px rgba(14, 165, 233, 0.3),
+      0 0 0 1px rgba(14, 165, 233, 0.2) !important;
+  }
+
+  .drag-handle:hover {
+    background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%) !important;
+    transform: scale(1.1) !important;
+    box-shadow: 
+      0 4px 15px rgba(14, 165, 233, 0.4),
+      0 0 0 2px rgba(14, 165, 233, 0.3) !important;
+  }
+
+  /* Resize handles */
+  .resize-handle {
+    background: #ffffff !important;
+    border: 2px solid #0ea5e9 !important;
+    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.2) !important;
+  }
+
+  .resize-handle:hover {
+    background: #0ea5e9 !important;
+    border-color: #0284c7 !important;
+    transform: scale(1.2) !important;
+  }
+
+  /* ============================================
+     INTERACTIVE FORM ELEMENTS
+  ============================================ */
+
+  /* Enhanced input fields */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  textarea,
+  select {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    color: #0f172a !important;
+    border-radius: 8px !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 
+      0 1px 3px rgba(0, 0, 0, 0.05),
+      inset 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    background: #ffffff !important;
+    border-color: #0ea5e9 !important;
+    outline: none !important;
+    box-shadow: 
+      0 0 0 3px rgba(14, 165, 233, 0.1),
+      0 2px 8px rgba(14, 165, 233, 0.15) !important;
+    transform: translateY(-1px) !important;
+  }
+
+  input:hover:not(:focus),
+  textarea:hover:not(:focus),
+  select:hover:not(:focus) {
+    border-color: #cbd5e1 !important;
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.08),
+      inset 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+  }
+
+  /* Range sliders */
+  input[type="range"] {
+    -webkit-appearance: none !important;
+    background: #e2e8f0 !important;
+    border-radius: 8px !important;
+    height: 6px !important;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%) !important;
+    border: 3px solid #ffffff !important;
+    border-radius: 50% !important;
+    height: 20px !important;
+    width: 20px !important;
+    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3) !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+  }
+
+  input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2) !important;
+    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4) !important;
+  }
+
+  /* Checkboxes */
+  input[type="checkbox"] {
+    -webkit-appearance: none !important;
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 4px !important;
+    width: 18px !important;
+    height: 18px !important;
+    position: relative !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+  }
+
+  input[type="checkbox"]:checked {
+    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%) !important;
+    border-color: #0ea5e9 !important;
+  }
+
+  input[type="checkbox"]:checked::after {
+    content: "✓" !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    color: #ffffff !important;
+    font-size: 12px !important;
+    font-weight: bold !important;
+  }
+
+  /* Radio buttons */
+  input[type="radio"] {
+    -webkit-appearance: none !important;
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 50% !important;
+    width: 18px !important;
+    height: 18px !important;
+    position: relative !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+  }
+
+  input[type="radio"]:checked {
+    border-color: #0ea5e9 !important;
+  }
+
+  input[type="radio"]:checked::after {
+    content: "" !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 8px !important;
+    height: 8px !important;
+    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%) !important;
+    border-radius: 50% !important;
+  }
+
+  /* ============================================
+     DROPDOWNS & SELECTS
+  ============================================ */
+
+  /* Custom dropdown styling */
+  .dropdown-container {
+    position: relative !important;
+  }
+
+  .dropdown-trigger {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .dropdown-trigger:hover {
+    border-color: #cbd5e1 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .dropdown-menu {
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    box-shadow: 
+      0 20px 25px -5px rgba(0, 0, 0, 0.1),
+      0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+    backdrop-filter: blur(20px) !important;
+  }
+
+  .dropdown-item {
+    color: #334155 !important;
+    transition: all 0.15s ease !important;
+    border-radius: 6px !important;
+    margin: 2px !important;
+  }
+
+  .dropdown-item:hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    color: #0f172a !important;
+    transform: translateX(2px) !important;
+  }
+
+  /* ============================================
+     TOOLTIPS & POPOVERS
+  ============================================ */
+
+  .tooltip {
+    background: rgba(15, 23, 42, 0.95) !important;
+    color: #ffffff !important;
+    border: 1px solid #334155 !important;
+    border-radius: 6px !important;
+    backdrop-filter: blur(10px) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+  }
+
+  .popover {
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    box-shadow: 
+      0 20px 25px -5px rgba(0, 0, 0, 0.1),
+      0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+    backdrop-filter: blur(20px) !important;
+  }
+
+  /* ============================================
+     PROGRESS INDICATORS
+  ============================================ */
+
+  /* Progress bars */
+  .progress-bar {
+    background: #f1f5f9 !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+  }
+
+  .progress-fill {
+    background: linear-gradient(90deg, #0ea5e9 0%, #3b82f6 100%) !important;
+    border-radius: 8px !important;
+    transition: width 0.3s ease !important;
+    position: relative !important;
+  }
+
+  .progress-fill::after {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: -100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent) !important;
+    animation: shimmer 2s infinite !important;
+  }
+
+  /* Loading spinners */
+  .loading-spinner {
+    border: 3px solid #f1f5f9 !important;
+    border-top: 3px solid #0ea5e9 !important;
+    border-radius: 50% !important;
+    animation: spin 1s linear infinite !important;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* ============================================
+     TABS & NAVIGATION
+  ============================================ */
+
+  /* Tab navigation */
+  .tab-nav {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 4px !important;
+  }
+
+  .tab-button {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease !important;
+    color: #64748b !important;
+  }
+
+  .tab-button:hover {
+    background: rgba(240, 249, 255, 0.8) !important;
+    color: #334155 !important;
+  }
+
+  .tab-button.active {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  /* ============================================
+     ACCORDION & COLLAPSIBLE
+  ============================================ */
+
+  .accordion-item {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .accordion-header {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .accordion-header:hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+  }
+
+  .accordion-content {
+    background: #ffffff !important;
+    border-top: 1px solid #f1f5f9 !important;
+  }
+}

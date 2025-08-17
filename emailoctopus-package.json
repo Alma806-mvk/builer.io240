@@ -1,0 +1,15 @@
+{
+  "name": "emailoctopus-server",
+  "version": "1.0.0",
+  "description": "EmailOctopus integration server for thumbnail notifications",
+  "main": "emailoctopus-server.js",
+  "scripts": {
+    "start": "node emailoctopus-server.js",
+    "dev": "node emailoctopus-server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "node-fetch": "^2.6.7"
+  }
+}

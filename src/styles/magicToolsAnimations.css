@@ -1,0 +1,417 @@
+/* Magic Tools Animations */
+@keyframes scale-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.95) translateX(-50%);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateX(-50%);
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateX(-50%);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.95) translateX(-50%);
+  }
+}
+
+.animate-scale-in {
+  animation: scale-in 0.2s ease-out;
+}
+
+.animate-fade-out {
+  animation: fade-out 0.2s ease-out;
+}
+
+/* Text Selection Styles */
+.text-selection-highlight {
+  background-color: rgba(59, 130, 246, 0.3);
+  border-radius: 0.125rem;
+  padding: 0.125rem 0.25rem;
+  margin: -0.125rem -0.25rem;
+}
+
+.text-selectable {
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
+
+.text-selectable:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+  border-radius: 0.25rem;
+  transition: background-color 0.2s ease;
+}
+
+/* Magic Tools Button Hover Effects */
+.magic-tool-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.magic-tool-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s;
+}
+
+.magic-tool-button:hover::before {
+  left: 100%;
+}
+
+/* Magic Select Toggle Animations */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) skewX(-12deg);
+  }
+  100% {
+    transform: translateX(200%) skewX(-12deg);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+/* Magic Selection Styles */
+.magic-select-active {
+  position: relative;
+}
+
+.magic-select-active::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(45deg, #8b5cf6, #ec4899, #8b5cf6);
+  border-radius: 8px;
+  opacity: 0.3;
+  z-index: -1;
+  animation: magic-glow 2s ease-in-out infinite;
+}
+
+@keyframes magic-glow {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.02);
+  }
+}
+
+/* Enhanced Text Selection for Magic Mode */
+.magic-select-mode {
+  position: relative;
+}
+
+.magic-select-mode::after {
+  content: '✨';
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  font-size: 12px;
+  opacity: 0.7;
+  animation: sparkle 1.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+/* Professional Text Selection Styles - Enhanced Visibility with higher specificity */
+.magic-select-mode.magic-select-mode ::selection {
+  background-color: #8b5cf6 !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8) !important;
+}
+
+.magic-select-mode.magic-select-mode ::-moz-selection {
+  background-color: #8b5cf6 !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* More specific selectors for magic mode */
+.magic-select-mode.magic-select-mode *::selection {
+  background-color: #8b5cf6 !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8) !important;
+}
+
+.magic-select-mode.magic-select-mode *::-moz-selection {
+  background-color: #8b5cf6 !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8) !important;
+}
+
+@keyframes selection-shimmer {
+  0%, 100% {
+    background-position: 0% 50%;
+    filter: brightness(1);
+  }
+  50% {
+    background-position: 100% 50%;
+    filter: brightness(1.2);
+  }
+}
+
+/* Standard text selection for normal mode with higher specificity */
+.standard-text-selectable.standard-text-selectable ::selection {
+  background-color: #3b82f6 !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7) !important;
+}
+
+.standard-text-selectable.standard-text-selectable ::-moz-selection {
+  background-color: #3b82f6 !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7) !important;
+}
+
+.standard-text-selectable.standard-text-selectable *::selection {
+  background-color: #3b82f6 !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7) !important;
+}
+
+.standard-text-selectable.standard-text-selectable *::-moz-selection {
+  background-color: #3b82f6 !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Magic Select Enhanced Background Effect */
+.magic-select-mode {
+  position: relative;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.magic-select-mode:hover {
+  background: linear-gradient(45deg,
+    rgba(139, 92, 246, 0.05),
+    rgba(236, 72, 153, 0.05));
+  border-color: rgba(139, 92, 246, 0.3);
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.1);
+}
+
+/* Professional Selection Highlight with Glass Effect */
+.magic-select-mode.selecting {
+  background: linear-gradient(45deg,
+    rgba(139, 92, 246, 0.12),
+    rgba(236, 72, 153, 0.12));
+  backdrop-filter: blur(3px);
+  border: 2px solid rgba(139, 92, 246, 0.4);
+  box-shadow:
+    0 8px 32px rgba(139, 92, 246, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 0 0 4px rgba(236, 72, 153, 0.1);
+  transform: scale(1.02);
+}
+
+/* Selection Particle Animation */
+@keyframes particle-float {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateY(-20px) scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-40px) scale(0.5);
+  }
+}
+
+/* Enhanced Magic Select Cursor */
+.magic-select-mode {
+  cursor: text;
+}
+
+.magic-select-mode:hover {
+  cursor: crosshair;
+}
+
+/* Smaller icon sizing for compact magic tools */
+.magic-tool-button .w-3\.5 {
+  width: 14px !important;
+  height: 14px !important;
+}
+
+.magic-tool-button svg {
+  stroke-width: 2.5;
+}
+
+/* Ultra-specific selectors to override global styles */
+div.magic-select-mode div::selection,
+div.magic-select-mode p::selection,
+div.magic-select-mode span::selection,
+div.magic-select-mode h1::selection,
+div.magic-select-mode h2::selection,
+div.magic-select-mode h3::selection,
+div.magic-select-mode h4::selection,
+div.magic-select-mode h5::selection,
+div.magic-select-mode h6::selection,
+div.magic-select-mode strong::selection,
+div.magic-select-mode em::selection,
+div.magic-select-mode li::selection,
+div.magic-select-mode ul::selection,
+div.magic-select-mode ol::selection {
+  background-color: #8b5cf6 !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9) !important;
+}
+
+div.magic-select-mode div::-moz-selection,
+div.magic-select-mode p::-moz-selection,
+div.magic-select-mode span::-moz-selection,
+div.magic-select-mode h1::-moz-selection,
+div.magic-select-mode h2::-moz-selection,
+div.magic-select-mode h3::-moz-selection,
+div.magic-select-mode h4::-moz-selection,
+div.magic-select-mode h5::-moz-selection,
+div.magic-select-mode h6::-moz-selection,
+div.magic-select-mode strong::-moz-selection,
+div.magic-select-mode em::-moz-selection,
+div.magic-select-mode li::-moz-selection,
+div.magic-select-mode ul::-moz-selection,
+div.magic-select-mode ol::-moz-selection {
+  background-color: #8b5cf6 !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9) !important;
+}
+
+/* Standard mode ultra-specific overrides */
+div.standard-text-selectable div::selection,
+div.standard-text-selectable p::selection,
+div.standard-text-selectable span::selection,
+div.standard-text-selectable h1::selection,
+div.standard-text-selectable h2::selection,
+div.standard-text-selectable h3::selection,
+div.standard-text-selectable h4::selection,
+div.standard-text-selectable h5::selection,
+div.standard-text-selectable h6::selection,
+div.standard-text-selectable strong::selection,
+div.standard-text-selectable em::selection,
+div.standard-text-selectable li::selection,
+div.standard-text-selectable ul::selection,
+div.standard-text-selectable ol::selection {
+  background-color: #3b82f6 !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7) !important;
+}
+
+div.standard-text-selectable div::-moz-selection,
+div.standard-text-selectable p::-moz-selection,
+div.standard-text-selectable span::-moz-selection,
+div.standard-text-selectable h1::-moz-selection,
+div.standard-text-selectable h2::-moz-selection,
+div.standard-text-selectable h3::-moz-selection,
+div.standard-text-selectable h4::-moz-selection,
+div.standard-text-selectable h5::-moz-selection,
+div.standard-text-selectable h6::-moz-selection,
+div.standard-text-selectable strong::-moz-selection,
+div.standard-text-selectable em::-moz-selection,
+div.standard-text-selectable li::-moz-selection,
+div.standard-text-selectable ul::-moz-selection,
+div.standard-text-selectable ol::-moz-selection {
+  background-color: #3b82f6 !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Professional Selection Border Animation */
+.magic-select-mode ::selection {
+  position: relative;
+}
+
+.magic-select-mode ::selection::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(45deg, #8b5cf6, #ec4899, #3b82f6, #8b5cf6);
+  background-size: 400% 400%;
+  border-radius: 6px;
+  animation: professional-border 2s ease-in-out infinite;
+  z-index: -1;
+  filter: blur(8px);
+  opacity: 0.4;
+}
+
+@keyframes professional-border {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* FINAL OVERRIDE - Ensure selection backgrounds always appear */
+body .magic-select-mode ::selection,
+body .magic-select-mode *::selection {
+  background-color: #8b5cf6 !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8) !important;
+}
+
+body .magic-select-mode ::-moz-selection,
+body .magic-select-mode *::-moz-selection {
+  background-color: #8b5cf6 !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8) !important;
+}
+
+body .standard-text-selectable ::selection,
+body .standard-text-selectable *::selection {
+  background-color: #3b82f6 !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7) !important;
+}
+
+body .standard-text-selectable ::-moz-selection,
+body .standard-text-selectable *::-moz-selection {
+  background-color: #3b82f6 !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7) !important;
+}

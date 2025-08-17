@@ -1,0 +1,520 @@
+/* ============================================================================
+   CREATEGEN STUDIO - LIGHT MODE COMPONENT FIXES
+   Specific fixes for individual components and layouts
+   ============================================================================ */
+
+[data-theme="light"] {
+  
+  /* ============================================
+     STUDIO HUB DASHBOARD FIXES
+  ============================================ */
+
+  /* Main welcome section */
+  .space-y-8 > div:first-child {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 20px !important;
+    padding: 32px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  /* Project pipeline section */
+  .space-y-8 h2 {
+    color: #0f172a !important;
+    font-weight: 700 !important;
+    margin-bottom: 24px !important;
+  }
+
+  /* Project cards grid */
+  .grid.grid-cols-2,
+  .grid.grid-cols-3,
+  .grid.grid-cols-4 {
+    gap: 20px !important;
+  }
+
+  /* Individual project cards */
+  .grid > div[class*="rounded"] {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 24px !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+    position: relative !important;
+    overflow: hidden !important;
+  }
+
+  .grid > div[class*="rounded"]:hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    border-color: #0ea5e9 !important;
+    transform: translateY(-4px) scale(1.02) !important;
+    box-shadow: 0 16px 40px rgba(14, 165, 233, 0.15) !important;
+  }
+
+  /* ============================================
+     CONTENT GENERATION INTERFACE
+  ============================================ */
+
+  /* Generator main container */
+  .generator-layout {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    min-height: 100vh !important;
+  }
+
+  /* Generator sidebar */
+  .generator-sidebar {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-right: 2px solid #e2e8f0 !important;
+    backdrop-filter: blur(20px) !important;
+    box-shadow: 4px 0 25px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  /* Generator form fields */
+  .generator-form label {
+    color: #334155 !important;
+    font-weight: 600 !important;
+    margin-bottom: 8px !important;
+    display: block !important;
+  }
+
+  /* ============================================
+     YOUTUBE ANALYTICS SECTIONS
+  ============================================ */
+
+  /* YouTube stats cards */
+  .youtube-stats-grid > div {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 24px !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+  }
+
+  .youtube-stats-grid > div:hover {
+    background: linear-gradient(135deg, #fef3f2 0%, #fee2e2 100%) !important;
+    border-color: #ef4444 !important;
+    box-shadow: 0 8px 25px rgba(239, 68, 68, 0.15) !important;
+  }
+
+  /* Channel analysis input */
+  .channel-input-container {
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 20px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+  }
+
+  .channel-input-container input {
+    background: #f8fafc !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 16px 20px !important;
+    font-size: 16px !important;
+    width: 100% !important;
+  }
+
+  /* ============================================
+     CONTENT HISTORY & LIBRARY
+  ============================================ */
+
+  /* History container */
+  .content-history-container {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 20px !important;
+    padding: 32px !important;
+    min-height: 70vh !important;
+  }
+
+  /* Empty state messaging */
+  .empty-state {
+    text-align: center !important;
+    padding: 64px 32px !important;
+    color: #64748b !important;
+  }
+
+  .empty-state h3 {
+    color: #0f172a !important;
+    font-size: 24px !important;
+    font-weight: 700 !important;
+    margin-bottom: 16px !important;
+  }
+
+  .empty-state p {
+    color: #64748b !important;
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+    max-width: 500px !important;
+    margin: 0 auto !important;
+  }
+
+  /* Feature cards in empty states */
+  .feature-cards-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    gap: 24px !important;
+    margin-top: 48px !important;
+  }
+
+  .feature-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 24px !important;
+    text-align: center !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+  }
+
+  .feature-card:hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    border-color: #0ea5e9 !important;
+    transform: translateY(-4px) !important;
+    box-shadow: 0 12px 30px rgba(14, 165, 233, 0.15) !important;
+  }
+
+  /* ============================================
+     CALENDAR & SCHEDULING INTERFACE
+  ============================================ */
+
+  /* Calendar header */
+  .calendar-header {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+    padding: 20px 32px !important;
+    border-radius: 16px 16px 0 0 !important;
+    backdrop-filter: blur(20px) !important;
+  }
+
+  /* Calendar navigation buttons */
+  .calendar-nav button {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 12px 20px !important;
+    color: #334155 !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .calendar-nav button:hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    border-color: #0ea5e9 !important;
+    transform: translateY(-1px) !important;
+  }
+
+  /* Calendar grid */
+  .calendar-grid {
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 0 0 16px 16px !important;
+    overflow: hidden !important;
+  }
+
+  .calendar-day-cell {
+    background: #ffffff !important;
+    border: 1px solid #f1f5f9 !important;
+    min-height: 120px !important;
+    padding: 12px !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .calendar-day-cell:hover {
+    background: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+  }
+
+  /* ============================================
+     TREND DISCOVERY & ANALYSIS
+  ============================================ */
+
+  /* Trend search bar */
+  .trend-search-container {
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 24px !important;
+    margin-bottom: 32px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+  }
+
+  /* Trend cards */
+  .trend-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 20px !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
+  }
+
+  .trend-card:hover {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%) !important;
+    border-color: #3b82f6 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15) !important;
+  }
+
+  /* ============================================
+     CANVAS & DESIGN INTERFACE
+  ============================================ */
+
+  /* Canvas toolbar */
+  .canvas-toolbar {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 16px 24px !important;
+    margin-bottom: 20px !important;
+    backdrop-filter: blur(20px) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .canvas-toolbar button {
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    padding: 10px 16px !important;
+    margin-right: 12px !important;
+    color: #334155 !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .canvas-toolbar button:hover {
+    background: #f0f9ff !important;
+    border-color: #0ea5e9 !important;
+    transform: translateY(-1px) !important;
+  }
+
+  .canvas-toolbar button.active {
+    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%) !important;
+    border-color: #0ea5e9 !important;
+    color: #ffffff !important;
+  }
+
+  /* Canvas main area */
+  .canvas-main {
+    background: #ffffff !important;
+    border: 3px solid #e2e8f0 !important;
+    border-radius: 20px !important;
+    min-height: 600px !important;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12) !important;
+    overflow: hidden !important;
+  }
+
+  /* ============================================
+     STRATEGY PLANNER INTERFACE
+  ============================================ */
+
+  /* Strategy tabs */
+  .strategy-tabs {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 8px !important;
+    margin-bottom: 24px !important;
+    backdrop-filter: blur(10px) !important;
+  }
+
+  .strategy-tabs button {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 12px 24px !important;
+    color: #64748b !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .strategy-tabs button:hover {
+    background: #f8fafc !important;
+    color: #334155 !important;
+  }
+
+  .strategy-tabs button.active {
+    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3) !important;
+  }
+
+  /* Strategy metrics cards */
+  .metrics-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+    gap: 20px !important;
+    margin-bottom: 32px !important;
+  }
+
+  .metric-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 24px !important;
+    text-align: center !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+  }
+
+  .metric-card:hover {
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%) !important;
+    border-color: #16a34a !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(22, 163, 74, 0.15) !important;
+  }
+
+  /* ============================================
+     THUMBNAIL STUDIO INTERFACE
+  ============================================ */
+
+  /* Thumbnail templates grid */
+  .thumbnail-templates {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+    gap: 24px !important;
+    padding: 32px !important;
+  }
+
+  .thumbnail-template {
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+  }
+
+  .thumbnail-template:hover {
+    border-color: #8b5cf6 !important;
+    transform: translateY(-4px) scale(1.02) !important;
+    box-shadow: 0 16px 40px rgba(139, 92, 246, 0.2) !important;
+  }
+
+  /* ============================================
+     MOBILE RESPONSIVE FIXES
+  ============================================ */
+
+  @media (max-width: 768px) {
+    /* Mobile studio hub */
+    .space-y-8 > div:first-child {
+      padding: 24px !important;
+      border-radius: 16px !important;
+    }
+
+    /* Mobile project cards */
+    .grid > div[class*="rounded"] {
+      padding: 20px !important;
+      border-radius: 12px !important;
+    }
+
+    /* Mobile navigation tabs */
+    nav button {
+      padding: 10px 14px !important;
+      font-size: 13px !important;
+      border-radius: 8px !important;
+    }
+
+    /* Mobile canvas */
+    .canvas-main {
+      border-radius: 16px !important;
+      border-width: 2px !important;
+      min-height: 400px !important;
+    }
+
+    /* Mobile forms */
+    .generator-form {
+      padding: 20px !important;
+    }
+
+    /* Mobile calendar */
+    .calendar-day-cell {
+      min-height: 80px !important;
+      padding: 8px !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    /* Small mobile optimizations */
+    .space-y-8 > div:first-child {
+      padding: 16px !important;
+      border-radius: 12px !important;
+    }
+
+    nav button {
+      padding: 8px 12px !important;
+      font-size: 12px !important;
+    }
+
+    .feature-cards-grid {
+      grid-template-columns: 1fr !important;
+      gap: 16px !important;
+    }
+
+    .thumbnail-templates {
+      grid-template-columns: 1fr !important;
+      padding: 16px !important;
+      gap: 16px !important;
+    }
+  }
+
+  /* ============================================
+     ANIMATION ENHANCEMENTS
+  ============================================ */
+
+  /* Stagger animation for grids */
+  .grid > div:nth-child(1) { animation-delay: 0ms; }
+  .grid > div:nth-child(2) { animation-delay: 50ms; }
+  .grid > div:nth-child(3) { animation-delay: 100ms; }
+  .grid > div:nth-child(4) { animation-delay: 150ms; }
+  .grid > div:nth-child(5) { animation-delay: 200ms; }
+  .grid > div:nth-child(6) { animation-delay: 250ms; }
+
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-slide-in {
+    animation: slideInUp 0.4s ease-out forwards;
+  }
+
+  /* ============================================
+     ACCESSIBILITY IMPROVEMENTS
+  ============================================ */
+
+  /* High contrast support */
+  @media (prefers-contrast: high) {
+    nav button,
+    input,
+    textarea,
+    select,
+    .feature-card,
+    .metric-card,
+    .trend-card {
+      border-width: 3px !important;
+      font-weight: 600 !important;
+    }
+
+    .text-slate-400,
+    .text-slate-500 {
+      color: #334155 !important;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *:hover {
+      transition: none !important;
+      animation: none !important;
+      transform: none !important;
+    }
+  }
+}

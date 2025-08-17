@@ -1,0 +1,374 @@
+/* ============================================================================
+   CREATEGEN STUDIO - DOM-SPECIFIC LIGHT MODE OVERRIDES
+   Exact class combination targeting based on actual DOM structure
+   ============================================================================ */
+
+[data-theme="light"] {
+  
+  /* ============================================
+     EXACT CLASS COMBINATION OVERRIDES
+  ============================================ */
+  
+  /* Main layout containers - exact matches */
+  .min-h-screen.bg-gradient-to-br.from-slate-950.via-slate-900.to-slate-950,
+  .min-h-screen.bg-gradient-to-br.from-slate-900.via-slate-800.to-slate-900 {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%) !important;
+    color: #0f172a !important;
+  }
+  
+  /* Sidebar - exact DOM match */
+  .w-64.min-h-screen.bg-slate-900\/95.backdrop-blur-sm.border-r.border-slate-700\/50,
+  .w-64.min-h-screen.bg-slate-900\/95.backdrop-blur-sm {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(20px) !important;
+    border-right: 2px solid #e2e8f0 !important;
+    box-shadow: 4px 0 25px rgba(0, 0, 0, 0.08) !important;
+  }
+  
+  /* Header - exact DOM match */
+  .sticky.top-0.z-50.bg-slate-900\/80.backdrop-blur-md.border-b.border-slate-700\/50,
+  .bg-slate-900\/80.backdrop-blur-md.border-b.border-slate-700\/50 {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(20px) !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.08) !important;
+  }
+  
+  /* Credit display containers */
+  .bg-slate-800\/60.backdrop-blur-sm.border.border-slate-700\/50.rounded-lg,
+  .bg-slate-800\/60.backdrop-blur-sm.rounded-lg {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 2px solid #e2e8f0 !important;
+    backdrop-filter: blur(20px) !important;
+  }
+  
+  /* ============================================
+     GRID AND LAYOUT CONTAINERS
+  ============================================ */
+  
+  /* Grid containers with dark backgrounds */
+  .grid.grid-cols-1.gap-6.md\:grid-cols-2.lg\:grid-cols-3 > div[class*="bg-slate"],
+  .grid.grid-cols-1.gap-4.sm\:grid-cols-2.lg\:grid-cols-3 > div[class*="bg-slate"],
+  .grid.grid-cols-1.gap-8.md\:grid-cols-2.lg\:grid-cols-4 > div[class*="bg-slate"] {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+    color: #0f172a !important;
+  }
+  
+  /* Flex containers */
+  .flex.items-center.space-x-4 > div[class*="bg-slate"],
+  .flex.flex-col.space-y-4 > div[class*="bg-slate"],
+  .flex.flex-wrap.gap-4 > div[class*="bg-slate"] {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    color: #0f172a !important;
+  }
+  
+  /* ============================================
+     CARD COMPONENTS - SPECIFIC TARGETING
+  ============================================ */
+  
+  /* Project cards */
+  .bg-slate-800.rounded-2xl.border.border-slate-700\/50.shadow-xl,
+  .bg-slate-800.rounded-xl.border.border-slate-700\/50,
+  .bg-slate-900.rounded-2xl.border.border-slate-700\/50.shadow-xl,
+  .bg-slate-900.rounded-xl.border.border-slate-700\/50 {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08) !important;
+    color: #0f172a !important;
+  }
+  
+  /* Strategy metric cards */
+  .p-6.bg-slate-800.rounded-xl.border.border-slate-700\/50,
+  .p-8.bg-slate-800.rounded-2xl.border.border-slate-700\/50 {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    color: #0f172a !important;
+  }
+  
+  /* YouTube analysis cards */
+  .bg-slate-800.rounded-xl.p-6.border.border-slate-700\/50,
+  .bg-slate-900.rounded-xl.p-6.border.border-slate-700\/50 {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    color: #0f172a !important;
+  }
+  
+  /* Calendar components */
+  .bg-slate-800.rounded-lg.border.border-slate-700\/50.min-h-32,
+  .bg-slate-900.rounded-lg.border.border-slate-700\/50.min-h-32 {
+    background: #ffffff !important;
+    border: 1px solid #f1f5f9 !important;
+    color: #0f172a !important;
+  }
+  
+  /* Trend discovery cards */
+  .bg-slate-800.rounded-lg.p-4.border.border-slate-700\/50,
+  .bg-slate-900.rounded-lg.p-4.border.border-slate-700\/50 {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    color: #0f172a !important;
+  }
+  
+  /* Creativity tool cards */
+  .bg-slate-800.rounded-xl.p-6.text-center.border.border-slate-700\/50,
+  .bg-slate-900.rounded-xl.p-6.text-center.border.border-slate-700\/50 {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    color: #0f172a !important;
+  }
+  
+  /* ============================================
+     INPUT COMPONENTS - SPECIFIC TARGETING
+  ============================================ */
+  
+  /* Search inputs */
+  .bg-slate-700.border.border-slate-600.rounded-lg.px-4.py-3,
+  .bg-slate-800.border.border-slate-700.rounded-lg.px-4.py-3 {
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    color: #0f172a !important;
+    border-radius: 12px !important;
+  }
+  
+  .bg-slate-700.border.border-slate-600.rounded-lg.px-4.py-3:focus,
+  .bg-slate-800.border.border-slate-700.rounded-lg.px-4.py-3:focus {
+    border-color: #0ea5e9 !important;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1) !important;
+    outline: none !important;
+  }
+  
+  /* Textarea inputs */
+  .bg-slate-700.border.border-slate-600.rounded-lg.px-4.py-3.resize-none,
+  .bg-slate-800.border.border-slate-700.rounded-lg.px-4.py-3.resize-none {
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    color: #0f172a !important;
+  }
+  
+  /* Select dropdowns */
+  .bg-slate-700.border.border-slate-600.rounded-lg.px-4.py-3.pr-10,
+  .bg-slate-800.border.border-slate-700.rounded-lg.px-4.py-3.pr-10 {
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    color: #0f172a !important;
+  }
+  
+  /* ============================================
+     BUTTON COMPONENTS - SPECIFIC TARGETING
+  ============================================ */
+  
+  /* Tab buttons */
+  .flex.items-center.space-x-2.bg-slate-800.rounded-lg.px-4.py-2.border.border-slate-700\/50,
+  .flex.items-center.space-x-2.bg-slate-700.rounded-lg.px-4.py-2.border.border-slate-600 {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    color: #334155 !important;
+    transition: all 0.2s ease !important;
+  }
+  
+  .flex.items-center.space-x-2.bg-slate-800.rounded-lg.px-4.py-2.border.border-slate-700\/50:hover,
+  .flex.items-center.space-x-2.bg-slate-700.rounded-lg.px-4.py-2.border.border-slate-600:hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    border-color: #0ea5e9 !important;
+    color: #0f172a !important;
+  }
+  
+  /* Action buttons */
+  .bg-slate-700.hover\:bg-slate-600.text-white.rounded-lg.px-4.py-2,
+  .bg-slate-800.hover\:bg-slate-700.text-white.rounded-lg.px-4.py-2 {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    color: #334155 !important;
+    border: 2px solid #e2e8f0 !important;
+  }
+  
+  .bg-slate-700.hover\:bg-slate-600.text-white.rounded-lg.px-4.py-2:hover,
+  .bg-slate-800.hover\:bg-slate-700.text-white.rounded-lg.px-4.py-2:hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    border-color: #0ea5e9 !important;
+    color: #0f172a !important;
+  }
+  
+  /* Navigation buttons */
+  .w-full.flex.items-center.px-3.py-2\.5.rounded-lg.text-slate-300.hover\:text-slate-200.hover\:bg-slate-800\/60.transition-colors {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    color: #334155 !important;
+    border: 1px solid #e2e8f0 !important;
+    margin-bottom: 4px !important;
+  }
+  
+  .w-full.flex.items-center.px-3.py-2\.5.rounded-lg.text-slate-300.hover\:text-slate-200.hover\:bg-slate-800\/60.transition-colors:hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    color: #0f172a !important;
+    border-color: #0ea5e9 !important;
+    transform: translateX(4px) !important;
+  }
+  
+  /* ============================================
+     MODAL AND OVERLAY COMPONENTS
+  ============================================ */
+  
+  /* Modal backgrounds */
+  .fixed.inset-0.bg-black.bg-opacity-50.backdrop-blur-sm,
+  .fixed.inset-0.bg-slate-900.bg-opacity-80.backdrop-blur-md {
+    background: rgba(15, 23, 42, 0.4) !important;
+    backdrop-filter: blur(12px) !important;
+  }
+  
+  /* Modal content */
+  .bg-slate-800.rounded-2xl.border.border-slate-700\/50.shadow-2xl.max-w-md.w-full.p-6,
+  .bg-slate-900.rounded-2xl.border.border-slate-700\/50.shadow-2xl.max-w-lg.w-full.p-8 {
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+    color: #0f172a !important;
+  }
+  
+  /* Tooltip containers */
+  .bg-slate-800.text-white.px-3.py-2.rounded-lg.text-sm.shadow-lg,
+  .bg-slate-900.text-slate-200.px-3.py-2.rounded-lg.text-sm.shadow-lg {
+    background: #0f172a !important;
+    color: #ffffff !important;
+    border: 1px solid #334155 !important;
+  }
+  
+  /* ============================================
+     LIST AND TABLE COMPONENTS
+  ============================================ */
+  
+  /* List items */
+  .bg-slate-800.rounded-lg.p-4.border.border-slate-700\/50.hover\:bg-slate-700\/50,
+  .bg-slate-900.rounded-lg.p-4.border.border-slate-700\/50.hover\:bg-slate-800\/50 {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #0f172a !important;
+    transition: all 0.2s ease !important;
+  }
+  
+  .bg-slate-800.rounded-lg.p-4.border.border-slate-700\/50.hover\:bg-slate-700\/50:hover,
+  .bg-slate-900.rounded-lg.p-4.border.border-slate-700\/50.hover\:bg-slate-800\/50:hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    border-color: #0ea5e9 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.1) !important;
+  }
+  
+  /* Table rows */
+  .bg-slate-800.hover\:bg-slate-700\/50.transition-colors,
+  .bg-slate-900.hover\:bg-slate-800\/50.transition-colors {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+  }
+  
+  .bg-slate-800.hover\:bg-slate-700\/50.transition-colors:hover,
+  .bg-slate-900.hover\:bg-slate-800\/50.transition-colors:hover {
+    background: #f8fafc !important;
+  }
+  
+  /* ============================================
+     PROGRESS AND STATUS COMPONENTS
+  ============================================ */
+  
+  /* Progress bars */
+  .bg-slate-700.rounded-full.h-2.w-full,
+  .bg-slate-800.rounded-full.h-2.w-full {
+    background: #e2e8f0 !important;
+  }
+  
+  .bg-blue-500.h-2.rounded-full.transition-all.duration-300 {
+    background: linear-gradient(90deg, #0ea5e9 0%, #3b82f6 100%) !important;
+  }
+  
+  /* Status indicators */
+  .bg-slate-800.rounded-full.w-3.h-3.border.border-slate-600,
+  .bg-slate-700.rounded-full.w-3.h-3.border.border-slate-500 {
+    background: #cbd5e1 !important;
+    border: 2px solid #94a3b8 !important;
+  }
+  
+  /* ============================================
+     DIVIDER AND SEPARATOR COMPONENTS
+  ============================================ */
+  
+  /* Section dividers */
+  .border-t.border-slate-700\/50.my-4,
+  .border-b.border-slate-700\/50.pb-4,
+  .border-l.border-slate-700\/50.pl-4,
+  .border-r.border-slate-700\/50.pr-4 {
+    border-color: #e2e8f0 !important;
+  }
+  
+  /* Horizontal rules */
+  hr.border-slate-700\/50,
+  hr.border-slate-600 {
+    border-color: #e2e8f0 !important;
+  }
+  
+  /* ============================================
+     BADGE AND TAG COMPONENTS
+  ============================================ */
+  
+  /* Badges */
+  .bg-slate-700.text-slate-200.px-2.py-1.rounded-full.text-xs,
+  .bg-slate-800.text-slate-300.px-2.py-1.rounded-full.text-xs {
+    background: #f0f9ff !important;
+    color: #0284c7 !important;
+    border: 1px solid #bae6fd !important;
+  }
+  
+  /* Tags */
+  .bg-slate-700.text-white.px-3.py-1.rounded-lg.text-sm,
+  .bg-slate-800.text-slate-200.px-3.py-1.rounded-lg.text-sm {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    color: #0284c7 !important;
+    border: 1px solid #bae6fd !important;
+  }
+}
+
+/* ============================================
+   CSS CUSTOM PROPERTIES OVERRIDE
+============================================ */
+
+[data-theme="light"] {
+  /* Override Tailwind CSS variables */
+  --tw-slate-50: 248 250 252;
+  --tw-slate-100: 241 245 249;
+  --tw-slate-200: 226 232 240;
+  --tw-slate-300: 203 213 225;
+  --tw-slate-400: 148 163 184;
+  --tw-slate-500: 100 116 139;
+  --tw-slate-600: 71 85 105;
+  --tw-slate-700: 51 65 85;
+  --tw-slate-800: 30 41 59;
+  --tw-slate-900: 15 23 42;
+  --tw-slate-950: 2 6 23;
+  
+  /* Force light mode color mappings */
+  --tw-bg-slate-950: 255 255 255;
+  --tw-bg-slate-900: 248 250 252;
+  --tw-bg-slate-800: 241 245 249;
+  --tw-bg-slate-700: 226 232 240;
+  --tw-bg-slate-600: 203 213 225;
+  
+  --tw-text-slate-950: 2 6 23;
+  --tw-text-slate-900: 15 23 42;
+  --tw-text-slate-800: 30 41 59;
+  --tw-text-slate-700: 51 65 85;
+  --tw-text-slate-600: 71 85 105;
+  --tw-text-slate-500: 100 116 139;
+  --tw-text-slate-400: 148 163 184;
+  --tw-text-slate-300: 51 65 85;
+  --tw-text-slate-200: 51 65 85;
+  --tw-text-slate-100: 15 23 42;
+  --tw-text-slate-50: 15 23 42;
+  --tw-text-white: 15 23 42;
+  
+  --tw-border-slate-700: 226 232 240;
+  --tw-border-slate-600: 226 232 240;
+  --tw-border-slate-500: 226 232 240;
+}

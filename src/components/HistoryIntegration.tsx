@@ -1,0 +1,65 @@
+import React from 'react';
+import HistoryWorldClass from './HistoryWorldClass';
+
+interface HistoryItem {
+  id: string;
+  title?: string;
+  contentType: string;
+  content: any;
+  platform?: string;
+  timestamp: Date;
+  tags?: string[];
+}
+
+interface HistoryIntegrationProps {
+  history: HistoryItem[];
+  setHistory: (history: HistoryItem[]) => void;
+  onNavigateToTab?: (tabId: string) => void;
+}
+
+const HistoryIntegration: React.FC<HistoryIntegrationProps> = ({
+  history,
+  setHistory,
+  onNavigateToTab,
+}) => {
+  const historyItems = history.map(item => ({
+    id: item.id,
+    title: item.title || `${item.contentType} Content`,
+    type: item.contentType === 'YoutubeChannelStats' ? 'analytics' as const : 
+          item.contentType === 'ChannelAnalysis' ? 'analytics' as const :
+          item.contentType === 'ThumbnailMaker' ? 'image' as const :
+          item.contentType === 'ContentStrategy' ? 'strategy' as const : 'text' as const,
+    content: typeof item.content === 'string' ? item.content : JSON.stringify(item.content),
+    platform: item.platform || 'Multi-Platform',
+    timestamp: item.timestamp,
+    tags: item.tags || [],
+    starred: false,
+    views: Math.floor(Math.random() * 2000) + 100,
+    performance: Math.floor(Math.random() * 40) + 60,
+  }));
+
+  return (
+    <HistoryWorldClass
+      historyItems={historyItems}
+      onViewItem={(item) => {
+        console.log("Viewing item:", item);
+      }}
+      onDeleteItem={(itemId) => {
+        const confirmDelete = confirm("Are you sure you want to delete this item?");
+        if (confirmDelete) {
+          const updatedHistory = history.filter(item => item.id !== itemId);
+          setHistory(updatedHistory);
+        }
+      }}
+      onStarItem={(itemId) => {
+        console.log("Starring item:", itemId);
+      }}
+      onExportItems={(items) => {
+        console.log("Exporting items:", items);
+      }}
+      onNavigateToTab={onNavigateToTab}
+    />
+  );
+};
+
+export default HistoryIntegration;

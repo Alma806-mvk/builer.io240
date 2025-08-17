@@ -1,0 +1,512 @@
+/* ============================================================================
+   CREATEGEN STUDIO - TARGETED LIGHT MODE FIXES
+   Specific overrides for exact class combinations found in the DOM
+   ============================================================================ */
+
+[data-theme="light"] {
+  
+  /* ============================================
+     MAIN LAYOUT OVERRIDES - Exact DOM Matches
+  ============================================ */
+  
+  /* Main app background gradient */
+  .min-h-screen.bg-gradient-to-br.from-slate-950.via-slate-900.to-slate-950 {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%) !important;
+  }
+  
+  /* Sidebar specific override */
+  .w-64.min-h-screen.bg-slate-900\/95.backdrop-blur-sm {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(20px) !important;
+    border-right: 2px solid #e2e8f0 !important;
+    box-shadow: 4px 0 25px rgba(0, 0, 0, 0.08) !important;
+  }
+  
+  /* Header specific override */
+  .bg-slate-900\/80.backdrop-blur-md {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(20px) !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.08) !important;
+  }
+  
+  /* ============================================
+     SIDEBAR NAVIGATION OVERRIDES
+  ============================================ */
+  
+  /* Sidebar sections */
+  .p-3.border-b.border-slate-700\/50 {
+    border-color: #e2e8f0 !important;
+  }
+  
+  /* Section headers */
+  .text-xs.font-semibold.text-slate-400.uppercase {
+    color: #64748b !important;
+  }
+  
+  /* Navigation buttons */
+  .w-full.flex.items-center.px-3.py-2\.5.rounded-lg.text-slate-300.hover\:text-slate-200.hover\:bg-slate-800\/60 {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    color: #334155 !important;
+    border: 1px solid #e2e8f0 !important;
+    margin-bottom: 4px !important;
+    transition: all 0.2s ease !important;
+  }
+  
+  .w-full.flex.items-center.px-3.py-2\.5.rounded-lg.text-slate-300.hover\:text-slate-200.hover\:bg-slate-800\/60:hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    color: #0f172a !important;
+    border-color: #0ea5e9 !important;
+    transform: translateX(4px) !important;
+  }
+  
+  /* Active navigation item */
+  .border.border-sky-500\/30 {
+    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%) !important;
+    color: #ffffff !important;
+    border-color: #0ea5e9 !important;
+    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3) !important;
+  }
+  
+  /* Active text color */
+  .text-sky-300 {
+    color: #ffffff !important;
+  }
+  
+  /* Navigation icons */
+  .flex-shrink-0.text-slate-400.group-hover\:text-slate-200.transition-colors svg {
+    filter: brightness(0) saturate(100%) invert(25%) sepia(8%) saturate(900%) hue-rotate(200deg) brightness(88%) contrast(102%) !important;
+  }
+  
+  .text-sky-300 svg {
+    filter: brightness(0) saturate(100%) invert(100%) !important;
+  }
+  
+  /* Section dividers */
+  .my-4.mx-4.border-t.border-slate-700\/50 {
+    border-color: #e2e8f0 !important;
+  }
+  
+  /* ============================================
+     MOBILE HEADER OVERRIDES
+  ============================================ */
+  
+  /* Mobile header */
+  .mobile-header {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(20px) !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+  }
+  
+  /* Mobile credit display */
+  .bg-slate-800\/60.backdrop-blur-sm.border.border-slate-700\/50 {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 2px solid #e2e8f0 !important;
+    backdrop-filter: blur(20px) !important;
+  }
+  
+  .text-xs.font-medium.text-slate-300 {
+    color: #334155 !important;
+  }
+  
+  /* Mobile hamburger */
+  .mobile-btn-secondary {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    color: #334155 !important;
+    border: 2px solid #e2e8f0 !important;
+  }
+  
+  .mobile-hamburger-line {
+    background: #334155 !important;
+  }
+  
+  /* Mobile drawer */
+  .mobile-drawer {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+  }
+  
+  .mobile-drawer-overlay {
+    background: rgba(15, 23, 42, 0.4) !important;
+    backdrop-filter: blur(8px) !important;
+  }
+  
+  /* Mobile card */
+  .mobile-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+  }
+  
+  /* ============================================
+     SPECIFIC COMPONENT CONTAINERS
+  ============================================ */
+  
+  /* YouTube Channel Stats containers */
+  .youtube-channel-stats .bg-slate-800,
+  .youtube-channel-stats .bg-slate-900,
+  div[class*="bg-slate-8"]:has(input),
+  div[class*="bg-slate-9"]:has(input) {
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+  }
+  
+  /* YouTube analysis cards */
+  .youtube-analysis-card,
+  div[class*="rounded-2xl"][class*="bg-slate"] {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+  }
+  
+  /* Calendar grid container */
+  .calendar-grid-container,
+  div[class*="grid"][class*="bg-slate"] {
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+  }
+  
+  /* Calendar day cells */
+  .calendar-day-cell,
+  div[class*="border"][class*="rounded"][class*="min-h"] {
+    background: #ffffff !important;
+    border: 1px solid #f1f5f9 !important;
+    color: #0f172a !important;
+  }
+  
+  .calendar-day-cell:hover {
+    background: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+  }
+  
+  /* Strategy planner tabs */
+  .strategy-tabs-container,
+  div[class*="flex"][class*="bg-slate"][class*="rounded"] {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    backdrop-filter: blur(20px) !important;
+  }
+  
+  /* Strategy metric cards */
+  .strategy-metric-card,
+  div[class*="p-6"][class*="bg-slate"][class*="rounded"] {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+  }
+  
+  /* Trend discovery cards */
+  .trend-card,
+  .trend-item,
+  div[class*="bg-slate"][class*="rounded"][class*="p-4"] {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+  }
+  
+  /* Creativity tool cards */
+  .creativity-tool-card,
+  div[class*="bg-slate"][class*="rounded-xl"] {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+  }
+  
+  /* AI Content Generator sections */
+  .ai-generator-section,
+  div[class*="bg-slate"][class*="border"] {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+  }
+  
+  /* Studio Hub project cards */
+  .project-card,
+  .studio-hub-card,
+  div[class*="bg-slate"][class*="shadow"] {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+  }
+  
+  /* ============================================
+     INPUT AND FORM OVERRIDES
+  ============================================ */
+  
+  /* Search inputs in various components */
+  input[class*="bg-slate"],
+  textarea[class*="bg-slate"],
+  select[class*="bg-slate"] {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+  }
+  
+  input[class*="bg-slate"]:focus,
+  textarea[class*="bg-slate"]:focus,
+  select[class*="bg-slate"]:focus {
+    border-color: #0ea5e9 !important;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1) !important;
+    outline: none !important;
+  }
+  
+  /* Placeholder text */
+  input[class*="bg-slate"]::placeholder,
+  textarea[class*="bg-slate"]::placeholder {
+    color: #94a3b8 !important;
+    opacity: 0.8 !important;
+  }
+  
+  /* ============================================
+     BUTTON OVERRIDES
+  ============================================ */
+  
+  /* Default buttons */
+  button[class*="bg-slate"]:not([class*="bg-blue"]):not([class*="bg-green"]):not([class*="bg-red"]):not([class*="bg-purple"]) {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    color: #334155 !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    transition: all 0.2s ease !important;
+  }
+  
+  button[class*="bg-slate"]:not([class*="bg-blue"]):not([class*="bg-green"]):not([class*="bg-red"]):not([class*="bg-purple"]):hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    border-color: #0ea5e9 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.15) !important;
+  }
+  
+  /* Tab buttons */
+  button[class*="rounded"][class*="px-4"][class*="py-2"] {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    color: #334155 !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+  }
+  
+  button[class*="rounded"][class*="px-4"][class*="py-2"]:hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    border-color: #0ea5e9 !important;
+  }
+  
+  button[class*="rounded"][class*="px-4"][class*="py-2"].active,
+  button[class*="rounded"][class*="px-4"][class*="py-2"][aria-selected="true"] {
+    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%) !important;
+    color: #ffffff !important;
+    border-color: #0ea5e9 !important;
+  }
+  
+  /* ============================================
+     TEXT COLOR OVERRIDES
+  ============================================ */
+  
+  /* Various text colors used throughout */
+  .text-slate-100 { color: #0f172a !important; }
+  .text-slate-200 { color: #334155 !important; }
+  .text-slate-300 { color: #334155 !important; }
+  .text-slate-400 { color: #64748b !important; }
+  .text-slate-500 { color: #475569 !important; }
+  .text-white { color: #0f172a !important; }
+  .text-gray-100 { color: #0f172a !important; }
+  .text-gray-200 { color: #334155 !important; }
+  .text-gray-300 { color: #334155 !important; }
+  .text-gray-400 { color: #64748b !important; }
+  
+  /* ============================================
+     BORDER COLOR OVERRIDES
+  ============================================ */
+  
+  /* Various border colors */
+  .border-slate-700 { border-color: #e2e8f0 !important; }
+  .border-slate-700\/50 { border-color: rgba(226, 232, 240, 0.8) !important; }
+  .border-slate-600 { border-color: #e2e8f0 !important; }
+  .border-slate-500 { border-color: #e2e8f0 !important; }
+  .border-gray-700 { border-color: #e2e8f0 !important; }
+  .border-gray-600 { border-color: #e2e8f0 !important; }
+  
+  /* ============================================
+     SPECIFIC COMPONENT STYLING
+  ============================================ */
+  
+  /* Calendar navigation */
+  .calendar-nav button {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    color: #334155 !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+  }
+  
+  .calendar-nav button:hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    border-color: #0ea5e9 !important;
+  }
+  
+  /* Strategy tabs */
+  .strategy-tabs button {
+    background: transparent !important;
+    color: #64748b !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 12px 24px !important;
+    transition: all 0.2s ease !important;
+  }
+  
+  .strategy-tabs button:hover {
+    background: #f8fafc !important;
+    color: #334155 !important;
+  }
+  
+  .strategy-tabs button.active {
+    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3) !important;
+  }
+  
+  /* Progress bars */
+  .progress-bar {
+    background: #e2e8f0 !important;
+    border-radius: 8px !important;
+  }
+  
+  .progress-fill {
+    background: linear-gradient(90deg, #0ea5e9 0%, #3b82f6 100%) !important;
+    border-radius: 8px !important;
+  }
+  
+  /* ============================================
+     HOVER AND FOCUS STATES
+  ============================================ */
+  
+  /* Card hover effects */
+  .project-card:hover,
+  .trend-card:hover,
+  .creativity-tool-card:hover,
+  .strategy-metric-card:hover,
+  .youtube-analysis-card:hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    border-color: #0ea5e9 !important;
+    transform: translateY(-4px) scale(1.02) !important;
+    box-shadow: 0 16px 40px rgba(14, 165, 233, 0.15) !important;
+  }
+  
+  /* Button focus states */
+  button:focus-visible {
+    outline: 2px solid #0ea5e9 !important;
+    outline-offset: 2px !important;
+  }
+  
+  /* Input focus states */
+  input:focus,
+  textarea:focus,
+  select:focus {
+    border-color: #0ea5e9 !important;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1) !important;
+    outline: none !important;
+  }
+  
+  /* ============================================
+     RESPONSIVE ADJUSTMENTS
+  ============================================ */
+  
+  @media (max-width: 768px) {
+    /* Mobile-specific adjustments */
+    .project-card,
+    .trend-card,
+    .creativity-tool-card,
+    .strategy-metric-card {
+      padding: 20px !important;
+      border-radius: 12px !important;
+    }
+    
+    .calendar-day-cell {
+      min-height: 80px !important;
+      padding: 8px !important;
+    }
+    
+    button[class*="rounded"][class*="px-4"] {
+      padding: 10px 16px !important;
+      font-size: 14px !important;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    /* Small mobile adjustments */
+    .project-card,
+    .trend-card,
+    .creativity-tool-card,
+    .strategy-metric-card {
+      padding: 16px !important;
+      border-radius: 12px !important;
+    }
+    
+    .calendar-day-cell {
+      min-height: 60px !important;
+      padding: 4px !important;
+    }
+  }
+}
+
+/* ============================================
+   ULTRA-HIGH SPECIFICITY EMERGENCY OVERRIDES
+============================================ */
+
+/* Use maximum specificity for really stubborn elements */
+html[data-theme="light"] body div.bg-slate-950,
+html[data-theme="light"] body div.bg-slate-900,
+html[data-theme="light"] body div.bg-slate-800,
+html[data-theme="light"] body div.bg-slate-700,
+html[data-theme="light"] body section.bg-slate-950,
+html[data-theme="light"] body section.bg-slate-900,
+html[data-theme="light"] body section.bg-slate-800,
+html[data-theme="light"] body section.bg-slate-700,
+html[data-theme="light"] body main.bg-slate-950,
+html[data-theme="light"] body main.bg-slate-900,
+html[data-theme="light"] body main.bg-slate-800,
+html[data-theme="light"] body main.bg-slate-700 {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+html[data-theme="light"] body div[class*="bg-slate-9"],
+html[data-theme="light"] body div[class*="bg-slate-8"],
+html[data-theme="light"] body section[class*="bg-slate-9"],
+html[data-theme="light"] body section[class*="bg-slate-8"],
+html[data-theme="light"] body main[class*="bg-slate-9"],
+html[data-theme="light"] body main[class*="bg-slate-8"] {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+  color: #0f172a !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+/* Text color emergency overrides */
+html[data-theme="light"] body span.text-slate-400,
+html[data-theme="light"] body p.text-slate-400,
+html[data-theme="light"] body div.text-slate-400,
+html[data-theme="light"] body span.text-slate-300,
+html[data-theme="light"] body p.text-slate-300,
+html[data-theme="light"] body div.text-slate-300,
+html[data-theme="light"] body span.text-white,
+html[data-theme="light"] body p.text-white,
+html[data-theme="light"] body div.text-white {
+  color: #334155 !important;
+}
+
+html[data-theme="light"] body h1.text-white,
+html[data-theme="light"] body h2.text-white,
+html[data-theme="light"] body h3.text-white,
+html[data-theme="light"] body h4.text-white,
+html[data-theme="light"] body h5.text-white,
+html[data-theme="light"] body h6.text-white {
+  color: #0f172a !important;
+}

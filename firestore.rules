@@ -1,0 +1,294 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // =====================================
+    // DEFAULT DENY - FOUNDATIONAL SECURITY
+    // =====================================
+    // Deny all reads and writes by default as the last rule
+    // This ensures any paths not explicitly allowed are denied
+    
+    // =====================================
+    // USERS COLLECTION - STRICT USER RULES
+    // =====================================
+    match /users/{userId} {
+      // Read Access: Allow users to read only their own document
+      allow get: if request.auth != null 
+                 && request.auth.uid == userId;
+      
+      // Create Access: Allow users to create only their own document
+      allow create: if request.auth != null 
+                    && request.auth.uid == userId
+                    && request.auth.uid == request.resource.data.uid;
+      
+      // Update Access: Allow users to update only their own document
+      allow update: if request.auth != null 
+                    && request.auth.uid == userId
+                    && request.auth.uid == resource.data.uid;
+      
+      // Delete Access: DENIED - Users cannot delete their account documents
+      allow delete: if false;
+      
+      // List Access: DENIED - Cannot list entire users collection
+      allow list: if false;
+    }
+    
+    // =====================================
+    // USER CONTENT COLLECTIONS - OWNERSHIP-BASED ACCESS
+    // =====================================
+    // Generic rule for all user-generated content collections
+    // This covers: subscriptions, usage, user_credits, credit_transactions, 
+    // history, templates, canvas_boards, calendar_events, etc.
+    
+    match /{collection}/{documentId} {
+      // Exclude the users collection from this rule (handled above)
+      allow read, write: if collection != 'users'
+                         && request.auth != null
+                         && isOwner();
+      
+      // Create validation: Ensure new documents have correct ownership
+      allow create: if collection != 'users'
+                    && request.auth != null
+                    && isOwner()
+                    && isValidNewDocument();
+    }
+    
+    // =====================================
+    // SUBCOLLECTION RULES - NESTED USER CONTENT
+    // =====================================
+    // Handle nested subcollections under user documents
+    match /users/{userId}/{subcollection}/{documentId} {
+      allow read, write: if request.auth != null
+                         && request.auth.uid == userId
+                         && isSubcollectionOwner(userId);
+      
+      allow create: if request.auth != null
+                    && request.auth.uid == userId
+                    && isValidSubcollectionDocument(userId);
+    }
+    
+    // Handle deeply nested subcollections (3 levels deep)
+    match /users/{userId}/{subcollection}/{subDocId}/{nestedCollection}/{nestedDocId} {
+      allow read, write: if request.auth != null
+                         && request.auth.uid == userId;
+      
+      allow create: if request.auth != null
+                    && request.auth.uid == userId;
+    }
+    
+    // =====================================
+    // SPECIAL COLLECTION RULES
+    // =====================================
+    
+    // Credit Transactions - Enhanced Security
+    match /credit_transactions/{transactionId} {
+      // Read: Only if user owns the transaction
+      allow get: if request.auth != null
+                 && (resource.data.userId == request.auth.uid);
+      
+      // List: Only user's own transactions with query constraints
+      allow list: if request.auth != null
+                  && request.query.where('userId', '==', request.auth.uid).size() > 0;
+      
+      // Create: Only if creating for themselves
+      allow create: if request.auth != null
+                    && request.resource.data.userId == request.auth.uid
+                    && isValidTransaction();
+      
+      // Update/Delete: Prevent modification of transaction records
+      allow update, delete: if false;
+    }
+    
+    // Subscription Data - User-specific access
+    match /subscriptions/{userId} {
+      allow read, write: if request.auth != null 
+                         && request.auth.uid == userId;
+      
+      allow create: if request.auth != null
+                    && request.auth.uid == userId;
+    }
+    
+    // Usage Tracking - User-specific access
+    match /usage/{usageId} {
+      allow read, write: if request.auth != null
+                         && request.auth.uid in resource.data.keys()
+                         || request.auth.uid in request.resource.data.keys();
+      
+      allow create: if request.auth != null
+                    && request.auth.uid in request.resource.data.keys();
+    }
+    
+    // User Credits - Individual user access
+    match /user_credits/{userId} {
+      allow read, write: if request.auth != null
+                         && request.auth.uid == userId;
+
+      allow create: if request.auth != null
+                    && request.auth.uid == userId;
+    }
+
+    // Notifications - User-specific access
+    match /notifications/{notificationId} {
+      // Read: Only if user owns the notification
+      allow get: if request.auth != null
+                 && resource.data.userId == request.auth.uid;
+
+      // List: Only user's own notifications with query constraints
+      allow list: if request.auth != null
+                  && request.query.where('userId', '==', request.auth.uid).size() > 0;
+
+      // Create: Only if creating for themselves with valid structure
+      allow create: if request.auth != null
+                    && request.resource.data.userId == request.auth.uid
+                    && isValidNotification();
+
+      // Update: Only to mark as read or update user's own notifications
+      allow update: if request.auth != null
+                    && resource.data.userId == request.auth.uid
+                    && request.resource.data.userId == request.auth.uid;
+
+      // Delete: Allow users to delete their own notifications
+      allow delete: if request.auth != null
+                    && resource.data.userId == request.auth.uid;
+    }
+
+    // Automation Settings - User-specific access
+    match /automation_settings/{userId} {
+      allow read, write: if request.auth != null
+                         && request.auth.uid == userId;
+
+      allow create: if request.auth != null
+                    && request.auth.uid == userId;
+    }
+
+    // Automation Jobs - User-specific access
+    match /automation_jobs/{jobId} {
+      // Read: Only if user owns the job
+      allow get: if request.auth != null
+                 && resource.data.userId == request.auth.uid;
+
+      // List: Only user's own jobs with query constraints
+      allow list: if request.auth != null
+                  && request.query.where('userId', '==', request.auth.uid).size() > 0;
+
+      // Create: Only if creating for themselves
+      allow create: if request.auth != null
+                    && request.resource.data.userId == request.auth.uid;
+
+      // Update: Only to update status of user's own jobs
+      allow update: if request.auth != null
+                    && resource.data.userId == request.auth.uid
+                    && request.resource.data.userId == request.auth.uid;
+
+      // Delete: Allow users to delete their own jobs
+      allow delete: if request.auth != null
+                    && resource.data.userId == request.auth.uid;
+    }
+
+    // AI Assistant Usage - User-specific access
+    match /ai_assistant_usage/{userId} {
+      allow read, write: if request.auth != null
+                         && request.auth.uid == userId;
+
+      allow create: if request.auth != null
+                    && request.auth.uid == userId
+                    && request.resource.data.userId == userId;
+    }
+
+    // AI Question Logs - User-specific access
+    match /ai_question_logs/{logId} {
+      // Read: Only if user owns the log
+      allow get: if request.auth != null
+                 && resource.data.userId == request.auth.uid;
+
+      // List: Only user's own logs with query constraints
+      allow list: if request.auth != null
+                  && request.query.where('userId', '==', request.auth.uid).size() > 0;
+
+      // Create: Only if creating for themselves
+      allow create: if request.auth != null
+                    && request.resource.data.userId == request.auth.uid;
+
+      // Update/Delete: Prevent modification of logs
+      allow update, delete: if false;
+    }
+    
+    // =====================================
+    // HELPER FUNCTIONS
+    // =====================================
+    
+    // Check if the authenticated user owns the document
+    function isOwner() {
+      return resource == null || 
+             (resource.data.keys().hasAny(['userId', 'uid', 'owner']) && 
+              (resource.data.get('userId', '') == request.auth.uid ||
+               resource.data.get('uid', '') == request.auth.uid ||
+               resource.data.get('owner', '') == request.auth.uid));
+    }
+    
+    // Validate new document has correct ownership fields
+    function isValidNewDocument() {
+      return request.resource.data.keys().hasAny(['userId', 'uid', 'owner']) && 
+             (request.resource.data.get('userId', '') == request.auth.uid ||
+              request.resource.data.get('uid', '') == request.auth.uid ||
+              request.resource.data.get('owner', '') == request.auth.uid);
+    }
+    
+    // Check ownership for subcollections
+    function isSubcollectionOwner(userId) {
+      return resource == null || 
+             userId == request.auth.uid ||
+             (resource.data.keys().hasAny(['userId', 'uid', 'owner']) && 
+              (resource.data.get('userId', '') == request.auth.uid ||
+               resource.data.get('uid', '') == request.auth.uid ||
+               resource.data.get('owner', '') == request.auth.uid));
+    }
+    
+    // Validate subcollection documents
+    function isValidSubcollectionDocument(userId) {
+      return userId == request.auth.uid &&
+             (request.resource.data.keys().hasAny(['userId', 'uid', 'owner']) == false ||
+              request.resource.data.get('userId', '') == request.auth.uid ||
+              request.resource.data.get('uid', '') == request.auth.uid ||
+              request.resource.data.get('owner', '') == request.auth.uid);
+    }
+    
+    // Validate credit transaction structure
+    function isValidTransaction() {
+      return request.resource.data.keys().hasAll(['userId', 'amount', 'type', 'timestamp']) &&
+             request.resource.data.userId is string &&
+             request.resource.data.amount is number &&
+             request.resource.data.type is string &&
+             request.resource.data.timestamp != null;
+    }
+
+    // Validate notification structure
+    function isValidNotification() {
+      return request.resource.data.keys().hasAll(['userId', 'type', 'title', 'message', 'timestamp', 'read']) &&
+             request.resource.data.userId is string &&
+             request.resource.data.type is string &&
+             request.resource.data.title is string &&
+             request.resource.data.message is string &&
+             request.resource.data.read is bool &&
+             request.resource.data.timestamp != null;
+    }
+    
+    // =====================================
+    // ADMINISTRATIVE RULES (Optional - for admin panel)
+    // =====================================
+    // Uncomment and modify if you need admin access
+    // match /{document=**} {
+    //   allow read, write: if request.auth != null 
+    //                      && request.auth.token.admin == true;
+    // }
+    
+    // =====================================
+    // DEFAULT DENY - CATCH ALL
+    // =====================================
+    // This must be the last rule - denies anything not explicitly allowed
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

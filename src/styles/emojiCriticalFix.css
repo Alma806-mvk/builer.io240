@@ -1,0 +1,46 @@
+/* Critical Emoji Fix - Replace corrupted characters in CSS content */
+
+/* Fix corrupted diamond symbols */
+*[data-content*="◆◆◆"]::before,
+*[data-content*="◆"]::before {
+  content: "✨" !important;
+  font-family: "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", sans-serif !important;
+}
+
+/* Fix corrupted search icons */
+*[data-content*="���"]::before {
+  content: "🔍" !important;
+  font-family: "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", sans-serif !important;
+}
+
+/* Fix corrupted warning symbols */
+*[data-content*="������"]::before {
+  content: "⚠️" !important;
+  font-family: "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", sans-serif !important;
+}
+
+/* Override any text containing corrupted emoji patterns */
+.emoji-icon {
+  font-family: "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif !important;
+  text-rendering: optimizeQuality !important;
+  font-variant-emoji: emoji !important;
+}
+
+/* Force proper emoji rendering for all common corrupted patterns */
+*:contains("◆") { font-family: "Noto Color Emoji", sans-serif !important; }
+*:contains("���") { font-family: "Noto Color Emoji", sans-serif !important; }
+*:contains("������") { font-family: "Noto Color Emoji", sans-serif !important; }
+
+/* Universal emoji text replacement rules */
+.fix-emoji {
+  font-family: "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", sans-serif !important;
+}
+
+/* Fallback for any remaining corrupted characters */
+*[class*="emoji"], 
+*[data-emoji], 
+span[title*="emoji"] {
+  font-family: "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", sans-serif !important;
+  font-variant-emoji: emoji !important;
+  text-rendering: optimizeQuality !important;
+}

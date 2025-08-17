@@ -1,0 +1,442 @@
+/* ============================================================================
+   CREATEGEN STUDIO - AGGRESSIVE LIGHT MODE OVERRIDES
+   Maximum specificity overrides to force light mode styling
+   ============================================================================ */
+
+/* Force light mode with maximum specificity */
+html[data-theme="light"],
+html[data-theme="light"] body,
+html[data-theme="light"] #root,
+html[data-theme="light"] .min-h-screen {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+/* ============================================
+     AGGRESSIVE BACKGROUND OVERRIDES
+============================================ */
+
+html[data-theme="light"] .bg-slate-950,
+html[data-theme="light"] .bg-slate-900,
+html[data-theme="light"] .bg-slate-900\\/95,
+html[data-theme="light"] .bg-slate-900\\/90,
+html[data-theme="light"] .bg-slate-900\\/80,
+html[data-theme="light"] .bg-slate-900\\/70,
+html[data-theme="light"] .bg-slate-900\\/60,
+html[data-theme="light"] .bg-slate-900\\/50 {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+}
+
+html[data-theme="light"] .bg-slate-800,
+html[data-theme="light"] .bg-slate-800\\/95,
+html[data-theme="light"] .bg-slate-800\\/90,
+html[data-theme="light"] .bg-slate-800\\/80,
+html[data-theme="light"] .bg-slate-800\\/70,
+html[data-theme="light"] .bg-slate-800\\/60,
+html[data-theme="light"] .bg-slate-800\\/50 {
+  background-color: #f8fafc !important;
+  background: #f8fafc !important;
+}
+
+html[data-theme="light"] .bg-slate-700,
+html[data-theme="light"] .bg-slate-700\\/95,
+html[data-theme="light"] .bg-slate-700\\/90,
+html[data-theme="light"] .bg-slate-700\\/80,
+html[data-theme="light"] .bg-slate-700\\/70,
+html[data-theme="light"] .bg-slate-700\\/60,
+html[data-theme="light"] .bg-slate-700\\/50 {
+  background-color: #f1f5f9 !important;
+  background: #f1f5f9 !important;
+}
+
+html[data-theme="light"] .bg-slate-600 {
+  background-color: #e2e8f0 !important;
+  background: #e2e8f0 !important;
+}
+
+/* Gray backgrounds */
+html[data-theme="light"] .bg-gray-950,
+html[data-theme="light"] .bg-gray-900,
+html[data-theme="light"] .bg-gray-800,
+html[data-theme="light"] .bg-gray-700 {
+  background-color: #f8fafc !important;
+  background: #f8fafc !important;
+}
+
+/* ============================================
+     AGGRESSIVE TEXT COLOR OVERRIDES
+============================================ */
+
+html[data-theme="light"] .text-white,
+html[data-theme="light"] .text-slate-100,
+html[data-theme="light"] .text-slate-200,
+html[data-theme="light"] .text-gray-100,
+html[data-theme="light"] .text-gray-200 {
+  color: #0f172a !important;
+}
+
+html[data-theme="light"] .text-slate-300,
+html[data-theme="light"] .text-slate-400,
+html[data-theme="light"] .text-gray-300,
+html[data-theme="light"] .text-gray-400 {
+  color: #334155 !important;
+}
+
+html[data-theme="light"] .text-slate-500,
+html[data-theme="light"] .text-slate-600,
+html[data-theme="light"] .text-gray-500,
+html[data-theme="light"] .text-gray-600 {
+  color: #64748b !important;
+}
+
+/* ============================================
+     AGGRESSIVE BORDER OVERRIDES
+============================================ */
+
+html[data-theme="light"] .border-slate-700,
+html[data-theme="light"] .border-slate-700\\/50,
+html[data-theme="light"] .border-slate-600,
+html[data-theme="light"] .border-slate-500,
+html[data-theme="light"] .border-gray-700,
+html[data-theme="light"] .border-gray-600 {
+  border-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] .border-slate-800,
+html[data-theme="light"] .border-gray-800 {
+  border-color: #cbd5e1 !important;
+}
+
+/* ============================================
+     GRADIENT OVERRIDES
+============================================ */
+
+html[data-theme="light"] .bg-gradient-to-br,
+html[data-theme="light"] .bg-gradient-to-r,
+html[data-theme="light"] .bg-gradient-to-l,
+html[data-theme="light"] .bg-gradient-to-t,
+html[data-theme="light"] .bg-gradient-to-b {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%) !important;
+}
+
+/* ============================================
+     SHADOW OVERRIDES
+============================================ */
+
+html[data-theme="light"] .shadow-2xl {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15) !important;
+}
+
+html[data-theme="light"] .shadow-xl {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+}
+
+html[data-theme="light"] .shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+html[data-theme="light"] .shadow-md {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* ============================================
+     NAVIGATION OVERRIDES
+============================================ */
+
+html[data-theme="light"] nav,
+html[data-theme="light"] header nav,
+html[data-theme="light"] .flex.items-center.gap-2 {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+html[data-theme="light"] nav button,
+html[data-theme="light"] header nav button,
+html[data-theme="light"] .flex.items-center.gap-2 button {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+  color: #334155 !important;
+  border: 2px solid #e2e8f0 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+}
+
+html[data-theme="light"] nav button:hover,
+html[data-theme="light"] header nav button:hover,
+html[data-theme="light"] .flex.items-center.gap-2 button:hover {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+  border-color: #0ea5e9 !important;
+  color: #0f172a !important;
+  transform: translateY(-2px) scale(1.02) !important;
+  box-shadow: 0 8px 25px rgba(14, 165, 233, 0.2) !important;
+}
+
+html[data-theme="light"] nav button.border-sky-400,
+html[data-theme="light"] header nav button.border-sky-400,
+html[data-theme="light"] .flex.items-center.gap-2 button.border-sky-400 {
+  background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%) !important;
+  color: #ffffff !important;
+  border-color: #0ea5e9 !important;
+  box-shadow: 0 8px 25px rgba(14, 165, 233, 0.3) !important;
+}
+
+/* ============================================
+     ICON VISIBILITY FIXES
+============================================ */
+
+html[data-theme="light"] nav button svg,
+html[data-theme="light"] nav button img,
+html[data-theme="light"] header nav button svg,
+html[data-theme="light"] header nav button img,
+html[data-theme="light"] .flex.items-center.gap-2 button svg,
+html[data-theme="light"] .flex.items-center.gap-2 button img {
+  filter: brightness(0) saturate(100%) invert(20%) sepia(8%) saturate(1200%) hue-rotate(200deg) brightness(95%) contrast(95%) !important;
+}
+
+html[data-theme="light"] nav button.border-sky-400 svg,
+html[data-theme="light"] nav button.border-sky-400 img,
+html[data-theme="light"] header nav button.border-sky-400 svg,
+html[data-theme="light"] header nav button.border-sky-400 img,
+html[data-theme="light"] .flex.items-center.gap-2 button.border-sky-400 svg,
+html[data-theme="light"] .flex.items-center.gap-2 button.border-sky-400 img {
+  filter: brightness(0) saturate(100%) invert(100%) !important;
+}
+
+/* ============================================
+     FORM ELEMENT OVERRIDES
+============================================ */
+
+html[data-theme="light"] input,
+html[data-theme="light"] textarea,
+html[data-theme="light"] select {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border: 2px solid #e2e8f0 !important;
+}
+
+html[data-theme="light"] input:focus,
+html[data-theme="light"] textarea:focus,
+html[data-theme="light"] select:focus {
+  border-color: #0ea5e9 !important;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1) !important;
+}
+
+/* ============================================
+     BUTTON OVERRIDES
+============================================ */
+
+html[data-theme="light"] button:not(.bg-blue-500):not(.bg-purple-500):not(.bg-green-500):not(.bg-red-500) {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+  color: #334155 !important;
+  border: 2px solid #e2e8f0 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+}
+
+html[data-theme="light"] button:not(.bg-blue-500):not(.bg-purple-500):not(.bg-green-500):not(.bg-red-500):hover {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+  border-color: #0ea5e9 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 15px rgba(14, 165, 233, 0.15) !important;
+}
+
+/* ============================================
+     MODAL AND BACKDROP OVERRIDES
+============================================ */
+
+html[data-theme="light"] .backdrop-blur-xl,
+html[data-theme="light"] .backdrop-blur-lg,
+html[data-theme="light"] .backdrop-blur-md,
+html[data-theme="light"] .backdrop-blur-sm {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid #e2e8f0 !important;
+  backdrop-filter: blur(20px) !important;
+}
+
+/* ============================================
+     CARD AND PANEL OVERRIDES
+============================================ */
+
+html[data-theme="light"] .rounded-xl,
+html[data-theme="light"] .rounded-2xl,
+html[data-theme="light"] .rounded-3xl,
+html[data-theme="light"] .rounded-lg {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* ============================================
+     SPECIFIC COMPONENT TARGETING
+============================================ */
+
+/* Main content areas */
+html[data-theme="light"] .space-y-8 > div,
+html[data-theme="light"] .grid > div,
+html[data-theme="light"] .flex.flex-col > div {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+/* Headers and titles */
+html[data-theme="light"] h1,
+html[data-theme="light"] h2,
+html[data-theme="light"] h3,
+html[data-theme="light"] h4,
+html[data-theme="light"] h5,
+html[data-theme="light"] h6 {
+  color: #0f172a !important;
+}
+
+/* Paragraphs and text */
+html[data-theme="light"] p,
+html[data-theme="light"] span,
+html[data-theme="light"] div {
+  color: #334155 !important;
+}
+
+/* ============================================
+     ULTRA-HIGH SPECIFICITY OVERRIDES
+============================================ */
+
+/* For the most stubborn elements */
+html[data-theme="light"] body.theme-light,
+html[data-theme="light"] body.theme-light *,
+html[data-theme="light"] [data-theme="light"],
+html[data-theme="light"] [data-theme="light"] * {
+  --theme-bg-primary: #ffffff !important;
+  --theme-bg-secondary: #f8fafc !important;
+  --theme-bg-tertiary: #f1f5f9 !important;
+  --theme-text-primary: #0f172a !important;
+  --theme-text-secondary: #334155 !important;
+  --theme-text-tertiary: #64748b !important;
+  --theme-border-primary: #e2e8f0 !important;
+  --theme-border-secondary: #cbd5e1 !important;
+}
+
+/* Force CSS custom properties */
+html[data-theme="light"] {
+  --theme-bg-primary: #ffffff !important;
+  --theme-bg-secondary: #f8fafc !important;
+  --theme-bg-tertiary: #f1f5f9 !important;
+  --theme-text-primary: #0f172a !important;
+  --theme-text-secondary: #334155 !important;
+  --theme-text-tertiary: #64748b !important;
+  --theme-border-primary: #e2e8f0 !important;
+  --theme-border-secondary: #cbd5e1 !important;
+  --theme-accent-primary: #0ea5e9 !important;
+  --theme-accent-secondary: #3b82f6 !important;
+}
+
+/* ============================================
+     INLINE STYLE OVERRIDES
+============================================ */
+
+html[data-theme="light"] [style*="background-color: rgb(15, 23, 42)"],
+html[data-theme="light"] [style*="background-color: rgb(30, 41, 59)"],
+html[data-theme="light"] [style*="background-color: rgb(51, 65, 85)"],
+html[data-theme="light"] [style*="background: rgb(15, 23, 42)"],
+html[data-theme="light"] [style*="background: rgb(30, 41, 59)"],
+html[data-theme="light"] [style*="background: rgb(51, 65, 85)"] {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+}
+
+html[data-theme="light"] [style*="color: rgb(248, 250, 252)"],
+html[data-theme="light"] [style*="color: rgb(203, 213, 225)"],
+html[data-theme="light"] [style*="color: rgb(148, 163, 184)"] {
+  color: #0f172a !important;
+}
+
+/* ============================================
+     SCROLLBAR OVERRIDES
+============================================ */
+
+html[data-theme="light"] ::-webkit-scrollbar {
+  width: 8px !important;
+  background: #f1f5f9 !important;
+}
+
+html[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: #cbd5e1 !important;
+  border-radius: 4px !important;
+}
+
+html[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: #0ea5e9 !important;
+}
+
+/* ============================================
+     UTILITY CLASS OVERRIDES
+============================================ */
+
+html[data-theme="light"] .theme-bg-primary {
+  background-color: #ffffff !important;
+}
+
+html[data-theme="light"] .theme-bg-secondary {
+  background-color: #f8fafc !important;
+}
+
+html[data-theme="light"] .theme-bg-tertiary {
+  background-color: #f1f5f9 !important;
+}
+
+html[data-theme="light"] .theme-text-primary {
+  color: #0f172a !important;
+}
+
+html[data-theme="light"] .theme-text-secondary {
+  color: #334155 !important;
+}
+
+html[data-theme="light"] .theme-text-tertiary {
+  color: #64748b !important;
+}
+
+/* ============================================
+     ANIMATION AND TRANSITION SUPPORT
+============================================ */
+
+html[data-theme="light"] * {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease !important;
+}
+
+/* ============================================
+     FALLBACK OVERRIDES
+============================================ */
+
+/* If all else fails, use attribute selectors */
+html[data-theme="light"] *[class*="bg-slate-9"],
+html[data-theme="light"] *[class*="bg-slate-8"],
+html[data-theme="light"] *[class*="bg-gray-9"],
+html[data-theme="light"] *[class*="bg-gray-8"] {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+}
+
+html[data-theme="light"] *[class*="text-white"],
+html[data-theme="light"] *[class*="text-slate-1"],
+html[data-theme="light"] *[class*="text-slate-2"],
+html[data-theme="light"] *[class*="text-gray-1"],
+html[data-theme="light"] *[class*="text-gray-2"] {
+  color: #0f172a !important;
+}
+
+html[data-theme="light"] *[class*="border-slate-7"],
+html[data-theme="light"] *[class*="border-slate-6"],
+html[data-theme="light"] *[class*="border-gray-7"],
+html[data-theme="light"] *[class*="border-gray-6"] {
+  border-color: #e2e8f0 !important;
+}
+
+/* ============================================
+     PRINT STYLES
+============================================ */
+
+@media print {
+  html[data-theme="light"] * {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+  }
+}

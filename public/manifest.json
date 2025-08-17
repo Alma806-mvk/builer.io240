@@ -1,0 +1,90 @@
+{
+  "name": "CreateGen Studio - AI Content Creator",
+  "short_name": "CreateGen",
+  "description": "The ultimate AI-powered content creation platform for creators, marketers, and businesses",
+  "theme_color": "#0ea5e9",
+  "background_color": "#0f172a",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "start_url": "/",
+  "categories": ["productivity", "business", "entertainment"],
+  "lang": "en",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "https://cdn.builder.io/api/v1/image/assets%2F64ff045265d44798a3091f704fc3d25a%2F233e717aa17f46c180d3e8a805cd77d4?format=webp&width=192",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://cdn.builder.io/api/v1/image/assets%2F64ff045265d44798a3091f704fc3d25a%2F233e717aa17f46c180d3e8a805cd77d4?format=webp&width=512",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://cdn.builder.io/api/v1/image/assets%2F64ff045265d44798a3091f704fc3d25a%2F233e717aa17f46c180d3e8a805cd77d4?format=webp&width=180",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "apple-touch-icon"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "AI Generator",
+      "short_name": "Generate",
+      "description": "Create viral content with AI",
+      "url": "/?tab=generator",
+      "icons": [
+        {
+          "src": "https://cdn.builder.io/api/v1/image/assets%2F64ff045265d44798a3091f704fc3d25a%2F233e717aa17f46c180d3e8a805cd77d4?format=webp&width=96",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Trends Dashboard",
+      "short_name": "Trends",
+      "description": "Track viral trends",
+      "url": "/?tab=trends",
+      "icons": [
+        {
+          "src": "https://cdn.builder.io/api/v1/image/assets%2F64ff045265d44798a3091f704fc3d25a%2F233e717aa17f46c180d3e8a805cd77d4?format=webp&width=96",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Visual Studio",
+      "short_name": "Canvas",
+      "description": "Design and edit visuals",
+      "url": "/?tab=canvas",
+      "icons": [
+        {
+          "src": "https://cdn.builder.io/api/v1/image/assets%2F64ff045265d44798a3091f704fc3d25a%2F233e717aa17f46c180d3e8a805cd77d4?format=webp&width=96",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "https://cdn.builder.io/api/v1/image/assets%2F64ff045265d44798a3091f704fc3d25a%2F233e717aa17f46c180d3e8a805cd77d4?format=webp&width=540&height=720",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "AI Content Generator - Mobile View"
+    },
+    {
+      "src": "https://cdn.builder.io/api/v1/image/assets%2F64ff045265d44798a3091f704fc3d25a%2F233e717aa17f46c180d3e8a805cd77d4?format=webp&width=1024&height=768", 
+      "sizes": "1024x768",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "AI Content Generator - Desktop View"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
+}
