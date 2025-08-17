@@ -64,7 +64,10 @@ import {
   Lock,
   Brain,
   Settings,
-  ArrowDown
+  ArrowDown,
+  Send,
+  GitBranch,
+  Clipboard
 } from "lucide-react";
 
 // Import our world-class design system components
@@ -9430,7 +9433,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                             onClick={sendEntireStrategyToCanvas}
                             className="px-6 py-3 bg-gradient-to-r from-emerald-600 to-blue-600 hover:from-emerald-500 hover:to-blue-500 text-white rounded-xl text-lg font-semibold transition-all duration-200 flex items-center space-x-3 shadow-lg hover:shadow-xl"
                           >
-                            <FileText className="w-5 h-5" />
+                            <Send className="w-5 h-5" />
                             <span>Send as Text</span>
                           </button>
 
@@ -9439,9 +9442,9 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                               onClick={sendStrategyAsMindMap}
                               className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-xl text-lg font-semibold transition-all duration-200 flex items-center space-x-3 shadow-lg hover:shadow-xl"
                             >
-                              <Network className="w-5 h-5" />
+                              <GitBranch className="w-5 h-5" />
                               <span>Send as Mind Map</span>
-                              <Sparkles className="w-5 h-5" />
+                              <Brain className="w-5 h-5" />
                             </button>
                           )}
                         </div>
