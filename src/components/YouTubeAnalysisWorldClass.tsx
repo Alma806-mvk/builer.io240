@@ -947,9 +947,41 @@ Provide actionable insights based on current market trends and their performance
             </Button>
             <Button variant="secondary" size="sm" onClick={() => {
               if (parsedAnalysis) {
-                const fullText = parsedAnalysis
-                  .map(s => `## ${s.title}\n${s.content}`)
-                  .join('\n\n');
+                const timestamp = new Date().toLocaleString();
+                const channelName = channelUrl || 'YouTube Channel';
+                const fullText = `# Complete YouTube Analysis Export
+## Channel: ${channelName}
+## Export Date: ${timestamp}
+## Total Sections: ${parsedAnalysis.length}
+
+${parsedAnalysis
+  .map((s, index) => `## Section ${index + 1}: ${s.title}
+
+### Analysis Content:
+${s.content}
+
+${s.ideas && s.ideas.length > 0 ? `### Actionable Insights (${s.ideas.length} items):
+${s.ideas.map((idea, i) => `${i + 1}. ${idea}`).join('\n')}
+` : ''}
+---
+
+`)
+  .join('')}
+
+Total Analysis Cards Exported: ${parsedAnalysis.length}
+Export completed successfully.`;
+
+                // Create downloadable file
+                const blob = new Blob([fullText], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `complete-youtube-analysis-${channelName.replace(/[^a-zA-Z0-9]/g, '-')}-${Date.now()}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
                 handleCopyToClipboard(fullText);
               }
             }}>
