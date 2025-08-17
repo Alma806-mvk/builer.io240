@@ -54,6 +54,7 @@ import { TrendSearchResult } from "../services/enhancedTrendSearchService";
 import InteractiveAnalysisControls from "./InteractiveAnalysisControls";
 import { useDailyTrends, DailyTrendsData } from "../services/dailyTrendsService";
 import { TestDailyTrends } from "./TestDailyTrends";
+import { AdvancedFiltersModal, FilterOptions } from "./AdvancedFiltersModal";
 
 interface TrendData {
   id: string;
@@ -1159,7 +1160,7 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
                                     {deepAnalysis.data?.intelligence?.monetizationScore?.score || 0}/10 {deepAnalysis.data?.intelligence?.monetizationScore?.potential || 'Unknown potential'}
                                   </div>
                                 </div>
-                                <div className="text-2xl">{formattedAnalysis?.intelligence?.monetizationScore?.emoji || '💰'}</div>
+                                <div className="text-2xl">{formattedAnalysis?.intelligence?.monetizationScore?.emoji || '��'}</div>
                               </div>
 
                               <div className="flex items-center justify-between p-3 bg-[var(--surface-tertiary)] rounded-lg">
