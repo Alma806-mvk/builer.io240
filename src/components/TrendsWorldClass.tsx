@@ -137,6 +137,9 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
   const deepAnalysis = useDeepAnalysis({ autoRefresh: true, refreshInterval: 5 * 60 * 1000 });
   const formattedAnalysis = useFormattedAnalysis(deepAnalysis.data);
 
+  // Daily Trends Integration
+  const { trendsData: dailyTrendsData, loading: trendsLoading, error: trendsError, refetch: refetchTrends } = useDailyTrends();
+
   // Auto-analyze when search results change
   useEffect(() => {
     if (searchResults.length > 0 && propSearchQuery) {
