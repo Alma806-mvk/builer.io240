@@ -83,7 +83,7 @@ export const fetchDailyTrends = functions.pubsub.schedule('0 0 * * *')
 
 async function generateDailyTrends(): Promise<DailyTrendsData> {
   const prompt = `
-Generate current trending topics for content creators across major social media platforms. Provide realistic trending data for today's date.
+Generate comprehensive trending data for content creators across major social media platforms. Provide realistic trending data for today's date.
 
 Return a JSON response with this exact structure:
 {
@@ -107,7 +107,16 @@ Return a JSON response with this exact structure:
       "topTrends": ["trend1", "trend2", "trend3"],
       "growth": percentage_number,
       "engagement": percentage_number,
-      "color": "#ff0050"
+      "color": "#ff0050",
+      "activeCreators": number_between_50000_500000,
+      "avgViews": number_between_100000_2000000,
+      "contentTypes": ["short_videos", "trends", "challenges"],
+      "bestPostingTimes": ["6-9AM", "7-9PM"],
+      "audienceDemographics": {
+        "primaryAge": "16-24",
+        "genderSplit": "60% female, 40% male",
+        "topCountries": ["US", "UK", "Canada"]
+      }
     }
   ]
 }
@@ -116,11 +125,13 @@ Include:
 - 8-12 trending topics across different platforms
 - Mix of evergreen and timely trending content
 - Realistic metrics based on current social media trends
-- 4 platform summaries (TikTok, YouTube, Instagram, LinkedIn)
+- Enhanced platform data with creator metrics, audience insights, and optimal posting times
+- 4-5 platform summaries (TikTok, YouTube, Instagram, LinkedIn, Twitter)
 - Focus on content creation opportunities
 - Consider seasonal trends, current events, and emerging technologies
+- Include platform-specific performance metrics and audience data
 
-Make the data realistic and useful for content creators looking for trending opportunities.
+Make the data realistic and useful for content creators looking for trending opportunities and platform optimization.
 `;
 
   const result = await model.generateContent(prompt);
