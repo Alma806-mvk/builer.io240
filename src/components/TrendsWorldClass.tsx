@@ -133,6 +133,7 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
   const [selectedPlatform, setSelectedPlatform] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [timeRange, setTimeRange] = useState("24h");
+  const [showTestModal, setShowTestModal] = useState(false);
 
   // Deep Analysis Integration
   const deepAnalysis = useDeepAnalysis({ autoRefresh: true, refreshInterval: 5 * 60 * 1000 });
@@ -1140,7 +1141,7 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
                                     {deepAnalysis.data?.intelligence?.contentGaps?.count || 0} untapped opportunities
                                   </div>
                                 </div>
-                                <div className="text-2xl">🎯</div>
+                                <div className="text-2xl">��</div>
                               </div>
 
                               <div className="flex items-center justify-between p-3 bg-[var(--surface-tertiary)] rounded-lg">
