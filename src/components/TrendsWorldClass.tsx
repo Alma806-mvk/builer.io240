@@ -147,8 +147,8 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
     }
   }, [searchResults, propSearchQuery, deepAnalysis.analyze]);
 
-  // Mock trending data
-  const trendingData: TrendData[] = [
+  // Use real trending data from daily trends service or fallback to mock data
+  const trendingData: TrendData[] = dailyTrendsData?.trends || [
     {
       id: "1",
       keyword: "AI content creation",
