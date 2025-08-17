@@ -260,17 +260,17 @@ const CopyIcon = ({ className = "" }) => (
   <Copy className={className} />
 );
 const CanvasIcon = ({ className = "" }) => (
-  <span className={className}>🎨</span>
+  <Palette className={className} />
 );
-const CrownIcon = ({ className = "" }) => <span className={className}>👑</span>;
+const CrownIcon = ({ className = "" }) => <Crown className={className} />;
 const ChartBarIcon = ({ className = "" }) => (
-  <span className={className}>���</span>
+  <BarChart3 className={className} />
 );
 const CalendarIcon = ({ className = "" }) => (
-  <span className={className}>📅</span>
+  <Calendar className={className} />
 );
 const TargetIcon = ({ className = "" }) => (
-  <span className={className}>🎯</span>
+  <Target className={className} />
 );
 const TrendingUpIcon = ({ className = "" }) => (
   <span className={className}>📈</span>
@@ -4423,7 +4423,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
         <!-- Growth & Scalability -->
         ${plan?.scalabilityPlanning ? `
           <div class="section">
-            <h2>📈 Growth & Scalability Roadmap</h2>
+            <h2>��� Growth & Scalability Roadmap</h2>
 
             ${plan.scalabilityPlanning.growthPhases ? `
               <h3>Growth Phases</h3>
