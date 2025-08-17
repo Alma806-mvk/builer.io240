@@ -296,16 +296,16 @@ const GlobeIcon = ({ className = "" }) => <Globe className={className} />;
 const CheckCircleIcon = ({ className = "" }) => (
   <CheckCircle className={className} />
 );
-const StarIcon = ({ className = "" }) => <span className={className}>⭐</span>;
+const StarIcon = ({ className = "" }) => <Star className={className} />;
 const LockClosedIcon = ({ className = "" }) => (
-  <span className={className}>���</span>
+  <Lock className={className} />
 );
 const DocumentTextIcon = ({ className = "" }) => (
-  <span className={className}>📄</span>
+  <FileText className={className} />
 );
-const BrainIcon = ({ className = "" }) => <span className={className}>���</span>;
+const BrainIcon = ({ className = "" }) => <Brain className={className} />;
 const DocumentArrowDownIcon = ({ className = "" }) => (
-  <span className={className}>��</span>
+  <ArrowDown className={className} />
 );
 
 interface PremiumContentStrategyProps {
