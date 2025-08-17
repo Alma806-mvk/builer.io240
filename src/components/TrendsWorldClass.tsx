@@ -135,6 +135,19 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [timeRange, setTimeRange] = useState("24h");
   const [showTestModal, setShowTestModal] = useState(false);
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
+  const [activeFilters, setActiveFilters] = useState<FilterOptions>({
+    platforms: [],
+    categories: [],
+    volumeRange: [0, 1000000],
+    growthRange: [-100, 500],
+    opportunityRange: [0, 100],
+    difficultyRange: [0, 100],
+    timeframe: 'all',
+    trendingOnly: false,
+    sortBy: 'opportunity',
+    sortOrder: 'desc'
+  });
 
   // Deep Analysis Integration
   const deepAnalysis = useDeepAnalysis({ autoRefresh: true, refreshInterval: 5 * 60 * 1000 });
@@ -1160,7 +1173,7 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
                                     {deepAnalysis.data?.intelligence?.monetizationScore?.score || 0}/10 {deepAnalysis.data?.intelligence?.monetizationScore?.potential || 'Unknown potential'}
                                   </div>
                                 </div>
-                                <div className="text-2xl">{formattedAnalysis?.intelligence?.monetizationScore?.emoji || '��'}</div>
+                                <div className="text-2xl">{formattedAnalysis?.intelligence?.monetizationScore?.emoji || '💰'}</div>
                               </div>
 
                               <div className="flex items-center justify-between p-3 bg-[var(--surface-tertiary)] rounded-lg">
@@ -1170,7 +1183,7 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
                                     {deepAnalysis.data?.intelligence?.riskAssessment?.level || 'Unknown'} volatility detected
                                   </div>
                                 </div>
-                                <div className="text-2xl">{formattedAnalysis?.intelligence?.riskAssessment?.emoji || '🛡️'}</div>
+                                <div className="text-2xl">{formattedAnalysis?.intelligence?.riskAssessment?.emoji || '🛡���'}</div>
                               </div>
                             </div>
                           </div>
