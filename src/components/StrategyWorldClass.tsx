@@ -142,6 +142,7 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
   isPremium = false,
   subscriptionPlan = "free",
   onUpgrade,
+  sidebarExpanded = true,
 }) => {
   const [activeSection, setActiveSection] = useState<'overview' | 'goals' | 'pillars' | 'platforms' | 'campaigns' | 'analytics' | 'monetization' | 'risk' | 'competitors' | 'journey' | 'resources' | 'compliance' | 'generated'>('overview');
   const [selectedStrategy, setSelectedStrategy] = useState<GeneratedStrategy | null>(null);
