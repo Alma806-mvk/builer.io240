@@ -20,6 +20,15 @@ export interface PlatformTrend {
   growth: number;
   engagement: number;
   color: string;
+  activeCreators?: number;
+  avgViews?: number;
+  contentTypes?: string[];
+  bestPostingTimes?: string[];
+  audienceDemographics?: {
+    primaryAge: string;
+    genderSplit: string;
+    topCountries: string[];
+  };
 }
 
 export interface DailyTrendsData {
