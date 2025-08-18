@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Sparkles, Copy } from 'lucide-react';
 import { promptExamples, promptCategories, getExamplesByCategory, type PromptExample } from '../data/promptExamples';
 import '../styles/promptCarousel.css';
+import '../utils/testPromptCarousel';
 
 interface PromptExamplesCarouselProps {
   onSelectPrompt: (prompt: string) => void;
