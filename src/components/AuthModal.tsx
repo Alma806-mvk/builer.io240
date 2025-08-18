@@ -773,7 +773,10 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuccess, d
                               By continuing you agree to our{' '}
                               <button
                                 type="button"
-                                onClick={() => setShowTerms(true)}
+                                onClick={() => {
+                                  console.log('Terms button clicked');
+                                  setShowTerms(true);
+                                }}
                                 style={{
                                   color: 'hsl(210, 40%, 98%)',
                                   textDecoration: 'underline',
@@ -788,7 +791,10 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuccess, d
                               {' '}and{' '}
                               <button
                                 type="button"
-                                onClick={() => setShowPrivacy(true)}
+                                onClick={() => {
+                                  console.log('Privacy button clicked');
+                                  setShowPrivacy(true);
+                                }}
                                 style={{
                                   color: 'hsl(210, 40%, 98%)',
                                   textDecoration: 'underline',
