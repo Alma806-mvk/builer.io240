@@ -25,7 +25,7 @@ const AuthWrapper: React.FC<AuthWrapperProps> = ({ children }) => {
   }
 
   if (!user) {
-    return <PremiumAuth />;
+    return <AuthModal isOpen={true} onClose={() => {}} />;
   }
 
   return <>{children}</>;
