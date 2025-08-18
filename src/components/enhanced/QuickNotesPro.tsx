@@ -417,19 +417,19 @@ const QuickNotesPro: React.FC<QuickNotesProProps> = ({
     <Card className="relative overflow-hidden">
       <div className="space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-6">
           <div className="flex items-center space-x-3">
             <div className="p-2 rounded-lg bg-gradient-to-br from-yellow-500 to-orange-500 text-white">
               <StickyNote className="w-4 h-4" />
             </div>
-            <div className="min-w-0 flex-1">
+            <div className="min-w-0">
               <h3 className="font-semibold text-sm text-[var(--text-primary)] truncate">Quick Notes</h3>
               <p className="text-xs text-[var(--text-secondary)] truncate">
                 {notes.filter(n => !n.isArchived).length} notes • {pinnedNotes.length} pinned
               </p>
             </div>
           </div>
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center space-x-2 flex-shrink-0">
             <Button
               variant="ghost"
               size="xs"
