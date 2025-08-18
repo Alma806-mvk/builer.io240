@@ -422,9 +422,9 @@ const QuickNotesPro: React.FC<QuickNotesProProps> = ({
             <div className="p-2 rounded-lg bg-gradient-to-br from-yellow-500 to-orange-500 text-white">
               <StickyNote className="w-4 h-4" />
             </div>
-            <div>
-              <h3 className="font-semibold text-[var(--text-primary)]">Quick Notes</h3>
-              <p className="text-xs text-[var(--text-secondary)]">
+            <div className="min-w-0 flex-1">
+              <h3 className="font-semibold text-sm text-[var(--text-primary)] truncate">Quick Notes</h3>
+              <p className="text-xs text-[var(--text-secondary)] truncate">
                 {notes.filter(n => !n.isArchived).length} notes • {pinnedNotes.length} pinned
               </p>
             </div>
