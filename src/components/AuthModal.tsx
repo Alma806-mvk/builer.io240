@@ -16,6 +16,8 @@ interface AuthModalProps {
   onClose: () => void;
   onAuthSuccess?: () => void;
   defaultTab?: 'signin' | 'signup';
+  onNavigateToTerms?: () => void;
+  onNavigateToPrivacy?: () => void;
 }
 
 const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuccess, defaultTab = 'signin' }) => {
