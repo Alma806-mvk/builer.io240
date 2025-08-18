@@ -200,6 +200,24 @@ class EnhancedHistoryService {
     }
   }
 
+  async updateRating(id: string, rating: 1 | -1 | 0): Promise<void> {
+    try {
+      const history = await this.getEnhancedHistory();
+      const index = history.findIndex(item => item.id === id);
+
+      if (index !== -1) {
+        history[index] = { ...history[index], rating };
+        await this.saveHistory(history);
+        this.notifyListeners(history);
+        console.log(`Updated rating for item ${id} to ${rating}`);
+      } else {
+        console.warn(`Item with id ${id} not found for rating update`);
+      }
+    } catch (error) {
+      console.error('Error updating rating:', error);
+    }
+  }
+
   async deleteHistoryItem(id: string): Promise<void> {
     const history = await this.getEnhancedHistory();
     const filtered = history.filter(item => item.id !== id);
