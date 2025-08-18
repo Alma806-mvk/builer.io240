@@ -317,6 +317,16 @@ export const HistorySection: React.FC<HistorySectionProps> = ({
                 </div>
 
                 <div className="flex items-center space-x-2 ml-4">
+                  {/* Rating Buttons */}
+                  {updateItemRating && (
+                    <RatingButtons
+                      rating={item.rating}
+                      onRating={(rating) => updateItemRating(item.id, rating)}
+                      size="sm"
+                      showTooltip={true}
+                    />
+                  )}
+
                   <button
                     onClick={() => toggleHistoryItemFavorite(item.id)}
                     className={`p-2 rounded-lg transition-colors ${
