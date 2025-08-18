@@ -72,6 +72,8 @@ import {
   Image as ImageIcon,
   Shield,
   Lock,
+  Copy,
+  Send,
 } from "lucide-react";
 
 // Import our world-class components
