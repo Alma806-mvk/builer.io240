@@ -379,6 +379,7 @@ export interface HistoryItem {
   aiPersona?: AiPersona;
   aiPersonaId?: string; // ID of the AiPersonaDefinition used
   targetLanguage?: Language;
+  rating?: 1 | -1 | 0; // 1=thumbs up, -1=thumbs down, 0=unrated
 }
 
 export interface PromptTemplate {
