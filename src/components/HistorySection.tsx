@@ -17,6 +17,8 @@ import {
   EyeIcon,
 } from "../IconComponents";
 
+import RatingButtons from "./ui/RatingButtons";
+
 interface HistorySectionProps {
   history: HistoryItem[];
   viewingHistoryItemId: string | null;
