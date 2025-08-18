@@ -4610,7 +4610,7 @@ ${strategyPlan.suggestedWeeklySchedule.map((item) => `������� ${it
 🔍 SEO KEYWORDS:
 ${strategyPlan.seoStrategy.primaryKeywords.join(", ")}
 
-���������������� KEY CTAs:
+����������������� KEY CTAs:
 ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
 
 ��� Full strategy plan available in Strategy tab`;
@@ -8752,7 +8752,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                   "��",
                   "⚡",
                   "��",
-                  "����",
+                  "💫",
                 ].map((icon) => (
                   <button
                     key={icon}
@@ -9017,7 +9017,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 <option value="basic">Basic</option>
                 <option value="professional">�� Professional</option>
                 <option value="modern">🚀 Modern</option>
-                <option value="minimal">����� Minimal</option>
+                <option value="minimal">��� Minimal</option>
                 <option value="corporate">▣ Corporate</option>
                 <option value="creative">������ Creative</option>
                 <option value="financial">$ Financial</option>
@@ -9740,7 +9740,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 <option value="go">�� Go</option>
                 <option value="rust">������ Rust</option>
                 <option value="swift">�� Swift</option>
-                <option value="kotlin">������������ Kotlin</option>
+                <option value="kotlin">�������������� Kotlin</option>
                 <option value="html">🌐 HTML</option>
                 <option value="css">�������� CSS</option>
                 <option value="sql">�������️ SQL</option>
@@ -14688,7 +14688,12 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                       <span className="text-xs text-slate-400">Rate this:</span>
                       <RatingButtons
                         rating={displayedOutputItem.rating || 0}
-                        onRating={handleRateCurrentContent}
+                        onRating={(rating) => {
+                          const outputText = displayedOutputItem.output && typeof displayedOutputItem.output === 'object' && 'content' in displayedOutputItem.output
+                            ? displayedOutputItem.output.content
+                            : JSON.stringify(displayedOutputItem.output);
+                          handleRateCurrentContentWithFirebase(rating, outputText);
+                        }}
                         size="sm"
                         showTooltip={true}
                       />
@@ -15017,7 +15022,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                             }}
                             className="w-full px-3 py-2 text-xs text-center bg-gradient-to-r from-sky-600 to-purple-600 hover:from-sky-500 hover:to-purple-500 text-white rounded-md transition-all font-medium"
                           >
-                            ������ Browse All {CANVAS_SHAPE_VARIANTS.length} Shapes
+                            ����� Browse All {CANVAS_SHAPE_VARIANTS.length} Shapes
                           </button>
                         </div>
                       </div>
@@ -17173,7 +17178,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 {/* Analysis Loading State */}
                 {isAnalyzingChannel && !channelAnalysisProgress && (
                   <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-3xl border border-slate-700/50 p-8 shadow-2xl mb-6">
-                    <GeneratingContent message="��������� Preparing channel analysis..." />
+                    <GeneratingContent message="������� Preparing channel analysis..." />
                   </div>
                 )}
 
@@ -18710,7 +18715,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                       icon="📈"
                       guidelines={[
                         {
-                          status: "���� Optimal:",
+                          status: "������ Optimal:",
                           color: "text-green-400",
                           text: "10K+ subscribers, 20+ videos, consistent uploads",
                         },
