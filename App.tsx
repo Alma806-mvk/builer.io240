@@ -2775,7 +2775,7 @@ export const App = ({
             }
           }
           // Debug the result structure
-          console.log('����� Debug result structure:', {
+          console.log('������� Debug result structure:', {
             type: typeof result,
             hasText: 'text' in result,
             textType: typeof result.text,
@@ -4256,21 +4256,46 @@ VARIATIONS: Alternative approaches
     if (!displayedOutputItem) return;
 
     try {
-      // Update the displayed item's rating
-      const updatedItem = { ...displayedOutputItem, rating };
-      setDisplayedOutputItem(updatedItem);
+      // If we're viewing a history item, update it in the history
+      if (viewingHistoryItemId && displayedOutputItem.id !== "current_generation") {
+        setHistory(
+          history.map((item) =>
+            item.id === displayedOutputItem.id
+              ? { ...item, rating }
+              : item
+          )
+        );
 
-      // Update local history state
-      setHistory(
-        history.map((item) =>
-          item.id === displayedOutputItem.id
-            ? { ...item, rating }
-            : item
-        )
-      );
+        // Update enhanced history service
+        await enhancedHistoryService.updateRating(displayedOutputItem.id, rating);
+      } else {
+        // For current generation, we need to save it to history first if it's not already there
+        const existingHistoryItem = history.find(item =>
+          item.userInput === displayedOutputItem.userInput &&
+          item.contentType === displayedOutputItem.contentType &&
+          item.platform === displayedOutputItem.platform
+        );
 
-      // Update enhanced history service
-      await enhancedHistoryService.updateRating(displayedOutputItem.id, rating);
+        if (existingHistoryItem) {
+          // Update existing item
+          setHistory(
+            history.map((item) =>
+              item.id === existingHistoryItem.id
+                ? { ...item, rating }
+                : item
+            )
+          );
+          await enhancedHistoryService.updateRating(existingHistoryItem.id, rating);
+        } else {
+          // Add new item to history with rating
+          const newHistoryItem: HistoryItem = {
+            ...displayedOutputItem,
+            id: crypto.randomUUID(),
+            rating,
+          };
+          addHistoryItemToState(newHistoryItem);
+        }
+      }
 
       console.log(`Content rated: ${rating === 1 ? '👍 Good' : rating === -1 ? '👎 Needs improvement' : '🔄 Rating removed'}`);
     } catch (error) {
@@ -7228,7 +7253,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
         let ideasToRender = parsedIdeas;
         if (parsedIdeas.length <= 1) {
           // Try splitting by the emoji pattern
-          const emojiSplit = contentText.split(/(?=������)/);
+          const emojiSplit = contentText.split(/(?=�������)/);
           if (emojiSplit.length > 1) {
             ideasToRender = emojiSplit
               .filter((section) => section.trim().length > 20)
