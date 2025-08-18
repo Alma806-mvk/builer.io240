@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Sparkles, Copy } from 'lucide-react';
 import { promptExamples, promptCategories, getExamplesByCategory, type PromptExample } from '../data/promptExamples';
+import '../styles/promptCarousel.css';
 
 interface PromptExamplesCarouselProps {
   onSelectPrompt: (prompt: string) => void;
@@ -69,12 +70,12 @@ export const PromptExamplesCarousel: React.FC<PromptExamplesCarouselProps> = ({
         </div>
         
         {/* Category Filter Pills */}
-        <div className="flex space-x-1 overflow-x-auto scrollbar-hide">
+        <div className="category-filter-mobile flex space-x-1 overflow-x-auto scrollbar-hide">
           {promptCategories.slice(0, 6).map((category) => (
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`px-3 py-1 text-xs font-medium rounded-full transition-all whitespace-nowrap ${
+              className={`category-filter-button category-pill-small px-3 py-1 text-xs font-medium rounded-full transition-all whitespace-nowrap ${
                 selectedCategory === category
                   ? 'bg-violet-500/20 text-violet-300 border border-violet-500/30'
                   : 'bg-[var(--surface-tertiary)] text-[var(--text-tertiary)] hover:text-[var(--text-secondary)] border border-transparent hover:border-[var(--border-secondary)]'
@@ -92,7 +93,7 @@ export const PromptExamplesCarousel: React.FC<PromptExamplesCarouselProps> = ({
         {canScrollLeft && (
           <button
             onClick={() => scroll('left')}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-[var(--surface-primary)]/80 hover:bg-[var(--surface-primary)] border border-[var(--border-primary)] rounded-full shadow-lg backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100"
+            className="carousel-nav-button absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-[var(--surface-primary)]/80 hover:bg-[var(--surface-primary)] border border-[var(--border-primary)] rounded-full shadow-lg backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100"
             aria-label="Scroll left"
           >
             <ChevronLeft className="w-4 h-4 text-[var(--text-primary)]" />
@@ -103,7 +104,7 @@ export const PromptExamplesCarousel: React.FC<PromptExamplesCarouselProps> = ({
         {canScrollRight && (
           <button
             onClick={() => scroll('right')}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-[var(--surface-primary)]/80 hover:bg-[var(--surface-primary)] border border-[var(--border-primary)] rounded-full shadow-lg backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100"
+            className="carousel-nav-button absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-[var(--surface-primary)]/80 hover:bg-[var(--surface-primary)] border border-[var(--border-primary)] rounded-full shadow-lg backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100"
             aria-label="Scroll right"
           >
             <ChevronRight className="w-4 h-4 text-[var(--text-primary)]" />
@@ -113,22 +114,22 @@ export const PromptExamplesCarousel: React.FC<PromptExamplesCarouselProps> = ({
         {/* Scrollable Examples */}
         <div
           ref={scrollRef}
-          className="flex space-x-3 overflow-x-auto scrollbar-hide pb-2"
+          className="prompt-carousel-container flex space-x-3 overflow-x-auto scrollbar-hide pb-2"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {filteredExamples.map((example) => (
             <div
               key={example.id}
-              className="relative flex-shrink-0 w-80 group/card"
+              className="prompt-carousel-card relative flex-shrink-0 w-80 group/card"
             >
               <button
                 onClick={() => handlePromptSelect(example)}
-                className="w-full p-4 bg-[var(--surface-secondary)] hover:bg-[var(--surface-tertiary)] border border-[var(--border-primary)] hover:border-[var(--border-accent)] rounded-lg transition-all duration-200 text-left group-hover/card:shadow-lg group-hover/card:scale-[1.02]"
+                className="prompt-card-mobile prompt-card-hover w-full p-4 bg-[var(--surface-secondary)] hover:bg-[var(--surface-tertiary)] border border-[var(--border-primary)] hover:border-[var(--border-accent)] rounded-lg transition-all duration-200 text-left group-hover/card:shadow-lg group-hover/card:scale-[1.02]"
               >
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex items-center space-x-2">
                     <span className="text-lg">{example.icon}</span>
-                    <h4 className="text-sm font-medium text-[var(--text-primary)] truncate">
+                    <h4 className="prompt-title-mobile text-sm font-medium text-[var(--text-primary)] truncate">
                       {example.title}
                     </h4>
                   </div>
@@ -139,7 +140,7 @@ export const PromptExamplesCarousel: React.FC<PromptExamplesCarouselProps> = ({
                   </div>
                 </div>
                 
-                <p className="text-xs text-[var(--text-secondary)] line-clamp-3 leading-relaxed">
+                <p className="prompt-text-mobile text-xs text-[var(--text-secondary)] line-clamp-3 leading-relaxed">
                   {example.prompt}
                 </p>
                 
@@ -154,7 +155,7 @@ export const PromptExamplesCarousel: React.FC<PromptExamplesCarouselProps> = ({
 
               {/* Success tooltip */}
               {showTooltip === example.id && (
-                <div className="absolute top-2 right-2 bg-emerald-500 text-white text-xs px-2 py-1 rounded-full animate-fade-in">
+                <div className="absolute top-2 right-2 bg-emerald-500 text-white text-xs px-2 py-1 rounded-full animate-fade-in animate-pulse-glow">
                   ✓ Added!
                 </div>
               )}
@@ -171,8 +172,8 @@ export const PromptExamplesCarousel: React.FC<PromptExamplesCarouselProps> = ({
         </div>
 
         {/* Fade edges for visual indication of scrollability */}
-        <div className="absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-[var(--surface-primary)] to-transparent pointer-events-none z-[5]" />
-        <div className="absolute right-0 top-0 bottom-0 w-4 bg-gradient-to-l from-[var(--surface-primary)] to-transparent pointer-events-none z-[5]" />
+        <div className="prompt-carousel-fade-edge absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-[var(--surface-primary)] to-transparent pointer-events-none z-[5]" />
+        <div className="prompt-carousel-fade-edge absolute right-0 top-0 bottom-0 w-4 bg-gradient-to-l from-[var(--surface-primary)] to-transparent pointer-events-none z-[5]" />
       </div>
 
       {/* Quick Stats */}
