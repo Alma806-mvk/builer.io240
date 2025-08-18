@@ -8,6 +8,7 @@ import { PremiumStatusIndicator } from "./PremiumStatusIndicator";
 import { PremiumContentTypesShowcase } from "./PremiumContentTypesShowcase";
 import { PremiumGeneratorEnhancement } from "./PremiumGeneratorEnhancement";
 import { PremiumUpgradeModal } from "./PremiumUpgradeModal";
+import { PromptExamplesCarousel } from "./PromptExamplesCarousel";
 import {
   Button,
   Card,
@@ -895,6 +896,13 @@ export const GeneratorAppStyled: React.FC<GeneratorAppStyledProps> = (props) => 
               <label className="block text-sm font-medium text-[var(--text-primary)]">
                 Describe Your Content Idea
               </label>
+
+              {/* Prompt Examples Carousel */}
+              <PromptExamplesCarousel
+                onSelectPrompt={(prompt) => props.setUserInput(prompt)}
+                className="mb-4"
+              />
+
               <textarea
                 value={props.userInput}
                 onChange={(e) => props.setUserInput(e.target.value)}
