@@ -7,7 +7,7 @@ import "./styles/magicToolsAnimations.css";
 import { auth } from "./config/firebase";
 import { signOut } from "firebase/auth";
 import { App as MainApp } from "../App";
-import PremiumAuth from "./components/PremiumAuth";
+import AuthModal from "./components/AuthModal";
 import {
   UserCircleIcon,
   ChevronDownIcon,
@@ -492,7 +492,19 @@ function AppContent() {
         >
           ✕
         </button>
-        <PremiumAuth onAuthSuccess={handleCloseAuth} />
+        <AuthModal
+          isOpen={true}
+          onClose={handleCloseAuth}
+          onAuthSuccess={handleCloseAuth}
+          onNavigateToTerms={() => {
+            const url = window.location.origin + '/#/terms';
+            window.open(url, '_blank');
+          }}
+          onNavigateToPrivacy={() => {
+            const url = window.location.origin + '/#/privacy';
+            window.open(url, '_blank');
+          }}
+        />
       </div>
     );
   }

@@ -43,7 +43,7 @@ const TermsOfService: React.FC<TermsOfServiceProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm">
+    <div className="fixed inset-0 z-[10000] bg-black/80 backdrop-blur-sm">
       <div className="flex items-center justify-center min-h-full p-4">
         <div className="relative w-full max-w-4xl bg-slate-800 rounded-3xl border border-slate-700/50 shadow-2xl max-h-[90vh] flex flex-col">
           {/* Header */}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { auth } from '../config/firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
-import PremiumAuth from './PremiumAuth';
+import AuthModal from './AuthModal';
 
 interface AuthWrapperProps {
   children: React.ReactNode;
@@ -25,7 +25,18 @@ const AuthWrapper: React.FC<AuthWrapperProps> = ({ children }) => {
   }
 
   if (!user) {
-    return <PremiumAuth />;
+    return <AuthModal
+      isOpen={true}
+      onClose={() => {}}
+      onNavigateToTerms={() => {
+        const url = window.location.origin + '/#/terms';
+        window.open(url, '_blank');
+      }}
+      onNavigateToPrivacy={() => {
+        const url = window.location.origin + '/#/privacy';
+        window.open(url, '_blank');
+      }}
+    />;
   }
 
   return <>{children}</>;
