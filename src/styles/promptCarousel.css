@@ -1,0 +1,215 @@
+/* Prompt Examples Carousel Styles */
+
+/* Smooth fade animation */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.2);
+  }
+}
+
+/* Animation utilities */
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.4s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 0.8s ease-in-out;
+}
+
+/* Hide scrollbar for webkit browsers */
+.scrollbar-hide {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+/* Line clamp utility for consistent text truncation */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+  /* Adjust carousel card width for mobile */
+  .prompt-carousel-card {
+    min-width: 280px !important;
+    max-width: 280px !important;
+  }
+  
+  /* Hide navigation arrows on mobile - rely on touch scrolling */
+  .carousel-nav-button {
+    display: none !important;
+  }
+  
+  /* Adjust spacing for mobile */
+  .prompt-carousel-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  /* Mobile category filter adjustments */
+  .category-filter-mobile {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .category-filter-mobile::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Reduce padding on mobile cards */
+  .prompt-card-mobile {
+    padding: 0.75rem !important;
+  }
+  
+  /* Adjust text sizes for mobile */
+  .prompt-title-mobile {
+    font-size: 0.75rem !important;
+    line-height: 1rem !important;
+  }
+  
+  .prompt-text-mobile {
+    font-size: 0.6875rem !important;
+    line-height: 1.25rem !important;
+  }
+}
+
+@media (max-width: 640px) {
+  /* Even smaller cards for very small screens */
+  .prompt-carousel-card {
+    min-width: 260px !important;
+    max-width: 260px !important;
+  }
+  
+  /* Reduce margins and padding further */
+  .prompt-carousel-container {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  
+  /* Stack category filters more efficiently */
+  .category-pill-small {
+    padding: 0.25rem 0.5rem !important;
+    font-size: 0.625rem !important;
+  }
+}
+
+/* Touch-friendly interactions */
+@media (hover: none) and (pointer: coarse) {
+  /* Remove hover effects for touch devices */
+  .prompt-card-hover {
+    transform: none !important;
+  }
+  
+  /* Increase touch targets */
+  .category-filter-button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .prompt-carousel-card {
+    min-height: 44px;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  /* Disable animations for users who prefer reduced motion */
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .animate-fade-in,
+  .animate-slide-in-right,
+  .animate-pulse-glow {
+    animation: none !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .prompt-carousel-card {
+    border-width: 2px !important;
+  }
+  
+  .category-filter-button {
+    border-width: 2px !important;
+  }
+}
+
+/* Dark mode optimizations */
+@media (prefers-color-scheme: dark) {
+  .prompt-carousel-fade-edge {
+    background: linear-gradient(to right, 
+      var(--surface-primary, #1a1a1a) 0%, 
+      transparent 100%
+    );
+  }
+}
+
+/* Focus visible for keyboard navigation */
+.prompt-carousel-card:focus-visible,
+.category-filter-button:focus-visible {
+  outline: 2px solid var(--brand-primary, #8b5cf6);
+  outline-offset: 2px;
+}
+
+/* Loading states */
+.prompt-carousel-loading {
+  background: linear-gradient(90deg, 
+    rgba(255, 255, 255, 0.1) 25%, 
+    rgba(255, 255, 255, 0.2) 50%, 
+    rgba(255, 255, 255, 0.1) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}

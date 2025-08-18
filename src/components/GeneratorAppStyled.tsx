@@ -8,6 +8,8 @@ import { PremiumStatusIndicator } from "./PremiumStatusIndicator";
 import { PremiumContentTypesShowcase } from "./PremiumContentTypesShowcase";
 import { PremiumGeneratorEnhancement } from "./PremiumGeneratorEnhancement";
 import { PremiumUpgradeModal } from "./PremiumUpgradeModal";
+import { PromptExamplesCarousel } from "./PromptExamplesCarousel";
+import { GuidedPromptBuilder } from "./GuidedPromptBuilder";
 import {
   Button,
   Card,
@@ -181,6 +183,10 @@ interface GeneratorAppStyledProps {
   currentContentTypeDetails: any;
   isBatchSupported: boolean;
   isABTestSupported: boolean;
+
+  // Prompt Builder State
+  showGuidedBuilder?: boolean;
+  setShowGuidedBuilder?: (show: boolean) => void;
   isAiPersonaModalOpen: boolean;
   setIsAiPersonaModalOpen: (open: boolean) => void;
   onGenerate: () => void;
@@ -895,6 +901,22 @@ export const GeneratorAppStyled: React.FC<GeneratorAppStyledProps> = (props) => 
               <label className="block text-sm font-medium text-[var(--text-primary)]">
                 Describe Your Content Idea
               </label>
+
+              {/* Prompt Examples Carousel or Guided Builder */}
+              {props.showGuidedBuilder ? (
+                <GuidedPromptBuilder
+                  onGeneratePrompt={(prompt) => props.setUserInput(prompt)}
+                  onBackToExamples={() => props.setShowGuidedBuilder?.(false)}
+                  className="mb-4"
+                />
+              ) : (
+                <PromptExamplesCarousel
+                  onSelectPrompt={(prompt) => props.setUserInput(prompt)}
+                  onToggleGuided={() => props.setShowGuidedBuilder?.(true)}
+                  className="mb-4"
+                />
+              )}
+
               <textarea
                 value={props.userInput}
                 onChange={(e) => props.setUserInput(e.target.value)}
