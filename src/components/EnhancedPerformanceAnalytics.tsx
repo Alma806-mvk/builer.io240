@@ -34,6 +34,7 @@ import {
   Maximize2,
   MinusCircle,
   PlusCircle,
+  Copy,
 } from "lucide-react";
 import {
   YouTubeIcon,
