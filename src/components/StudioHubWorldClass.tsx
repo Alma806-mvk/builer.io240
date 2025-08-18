@@ -268,6 +268,7 @@ const StudioHubWorldClass: React.FC<StudioHubWorldClassProps> = ({
   // File action states
   const [filePreviewModal, setFilePreviewModal] = useState<{ show: boolean; file: any | null }>({ show: false, file: null });
   const [fileActionMenus, setFileActionMenus] = useState<Record<string, boolean>>({});
+  const [projectActionMenus, setProjectActionMenus] = useState<Record<string, boolean>>({});
   const [shareFileModal, setShareFileModal] = useState<{ show: boolean; file: any | null }>({ show: false, file: null });
   const [fileContent, setFileContent] = useState<string>('');
   const [isLoadingContent, setIsLoadingContent] = useState(false);
@@ -1393,6 +1394,13 @@ const StudioHubWorldClass: React.FC<StudioHubWorldClassProps> = ({
     setFileActionMenus(prev => ({
       ...prev,
       [fileId]: !prev[fileId]
+    }));
+  };
+
+  const toggleProjectActionMenu = (projectId: string) => {
+    setProjectActionMenus(prev => ({
+      ...prev,
+      [projectId]: !prev[projectId]
     }));
   };
 
