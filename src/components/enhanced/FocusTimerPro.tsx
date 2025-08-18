@@ -230,9 +230,9 @@ const FocusTimerPro: React.FC<FocusTimerProProps> = ({
             >
               {currentSession.icon}
             </div>
-            <div>
-              <h3 className="font-semibold text-[var(--text-primary)]">Focus Timer</h3>
-              <p className="text-xs text-[var(--text-secondary)]">{currentSession.label}</p>
+            <div className="min-w-0 flex-1">
+              <h3 className="font-semibold text-sm text-[var(--text-primary)] truncate">Focus Timer</h3>
+              <p className="text-xs text-[var(--text-secondary)] truncate">{currentSession.label}</p>
             </div>
           </div>
           <div className="flex items-center space-x-1">
