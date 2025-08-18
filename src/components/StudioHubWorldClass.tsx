@@ -2242,9 +2242,66 @@ const StudioHubWorldClass: React.FC<StudioHubWorldClassProps> = ({
                       </td>
                       <td className="py-3 px-4">
                         <div className="flex items-center justify-end space-x-1">
-                          <Button variant="ghost" size="xs">
-                            <MoreHorizontal className="w-4 h-4" />
-                          </Button>
+                          <div className="relative">
+                            <Button
+                              variant="ghost"
+                              size="xs"
+                              onClick={() => toggleProjectActionMenu(project.id)}
+                            >
+                              <MoreHorizontal className="w-4 h-4" />
+                            </Button>
+
+                            {/* Project Action Menu */}
+                            <AnimatePresence>
+                              {projectActionMenus[project.id] && (
+                                <motion.div
+                                  initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                                  exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                                  className="absolute right-0 top-full mt-2 w-48 bg-[var(--surface-secondary)] border border-[var(--border-primary)] rounded-lg shadow-xl z-10 overflow-hidden"
+                                >
+                                  <div className="py-1">
+                                    <button
+                                      onClick={() => handleEditProject(project)}
+                                      className="w-full text-left px-4 py-2 text-sm text-[var(--text-primary)] hover:bg-[var(--surface-tertiary)] flex items-center space-x-2"
+                                    >
+                                      <Edit3 className="w-4 h-4" />
+                                      <span>Edit Project</span>
+                                    </button>
+                                    <button
+                                      onClick={() => handleDuplicateProject(project)}
+                                      className="w-full text-left px-4 py-2 text-sm text-[var(--text-primary)] hover:bg-[var(--surface-tertiary)] flex items-center space-x-2"
+                                    >
+                                      <Copy className="w-4 h-4" />
+                                      <span>Duplicate</span>
+                                    </button>
+                                    <button
+                                      onClick={() => handleSendToCanvas(project)}
+                                      className="w-full text-left px-4 py-2 text-sm text-[var(--text-primary)] hover:bg-[var(--surface-tertiary)] flex items-center space-x-2"
+                                    >
+                                      <Send className="w-4 h-4" />
+                                      <span>Send to Canvas</span>
+                                    </button>
+                                    <button
+                                      onClick={() => handleShareProject(project)}
+                                      className="w-full text-left px-4 py-2 text-sm text-[var(--text-primary)] hover:bg-[var(--surface-tertiary)] flex items-center space-x-2"
+                                    >
+                                      <Share2 className="w-4 h-4" />
+                                      <span>Share Project</span>
+                                    </button>
+                                    <div className="border-t border-[var(--border-primary)] my-1"></div>
+                                    <button
+                                      onClick={() => handleDeleteProject(project)}
+                                      className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-[var(--surface-tertiary)] flex items-center space-x-2"
+                                    >
+                                      <Trash2 className="w-4 h-4" />
+                                      <span>Delete</span>
+                                    </button>
+                                  </div>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </div>
                         </div>
                       </td>
                     </motion.tr>
@@ -2584,7 +2641,7 @@ const StudioHubWorldClass: React.FC<StudioHubWorldClassProps> = ({
 
         <div className="mt-6 text-center">
           <p className="text-sm text-[var(--text-secondary)] mb-4">
-            Each template includes: Content strategy ���� Brand assets • Analytics setup • Pre-built projects • Automation workflows
+            Each template includes: Content strategy ���� Brand assets • Analytics setup �� Pre-built projects • Automation workflows
           </p>
           <div className="flex justify-center space-x-4 text-xs text-[var(--text-tertiary)]">
             <div className="flex items-center space-x-1">
