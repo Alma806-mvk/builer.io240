@@ -634,6 +634,9 @@ export const App = ({
   const [generatorInput, setGeneratorInput] = useState<string>("");
   const [youtubeStatsInput, setYoutubeStatsInput] = useState<string>("");
 
+  // Prompt builder state
+  const [showGuidedBuilder, setShowGuidedBuilder] = useState<boolean>(false);
+
   // Strategy creation modal state
   const [showStrategyModal, setShowStrategyModal] = useState<boolean>(false);
 
@@ -3370,7 +3373,7 @@ export const App = ({
     updateStep("analyzing", { active: true });
 
     try {
-      console.log("🔄 Expanding idea:", { ideaNumber, originalIdea, outputId });
+      console.log("���� Expanding idea:", { ideaNumber, originalIdea, outputId });
 
       const expandPrompt = `Expand this content idea with actionable details:
 
@@ -4596,7 +4599,7 @@ VARIATIONS: Alternative approaches
       // Create a comprehensive but concise summary for the canvas
       const strategySummary = `����������� CONTENT STRATEGY: ${niche}
 
-������������������������������� TARGET AUDIENCE:
+��������������������������������� TARGET AUDIENCE:
 ${strategyPlan.targetAudienceOverview.substring(0, 200)}${strategyPlan.targetAudienceOverview.length > 200 ? "..." : ""}
 
 ��������� GOALS:
@@ -9737,7 +9740,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 <option value="cpp">����� C++</option>
                 <option value="csharp">����� C#</option>
                 <option value="php">���� PHP</option>
-                <option value="ruby">����������� Ruby</option>
+                <option value="ruby">������������ Ruby</option>
                 <option value="go">�� Go</option>
                 <option value="rust">������ Rust</option>
                 <option value="swift">�� Swift</option>
@@ -11609,7 +11612,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
 
         const getPriorityColor = (priority: string) => {
           const colors = {
-            low: { bg: "#ECFDF5", text: "#065F46", icon: "⬇️" },
+            low: { bg: "#ECFDF5", text: "#065F46", icon: "���️" },
             medium: { bg: "#FEF3C7", text: "#92400E", icon: "���️" },
             high: { bg: "#FEF2F2", text: "#991B1B", icon: "⬆����" },
             urgent: { bg: "#FEE2E2", text: "#7F1D1D", icon: "🚨" },
@@ -16640,7 +16643,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                     {
                       name: "Sunset",
                       color: "#f59e0b",
-                      emoji: "��������",
+                      emoji: "����������",
                       bg: "from-orange-500 to-orange-600",
                       description: "Warm golden hour gradients",
                       applyPreset: () => ({
