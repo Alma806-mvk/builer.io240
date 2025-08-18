@@ -20,7 +20,7 @@ interface AuthModalProps {
   onNavigateToPrivacy?: () => void;
 }
 
-const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuccess, defaultTab = 'signin' }) => {
+const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuccess, defaultTab = 'signin', onNavigateToTerms, onNavigateToPrivacy }) => {
   const [activeTab, setActiveTab] = useState<'signin' | 'signup'>(defaultTab);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
