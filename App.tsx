@@ -2503,7 +2503,7 @@ export const App = ({
                 `🔄 API error detected during strategy plan generation (${apiError.message || apiError.code || apiError.status}), using fallback content`,
               );
               // Use mock content for strategy plan
-              console.log("����� Generating mock strategy content...");
+              console.log("���� Generating mock strategy content...");
               try {
                 strategyResult = generateMockContent(
                   ContentType.ContentStrategyPlan,
@@ -2619,7 +2619,7 @@ export const App = ({
           const { text: strategyText, responseMimeType: strategyMimeType } =
             strategyResult;
 
-          console.log("���� Strategy generation debug:");
+          console.log("��� Strategy generation debug:");
           console.log("���� Strategy text length:", strategyText?.length);
           console.log("🏷️ Mime type received:", strategyMimeType);
           console.log("📝 Strategy text preview:", strategyText?.substring(0, 200));
@@ -2645,7 +2645,7 @@ export const App = ({
                 };
 
                 setAllGeneratedStrategies(prev => [newStrategy, ...prev]);
-                console.log("������ Strategy stored with ID:", newStrategy.id);
+                console.log("���� Strategy stored with ID:", newStrategy.id);
 
                 // Show success message
                 addHistoryItemToState({
@@ -7402,22 +7402,23 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                       </div>
 
                       {/* Status indicators */}
-                      <div className="flex items-center gap-3 mt-2">
+                      {(hasExpandedContent && !isCollapsed) || (hasExpandedContent && isCollapsed) ? (
+                        <div className="flex items-center gap-3 mt-2">
+                          {hasExpandedContent && !isCollapsed && (
+                            <span className="text-xs text-green-400 flex items-center gap-1">
+                              <CheckCircleIcon className="w-4 h-4" />
+                              Expanded below
+                            </span>
+                          )}
 
-                        {hasExpandedContent && !isCollapsed && (
-                          <span className="text-xs text-green-400 flex items-center gap-1">
-                            <CheckCircleIcon className="w-4 h-4" />
-                            Expanded below
-                          </span>
-                        )}
-
-                        {hasExpandedContent && isCollapsed && (
-                          <span className="text-xs text-slate-400 flex items-center gap-1">
-                            <CheckCircleIcon className="w-4 h-4" />
-                            Already expanded (click to show)
-                          </span>
-                        )}
-                      </div>
+                          {hasExpandedContent && isCollapsed && (
+                            <span className="text-xs text-slate-400 flex items-center gap-1">
+                              <CheckCircleIcon className="w-4 h-4" />
+                              Already expanded (click to show)
+                            </span>
+                          )}
+                        </div>
+                      ) : null}
                     </div>
 
                     {hasExpandedContent && !isCollapsed && (
@@ -15404,7 +15405,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                         <div className="px-2 space-y-1 max-h-64 overflow-y-auto">
                           {[
                             {
-                              name: "���� Sales Dashboard",
+                              name: "�� Sales Dashboard",
                               description:
                                 "Revenue tracking with growth metrics",
                               theme: "blue",
@@ -16589,7 +16590,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                     {
                       name: "Sunset",
                       color: "#f59e0b",
-                      emoji: "���������",
+                      emoji: "��������",
                       bg: "from-orange-500 to-orange-600",
                       description: "Warm golden hour gradients",
                       applyPreset: () => ({
@@ -17657,7 +17658,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                   {
                     key: "recommendations",
                     label: "AI Recommendations",
-                    icon: "�����",
+                    icon: "������",
                   },
                   {
                     key: "monitoring",
@@ -18304,7 +18305,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                         desc: "Perfect composition with mathematical precision",
                       },
                       {
-                        icon: "�����",
+                        icon: "���",
                         title: "1-Click Export",
                         desc: "HD 1920×1080 ready for YouTube upload",
                       },
