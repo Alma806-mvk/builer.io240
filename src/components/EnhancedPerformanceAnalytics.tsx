@@ -58,6 +58,7 @@ import {
   LineChart as RechartsLineChart,
   BarChart,
   PieChart as RechartsPieChart,
+  Pie,
   Cell,
   XAxis,
   YAxis,
