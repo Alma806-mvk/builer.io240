@@ -50,15 +50,43 @@ interface ContentIdea {
   id: string;
   title: string;
   description: string;
-  priority: "high" | "medium" | "low";
+  priority: "low" | "medium" | "high" | "urgent";
   category: string;
   platform: Platform;
   estimatedEngagement: number;
-  status: "new" | "in-review" | "planned";
+  status: "ideas" | "in-progress" | "ready" | "scheduled";
   dateAdded: string;
+  dateModified: string;
   tags: string[];
   notes?: string;
   scheduledDate?: string;
+  assignee?: string;
+  contentType: "video" | "post" | "story" | "live" | "podcast" | "blog" | "thread" | "carousel";
+  targetAudience?: string;
+  keywords?: string[];
+  inspiration?: {
+    source: string;
+    url?: string;
+    notes?: string;
+  };
+  collaborators?: string[];
+  aiGenerated?: boolean;
+  trendingScore?: number;
+  viralPotential?: number;
+  difficulty?: "easy" | "medium" | "hard";
+  estimatedTime?: number; // in minutes
+  resources?: {
+    images?: string[];
+    videos?: string[];
+    references?: string[];
+  };
+  analytics?: {
+    views?: number;
+    engagement?: number;
+    likes?: number;
+    shares?: number;
+    saves?: number;
+  };
 }
 
 interface ContentPerformance {
