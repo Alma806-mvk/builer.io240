@@ -520,9 +520,9 @@ const NotificationsPro: React.FC<NotificationsProProps> = ({
                 </motion.span>
               )}
             </div>
-            <div>
-              <h3 className="font-semibold text-[var(--text-primary)]">Notifications</h3>
-              <p className="text-xs text-[var(--text-secondary)]">
+            <div className="min-w-0 flex-1">
+              <h3 className="font-semibold text-sm text-[var(--text-primary)] truncate">Notifications</h3>
+              <p className="text-xs text-[var(--text-secondary)] truncate">
                 {unreadCount} unread • {pinnedNotifications.length} pinned
               </p>
             </div>
