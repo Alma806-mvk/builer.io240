@@ -288,6 +288,20 @@ const EnhancedHistoryWorldClass: React.FC<EnhancedHistoryWorldClassProps> = ({
     }
   };
 
+  const handleRating = async (itemId: string, rating: 1 | -1 | 0) => {
+    try {
+      await enhancedHistoryService.updateRating(itemId, rating);
+      // Update local state to reflect the change immediately
+      setHistoryItems(prevItems =>
+        prevItems.map(item =>
+          item.id === itemId ? { ...item, rating } : item
+        )
+      );
+    } catch (error) {
+      console.error('Error updating rating:', error);
+    }
+  };
+
   const handleStarItem = async (itemId: string) => {
     try {
       const item = historyItems.find(i => i.id === itemId);
