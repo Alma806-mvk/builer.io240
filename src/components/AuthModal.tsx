@@ -9,6 +9,7 @@ import { auth, db } from "../config/firebase";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { AuthService } from "../services/authService";
 import { getDetailedAuthError } from "../utils/firebaseTest";
+import { Eye, EyeOff } from "lucide-react";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -812,7 +813,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuccess, d
                 color: 'hsl(215, 20.2%, 65.1%)',
                 marginTop: '0.5rem'
               }}>
-                The confident co‑pilot for creator��entrepreneurs.
+                The confident co‑pilot for creator‑entrepreneurs.
               </p>
             </div>
             <div style={{
