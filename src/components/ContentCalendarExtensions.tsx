@@ -44,6 +44,7 @@ import {
   Input
 } from "./ui/WorldClassComponents";
 import EnhancedUpcomingContent from "./EnhancedUpcomingContent";
+import EnhancedContentIdeasBank from "./EnhancedContentIdeasBank";
 
 interface ContentIdea {
   id: string;
