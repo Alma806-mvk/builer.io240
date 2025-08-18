@@ -7,7 +7,7 @@ import "./styles/magicToolsAnimations.css";
 import { auth } from "./config/firebase";
 import { signOut } from "firebase/auth";
 import { App as MainApp } from "../App";
-import PremiumAuth from "./components/PremiumAuth";
+import AuthModal from "./components/AuthModal";
 import {
   UserCircleIcon,
   ChevronDownIcon,
