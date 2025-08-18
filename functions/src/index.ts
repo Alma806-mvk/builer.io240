@@ -34,6 +34,12 @@ export {
   oauthCallback,
 } from "./youtubeOAuth";
 
+// Export Daily Trends functions
+export {
+  fetchDailyTrends,
+  triggerDailyTrends,
+} from "./dailyTrends";
+
 // import {onRequest} from "firebase-functions/v2/https";
 // import * as logger from "firebase-functions/logger";
 

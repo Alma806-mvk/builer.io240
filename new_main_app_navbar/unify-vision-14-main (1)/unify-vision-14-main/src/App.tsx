@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
 import Billing from "./pages/Billing";
 import Settings from "./pages/Settings";
+import { SimpleTrendsTest } from "./components/SimpleTrendsTest";
 
 const queryClient = new QueryClient();
 
@@ -16,7 +17,11 @@ const GeneratorPage = () => <div className="text-center p-8"><h1 className="text
 const CanvasPage = () => <div className="text-center p-8"><h1 className="text-2xl font-bold text-text-primary">Canvas</h1><p className="text-text-secondary">Visual design workspace</p></div>;
 const CreativityPage = () => <div className="text-center p-8"><h1 className="text-2xl font-bold text-text-primary">Creativity</h1><p className="text-text-secondary">Creative tools and resources</p></div>;
 const ThumbnailsPage = () => <div className="text-center p-8"><h1 className="text-2xl font-bold text-text-primary">Thumbnails</h1><p className="text-text-secondary">Thumbnail creation and optimization</p></div>;
-const TrendsPage = () => <div className="text-center p-8"><h1 className="text-2xl font-bold text-text-primary">Trends</h1><p className="text-text-secondary">Trending content analysis</p></div>;
+const TrendsPage = () => (
+  <div className="p-8">
+    <SimpleTrendsTest />
+  </div>
+);
 const YTAnalysisPage = () => <div className="text-center p-8"><h1 className="text-2xl font-bold text-text-primary">YT Analysis</h1><p className="text-text-secondary">YouTube content analysis</p></div>;
 const StrategyPage = () => <div className="text-center p-8"><h1 className="text-2xl font-bold text-text-primary">Strategy</h1><p className="text-text-secondary">Content strategy planning</p></div>;
 const CalendarPage = () => <div className="text-center p-8"><h1 className="text-2xl font-bold text-text-primary">Calendar</h1><p className="text-text-secondary">Content scheduling</p></div>;

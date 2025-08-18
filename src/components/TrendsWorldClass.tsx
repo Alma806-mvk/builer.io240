@@ -52,6 +52,9 @@ import {
 import { useDeepAnalysis, useFormattedAnalysis } from "../hooks/useDeepAnalysis";
 import { TrendSearchResult } from "../services/enhancedTrendSearchService";
 import InteractiveAnalysisControls from "./InteractiveAnalysisControls";
+import { useDailyTrends, DailyTrendsData } from "../services/dailyTrendsService";
+import { TestDailyTrends } from "./TestDailyTrends";
+import { AdvancedFiltersModal, FilterOptions } from "./AdvancedFiltersModal";
 
 interface TrendData {
   id: string;
@@ -72,6 +75,15 @@ interface PlatformTrend {
   growth: number;
   engagement: number;
   color: string;
+  activeCreators?: number;
+  avgViews?: number;
+  contentTypes?: string[];
+  bestPostingTimes?: string[];
+  audienceDemographics?: {
+    primaryAge: string;
+    genderSplit: string;
+    topCountries: string[];
+  };
 }
 
 interface TrendsWorldClassProps {
@@ -131,10 +143,27 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
   const [selectedPlatform, setSelectedPlatform] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [timeRange, setTimeRange] = useState("24h");
+  const [showTestModal, setShowTestModal] = useState(false);
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
+  const [activeFilters, setActiveFilters] = useState<FilterOptions>({
+    platforms: [],
+    categories: [],
+    volumeRange: [0, 1000000],
+    growthRange: [-100, 500],
+    opportunityRange: [0, 100],
+    difficultyRange: [0, 100],
+    timeframe: 'all',
+    trendingOnly: false,
+    sortBy: 'opportunity',
+    sortOrder: 'desc'
+  });
 
   // Deep Analysis Integration
   const deepAnalysis = useDeepAnalysis({ autoRefresh: true, refreshInterval: 5 * 60 * 1000 });
   const formattedAnalysis = useFormattedAnalysis(deepAnalysis.data);
+
+  // Daily Trends Integration
+  const { trendsData: dailyTrendsData, loading: trendsLoading, error: trendsError, refetch: refetchTrends } = useDailyTrends();
 
   // Auto-analyze when search results change
   useEffect(() => {
@@ -143,8 +172,8 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
     }
   }, [searchResults, propSearchQuery, deepAnalysis.analyze]);
 
-  // Mock trending data
-  const trendingData: TrendData[] = [
+  // Use real trending data from daily trends service or fallback to mock data
+  const trendingData: TrendData[] = dailyTrendsData?.trends || [
     {
       id: "1",
       keyword: "AI content creation",
@@ -207,7 +236,7 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
     },
   ];
 
-  const platformTrends: PlatformTrend[] = [
+  const platformTrends: PlatformTrend[] = dailyTrendsData?.platforms || [
     {
       platform: "TikTok",
       topTrends: ["productivity hacks", "morning routine", "aesthetic room"],
@@ -239,15 +268,75 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
   ];
 
   const filteredTrends = useMemo(() => {
-    return trendingData.filter(trend => {
+    let filtered = trendingData.filter(trend => {
+      // Basic search filter
       const matchesSearch = trend.keyword.toLowerCase().includes(searchQuery.toLowerCase()) ||
                            trend.category.toLowerCase().includes(searchQuery.toLowerCase());
+
+      // Basic dropdown filters
       const matchesPlatform = selectedPlatform === "all" || trend.platform === selectedPlatform;
       const matchesCategory = selectedCategory === "all" || trend.category === selectedCategory;
-      
-      return matchesSearch && matchesPlatform && matchesCategory;
+
+      // Advanced filters
+      const matchesAdvancedPlatforms = activeFilters.platforms.length === 0 ||
+                                       activeFilters.platforms.includes(trend.platform);
+      const matchesAdvancedCategories = activeFilters.categories.length === 0 ||
+                                        activeFilters.categories.includes(trend.category);
+      const matchesVolume = trend.volume >= activeFilters.volumeRange[0] &&
+                           trend.volume <= activeFilters.volumeRange[1];
+      const matchesGrowth = trend.growth >= activeFilters.growthRange[0] &&
+                           trend.growth <= activeFilters.growthRange[1];
+      const matchesOpportunity = trend.opportunity >= activeFilters.opportunityRange[0] &&
+                                trend.opportunity <= activeFilters.opportunityRange[1];
+      const matchesDifficulty = trend.difficulty >= activeFilters.difficultyRange[0] &&
+                               trend.difficulty <= activeFilters.difficultyRange[1];
+      const matchesTrendingOnly = !activeFilters.trendingOnly || trend.trending;
+
+      return matchesSearch && matchesPlatform && matchesCategory &&
+             matchesAdvancedPlatforms && matchesAdvancedCategories &&
+             matchesVolume && matchesGrowth && matchesOpportunity &&
+             matchesDifficulty && matchesTrendingOnly;
     });
-  }, [trendingData, searchQuery, selectedPlatform, selectedCategory]);
+
+    // Apply sorting
+    filtered.sort((a, b) => {
+      let aVal: any, bVal: any;
+
+      switch (activeFilters.sortBy) {
+        case 'opportunity':
+          aVal = a.opportunity;
+          bVal = b.opportunity;
+          break;
+        case 'volume':
+          aVal = a.volume;
+          bVal = b.volume;
+          break;
+        case 'growth':
+          aVal = a.growth;
+          bVal = b.growth;
+          break;
+        case 'difficulty':
+          aVal = a.difficulty;
+          bVal = b.difficulty;
+          break;
+        case 'keyword':
+          aVal = a.keyword.toLowerCase();
+          bVal = b.keyword.toLowerCase();
+          break;
+        default:
+          aVal = a.opportunity;
+          bVal = b.opportunity;
+      }
+
+      if (activeFilters.sortOrder === 'asc') {
+        return aVal > bVal ? 1 : -1;
+      } else {
+        return aVal < bVal ? 1 : -1;
+      }
+    });
+
+    return filtered;
+  }, [trendingData, searchQuery, selectedPlatform, selectedCategory, activeFilters]);
 
   const getTrendIcon = (growth: number) => {
     if (growth > 100) return <TrendingUp className="w-4 h-4 text-[var(--color-success)]" />;
@@ -284,13 +373,29 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
           badge="Pro Search"
           actions={
             <div className="flex items-center space-x-3">
-              <Button variant="ghost" size="sm" onClick={onRefreshData}>
-                <RefreshCw className="w-4 h-4" />
-                Refresh
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  refetchTrends();
+                  onRefreshData?.();
+                }}
+                disabled={trendsLoading}
+              >
+                <RefreshCw className={`w-4 h-4 ${trendsLoading ? 'animate-spin' : ''}`} />
+                {trendsLoading ? 'Loading...' : 'Refresh'}
               </Button>
               <Button variant="ghost" size="sm" onClick={onExportData}>
                 <Download className="w-4 h-4" />
                 Export
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowTestModal(true)}
+              >
+                <Target className="w-4 h-4" />
+                Test System
               </Button>
               <Button variant="primary" size="sm">
                 <Sparkles className="w-4 h-4" />
@@ -432,31 +537,88 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
             {/* Enhanced Platform Overview */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card>
-                <h3 className="heading-4 mb-6">Platform Performance</h3>
-                <div className="space-y-4">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="heading-4">Platform Performance</h3>
+                  <Badge variant="primary" className="text-xs">
+                    AI Generated
+                  </Badge>
+                </div>
+                <div className="space-y-6">
                   {platformTrends.map((platform) => (
                     <div
                       key={platform.platform}
-                      className="flex items-center space-x-4 p-4 rounded-xl bg-[var(--surface-tertiary)] hover:bg-[var(--surface-quaternary)] transition-all duration-200"
+                      className="p-4 rounded-xl bg-[var(--surface-tertiary)] hover:bg-[var(--surface-quaternary)] transition-all duration-200"
                     >
-                      <div
-                        className="w-4 h-4 rounded-full"
-                        style={{ backgroundColor: platform.color }}
-                      />
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between mb-2">
-                          <h4 className="font-semibold text-[var(--text-primary)]">
-                            {platform.platform}
-                          </h4>
-                          <div className="flex items-center space-x-2">
-                            <Badge variant="success">+{platform.growth}%</Badge>
-                            <span className="text-sm text-[var(--text-secondary)]">
-                              {platform.engagement}% engagement
-                            </span>
+                      {/* Platform Header */}
+                      <div className="flex items-center space-x-4 mb-4">
+                        <div
+                          className="w-6 h-6 rounded-full flex items-center justify-center"
+                          style={{ backgroundColor: platform.color }}
+                        >
+                          <span className="text-white text-xs font-bold">
+                            {platform.platform.charAt(0)}
+                          </span>
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between">
+                            <h4 className="font-semibold text-[var(--text-primary)]">
+                              {platform.platform}
+                            </h4>
+                            <div className="flex items-center space-x-2">
+                              <Badge variant="success">+{platform.growth}%</Badge>
+                              <span className="text-sm text-[var(--text-secondary)]">
+                                {platform.engagement}% engagement
+                              </span>
+                            </div>
                           </div>
                         </div>
+                      </div>
+
+                      {/* Enhanced Metrics */}
+                      {(platform.activeCreators || platform.avgViews) && (
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 text-sm">
+                          {platform.activeCreators && (
+                            <div>
+                              <span className="text-[var(--text-secondary)]">Active Creators</span>
+                              <div className="font-semibold text-[var(--text-primary)]">
+                                {(platform.activeCreators / 1000).toFixed(0)}K
+                              </div>
+                            </div>
+                          )}
+                          {platform.avgViews && (
+                            <div>
+                              <span className="text-[var(--text-secondary)]">Avg Views</span>
+                              <div className="font-semibold text-[var(--text-primary)]">
+                                {(platform.avgViews / 1000000).toFixed(1)}M
+                              </div>
+                            </div>
+                          )}
+                          {platform.audienceDemographics && (
+                            <>
+                              <div>
+                                <span className="text-[var(--text-secondary)]">Primary Age</span>
+                                <div className="font-semibold text-[var(--text-primary)]">
+                                  {platform.audienceDemographics.primaryAge}
+                                </div>
+                              </div>
+                              <div>
+                                <span className="text-[var(--text-secondary)]">Top Markets</span>
+                                <div className="font-semibold text-[var(--text-primary)]">
+                                  {platform.audienceDemographics.topCountries.slice(0, 2).join(', ')}
+                                </div>
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Trending Topics */}
+                      <div className="mb-4">
+                        <span className="text-xs text-[var(--text-secondary)] mb-2 block">
+                          Trending Topics:
+                        </span>
                         <div className="flex flex-wrap gap-1">
-                          {platform.topTrends.slice(0, 3).map((trend) => (
+                          {platform.topTrends.slice(0, 4).map((trend) => (
                             <span
                               key={trend}
                               className="px-2 py-1 text-xs bg-[var(--surface-quaternary)] text-[var(--text-tertiary)] rounded-md"
@@ -466,6 +628,28 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
                           ))}
                         </div>
                       </div>
+
+                      {/* Content Types & Best Times */}
+                      {(platform.contentTypes || platform.bestPostingTimes) && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                          {platform.contentTypes && (
+                            <div>
+                              <span className="text-[var(--text-secondary)]">Content Types:</span>
+                              <div className="text-[var(--text-primary)] mt-1">
+                                {platform.contentTypes.join(', ')}
+                              </div>
+                            </div>
+                          )}
+                          {platform.bestPostingTimes && (
+                            <div>
+                              <span className="text-[var(--text-secondary)]">Best Times:</span>
+                              <div className="text-[var(--text-primary)] mt-1">
+                                {platform.bestPostingTimes.join(', ')}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -544,12 +728,41 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
             <Card>
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h3 className="heading-4">Trending Now</h3>
-                  <p className="body-base">High-opportunity keywords and topics</p>
+                  <h3 className="heading-4 flex items-center space-x-2">
+                    <span>Trending Now</span>
+                    {dailyTrendsData?.isFallback && (
+                      <Badge variant="warning" className="text-xs">Fallback Data</Badge>
+                    )}
+                    {trendsError && (
+                      <Badge variant="error" className="text-xs">Error Loading</Badge>
+                    )}
+                    {dailyTrendsData?.manualTrigger && (
+                      <Badge variant="primary" className="text-xs">Manual Update</Badge>
+                    )}
+                  </h3>
+                  <p className="body-base">
+                    High-opportunity keywords and topics
+                    {dailyTrendsData?.date && (
+                      <span className="text-xs text-[var(--text-tertiary)] ml-2">
+                        • Updated {dailyTrendsData.date}
+                      </span>
+                    )}
+                  </p>
                 </div>
-                <Button variant="ghost" size="sm">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowAdvancedFilters(true)}
+                >
                   <Filter className="w-4 h-4" />
                   Advanced Filters
+                  {(activeFilters.platforms.length > 0 ||
+                    activeFilters.categories.length > 0 ||
+                    activeFilters.trendingOnly) && (
+                    <Badge variant="primary" className="ml-2 text-xs">
+                      Active
+                    </Badge>
+                  )}
                 </Button>
               </div>
 
@@ -1696,6 +1909,19 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Test Modal */}
+      {showTestModal && (
+        <TestDailyTrends onClose={() => setShowTestModal(false)} />
+      )}
+
+      {/* Advanced Filters Modal */}
+      <AdvancedFiltersModal
+        isOpen={showAdvancedFilters}
+        onClose={() => setShowAdvancedFilters(false)}
+        onApplyFilters={setActiveFilters}
+        currentFilters={activeFilters}
+      />
     </div>
   );
 };

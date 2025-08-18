@@ -504,7 +504,7 @@ const NotificationsPro: React.FC<NotificationsProProps> = ({
     <Card className="relative overflow-hidden">
       <div className="space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-6">
           <div className="flex items-center space-x-3">
             <div className="relative">
               <div className="p-2 rounded-lg bg-gradient-to-br from-red-500 to-pink-500 text-white">
@@ -520,14 +520,14 @@ const NotificationsPro: React.FC<NotificationsProProps> = ({
                 </motion.span>
               )}
             </div>
-            <div>
-              <h3 className="font-semibold text-[var(--text-primary)]">Notifications</h3>
-              <p className="text-xs text-[var(--text-secondary)]">
+            <div className="min-w-0">
+              <h3 className="font-semibold text-sm text-[var(--text-primary)] truncate">Notifications</h3>
+              <p className="text-xs text-[var(--text-secondary)] truncate">
                 {unreadCount} unread • {pinnedNotifications.length} pinned
               </p>
             </div>
           </div>
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center space-x-2 flex-shrink-0">
             <Button
               variant="ghost"
               size="xs"

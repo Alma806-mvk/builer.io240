@@ -287,19 +287,19 @@ const DailyGoalsPro: React.FC<DailyGoalsProProps> = ({
     <Card className="relative overflow-hidden">
       <div className="space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-6">
           <div className="flex items-center space-x-3">
             <div className="p-2 rounded-lg bg-gradient-to-br from-[var(--brand-primary)] to-[var(--brand-secondary)] text-white">
               <Target className="w-4 h-4" />
             </div>
-            <div>
-              <h3 className="font-semibold text-[var(--text-primary)]">Daily Goals</h3>
-              <p className="text-xs text-[var(--text-secondary)]">
+            <div className="min-w-0">
+              <h3 className="font-semibold text-sm text-[var(--text-primary)] truncate">Daily Goals</h3>
+              <p className="text-xs text-[var(--text-secondary)] truncate">
                 {getCompletedGoals()}/{goals.length} completed • {getOverallProgress()}% progress
               </p>
             </div>
           </div>
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center space-x-2 flex-shrink-0">
             <Button
               variant="ghost"
               size="sm"
