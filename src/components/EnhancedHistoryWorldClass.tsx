@@ -52,6 +52,9 @@ import {
   ChevronRight,
 } from "lucide-react";
 
+// Import the rating component
+import RatingButtons from "./ui/RatingButtons";
+
 // Import our world-class components
 import {
   Button,
