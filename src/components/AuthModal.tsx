@@ -25,6 +25,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuccess, d
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   // Reset to default tab when modal opens and close modal on escape key
   useEffect(() => {
@@ -608,31 +609,79 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuccess, d
                         }} htmlFor="password">
                           Password
                         </label>
-                        <input
-                          id="password"
-                          type="password"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                          placeholder="••••••••"
-                          required
-                          disabled={loading}
-                          style={{
-                            height: '3rem',
-                            width: '100%',
-                            borderRadius: '0.5rem',
-                            border: '1px solid hsl(0, 0%, 0%)',
-                            backgroundColor: 'hsl(0, 0%, 0%)',
-                            paddingLeft: '1rem',
-                            paddingRight: '1rem',
-                            fontSize: '1rem',
-                            color: 'hsl(210, 40%, 98%)',
-                            outline: 'none',
-                            transition: 'border-color 0.2s'
-                          }}
-                          onFocus={(e) => e.target.style.borderColor = 'hsl(212.7, 26.8%, 83.9%)'}
-                          onBlur={(e) => e.target.style.borderColor = 'hsl(0, 0%, 0%)'}
-                        />
+                        <div style={{ position: 'relative' }}>
+                          <input
+                            id="password"
+                            type={showPassword ? "text" : "password"}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="••••••••"
+                            required
+                            disabled={loading}
+                            style={{
+                              height: '3rem',
+                              width: '100%',
+                              borderRadius: '0.5rem',
+                              border: '1px solid hsl(0, 0%, 0%)',
+                              backgroundColor: 'hsl(0, 0%, 0%)',
+                              paddingLeft: '1rem',
+                              paddingRight: '3rem',
+                              fontSize: '1rem',
+                              color: 'hsl(210, 40%, 98%)',
+                              outline: 'none',
+                              transition: 'border-color 0.2s'
+                            }}
+                            onFocus={(e) => e.target.style.borderColor = 'hsl(212.7, 26.8%, 83.9%)'}
+                            onBlur={(e) => e.target.style.borderColor = 'hsl(0, 0%, 0%)'}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            disabled={loading}
+                            style={{
+                              position: 'absolute',
+                              right: '0.75rem',
+                              top: '50%',
+                              transform: 'translateY(-50%)',
+                              background: 'none',
+                              border: 'none',
+                              color: 'hsl(215, 20.2%, 65.1%)',
+                              cursor: 'pointer',
+                              fontSize: '0.875rem',
+                              padding: '0.25rem',
+                              borderRadius: '0.25rem',
+                              transition: 'color 0.2s'
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.color = 'hsl(210, 40%, 98%)'}
+                            onMouseLeave={(e) => e.currentTarget.style.color = 'hsl(215, 20.2%, 65.1%)'}
+                          >
+                            {showPassword ? '👁️' : '👁️‍🗨️'}
+                          </button>
+                        </div>
                       </div>
+
+                      {/* Forgot Password Link - Only show on signin */}
+                      {activeTab === 'signin' && (
+                        <div style={{ textAlign: 'right', marginTop: '-0.5rem', marginBottom: '0.5rem' }}>
+                          <button
+                            type="button"
+                            onClick={() => setMessage('Password reset functionality coming soon!')}
+                            style={{
+                              background: 'none',
+                              border: 'none',
+                              color: 'hsl(266, 85%, 60%)',
+                              fontSize: '0.875rem',
+                              cursor: 'pointer',
+                              textDecoration: 'underline',
+                              padding: 0
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.color = 'hsl(188, 92%, 55%)'}
+                            onMouseLeave={(e) => e.currentTarget.style.color = 'hsl(266, 85%, 60%)'}
+                          >
+                            Forgot password?
+                          </button>
+                        </div>
+                      )}
 
                       <button 
                         type="submit"
@@ -652,7 +701,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuccess, d
                         onMouseEnter={(e) => !loading && (e.currentTarget.style.opacity = '0.9')}
                         onMouseLeave={(e) => !loading && (e.currentTarget.style.opacity = '1')}
                       >
-                        {loading ? (activeTab === 'signin' ? 'Signing in...' : 'Creating account...') : (activeTab === 'signin' ? 'Continue' : 'Create account')}
+                        {loading ? (activeTab === 'signin' ? 'Signing in...' : 'Creating account...') : (activeTab === 'signin' ? 'Sign In' : 'Create account')}
                       </button>
 
                       {/* Separator */}
@@ -763,7 +812,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuccess, d
                 color: 'hsl(215, 20.2%, 65.1%)',
                 marginTop: '0.5rem'
               }}>
-                The confident co‑pilot for creator‑entrepreneurs.
+                The confident co‑pilot for creator��entrepreneurs.
               </p>
             </div>
             <div style={{
