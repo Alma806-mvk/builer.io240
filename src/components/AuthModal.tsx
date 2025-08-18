@@ -767,13 +767,39 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuccess, d
                         color: 'hsl(215, 20.2%, 65.1%)',
                         textAlign: 'center'
                       }}>
-                        {activeTab === 'signin' 
+                        {activeTab === 'signin'
                           ? (
                             <>
                               By continuing you agree to our{' '}
-                              <a href="/terms" style={{ color: 'hsl(210, 40%, 98%)', textDecoration: 'none' }}>Terms</a>
+                              <button
+                                type="button"
+                                onClick={() => setShowTerms(true)}
+                                style={{
+                                  color: 'hsl(210, 40%, 98%)',
+                                  textDecoration: 'underline',
+                                  background: 'none',
+                                  border: 'none',
+                                  cursor: 'pointer',
+                                  fontSize: 'inherit'
+                                }}
+                              >
+                                Terms
+                              </button>
                               {' '}and{' '}
-                              <a href="/privacy" style={{ color: 'hsl(210, 40%, 98%)', textDecoration: 'none' }}>Privacy</a>.
+                              <button
+                                type="button"
+                                onClick={() => setShowPrivacy(true)}
+                                style={{
+                                  color: 'hsl(210, 40%, 98%)',
+                                  textDecoration: 'underline',
+                                  background: 'none',
+                                  border: 'none',
+                                  cursor: 'pointer',
+                                  fontSize: 'inherit'
+                                }}
+                              >
+                                Privacy
+                              </button>.
                             </>
                           )
                           : 'No credit card required. Free plan included.'
