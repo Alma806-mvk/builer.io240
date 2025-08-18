@@ -3452,7 +3452,7 @@ VARIATIONS: Alternative approaches
       finishGeneration();
       setIsExpandingIdea(false);
     } catch (error) {
-      console.error("�������� Error expanding idea:", error);
+      console.error("��������� Error expanding idea:", error);
 
       // Provide helpful fallback content even on error
       const fallbackContent = `TARGET: DETAILED CONCEPT
@@ -4260,7 +4260,7 @@ VARIATIONS: Alternative approaches
       const updatedItem = { ...displayedOutputItem, rating };
       setDisplayedOutputItem(updatedItem);
 
-      // Update history if this item exists in history
+      // Update local history state
       setHistory(
         history.map((item) =>
           item.id === displayedOutputItem.id
@@ -4268,6 +4268,11 @@ VARIATIONS: Alternative approaches
             : item
         )
       );
+
+      // Update enhanced history service
+      await enhancedHistoryService.updateRating(displayedOutputItem.id, rating);
+
+      console.log(`Content rated: ${rating === 1 ? '👍 Good' : rating === -1 ? '👎 Needs improvement' : '🔄 Rating removed'}`);
     } catch (error) {
       console.error('Error updating content rating:', error);
     }
@@ -9630,7 +9635,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 <option value="go">�� Go</option>
                 <option value="rust">������ Rust</option>
                 <option value="swift">�� Swift</option>
-                <option value="kotlin">���������� Kotlin</option>
+                <option value="kotlin">������������ Kotlin</option>
                 <option value="html">🌐 HTML</option>
                 <option value="css">�������� CSS</option>
                 <option value="sql">�������️ SQL</option>
@@ -9656,7 +9661,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 onChange={(e) => updateProp("codeTheme", e.target.value)}
                 className="p-1.5 bg-slate-700 rounded-md border border-slate-600 text-slate-200 focus:ring-1 focus:ring-sky-500 focus:border-sky-500"
               >
-                <option value="dark">������������� Dark</option>
+                <option value="dark">��������������� Dark</option>
                 <option value="light">☀���� Light</option>
                 <option value="github">���������� GitHub</option>
                 <option value="vscode">���� VS Code</option>
@@ -19095,7 +19100,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                         them later. Perfect for workflows you use repeatedly.
                       </p>
                       <div className="mt-2 text-xs text-slate-500">
-                        ��� <strong>Looking for viral content patterns?</strong>{" "}
+                        �� <strong>Looking for viral content patterns?</strong>{" "}
                         Check Premium Generator Features for 50+ professional
                         templates with proven performance metrics.
                       </div>
