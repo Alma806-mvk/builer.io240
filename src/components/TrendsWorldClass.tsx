@@ -408,7 +408,7 @@ const TrendsWorldClass: React.FC<TrendsWorldClassProps> = ({
 
       {/* Enhanced Navigation Tabs */}
       <div className="relative">
-        <div className="inline-flex space-x-1 bg-[var(--surface-tertiary)] p-1 rounded-xl overflow-x-auto backdrop-blur-sm">
+        <div className="inline-flex space-x-1 bg-[var(--surface-tertiary)] p-1 rounded-xl backdrop-blur-sm w-fit">
           {[
             { id: "analysis", label: "Analysis", icon: BarChart3, isPro: false },
             { id: "dashboard", label: "Dashboard", icon: Eye, isPro: false },
