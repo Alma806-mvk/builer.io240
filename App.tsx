@@ -4317,6 +4317,50 @@ VARIATIONS: Alternative approaches
     }
   };
 
+  const handleRateCurrentContentWithFirebase = async (rating: 1 | -1 | 0, contentText: string) => {
+    if (!displayedOutputItem) return;
+
+    try {
+      const { auth } = await import('./src/config/firebase');
+      const { collection, doc, setDoc, updateDoc, getDoc } = await import('firebase/firestore');
+      const { db } = await import('./src/config/firebase');
+
+      const user = auth.currentUser;
+      if (!user) {
+        console.warn('User not authenticated, saving locally only');
+        await handleRateCurrentContent(rating);
+        return;
+      }
+
+      // Create a rating record to save directly to Firebase
+      const ratingData = {
+        userId: user.uid,
+        contentId: displayedOutputItem.id,
+        rating: rating,
+        contentText: contentText,
+        output: displayedOutputItem.output,
+        platform: displayedOutputItem.platform,
+        contentType: displayedOutputItem.contentType,
+        userInput: displayedOutputItem.userInput,
+        timestamp: Date.now(),
+        createdAt: new Date().toISOString(),
+      };
+
+      // Save directly to Firebase in a dedicated ratings collection
+      const ratingDocRef = doc(collection(db, 'users', user.uid, 'content_ratings'), displayedOutputItem.id);
+      await setDoc(ratingDocRef, ratingData, { merge: true });
+
+      // Also update the regular history through enhanced service
+      await handleRateCurrentContent(rating);
+
+      console.log(`✅ Content rating saved to Firebase: ${rating === 1 ? '👍 Good' : rating === -1 ? '👎 Needs improvement' : '🔄 Rating removed'}`);
+    } catch (error) {
+      console.error('Firebase rating save failed, falling back to local storage:', error);
+      // Fallback to local storage if Firebase fails
+      await handleRateCurrentContent(rating);
+    }
+  };
+
   const handleViewHistoryItem = (item: HistoryItem) => {
     setViewingHistoryItemId(item.id);
     setPlatform(item.platform);
@@ -4566,7 +4610,7 @@ ${strategyPlan.suggestedWeeklySchedule.map((item) => `������� ${it
 🔍 SEO KEYWORDS:
 ${strategyPlan.seoStrategy.primaryKeywords.join(", ")}
 
-��������������� KEY CTAs:
+���������������� KEY CTAs:
 ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
 
 ��� Full strategy plan available in Strategy tab`;
@@ -8708,7 +8752,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                   "��",
                   "⚡",
                   "��",
-                  "💫",
+                  "����",
                 ].map((icon) => (
                   <button
                     key={icon}
@@ -8973,7 +9017,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 <option value="basic">Basic</option>
                 <option value="professional">�� Professional</option>
                 <option value="modern">🚀 Modern</option>
-                <option value="minimal">��� Minimal</option>
+                <option value="minimal">����� Minimal</option>
                 <option value="corporate">▣ Corporate</option>
                 <option value="creative">������ Creative</option>
                 <option value="financial">$ Financial</option>
@@ -14973,7 +15017,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                             }}
                             className="w-full px-3 py-2 text-xs text-center bg-gradient-to-r from-sky-600 to-purple-600 hover:from-sky-500 hover:to-purple-500 text-white rounded-md transition-all font-medium"
                           >
-                            ����� Browse All {CANVAS_SHAPE_VARIANTS.length} Shapes
+                            ������ Browse All {CANVAS_SHAPE_VARIANTS.length} Shapes
                           </button>
                         </div>
                       </div>
@@ -17129,7 +17173,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 {/* Analysis Loading State */}
                 {isAnalyzingChannel && !channelAnalysisProgress && (
                   <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-3xl border border-slate-700/50 p-8 shadow-2xl mb-6">
-                    <GeneratingContent message="������� Preparing channel analysis..." />
+                    <GeneratingContent message="��������� Preparing channel analysis..." />
                   </div>
                 )}
 
@@ -17658,7 +17702,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                   {
                     key: "recommendations",
                     label: "AI Recommendations",
-                    icon: "������",
+                    icon: "�����",
                   },
                   {
                     key: "monitoring",
