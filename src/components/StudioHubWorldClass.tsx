@@ -1404,6 +1404,110 @@ const StudioHubWorldClass: React.FC<StudioHubWorldClassProps> = ({
     }));
   };
 
+  const handleEditProject = (project: any) => {
+    // Close menu
+    setProjectActionMenus(prev => ({ ...prev, [project.id]: false }));
+
+    const newTitle = prompt('Enter new project title:', project.title);
+    if (newTitle && newTitle.trim()) {
+      setProjects(prev => prev.map(p =>
+        p.id === project.id ? { ...p, title: newTitle.trim() } : p
+      ));
+
+      const notification = {
+        id: Date.now().toString(),
+        type: 'success' as const,
+        title: 'Project Updated',
+        message: `Project "${newTitle}" has been updated`,
+        timestamp: new Date(),
+        read: false
+      };
+      setNotifications(prev => [notification, ...prev]);
+    }
+  };
+
+  const handleDuplicateProject = (project: any) => {
+    // Close menu
+    setProjectActionMenus(prev => ({ ...prev, [project.id]: false }));
+
+    const duplicatedProject = {
+      ...project,
+      id: `project-${Date.now()}`,
+      title: `${project.title} (Copy)`,
+      stage: 'planning',
+      progress: 0,
+      createdAt: new Date(),
+      dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days from now
+    };
+
+    setProjects(prev => [duplicatedProject, ...prev]);
+
+    const notification = {
+      id: Date.now().toString(),
+      type: 'success' as const,
+      title: 'Project Duplicated',
+      message: `Project "${duplicatedProject.title}" has been created`,
+      timestamp: new Date(),
+      read: false
+    };
+    setNotifications(prev => [notification, ...prev]);
+  };
+
+  const handleDeleteProject = (project: any) => {
+    // Close menu
+    setProjectActionMenus(prev => ({ ...prev, [project.id]: false }));
+
+    if (confirm(`Are you sure you want to delete "${project.title}"?`)) {
+      setProjects(prev => prev.filter(p => p.id !== project.id));
+
+      const notification = {
+        id: Date.now().toString(),
+        type: 'info' as const,
+        title: 'Project Deleted',
+        message: `Project "${project.title}" has been deleted`,
+        timestamp: new Date(),
+        read: false
+      };
+      setNotifications(prev => [notification, ...prev]);
+    }
+  };
+
+  const handleShareProject = (project: any) => {
+    // Close menu
+    setProjectActionMenus(prev => ({ ...prev, [project.id]: false }));
+
+    const shareUrl = `${window.location.origin}/project/${project.id}`;
+    navigator.clipboard.writeText(shareUrl);
+
+    const notification = {
+      id: Date.now().toString(),
+      type: 'success' as const,
+      title: 'Project Link Copied',
+      message: 'Project sharing link copied to clipboard',
+      timestamp: new Date(),
+      read: false
+    };
+    setNotifications(prev => [notification, ...prev]);
+  };
+
+  const handleSendToCanvas = (project: any) => {
+    // Close menu
+    setProjectActionMenus(prev => ({ ...prev, [project.id]: false }));
+
+    // Navigate to canvas view with project data
+    setActiveView('canvas');
+
+    const notification = {
+      id: Date.now().toString(),
+      type: 'success' as const,
+      title: 'Project Sent to Canvas',
+      message: `"${project.title}" opened in Canvas`,
+      timestamp: new Date(),
+      read: false
+    };
+    setNotifications(prev => [notification, ...prev]);
+  };
+
   const handleDownloadFile = async (file: UploadedFile) => {
     try {
       await downloadFile(file);
