@@ -28,8 +28,14 @@ const AuthWrapper: React.FC<AuthWrapperProps> = ({ children }) => {
     return <AuthModal
       isOpen={true}
       onClose={() => {}}
-      onNavigateToTerms={() => window.open('/terms', '_blank')}
-      onNavigateToPrivacy={() => window.open('/privacy', '_blank')}
+      onNavigateToTerms={() => {
+        const url = window.location.origin + '/#/terms';
+        window.open(url, '_blank');
+      }}
+      onNavigateToPrivacy={() => {
+        const url = window.location.origin + '/#/privacy';
+        window.open(url, '_blank');
+      }}
     />;
   }
 
