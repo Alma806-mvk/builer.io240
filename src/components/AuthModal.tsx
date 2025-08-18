@@ -656,7 +656,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuccess, d
                             onMouseEnter={(e) => e.currentTarget.style.color = 'hsl(210, 40%, 98%)'}
                             onMouseLeave={(e) => e.currentTarget.style.color = 'hsl(215, 20.2%, 65.1%)'}
                           >
-                            {showPassword ? '👁️' : '👁️‍🗨️'}
+                            {showPassword ? <Eye size={16} /> : <EyeOff size={16} />}
                           </button>
                         </div>
                       </div>
