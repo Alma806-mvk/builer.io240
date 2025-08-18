@@ -8679,7 +8679,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 {[
                   "��",
                   "��",
-                  "������",
+                  "����",
                   "���",
                   "����������",
                   "��������",
@@ -9670,7 +9670,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 <option value="cpp">����� C++</option>
                 <option value="csharp">����� C#</option>
                 <option value="php">���� PHP</option>
-                <option value="ruby">������������ Ruby</option>
+                <option value="ruby">����������� Ruby</option>
                 <option value="go">�� Go</option>
                 <option value="rust">������ Rust</option>
                 <option value="swift">�� Swift</option>
@@ -9820,7 +9820,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 onChange={(e) => updateProp("connectorStyle", e.target.value)}
                 className="p-1.5 bg-slate-700 rounded-md border border-slate-600 text-slate-200 focus:ring-1 focus:ring-sky-500 focus:border-sky-500"
               >
-                <option value="solid">▬ Solid</option>
+                <option value="solid">��� Solid</option>
                 <option value="dashed">▭ Dashed</option>
                 <option value="dotted">���������� Dotted</option>
                 <option value="double">═ Double</option>
@@ -14621,7 +14621,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                     <div className="flex items-center space-x-2">
                       <span className="text-xs text-slate-400">Rate this:</span>
                       <RatingButtons
-                        rating={displayedOutputItem.rating}
+                        rating={displayedOutputItem.rating || 0}
                         onRating={handleRateCurrentContent}
                         size="sm"
                         showTooltip={true}
@@ -15271,7 +15271,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                                         ? "���"
                                         : node.type === "main"
                                           ? "��������"
-                                          : "����",
+                                          : "�����",
                                     mindMapShape:
                                       node.type === "central"
                                         ? ("circle" as const)
@@ -15850,7 +15850,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                   {/* Style Presets */}
                   <ToolbarButton
                     title="Style Presets"
-                    icon={<span className="text-lg emoji-icon">�������</span>}
+                    icon={<span className="text-lg emoji-icon">���������</span>}
                     onClick={() => {
                       const newStyleState = !showStylePresets;
                       setShowStylePresets(newStyleState);
