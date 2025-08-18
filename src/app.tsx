@@ -496,8 +496,8 @@ function AppContent() {
           isOpen={true}
           onClose={handleCloseAuth}
           onAuthSuccess={handleCloseAuth}
-          onNavigateToTerms={() => window.open('https://creategen.ai/terms', '_blank')}
-          onNavigateToPrivacy={() => window.open('https://creategen.ai/privacy', '_blank')}
+          onNavigateToTerms={() => window.open('/terms', '_blank')}
+          onNavigateToPrivacy={() => window.open('/privacy', '_blank')}
         />
       </div>
     );
