@@ -7228,7 +7228,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
         let ideasToRender = parsedIdeas;
         if (parsedIdeas.length <= 1) {
           // Try splitting by the emoji pattern
-          const emojiSplit = contentText.split(/(?=����)/);
+          const emojiSplit = contentText.split(/(?=������)/);
           if (emojiSplit.length > 1) {
             ideasToRender = emojiSplit
               .filter((section) => section.trim().length > 20)
@@ -7343,6 +7343,20 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                           originalIdea={ideaContent.trim()}
                           disabled={expanded?.isExpanding}
                         />
+
+                        {/* Rating Buttons for this content idea */}
+                        <div className="flex items-center">
+                          <RatingButtons
+                            rating={displayedOutputItem?.rating}
+                            onRating={(rating) => {
+                              if (displayedOutputItem) {
+                                handleRateCurrentContent(rating);
+                              }
+                            }}
+                            size="sm"
+                            showTooltip={true}
+                          />
+                        </div>
 
                         {hasExpandedContent && !isCollapsed && (
                           <span className="text-xs text-green-400 flex items-center gap-1">
