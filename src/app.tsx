@@ -492,7 +492,7 @@ function AppContent() {
         >
           ✕
         </button>
-        <PremiumAuth onAuthSuccess={handleCloseAuth} />
+        <AuthModal isOpen={true} onClose={handleCloseAuth} onAuthSuccess={handleCloseAuth} />
       </div>
     );
   }
