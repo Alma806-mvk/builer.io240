@@ -1007,7 +1007,7 @@ const ContentCalendarExtensions: React.FC<ContentCalendarExtensionsProps> = ({
         </div>
       </Card>
 
-      {/* World-Class Upcoming Content Section */}
+      {/* Enhanced Upcoming Content Section */}
       <AnimatePresence mode="wait">
         {activeSection === "upcoming" && (
           <motion.div
@@ -1016,134 +1016,15 @@ const ContentCalendarExtensions: React.FC<ContentCalendarExtensionsProps> = ({
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
           >
-            <Card variant="glow" className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className="p-3 rounded-xl bg-gradient-to-br from-[var(--color-warning)] to-[#ea580c] text-white shadow-lg">
-                    <Clock className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <h3 className="heading-3">
-                      <GradientText>Upcoming Content</GradientText>
-                    </h3>
-                    <p className="body-sm">Next {upcomingEvents.length} scheduled posts</p>
-                  </div>
-                </div>
-                <div className="flex space-x-3">
-                  <Button variant="secondary" onClick={() => setActiveSection("ideas")}>
-                    Browse Ideas
-                  </Button>
-                  <Button variant="primary">
-                    <Plus className="w-4 h-4 mr-2" />
-                    Schedule New
-                  </Button>
-                </div>
-              </div>
-
-              {upcomingEvents.length === 0 ? (
-                <EmptyState
-                  icon={<Calendar />}
-                  title="No upcoming content"
-                  description="Start by scheduling some content or promoting ideas to events"
-                  actionLabel="Browse Content Ideas"
-                  onAction={() => setActiveSection("ideas")}
-                />
-              ) : (
-                <div className="space-y-4">
-                  {upcomingEvents.map((event, index) => {
-                    const daysUntil = Math.ceil(
-                      (new Date(event.date).getTime() - new Date().getTime()) /
-                        (1000 * 60 * 60 * 24),
-                    );
-
-                    return (
-                      <motion.div
-                        key={event.id}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.2, delay: index * 0.1 }}
-                      >
-                        <Card variant="hover" className="space-y-4">
-                          <div className="flex items-start justify-between">
-                            <div className="flex items-start space-x-4 flex-1">
-                              <div className="flex-shrink-0">
-                                <div
-                                  className={`p-3 rounded-lg ${PLATFORM_COLORS[event.platform]}/20 border border-${PLATFORM_COLORS[event.platform].replace("bg-", "")}/30`}
-                                >
-                                  <div className="text-2xl">
-                      {React.createElement(PLATFORM_ICONS[event.platform], {
-                        className: 'w-6 h-6'
-                      })}
-                    </div>
-                                </div>
-                              </div>
-
-                              <div className="flex-1 min-w-0">
-                                <div className="flex items-center space-x-2 mb-2">
-                                  <h4 className="heading-4 truncate">{event.title}</h4>
-                                  <Badge
-                                    variant={event.status === "scheduled" ? "success" : "warning"}
-                                  >
-                                    {event.status === "scheduled" ? "✓ Ready" : "Draft"}
-                                  </Badge>
-                                </div>
-
-                                <div className="flex items-center space-x-4 text-sm text-[var(--text-secondary)] mb-2">
-                                  <span className="flex items-center">
-                                    <div className="mr-1">
-                    {React.createElement(PLATFORM_ICONS[event.platform], {
-                      className: 'w-4 h-4'
-                    })}
-                  </div>
-                                    {event.platform}
-                                  </span>
-                                  <span className="flex items-center">
-                                    <Calendar className="h-4 w-4 mr-1" />
-                                    {formatDate(event.date)}
-                                  </span>
-                                  <Badge
-                                    variant={daysUntil <= 1 ? "error" : daysUntil <= 3 ? "warning" : "neutral"}
-                                    className="flex items-center"
-                                  >
-                                    <Clock className="h-3 w-3 mr-1" />
-                                    {daysUntil === 0
-                                      ? "Today"
-                                      : daysUntil === 1
-                                        ? "Tomorrow"
-                                        : `${daysUntil} days`}
-                                  </Badge>
-                                </div>
-
-                                {event.description && (
-                                  <p className="body-sm text-[var(--text-secondary)] line-clamp-2">
-                                    {event.description}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-
-                            <div className="flex items-center space-x-2 ml-4">
-                              {event.status === "draft" && (
-                                <Button
-                                  variant="primary"
-                                  size="sm"
-                                  onClick={() => handleScheduleEvent(event.id)}
-                                >
-                                  Schedule
-                                </Button>
-                              )}
-                              <Button variant="ghost" size="sm">
-                                <Edit3 className="h-4 w-4" />
-                              </Button>
-                            </div>
-                          </div>
-                        </Card>
-                      </motion.div>
-                    );
-                  })}
-                </div>
-              )}
-            </Card>
+            <EnhancedUpcomingContent
+              events={events}
+              onEventCreate={onEventCreate}
+              onEventUpdate={onEventUpdate}
+              onEventDelete={(eventId) => {
+                // Handle event deletion if callback is available
+                console.log('Delete event:', eventId);
+              }}
+            />
           </motion.div>
         )}
       </AnimatePresence>
