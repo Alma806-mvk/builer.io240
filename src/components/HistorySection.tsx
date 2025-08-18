@@ -31,6 +31,7 @@ interface HistorySectionProps {
   setCopied: (copied: boolean) => void;
   handleCopyToClipboard: (text: string) => void;
   toggleHistoryItemFavorite: (id: string) => void;
+  updateItemRating?: (id: string, rating: 1 | -1 | 0) => void;
 }
 
 export const HistorySection: React.FC<HistorySectionProps> = ({
