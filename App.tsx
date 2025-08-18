@@ -121,6 +121,7 @@ import { AccountPageUnified } from "./src/components/AccountPageUnified";
 import { BillingPageUnified } from "./src/components/BillingPageUnified";
 import { Button } from "./src/components/ui/button";
 import RatingButtons from "./src/components/ui/RatingButtons";
+import { enhancedHistoryService } from "./src/services/enhancedHistoryService";
 
 // Import existing services and components
 import {
@@ -3451,7 +3452,7 @@ VARIATIONS: Alternative approaches
       finishGeneration();
       setIsExpandingIdea(false);
     } catch (error) {
-      console.error("������� Error expanding idea:", error);
+      console.error("�������� Error expanding idea:", error);
 
       // Provide helpful fallback content even on error
       const fallbackContent = `TARGET: DETAILED CONCEPT
@@ -3951,7 +3952,7 @@ VARIATIONS: Alternative approaches
       // Use Gemini service directly for instant results
       const { generateTextContent } = await import('./services/geminiService');
 
-      console.log('��� Refining text:', selectedText, 'with action:', action);
+      console.log('🎯 Refining text:', selectedText, 'with action:', action);
 
       // Map action to refinement type
       let refinementType = RefinementType.MoreEngaging;
@@ -12165,7 +12166,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                           {header}
                           {/* Sort indicator for premium feel */}
                           <span style={{ opacity: 0.5, fontSize: "10px" }}>
-                            �����
+                            ����
                           </span>
                         </div>
                       </th>
@@ -19094,7 +19095,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                         them later. Perfect for workflows you use repeatedly.
                       </p>
                       <div className="mt-2 text-xs text-slate-500">
-                        �� <strong>Looking for viral content patterns?</strong>{" "}
+                        ��� <strong>Looking for viral content patterns?</strong>{" "}
                         Check Premium Generator Features for 50+ professional
                         templates with proven performance metrics.
                       </div>
