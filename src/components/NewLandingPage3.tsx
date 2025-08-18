@@ -1212,11 +1212,11 @@ const NewLandingPage3 = ({ onSignInClick, onStartCreating, onNavigateToSecondary
       onAuthSuccess={handleAuthSuccess}
       defaultTab={authModalTab}
       onNavigateToTerms={() => {
-        const url = window.location.origin + '/#/terms';
+        const url = window.location.origin + '/terms';
         window.open(url, '_blank');
       }}
       onNavigateToPrivacy={() => {
-        const url = window.location.origin + '/#/privacy';
+        const url = window.location.origin + '/privacy';
         window.open(url, '_blank');
       }}
     />

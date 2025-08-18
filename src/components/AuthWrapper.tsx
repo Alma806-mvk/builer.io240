@@ -29,11 +29,11 @@ const AuthWrapper: React.FC<AuthWrapperProps> = ({ children }) => {
       isOpen={true}
       onClose={() => {}}
       onNavigateToTerms={() => {
-        const url = window.location.origin + '/#/terms';
+        const url = window.location.origin + '/terms';
         window.open(url, '_blank');
       }}
       onNavigateToPrivacy={() => {
-        const url = window.location.origin + '/#/privacy';
+        const url = window.location.origin + '/privacy';
         window.open(url, '_blank');
       }}
     />;
