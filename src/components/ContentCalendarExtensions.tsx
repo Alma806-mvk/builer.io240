@@ -43,20 +43,50 @@ import {
   GradientText,
   Input
 } from "./ui/WorldClassComponents";
+import EnhancedUpcomingContent from "./EnhancedUpcomingContent";
+import EnhancedContentIdeasBank from "./EnhancedContentIdeasBank";
 
 interface ContentIdea {
   id: string;
   title: string;
   description: string;
-  priority: "high" | "medium" | "low";
+  priority: "low" | "medium" | "high" | "urgent";
   category: string;
   platform: Platform;
   estimatedEngagement: number;
-  status: "new" | "in-review" | "planned";
+  status: "ideas" | "in-progress" | "ready" | "scheduled";
   dateAdded: string;
+  dateModified: string;
   tags: string[];
   notes?: string;
   scheduledDate?: string;
+  assignee?: string;
+  contentType: "video" | "post" | "story" | "live" | "podcast" | "blog" | "thread" | "carousel";
+  targetAudience?: string;
+  keywords?: string[];
+  inspiration?: {
+    source: string;
+    url?: string;
+    notes?: string;
+  };
+  collaborators?: string[];
+  aiGenerated?: boolean;
+  trendingScore?: number;
+  viralPotential?: number;
+  difficulty?: "easy" | "medium" | "hard";
+  estimatedTime?: number; // in minutes
+  resources?: {
+    images?: string[];
+    videos?: string[];
+    references?: string[];
+  };
+  analytics?: {
+    views?: number;
+    engagement?: number;
+    likes?: number;
+    shares?: number;
+    saves?: number;
+  };
 }
 
 interface ContentPerformance {
@@ -1006,7 +1036,7 @@ const ContentCalendarExtensions: React.FC<ContentCalendarExtensionsProps> = ({
         </div>
       </Card>
 
-      {/* World-Class Upcoming Content Section */}
+      {/* Enhanced Upcoming Content Section */}
       <AnimatePresence mode="wait">
         {activeSection === "upcoming" && (
           <motion.div
@@ -1015,428 +1045,65 @@ const ContentCalendarExtensions: React.FC<ContentCalendarExtensionsProps> = ({
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
           >
-            <Card variant="glow" className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className="p-3 rounded-xl bg-gradient-to-br from-[var(--color-warning)] to-[#ea580c] text-white shadow-lg">
-                    <Clock className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <h3 className="heading-3">
-                      <GradientText>Upcoming Content</GradientText>
-                    </h3>
-                    <p className="body-sm">Next {upcomingEvents.length} scheduled posts</p>
-                  </div>
-                </div>
-                <div className="flex space-x-3">
-                  <Button variant="secondary" onClick={() => setActiveSection("ideas")}>
-                    Browse Ideas
-                  </Button>
-                  <Button variant="primary">
-                    <Plus className="w-4 h-4 mr-2" />
-                    Schedule New
-                  </Button>
-                </div>
-              </div>
-
-              {upcomingEvents.length === 0 ? (
-                <EmptyState
-                  icon={<Calendar />}
-                  title="No upcoming content"
-                  description="Start by scheduling some content or promoting ideas to events"
-                  actionLabel="Browse Content Ideas"
-                  onAction={() => setActiveSection("ideas")}
-                />
-              ) : (
-                <div className="space-y-4">
-                  {upcomingEvents.map((event, index) => {
-                    const daysUntil = Math.ceil(
-                      (new Date(event.date).getTime() - new Date().getTime()) /
-                        (1000 * 60 * 60 * 24),
-                    );
-
-                    return (
-                      <motion.div
-                        key={event.id}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.2, delay: index * 0.1 }}
-                      >
-                        <Card variant="hover" className="space-y-4">
-                          <div className="flex items-start justify-between">
-                            <div className="flex items-start space-x-4 flex-1">
-                              <div className="flex-shrink-0">
-                                <div
-                                  className={`p-3 rounded-lg ${PLATFORM_COLORS[event.platform]}/20 border border-${PLATFORM_COLORS[event.platform].replace("bg-", "")}/30`}
-                                >
-                                  <div className="text-2xl">
-                      {React.createElement(PLATFORM_ICONS[event.platform], {
-                        className: 'w-6 h-6'
-                      })}
-                    </div>
-                                </div>
-                              </div>
-
-                              <div className="flex-1 min-w-0">
-                                <div className="flex items-center space-x-2 mb-2">
-                                  <h4 className="heading-4 truncate">{event.title}</h4>
-                                  <Badge
-                                    variant={event.status === "scheduled" ? "success" : "warning"}
-                                  >
-                                    {event.status === "scheduled" ? "✓ Ready" : "Draft"}
-                                  </Badge>
-                                </div>
-
-                                <div className="flex items-center space-x-4 text-sm text-[var(--text-secondary)] mb-2">
-                                  <span className="flex items-center">
-                                    <div className="mr-1">
-                    {React.createElement(PLATFORM_ICONS[event.platform], {
-                      className: 'w-4 h-4'
-                    })}
-                  </div>
-                                    {event.platform}
-                                  </span>
-                                  <span className="flex items-center">
-                                    <Calendar className="h-4 w-4 mr-1" />
-                                    {formatDate(event.date)}
-                                  </span>
-                                  <Badge
-                                    variant={daysUntil <= 1 ? "error" : daysUntil <= 3 ? "warning" : "neutral"}
-                                    className="flex items-center"
-                                  >
-                                    <Clock className="h-3 w-3 mr-1" />
-                                    {daysUntil === 0
-                                      ? "Today"
-                                      : daysUntil === 1
-                                        ? "Tomorrow"
-                                        : `${daysUntil} days`}
-                                  </Badge>
-                                </div>
-
-                                {event.description && (
-                                  <p className="body-sm text-[var(--text-secondary)] line-clamp-2">
-                                    {event.description}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-
-                            <div className="flex items-center space-x-2 ml-4">
-                              {event.status === "draft" && (
-                                <Button
-                                  variant="primary"
-                                  size="sm"
-                                  onClick={() => handleScheduleEvent(event.id)}
-                                >
-                                  Schedule
-                                </Button>
-                              )}
-                              <Button variant="ghost" size="sm">
-                                <Edit3 className="h-4 w-4" />
-                              </Button>
-                            </div>
-                          </div>
-                        </Card>
-                      </motion.div>
-                    );
-                  })}
-                </div>
-              )}
-            </Card>
+            <EnhancedUpcomingContent
+              events={events}
+              onEventCreate={onEventCreate}
+              onEventUpdate={onEventUpdate}
+              onEventDelete={(eventId) => {
+                // Handle event deletion if callback is available
+                console.log('Delete event:', eventId);
+              }}
+            />
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* Enhanced Content Ideas Bank Section */}
       {activeSection === "ideas" && (
-        <div className="bg-gradient-to-br from-slate-800/50 to-purple-900/10 rounded-2xl border border-slate-700/50 p-6 backdrop-blur-sm">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-purple-500/20 rounded-lg">
-                <Lightbulb className="h-6 w-6 text-purple-400" />
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-white">
-                  Content Ideas Bank
-                </h3>
-                <p className="text-slate-400 text-sm">
-                  {filteredContentIdeas.length} ideas ready to develop
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-2">
-              <button
-                onClick={generateAISuggestions}
-                disabled={isGeneratingSuggestions}
-                className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 disabled:opacity-50 text-white text-sm rounded-lg transition-all duration-200 shadow-lg flex items-center space-x-2"
-              >
-                <Brain
-                  className={`h-4 w-4 ${isGeneratingSuggestions ? "animate-pulse" : ""}`}
-                />
-                <span>
-                  {isGeneratingSuggestions ? "Generating..." : "AI Suggestions"}
-                </span>
-              </button>
-              <button
-                onClick={() => setShowIdeaForm(!showIdeaForm)}
-                className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-sm rounded-lg transition-colors shadow-lg flex items-center space-x-2"
-              >
-                <Plus className="h-4 w-4" />
-                <span>Add Manual</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Enhanced Filters and Search */}
-          <div className="mb-6 p-4 bg-slate-700/30 rounded-xl border border-slate-600/30">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div>
-                <label className="block text-xs font-medium text-slate-400 mb-2">
-                  Search Ideas
-                </label>
-                <div className="relative">
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search by title, tags..."
-                    className="w-full pl-9 pr-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  />
-                  <Filter className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-slate-400 mb-2">
-                  Priority
-                </label>
-                <select
-                  value={filterPriority}
-                  onChange={(e) => setFilterPriority(e.target.value)}
-                  className="w-full p-2 bg-slate-700 border border-slate-600 rounded-lg text-white text-sm focus:ring-2 focus:ring-purple-500"
-                >
-                  <option value="all">All Priorities</option>
-                  <option value="high">High Priority</option>
-                  <option value="medium">Medium Priority</option>
-                  <option value="low">Low Priority</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-slate-400 mb-2">
-                  Platform
-                </label>
-                <select
-                  value={filterPlatform}
-                  onChange={(e) => setFilterPlatform(e.target.value)}
-                  className="w-full p-2 bg-slate-700 border border-slate-600 rounded-lg text-white text-sm focus:ring-2 focus:ring-purple-500"
-                >
-                  <option value="all">All Platforms</option>
-                  {Object.values(Platform).map((platform) => (
-                    <option key={platform} value={platform}>
-                      {platform}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-slate-400 mb-2">
-                  Sort By
-                </label>
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value as any)}
-                  className="w-full p-2 bg-slate-700 border border-slate-600 rounded-lg text-white text-sm focus:ring-2 focus:ring-purple-500"
-                >
-                  <option value="date">Date Added</option>
-                  <option value="priority">Priority</option>
-                  <option value="engagement">Est. Engagement</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          {/* Quick Add Form */}
-          {showIdeaForm && (
-            <div className="mb-6 p-4 bg-purple-500/10 rounded-xl border border-purple-500/30">
-              <div className="flex space-x-2">
-                <input
-                  type="text"
-                  value={newIdea}
-                  onChange={(e) => setNewIdea(e.target.value)}
-                  placeholder="Enter your content idea (e.g., '10 Best AI Tools for Creators')"
-                  className="flex-1 p-3 bg-slate-700 border border-slate-600 rounded-lg text-white text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  onKeyPress={(e) => e.key === "Enter" && handleAddIdea()}
-                />
-                <button
-                  onClick={handleAddIdea}
-                  disabled={!newIdea.trim()}
-                  className="px-6 py-3 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg text-sm transition-colors font-medium"
-                >
-                  Add Idea
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* Ideas Grid */}
-          {filteredContentIdeas.length === 0 ? (
-            <div className="text-center py-12 border-2 border-dashed border-slate-600/50 rounded-xl">
-              <Lightbulb className="h-16 w-16 mx-auto mb-4 text-slate-500" />
-              <h4 className="text-lg font-medium text-white mb-2">
-                No ideas found
-              </h4>
-              <p className="text-slate-400 mb-4">
-                {searchQuery ||
-                filterPriority !== "all" ||
-                filterPlatform !== "all"
-                  ? "Try adjusting your filters"
-                  : "Start building your content ideas bank"}
-              </p>
-              {(searchQuery ||
-                filterPriority !== "all" ||
-                filterPlatform !== "all") && (
-                <button
-                  onClick={() => {
-                    setSearchQuery("");
-                    setFilterPriority("all");
-                    setFilterPlatform("all");
-                  }}
-                  className="px-4 py-2 bg-slate-600 hover:bg-slate-500 text-white rounded-lg transition-colors"
-                >
-                  Clear Filters
-                </button>
-              )}
-            </div>
-          ) : (
-            <div className="grid gap-4">
-              {filteredContentIdeas.map((idea) => (
-                <div
-                  key={idea.id}
-                  className="group bg-slate-700/30 hover:bg-slate-700/50 rounded-xl border border-slate-600/30 hover:border-slate-500/50 transition-all duration-200"
-                >
-                  <div className="p-5">
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="flex items-start space-x-3 flex-1">
-                        <div className="flex-shrink-0 mt-1">
-                          <span className="text-2xl">
-                            {getPriorityIcon(idea.priority)}
-                          </span>
-                        </div>
-
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center space-x-2 mb-2">
-                            <h4 className="text-white font-semibold text-lg">
-                              {idea.title}
-                            </h4>
-                            <div className="text-xl">
-                    {React.createElement(PLATFORM_ICONS[idea.platform], {
-                      className: 'w-5 h-5'
-                    })}
-                  </div>
-                            <span
-                              className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                idea.status === "new"
-                                  ? "bg-blue-500/20 text-blue-300"
-                                  : idea.status === "in-review"
-                                    ? "bg-yellow-500/20 text-yellow-300"
-                                    : "bg-green-500/20 text-green-300"
-                              }`}
-                            >
-                              {getStatusIcon(idea.status)}{" "}
-                              {idea.status.replace("-", " ")}
-                            </span>
-                          </div>
-
-                          <p className="text-slate-300 text-sm mb-3">
-                            {idea.description}
-                          </p>
-
-                          <div className="flex items-center space-x-4 text-xs text-slate-400 mb-3">
-                            <span className="flex items-center">
-                              <TrendingUp className="h-3 w-3 mr-1" />
-                              {idea.estimatedEngagement.toFixed(1)}% Est.
-                              Engagement
-                            </span>
-                            <span className="flex items-center">
-                              <Tag className="h-3 w-3 mr-1" />
-                              {idea.category}
-                            </span>
-                            <span className="flex items-center">
-                              <Calendar className="h-3 w-3 mr-1" />
-                              {formatDate(idea.dateAdded)}
-                            </span>
-                          </div>
-
-                          {idea.tags.length > 0 && (
-                            <div className="flex flex-wrap gap-1 mb-3">
-                              {idea.tags.map((tag, tagIndex) => (
-                                <span
-                                  key={`idea-tag-${tag}-${tagIndex}`}
-                                  className="px-2 py-1 bg-slate-600/50 text-slate-300 text-xs rounded-full"
-                                >
-                                  #{tag}
-                                </span>
-                              ))}
-                            </div>
-                          )}
-
-                          {idea.notes && (
-                            <div className="text-xs text-slate-400 bg-slate-800/50 p-2 rounded border-l-2 border-purple-500/50">
-                              📝 {idea.notes}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-
-                      <div className="flex items-center space-x-1 ml-4">
-                        <span
-                          className={`px-3 py-1 rounded-full text-xs font-bold ${
-                            idea.priority === "high"
-                              ? "bg-red-500/20 text-red-300 border border-red-500/30"
-                              : idea.priority === "medium"
-                                ? "bg-yellow-500/20 text-yellow-300 border border-yellow-500/30"
-                                : "bg-green-500/20 text-green-300 border border-green-500/30"
-                          }`}
-                        >
-                          {idea.priority}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between pt-3 border-t border-slate-600/30">
-                      <div className="flex items-center space-x-2">
-                        <button
-                          onClick={() => handleScheduleIdea(idea)}
-                          className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs rounded-lg transition-colors shadow-sm flex items-center space-x-1"
-                        >
-                          <Calendar className="h-3 w-3" />
-                          <span>Schedule</span>
-                        </button>
-                        <button
-                          onClick={() => handleEditIdea(idea)}
-                          className="px-3 py-1.5 bg-slate-600 hover:bg-slate-500 text-white text-xs rounded-lg transition-colors flex items-center space-x-1"
-                        >
-                          <Edit3 className="h-3 w-3" />
-                          <span>Edit</span>
-                        </button>
-                      </div>
-
-                      <button
-                        onClick={() => handleDeleteIdea(idea.id)}
-                        className="p-1.5 text-slate-400 hover:text-red-400 transition-colors"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        <EnhancedContentIdeasBank
+          ideas={contentIdeas}
+          onIdeaCreate={(idea) => {
+            const newIdea = {
+              ...idea,
+              id: `idea-${Date.now()}`,
+              dateAdded: new Date().toISOString(),
+              dateModified: new Date().toISOString(),
+              estimatedEngagement: Math.floor(Math.random() * 100) + 1,
+              aiGenerated: false
+            };
+            setContentIdeas(prev => [...prev, newIdea]);
+          }}
+          onIdeaUpdate={(idea) => {
+            setContentIdeas(prev => prev.map(i => i.id === idea.id ? idea : i));
+          }}
+          onIdeaDelete={(ideaId) => {
+            setContentIdeas(prev => prev.filter(i => i.id !== ideaId));
+          }}
+          onPromoteToCalendar={(idea) => {
+            // Convert idea to calendar event
+            if (onEventCreate) {
+              const event = {
+                title: idea.title,
+                description: idea.description,
+                date: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0], // Tomorrow
+                time: '12:00',
+                platform: idea.platform,
+                color: PLATFORM_COLORS[idea.platform],
+                status: 'scheduled' as const,
+                content: idea.notes || idea.description,
+                tags: idea.tags,
+                analyticsEnabled: true,
+                notificationsEnabled: true
+              };
+              onEventCreate(event);
+            }
+          }}
+          onGenerateAISuggestions={async () => {
+            // This would typically call your AI service
+            // For now, return mock suggestions
+            return [];
+          }}
+        />
       )}
 
       {/* Enhanced Recent Content Performance Section */}
