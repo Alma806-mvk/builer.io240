@@ -1,6 +1,18 @@
 import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
+  InteractiveCard,
+  PageTransitions,
+  StaggerAnimations,
+  ScrollAnimations
+} from "./CalendarMicroInteractions";
+import {
+  ResponsiveGrid,
+  useBreakpoint,
+  ResponsiveContent
+} from "./ResponsiveCalendarLayout";
+import { CalendarColors, CalendarAnimations } from "./CalendarDesignSystem";
+import {
   Clock,
   Lightbulb,
   BarChart3,
