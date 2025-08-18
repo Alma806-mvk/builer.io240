@@ -9,6 +9,7 @@ import React, {
 import "./src/styles/consistentEmoji.css";
 import "./src/styles/emojiFixUnified.css";
 import "./src/styles/emojiCriticalFix.css";
+import "./src/styles/promptCarousel.css";
 import "./src/styles/enhancedCanvas.css";
 import "./src/styles/mobile-first.css";
 import "./src/styles/isolatedNavbar.css";
