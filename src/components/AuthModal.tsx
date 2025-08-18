@@ -893,6 +893,18 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuccess, d
           }
         }
       `}</style>
+
+      {/* Terms of Service Modal */}
+      <TermsOfService
+        isOpen={showTerms}
+        onClose={() => setShowTerms(false)}
+      />
+
+      {/* Privacy Policy Modal */}
+      <PrivacyPolicy
+        isOpen={showPrivacy}
+        onClose={() => setShowPrivacy(false)}
+      />
     </>
   );
 };
