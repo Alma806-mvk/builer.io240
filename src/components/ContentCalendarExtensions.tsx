@@ -43,6 +43,7 @@ import {
   GradientText,
   Input
 } from "./ui/WorldClassComponents";
+import EnhancedUpcomingContent from "./EnhancedUpcomingContent";
 
 interface ContentIdea {
   id: string;
