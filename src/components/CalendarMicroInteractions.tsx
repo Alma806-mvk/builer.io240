@@ -650,19 +650,4 @@ export const PageWrapper: React.FC<PageWrapperProps> = ({ children, className = 
   );
 };
 
-export {
-  HoverEffects,
-  LoadingAnimations,
-  PageTransitions,
-  StaggerAnimations,
-  ScrollAnimations,
-  InteractiveButton,
-  InteractiveCard,
-  ProgressBar,
-  FloatingActionButton,
-  Tooltip,
-  Notification,
-  useParallax,
-  useSmoothScroll,
-  PageWrapper
-};
+// All components are exported individually above
