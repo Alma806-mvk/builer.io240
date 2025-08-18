@@ -3951,7 +3951,7 @@ VARIATIONS: Alternative approaches
       // Use Gemini service directly for instant results
       const { generateTextContent } = await import('./services/geminiService');
 
-      console.log('🎯 Refining text:', selectedText, 'with action:', action);
+      console.log('��� Refining text:', selectedText, 'with action:', action);
 
       // Map action to refinement type
       let refinementType = RefinementType.MoreEngaging;
@@ -9657,7 +9657,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
               >
                 <option value="dark">������������� Dark</option>
                 <option value="light">☀���� Light</option>
-                <option value="github">������������ GitHub</option>
+                <option value="github">���������� GitHub</option>
                 <option value="vscode">���� VS Code</option>
                 <option value="sublime">🔥 Sublime</option>
                 <option value="atom">���️ Atom</option>
@@ -9754,7 +9754,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
               >
                 <option value="straight">���� Straight</option>
                 <option value="curved">〜 Curved</option>
-                <option value="elbow">������������ Elbow</option>
+                <option value="elbow">����������� Elbow</option>
                 <option value="dashed">┄ Dashed</option>
                 <option value="dotted">⋯ Dotted</option>
                 <option value="double">�� Double</option>
@@ -11511,7 +11511,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
             task: "��",
             bug: "�����",
             feature: "⭐",
-            epic: "�������",
+            epic: "�����",
             story: "��",
             improvement: "📈",
             research: "�����",
@@ -12165,7 +12165,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                           {header}
                           {/* Sort indicator for premium feel */}
                           <span style={{ opacity: 0.5, fontSize: "10px" }}>
-                            ����
+                            �����
                           </span>
                         </div>
                       </th>
@@ -14572,6 +14572,17 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 </div>
                 {displayedOutputItem && !isLoading && (
                   <div className="flex flex-wrap gap-3 items-center pt-4 border-t border-slate-700">
+                    {/* Rating Buttons */}
+                    <div className="flex items-center space-x-2">
+                      <span className="text-xs text-slate-400">Rate this:</span>
+                      <RatingButtons
+                        rating={displayedOutputItem.rating}
+                        onRating={handleRateCurrentContent}
+                        size="sm"
+                        showTooltip={true}
+                      />
+                    </div>
+
                     <button
                       onClick={() => handleCopyToClipboard()}
                       className="px-3 py-1.5 bg-teal-600 hover:bg-teal-500 text-white text-xs rounded-md flex items-center space-x-1.5"
@@ -16318,7 +16329,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                           "No Items",
                           "Add some items to the canvas first to use Size & Spacing Optimizer",
                           "info",
-                          { icon: "���" },
+                          { icon: "📏" },
                         );
                       }
                     }}
@@ -17576,7 +17587,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
               <div className="flex space-x-2 mb-6">
                 {[
                   { key: "analysis", label: "Analysis", icon: "📊" },
-                  { key: "dashboard", label: "Dashboard", icon: "�������������������" },
+                  { key: "dashboard", label: "Dashboard", icon: "�����������������" },
                   {
                     key: "recommendations",
                     label: "AI Recommendations",
