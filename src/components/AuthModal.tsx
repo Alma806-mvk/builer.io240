@@ -771,7 +771,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuccess, d
                               By continuing you agree to our{' '}
                               <button
                                 type="button"
-                                onClick={() => window.open('/terms', '_blank')}
+                                onClick={() => onNavigateToTerms?.()}
                                 style={{
                                   color: 'hsl(210, 40%, 98%)',
                                   textDecoration: 'underline',
@@ -786,7 +786,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuccess, d
                               {' '}and{' '}
                               <button
                                 type="button"
-                                onClick={() => window.open('/privacy', '_blank')}
+                                onClick={() => onNavigateToPrivacy?.()}
                                 style={{
                                   color: 'hsl(210, 40%, 98%)',
                                   textDecoration: 'underline',
