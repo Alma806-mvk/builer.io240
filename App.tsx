@@ -3207,7 +3207,7 @@ export const App = ({
   ): { ideaNumber: number; idea: string }[] => {
     const ideas: { ideaNumber: number; idea: string }[] = [];
 
-    // First try to split by the specific "�� **IDEA #" pattern
+    // First try to split by the specific "���� **IDEA #" pattern
     const ideaSections = content.split(/(?=🎯\s*\*\*IDEA\s*#\d+)/i);
 
     if (ideaSections.length > 1) {
@@ -4599,7 +4599,7 @@ VARIATIONS: Alternative approaches
       // Create a comprehensive but concise summary for the canvas
       const strategySummary = `����������� CONTENT STRATEGY: ${niche}
 
-��������������������������������� TARGET AUDIENCE:
+����������������������������������� TARGET AUDIENCE:
 ${strategyPlan.targetAudienceOverview.substring(0, 200)}${strategyPlan.targetAudienceOverview.length > 200 ? "..." : ""}
 
 ��������� GOALS:
@@ -13939,6 +13939,8 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
               currentContentTypeDetails={currentContentTypeDetails}
               isBatchSupported={isBatchSupported}
               isABTestSupported={isABTestSupported}
+              showGuidedBuilder={showGuidedBuilder}
+              setShowGuidedBuilder={setShowGuidedBuilder}
               isAiPersonaModalOpen={isAiPersonaModalOpen}
               setIsAiPersonaModalOpen={setIsAiPersonaModalOpen}
               onGenerate={handleGenerateContent}
