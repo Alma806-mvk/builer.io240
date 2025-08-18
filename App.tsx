@@ -120,6 +120,7 @@ import { useCredits } from "./src/context/CreditContext";
 import { AccountPageUnified } from "./src/components/AccountPageUnified";
 import { BillingPageUnified } from "./src/components/BillingPageUnified";
 import { Button } from "./src/components/ui/button";
+import RatingButtons from "./src/components/ui/RatingButtons";
 
 // Import existing services and components
 import {
