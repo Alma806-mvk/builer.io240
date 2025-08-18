@@ -183,6 +183,10 @@ interface GeneratorAppStyledProps {
   currentContentTypeDetails: any;
   isBatchSupported: boolean;
   isABTestSupported: boolean;
+
+  // Prompt Builder State
+  showGuidedBuilder?: boolean;
+  setShowGuidedBuilder?: (show: boolean) => void;
   isAiPersonaModalOpen: boolean;
   setIsAiPersonaModalOpen: (open: boolean) => void;
   onGenerate: () => void;
