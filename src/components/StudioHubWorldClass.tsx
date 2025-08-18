@@ -1299,6 +1299,21 @@ const StudioHubWorldClass: React.FC<StudioHubWorldClassProps> = ({
     });
   }, [authUser, loading, authError]);
 
+  // Click outside handler for project action menus
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      // Close all project action menus when clicking outside
+      if (Object.values(projectActionMenus).some(isOpen => isOpen)) {
+        setProjectActionMenus({});
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [projectActionMenus]);
+
   const getStorageLimits = () => {
     const userPlanKey = userPlan === 'creator-pro' ? 'creator-pro' :
                        userPlan === 'agency-pro' ? 'agency-pro' : 'free';
