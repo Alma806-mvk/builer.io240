@@ -292,9 +292,9 @@ const DailyGoalsPro: React.FC<DailyGoalsProProps> = ({
             <div className="p-2 rounded-lg bg-gradient-to-br from-[var(--brand-primary)] to-[var(--brand-secondary)] text-white">
               <Target className="w-4 h-4" />
             </div>
-            <div>
-              <h3 className="font-semibold text-[var(--text-primary)]">Daily Goals</h3>
-              <p className="text-xs text-[var(--text-secondary)]">
+            <div className="min-w-0 flex-1">
+              <h3 className="font-semibold text-sm text-[var(--text-primary)] truncate">Daily Goals</h3>
+              <p className="text-xs text-[var(--text-secondary)] truncate">
                 {getCompletedGoals()}/{goals.length} completed • {getOverallProgress()}% progress
               </p>
             </div>
