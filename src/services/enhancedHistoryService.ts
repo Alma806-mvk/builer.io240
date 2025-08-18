@@ -118,6 +118,11 @@ class EnhancedHistoryService {
         console.warn(`Item ${item.id} had undefined content, set to empty string`);
       }
 
+      // Set default rating if not provided
+      if (item.rating === undefined) {
+        item.rating = 0;
+      }
+
       // Check if item already exists to prevent duplicates
       const existingHistory = await this.getEnhancedHistory();
       const existingItem = existingHistory.find(existing => existing.id === item.id);
@@ -130,6 +135,7 @@ class EnhancedHistoryService {
       const enhancedItem: EnhancedHistoryItem = {
         ...item,
         content: String(item.content || ''), // Ensure content is always a string
+        rating: item.rating || 0, // Ensure rating is preserved
         smartFolders: [],
         collections: [],
         aiTags: await this.generateAITags(item),
@@ -191,6 +197,24 @@ class EnhancedHistoryService {
       history[index] = { ...history[index], ...updates };
       await this.saveHistory(history);
       this.notifyListeners(history);
+    }
+  }
+
+  async updateRating(id: string, rating: 1 | -1 | 0): Promise<void> {
+    try {
+      const history = await this.getEnhancedHistory();
+      const index = history.findIndex(item => item.id === id);
+
+      if (index !== -1) {
+        history[index] = { ...history[index], rating };
+        await this.saveHistory(history);
+        this.notifyListeners(history);
+        console.log(`Updated rating for item ${id} to ${rating}`);
+      } else {
+        console.warn(`Item with id ${id} not found for rating update`);
+      }
+    } catch (error) {
+      console.error('Error updating rating:', error);
     }
   }
 

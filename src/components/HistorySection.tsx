@@ -17,6 +17,8 @@ import {
   EyeIcon,
 } from "../IconComponents";
 
+import RatingButtons from "./ui/RatingButtons";
+
 interface HistorySectionProps {
   history: HistoryItem[];
   viewingHistoryItemId: string | null;
@@ -29,6 +31,7 @@ interface HistorySectionProps {
   setCopied: (copied: boolean) => void;
   handleCopyToClipboard: (text: string) => void;
   toggleHistoryItemFavorite: (id: string) => void;
+  updateItemRating?: (id: string, rating: 1 | -1 | 0) => void;
 }
 
 export const HistorySection: React.FC<HistorySectionProps> = ({
@@ -41,6 +44,7 @@ export const HistorySection: React.FC<HistorySectionProps> = ({
   setCopied,
   handleCopyToClipboard,
   toggleHistoryItemFavorite,
+  updateItemRating,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedPlatformFilter, setSelectedPlatformFilter] = useState<
@@ -313,6 +317,16 @@ export const HistorySection: React.FC<HistorySectionProps> = ({
                 </div>
 
                 <div className="flex items-center space-x-2 ml-4">
+                  {/* Rating Buttons */}
+                  {updateItemRating && (
+                    <RatingButtons
+                      rating={item.rating}
+                      onRating={(rating) => updateItemRating(item.id, rating)}
+                      size="sm"
+                      showTooltip={true}
+                    />
+                  )}
+
                   <button
                     onClick={() => toggleHistoryItemFavorite(item.id)}
                     className={`p-2 rounded-lg transition-colors ${

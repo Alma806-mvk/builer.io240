@@ -52,6 +52,9 @@ import {
   ChevronRight,
 } from "lucide-react";
 
+// Import the rating component
+import RatingButtons from "./ui/RatingButtons";
+
 // Import our world-class components
 import {
   Button,
@@ -282,6 +285,20 @@ const EnhancedHistoryWorldClass: React.FC<EnhancedHistoryWorldClassProps> = ({
       }
     } catch (error) {
       console.error('Error deleting item:', error);
+    }
+  };
+
+  const handleRating = async (itemId: string, rating: 1 | -1 | 0) => {
+    try {
+      await enhancedHistoryService.updateRating(itemId, rating);
+      // Update local state to reflect the change immediately
+      setHistoryItems(prevItems =>
+        prevItems.map(item =>
+          item.id === itemId ? { ...item, rating } : item
+        )
+      );
+    } catch (error) {
+      console.error('Error updating rating:', error);
     }
   };
 
@@ -968,26 +985,37 @@ const EnhancedHistoryWorldClass: React.FC<EnhancedHistoryWorldClassProps> = ({
                           <RefreshCw className="w-4 h-4" />
                         </Button>
                       </div>
-                      
-                      <div className="flex items-center space-x-1">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            navigator.clipboard.writeText(item.content);
-                          }}
-                          className="p-1 hover:bg-[var(--surface-tertiary)] rounded"
-                        >
-                          <Copy className="w-3 h-3" />
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleDeleteItem(item.id);
-                          }}
-                          className="p-1 hover:bg-red-500/20 hover:text-red-400 rounded"
-                        >
-                          <Trash2 className="w-3 h-3" />
-                        </button>
+
+                      <div className="flex items-center space-x-2">
+                        {/* Rating Buttons */}
+                        <div onClick={(e) => e.stopPropagation()}>
+                          <RatingButtons
+                            rating={item.rating}
+                            onRating={(rating) => handleRating(item.id, rating)}
+                            size="sm"
+                          />
+                        </div>
+
+                        <div className="flex items-center space-x-1">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigator.clipboard.writeText(item.content);
+                            }}
+                            className="p-1 hover:bg-[var(--surface-tertiary)] rounded"
+                          >
+                            <Copy className="w-3 h-3" />
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteItem(item.id);
+                            }}
+                            className="p-1 hover:bg-red-500/20 hover:text-red-400 rounded"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                          </button>
+                        </div>
                       </div>
                     </div>
 

@@ -120,6 +120,8 @@ import { useCredits } from "./src/context/CreditContext";
 import { AccountPageUnified } from "./src/components/AccountPageUnified";
 import { BillingPageUnified } from "./src/components/BillingPageUnified";
 import { Button } from "./src/components/ui/button";
+import RatingButtons from "./src/components/ui/RatingButtons";
+import { enhancedHistoryService } from "./src/services/enhancedHistoryService";
 
 // Import existing services and components
 import {
@@ -1874,9 +1876,9 @@ export const App = ({
 
   const addHistoryItemToState = useCallback(
     (
-      itemOutput: HistoryItem["output"],
-      originalContentType: ContentType,
-      originalUserInput: string,
+      itemOutputOrHistoryItem: HistoryItem["output"] | HistoryItem,
+      originalContentType?: ContentType,
+      originalUserInput?: string,
       actionParams?: {
         audience?: string;
         batch?: number;
@@ -1888,30 +1890,44 @@ export const App = ({
         originalPlatform?: Platform;
       },
     ) => {
-      const newHistoryItem: HistoryItem = {
-        id: crypto.randomUUID(),
-        timestamp: Date.now(),
-        platform: actionParams?.originalPlatform || platform,
-        contentType: originalContentType,
-        userInput: originalUserInput,
-        output: itemOutput,
-        targetAudience: actionParams?.audience,
-        batchVariations:
-          BATCH_SUPPORTED_TYPES.includes(originalContentType) &&
-          (actionParams?.batch ?? 0) > 1
-            ? actionParams?.batch
-            : undefined,
-        abTestResults: actionParams?.abResults,
-        isFavorite: false,
-        aiPersonaId: actionParams?.personaId,
-        targetLanguage: actionParams?.language,
-        videoLength:
-          originalContentType === ContentType.Script ? videoLength : undefined,
-        customVideoLength:
-          originalContentType === ContentType.Script && videoLength === "custom"
-            ? customVideoLength
-            : undefined,
-      };
+      let newHistoryItem: HistoryItem;
+
+      // Check if we're passing a complete HistoryItem object
+      if (typeof itemOutputOrHistoryItem === 'object' &&
+          itemOutputOrHistoryItem !== null &&
+          'id' in itemOutputOrHistoryItem &&
+          'timestamp' in itemOutputOrHistoryItem) {
+        // Complete HistoryItem passed
+        newHistoryItem = itemOutputOrHistoryItem as HistoryItem;
+      } else {
+        // Traditional usage - create HistoryItem from output
+        const itemOutput = itemOutputOrHistoryItem as HistoryItem["output"];
+        newHistoryItem = {
+          id: crypto.randomUUID(),
+          timestamp: Date.now(),
+          platform: actionParams?.originalPlatform || platform,
+          contentType: originalContentType!,
+          userInput: originalUserInput!,
+          output: itemOutput,
+          targetAudience: actionParams?.audience,
+          batchVariations:
+            BATCH_SUPPORTED_TYPES.includes(originalContentType!) &&
+            (actionParams?.batch ?? 0) > 1
+              ? actionParams?.batch
+              : undefined,
+          abTestResults: actionParams?.abResults,
+          isFavorite: false,
+          aiPersonaId: actionParams?.personaId,
+          targetLanguage: actionParams?.language,
+          videoLength:
+            originalContentType === ContentType.Script ? videoLength : undefined,
+          customVideoLength:
+            originalContentType === ContentType.Script && videoLength === "custom"
+              ? customVideoLength
+              : undefined,
+        };
+      }
+
       setHistory((prevItems) =>
         [newHistoryItem, ...prevItems].slice(0, MAX_HISTORY_ITEMS),
       );
@@ -3450,7 +3466,7 @@ VARIATIONS: Alternative approaches
       finishGeneration();
       setIsExpandingIdea(false);
     } catch (error) {
-      console.error("������� Error expanding idea:", error);
+      console.error("��������� Error expanding idea:", error);
 
       // Provide helpful fallback content even on error
       const fallbackContent = `TARGET: DETAILED CONCEPT
@@ -4250,6 +4266,101 @@ VARIATIONS: Alternative approaches
     );
   };
 
+  const handleRateCurrentContent = async (rating: 1 | -1 | 0) => {
+    if (!displayedOutputItem) return;
+
+    try {
+      // If we're viewing a history item, update it in the history
+      if (viewingHistoryItemId && displayedOutputItem.id !== "current_generation") {
+        setHistory(
+          history.map((item) =>
+            item.id === displayedOutputItem.id
+              ? { ...item, rating }
+              : item
+          )
+        );
+
+        // Update enhanced history service
+        await enhancedHistoryService.updateRating(displayedOutputItem.id, rating);
+      } else {
+        // For current generation, we need to save it to history first if it's not already there
+        const existingHistoryItem = history.find(item =>
+          item.userInput === displayedOutputItem.userInput &&
+          item.contentType === displayedOutputItem.contentType &&
+          item.platform === displayedOutputItem.platform
+        );
+
+        if (existingHistoryItem) {
+          // Update existing item
+          setHistory(
+            history.map((item) =>
+              item.id === existingHistoryItem.id
+                ? { ...item, rating }
+                : item
+            )
+          );
+          await enhancedHistoryService.updateRating(existingHistoryItem.id, rating);
+        } else {
+          // Add new item to history with rating
+          const newHistoryItem: HistoryItem = {
+            ...displayedOutputItem,
+            id: crypto.randomUUID(),
+            rating,
+          };
+          addHistoryItemToState(newHistoryItem);
+        }
+      }
+
+      console.log(`Content rated: ${rating === 1 ? '👍 Good' : rating === -1 ? '👎 Needs improvement' : '🔄 Rating removed'}`);
+    } catch (error) {
+      console.error('Error updating content rating:', error);
+    }
+  };
+
+  const handleRateCurrentContentWithFirebase = async (rating: 1 | -1 | 0, contentText: string) => {
+    if (!displayedOutputItem) return;
+
+    try {
+      const { auth } = await import('./src/config/firebase');
+      const { collection, doc, setDoc, updateDoc, getDoc } = await import('firebase/firestore');
+      const { db } = await import('./src/config/firebase');
+
+      const user = auth.currentUser;
+      if (!user) {
+        console.warn('User not authenticated, saving locally only');
+        await handleRateCurrentContent(rating);
+        return;
+      }
+
+      // Create a rating record to save directly to Firebase
+      const ratingData = {
+        userId: user.uid,
+        contentId: displayedOutputItem.id,
+        rating: rating,
+        contentText: contentText,
+        output: displayedOutputItem.output,
+        platform: displayedOutputItem.platform,
+        contentType: displayedOutputItem.contentType,
+        userInput: displayedOutputItem.userInput,
+        timestamp: Date.now(),
+        createdAt: new Date().toISOString(),
+      };
+
+      // Save directly to Firebase in a dedicated ratings collection
+      const ratingDocRef = doc(collection(db, 'users', user.uid, 'content_ratings'), displayedOutputItem.id);
+      await setDoc(ratingDocRef, ratingData, { merge: true });
+
+      // Also update the regular history through enhanced service
+      await handleRateCurrentContent(rating);
+
+      console.log(`✅ Content rating saved to Firebase: ${rating === 1 ? '👍 Good' : rating === -1 ? '👎 Needs improvement' : '🔄 Rating removed'}`);
+    } catch (error) {
+      console.error('Firebase rating save failed, falling back to local storage:', error);
+      // Fallback to local storage if Firebase fails
+      await handleRateCurrentContent(rating);
+    }
+  };
+
   const handleViewHistoryItem = (item: HistoryItem) => {
     setViewingHistoryItemId(item.id);
     setPlatform(item.platform);
@@ -4499,7 +4610,7 @@ ${strategyPlan.suggestedWeeklySchedule.map((item) => `������� ${it
 🔍 SEO KEYWORDS:
 ${strategyPlan.seoStrategy.primaryKeywords.join(", ")}
 
-��������������� KEY CTAs:
+����������������� KEY CTAs:
 ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
 
 ��� Full strategy plan available in Strategy tab`;
@@ -7200,7 +7311,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
         let ideasToRender = parsedIdeas;
         if (parsedIdeas.length <= 1) {
           // Try splitting by the emoji pattern
-          const emojiSplit = contentText.split(/(?=����)/);
+          const emojiSplit = contentText.split(/(?=������)/);
           if (emojiSplit.length > 1) {
             ideasToRender = emojiSplit
               .filter((section) => section.trim().length > 20)
@@ -7264,72 +7375,94 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                       data-magic-selectable="false"
                       data-content-type="actions"
                     >
-                      <div className="flex items-center gap-3">
-                        <button
-                          onClick={() => {
-                            if (hasExpandedContent && isCollapsed) {
-                              // Show already generated content
-                              handleShowIdea(ideaNumber);
-                            } else if (!hasExpandedContent) {
-                              // Generate new content
-                              handleExpandIdea(ideaNumber, ideaContent.trim());
+                      <div className="flex items-center justify-between w-full">
+                        {/* Left side - Expand and Generate buttons */}
+                        <div className="flex items-center gap-3">
+                          <button
+                            onClick={() => {
+                              if (hasExpandedContent && isCollapsed) {
+                                // Show already generated content
+                                handleShowIdea(ideaNumber);
+                              } else if (!hasExpandedContent) {
+                                // Generate new content
+                                handleExpandIdea(ideaNumber, ideaContent.trim());
+                              }
+                            }}
+                            disabled={
+                              expanded?.isExpanding ||
+                              (hasExpandedContent && !isCollapsed)
                             }
-                          }}
-                          disabled={
-                            expanded?.isExpanding ||
-                            (hasExpandedContent && !isCollapsed)
-                          }
-                          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-600 text-white text-sm font-medium rounded-lg transition-all duration-200 disabled:cursor-not-allowed"
-                        >
-                          {expanded?.isExpanding ? (
-                            <>
-                              <LoadingSpinner />
-                              Expanding...
-                            </>
-                          ) : hasExpandedContent && isCollapsed ? (
-                            <>
-                              <SparklesIcon className="w-4 h-4" />
-                              Show Details
-                            </>
-                          ) : hasExpandedContent ? (
-                            <>
-                              <SparklesIcon className="w-4 h-4" />
-                              Expanded
-                            </>
-                          ) : (
-                            <>
-                              <SparklesIcon className="w-4 h-4" />
-                              Expand
-                            </>
-                          )}
-                        </button>
+                            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-600 text-white text-sm font-medium rounded-lg transition-all duration-200 disabled:cursor-not-allowed"
+                          >
+                            {expanded?.isExpanding ? (
+                              <>
+                                <LoadingSpinner />
+                                Expanding...
+                              </>
+                            ) : hasExpandedContent && isCollapsed ? (
+                              <>
+                                <SparklesIcon className="w-4 h-4" />
+                                Show Details
+                              </>
+                            ) : hasExpandedContent ? (
+                              <>
+                                <SparklesIcon className="w-4 h-4" />
+                                Expanded
+                              </>
+                            ) : (
+                              <>
+                                <SparklesIcon className="w-4 h-4" />
+                                Expand
+                              </>
+                            )}
+                          </button>
 
-                        <GenerateDropdown
-                          onOptionSelect={(optionId, originalIdea) =>
-                            handleGenerateFromIdea(
-                              optionId,
-                              originalIdea,
-                              ideaNumber,
-                            )
-                          }
-                          originalIdea={ideaContent.trim()}
-                          disabled={expanded?.isExpanding}
-                        />
+                          <GenerateDropdown
+                            onOptionSelect={(optionId, originalIdea) =>
+                              handleGenerateFromIdea(
+                                optionId,
+                                originalIdea,
+                                ideaNumber,
+                              )
+                            }
+                            originalIdea={ideaContent.trim()}
+                            disabled={expanded?.isExpanding}
+                          />
+                        </div>
 
-                        {hasExpandedContent && !isCollapsed && (
-                          <span className="text-xs text-green-400 flex items-center gap-1">
-                            <CheckCircleIcon className="w-4 h-4" />
-                            Expanded below
-                          </span>
-                        )}
-
-                        {hasExpandedContent && isCollapsed && (
-                          <span className="text-xs text-slate-400 flex items-center gap-1">
-                            <CheckCircleIcon className="w-4 h-4" />
-                            Already expanded (click to show)
-                          </span>
-                        )}
+                        {/* Right side - Rating Buttons pushed to far right */}
+                        <div className="flex items-center">
+                          <RatingButtons
+                            rating={displayedOutputItem?.rating || 0}
+                            onRating={(rating) => {
+                              if (displayedOutputItem) {
+                                handleRateCurrentContentWithFirebase(rating, ideaContent.trim());
+                              }
+                            }}
+                            size="sm"
+                            showTooltip={true}
+                          />
+                        </div>
                       </div>
+
+                      {/* Status indicators */}
+                      {(hasExpandedContent && !isCollapsed) || (hasExpandedContent && isCollapsed) ? (
+                        <div className="flex items-center gap-3 mt-2">
+                          {hasExpandedContent && !isCollapsed && (
+                            <span className="text-xs text-green-400 flex items-center gap-1">
+                              <CheckCircleIcon className="w-4 h-4" />
+                              Expanded below
+                            </span>
+                          )}
+
+                          {hasExpandedContent && isCollapsed && (
+                            <span className="text-xs text-slate-400 flex items-center gap-1">
+                              <CheckCircleIcon className="w-4 h-4" />
+                              Already expanded (click to show)
+                            </span>
+                          )}
+                        </div>
+                      ) : null}
                     </div>
 
                     {hasExpandedContent && !isCollapsed && (
@@ -9607,7 +9740,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 <option value="go">�� Go</option>
                 <option value="rust">������ Rust</option>
                 <option value="swift">�� Swift</option>
-                <option value="kotlin">���������� Kotlin</option>
+                <option value="kotlin">�������������� Kotlin</option>
                 <option value="html">🌐 HTML</option>
                 <option value="css">�������� CSS</option>
                 <option value="sql">�������️ SQL</option>
@@ -9633,7 +9766,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 onChange={(e) => updateProp("codeTheme", e.target.value)}
                 className="p-1.5 bg-slate-700 rounded-md border border-slate-600 text-slate-200 focus:ring-1 focus:ring-sky-500 focus:border-sky-500"
               >
-                <option value="dark">������������� Dark</option>
+                <option value="dark">��������������� Dark</option>
                 <option value="light">☀���� Light</option>
                 <option value="github">���������� GitHub</option>
                 <option value="vscode">���� VS Code</option>
@@ -9753,7 +9886,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 onChange={(e) => updateProp("connectorStyle", e.target.value)}
                 className="p-1.5 bg-slate-700 rounded-md border border-slate-600 text-slate-200 focus:ring-1 focus:ring-sky-500 focus:border-sky-500"
               >
-                <option value="solid">▬ Solid</option>
+                <option value="solid">��� Solid</option>
                 <option value="dashed">▭ Dashed</option>
                 <option value="dotted">���������� Dotted</option>
                 <option value="double">═ Double</option>
@@ -14550,6 +14683,22 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 </div>
                 {displayedOutputItem && !isLoading && (
                   <div className="flex flex-wrap gap-3 items-center pt-4 border-t border-slate-700">
+                    {/* Rating Buttons */}
+                    <div className="flex items-center space-x-2">
+                      <span className="text-xs text-slate-400">Rate this:</span>
+                      <RatingButtons
+                        rating={displayedOutputItem.rating || 0}
+                        onRating={(rating) => {
+                          const outputText = displayedOutputItem.output && typeof displayedOutputItem.output === 'object' && 'content' in displayedOutputItem.output
+                            ? displayedOutputItem.output.content
+                            : JSON.stringify(displayedOutputItem.output);
+                          handleRateCurrentContentWithFirebase(rating, outputText);
+                        }}
+                        size="sm"
+                        showTooltip={true}
+                      />
+                    </div>
+
                     <button
                       onClick={() => handleCopyToClipboard()}
                       className="px-3 py-1.5 bg-teal-600 hover:bg-teal-500 text-white text-xs rounded-md flex items-center space-x-1.5"
@@ -15193,7 +15342,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                                         ? "���"
                                         : node.type === "main"
                                           ? "��������"
-                                          : "����",
+                                          : "�����",
                                     mindMapShape:
                                       node.type === "central"
                                         ? ("circle" as const)
@@ -15772,7 +15921,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                   {/* Style Presets */}
                   <ToolbarButton
                     title="Style Presets"
-                    icon={<span className="text-lg emoji-icon">�������</span>}
+                    icon={<span className="text-lg emoji-icon">���������</span>}
                     onClick={() => {
                       const newStyleState = !showStylePresets;
                       setShowStylePresets(newStyleState);
@@ -16050,7 +16199,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                           });
                         });
                         console.log(
-                          "����������� Color Harmonization: Applied harmonious palette",
+                          "������������ Color Harmonization: Applied harmonious palette",
                         );
                       }
                     }}
@@ -18566,7 +18715,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                       icon="📈"
                       guidelines={[
                         {
-                          status: "���� Optimal:",
+                          status: "������ Optimal:",
                           color: "text-green-400",
                           text: "10K+ subscribers, 20+ videos, consistent uploads",
                         },
