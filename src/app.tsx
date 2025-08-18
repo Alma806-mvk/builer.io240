@@ -496,8 +496,14 @@ function AppContent() {
           isOpen={true}
           onClose={handleCloseAuth}
           onAuthSuccess={handleCloseAuth}
-          onNavigateToTerms={() => window.open('/terms', '_blank')}
-          onNavigateToPrivacy={() => window.open('/privacy', '_blank')}
+          onNavigateToTerms={() => {
+            const url = window.location.origin + '/#/terms';
+            window.open(url, '_blank');
+          }}
+          onNavigateToPrivacy={() => {
+            const url = window.location.origin + '/#/privacy';
+            window.open(url, '_blank');
+          }}
         />
       </div>
     );
