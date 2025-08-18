@@ -4251,6 +4251,27 @@ VARIATIONS: Alternative approaches
     );
   };
 
+  const handleRateCurrentContent = async (rating: 1 | -1 | 0) => {
+    if (!displayedOutputItem) return;
+
+    try {
+      // Update the displayed item's rating
+      const updatedItem = { ...displayedOutputItem, rating };
+      setDisplayedOutputItem(updatedItem);
+
+      // Update history if this item exists in history
+      setHistory(
+        history.map((item) =>
+          item.id === displayedOutputItem.id
+            ? { ...item, rating }
+            : item
+        )
+      );
+    } catch (error) {
+      console.error('Error updating content rating:', error);
+    }
+  };
+
   const handleViewHistoryItem = (item: HistoryItem) => {
     setViewingHistoryItemId(item.id);
     setPlatform(item.platform);
@@ -9636,7 +9657,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
               >
                 <option value="dark">������������� Dark</option>
                 <option value="light">☀���� Light</option>
-                <option value="github">���������� GitHub</option>
+                <option value="github">������������ GitHub</option>
                 <option value="vscode">���� VS Code</option>
                 <option value="sublime">🔥 Sublime</option>
                 <option value="atom">���️ Atom</option>
@@ -9733,7 +9754,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
               >
                 <option value="straight">���� Straight</option>
                 <option value="curved">〜 Curved</option>
-                <option value="elbow">����������� Elbow</option>
+                <option value="elbow">������������ Elbow</option>
                 <option value="dashed">┄ Dashed</option>
                 <option value="dotted">⋯ Dotted</option>
                 <option value="double">�� Double</option>
@@ -11490,7 +11511,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
             task: "��",
             bug: "�����",
             feature: "⭐",
-            epic: "�����",
+            epic: "�������",
             story: "��",
             improvement: "📈",
             research: "�����",
@@ -16297,7 +16318,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                           "No Items",
                           "Add some items to the canvas first to use Size & Spacing Optimizer",
                           "info",
-                          { icon: "📏" },
+                          { icon: "���" },
                         );
                       }
                     }}
@@ -17555,7 +17576,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
               <div className="flex space-x-2 mb-6">
                 {[
                   { key: "analysis", label: "Analysis", icon: "📊" },
-                  { key: "dashboard", label: "Dashboard", icon: "�����������������" },
+                  { key: "dashboard", label: "Dashboard", icon: "�������������������" },
                   {
                     key: "recommendations",
                     label: "AI Recommendations",
