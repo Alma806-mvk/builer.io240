@@ -52,9 +52,9 @@ import {
   TabHeader,
   StatCard,
   GradientText,
-  Input,
-  ProgressBar
+  Input
 } from "./ui/WorldClassComponents";
+import { ProgressBar } from "./CalendarMicroInteractions";
 import {
   LineChart as RechartsLineChart,
   BarChart,
