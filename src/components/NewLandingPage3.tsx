@@ -1211,6 +1211,14 @@ const NewLandingPage3 = ({ onSignInClick, onStartCreating, onNavigateToSecondary
       onClose={handleCloseAuthModal}
       onAuthSuccess={handleAuthSuccess}
       defaultTab={authModalTab}
+      onNavigateToTerms={() => {
+        const url = window.location.origin + '/#/terms';
+        window.open(url, '_blank');
+      }}
+      onNavigateToPrivacy={() => {
+        const url = window.location.origin + '/#/privacy';
+        window.open(url, '_blank');
+      }}
     />
     </>
   );
