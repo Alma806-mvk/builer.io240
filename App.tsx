@@ -2503,7 +2503,7 @@ export const App = ({
                 `🔄 API error detected during strategy plan generation (${apiError.message || apiError.code || apiError.status}), using fallback content`,
               );
               // Use mock content for strategy plan
-              console.log("���� Generating mock strategy content...");
+              console.log("����� Generating mock strategy content...");
               try {
                 strategyResult = generateMockContent(
                   ContentType.ContentStrategyPlan,
@@ -2619,7 +2619,7 @@ export const App = ({
           const { text: strategyText, responseMimeType: strategyMimeType } =
             strategyResult;
 
-          console.log("��� Strategy generation debug:");
+          console.log("���� Strategy generation debug:");
           console.log("���� Strategy text length:", strategyText?.length);
           console.log("🏷️ Mime type received:", strategyMimeType);
           console.log("📝 Strategy text preview:", strategyText?.substring(0, 200));
@@ -2645,7 +2645,7 @@ export const App = ({
                 };
 
                 setAllGeneratedStrategies(prev => [newStrategy, ...prev]);
-                console.log("���� Strategy stored with ID:", newStrategy.id);
+                console.log("������ Strategy stored with ID:", newStrategy.id);
 
                 // Show success message
                 addHistoryItemToState({
@@ -7331,71 +7331,78 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                       data-magic-selectable="false"
                       data-content-type="actions"
                     >
-                      <div className="flex items-center gap-3">
-                        <button
-                          onClick={() => {
-                            if (hasExpandedContent && isCollapsed) {
-                              // Show already generated content
-                              handleShowIdea(ideaNumber);
-                            } else if (!hasExpandedContent) {
-                              // Generate new content
-                              handleExpandIdea(ideaNumber, ideaContent.trim());
+                      <div className="flex items-center justify-between w-full">
+                        {/* Left side - Expand and Generate buttons */}
+                        <div className="flex items-center gap-3">
+                          <button
+                            onClick={() => {
+                              if (hasExpandedContent && isCollapsed) {
+                                // Show already generated content
+                                handleShowIdea(ideaNumber);
+                              } else if (!hasExpandedContent) {
+                                // Generate new content
+                                handleExpandIdea(ideaNumber, ideaContent.trim());
+                              }
+                            }}
+                            disabled={
+                              expanded?.isExpanding ||
+                              (hasExpandedContent && !isCollapsed)
                             }
-                          }}
-                          disabled={
-                            expanded?.isExpanding ||
-                            (hasExpandedContent && !isCollapsed)
-                          }
-                          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-600 text-white text-sm font-medium rounded-lg transition-all duration-200 disabled:cursor-not-allowed"
-                        >
-                          {expanded?.isExpanding ? (
-                            <>
-                              <LoadingSpinner />
-                              Expanding...
-                            </>
-                          ) : hasExpandedContent && isCollapsed ? (
-                            <>
-                              <SparklesIcon className="w-4 h-4" />
-                              Show Details
-                            </>
-                          ) : hasExpandedContent ? (
-                            <>
-                              <SparklesIcon className="w-4 h-4" />
-                              Expanded
-                            </>
-                          ) : (
-                            <>
-                              <SparklesIcon className="w-4 h-4" />
-                              Expand
-                            </>
-                          )}
-                        </button>
+                            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-600 text-white text-sm font-medium rounded-lg transition-all duration-200 disabled:cursor-not-allowed"
+                          >
+                            {expanded?.isExpanding ? (
+                              <>
+                                <LoadingSpinner />
+                                Expanding...
+                              </>
+                            ) : hasExpandedContent && isCollapsed ? (
+                              <>
+                                <SparklesIcon className="w-4 h-4" />
+                                Show Details
+                              </>
+                            ) : hasExpandedContent ? (
+                              <>
+                                <SparklesIcon className="w-4 h-4" />
+                                Expanded
+                              </>
+                            ) : (
+                              <>
+                                <SparklesIcon className="w-4 h-4" />
+                                Expand
+                              </>
+                            )}
+                          </button>
 
-                        <GenerateDropdown
-                          onOptionSelect={(optionId, originalIdea) =>
-                            handleGenerateFromIdea(
-                              optionId,
-                              originalIdea,
-                              ideaNumber,
-                            )
-                          }
-                          originalIdea={ideaContent.trim()}
-                          disabled={expanded?.isExpanding}
-                        />
+                          <GenerateDropdown
+                            onOptionSelect={(optionId, originalIdea) =>
+                              handleGenerateFromIdea(
+                                optionId,
+                                originalIdea,
+                                ideaNumber,
+                              )
+                            }
+                            originalIdea={ideaContent.trim()}
+                            disabled={expanded?.isExpanding}
+                          />
+                        </div>
 
-                        {/* Rating Buttons for this content idea */}
+                        {/* Right side - Rating Buttons pushed to far right */}
                         <div className="flex items-center">
                           <RatingButtons
                             rating={displayedOutputItem?.rating || 0}
                             onRating={(rating) => {
                               if (displayedOutputItem) {
-                                handleRateCurrentContent(rating);
+                                handleRateCurrentContentWithFirebase(rating, ideaContent.trim());
                               }
                             }}
                             size="sm"
                             showTooltip={true}
                           />
                         </div>
+                      </div>
+
+                      {/* Status indicators */}
+                      <div className="flex items-center gap-3 mt-2">
 
                         {hasExpandedContent && !isCollapsed && (
                           <span className="text-xs text-green-400 flex items-center gap-1">
@@ -15397,7 +15404,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                         <div className="px-2 space-y-1 max-h-64 overflow-y-auto">
                           {[
                             {
-                              name: "�� Sales Dashboard",
+                              name: "���� Sales Dashboard",
                               description:
                                 "Revenue tracking with growth metrics",
                               theme: "blue",
@@ -16582,7 +16589,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                     {
                       name: "Sunset",
                       color: "#f59e0b",
-                      emoji: "��������",
+                      emoji: "���������",
                       bg: "from-orange-500 to-orange-600",
                       description: "Warm golden hour gradients",
                       applyPreset: () => ({
@@ -18297,7 +18304,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                         desc: "Perfect composition with mathematical precision",
                       },
                       {
-                        icon: "���",
+                        icon: "�����",
                         title: "1-Click Export",
                         desc: "HD 1920×1080 ready for YouTube upload",
                       },
