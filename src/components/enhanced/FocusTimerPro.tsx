@@ -222,20 +222,20 @@ const FocusTimerPro: React.FC<FocusTimerProProps> = ({
     <Card className="relative overflow-hidden">
       <div className="space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <div 
+        <div className="flex items-center justify-between gap-6">
+          <div className="flex items-center space-x-3">
+            <div
               className="p-2 rounded-lg text-white"
               style={{ backgroundColor: currentSession.color }}
             >
               {currentSession.icon}
             </div>
-            <div className="min-w-0 flex-1">
+            <div className="min-w-0">
               <h3 className="font-semibold text-sm text-[var(--text-primary)] truncate">Focus Timer</h3>
               <p className="text-xs text-[var(--text-secondary)] truncate">{currentSession.label}</p>
             </div>
           </div>
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center space-x-2 flex-shrink-0">
             <Button
               variant="ghost"
               size="xs"
