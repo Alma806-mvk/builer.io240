@@ -624,7 +624,20 @@ const LandingPage2 = ({ onSignInClick, onStartCreating, onNavigateToSecondary }:
         }
       `}</style>
 
-      <AuthModal isOpen={isAuthModalOpen} onClose={handleCloseAuthModal} onAuthSuccess={handleAuthSuccess} defaultTab={authModalTab} />
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={handleCloseAuthModal}
+        onAuthSuccess={handleAuthSuccess}
+        defaultTab={authModalTab}
+        onNavigateToTerms={() => {
+          const url = window.location.origin + '/terms';
+          window.open(url, '_blank');
+        }}
+        onNavigateToPrivacy={() => {
+          const url = window.location.origin + '/privacy';
+          window.open(url, '_blank');
+        }}
+      />
     </div>
   );
 };

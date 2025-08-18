@@ -72,6 +72,8 @@ import {
   Image as ImageIcon,
   Shield,
   Lock,
+  Copy,
+  Send,
 } from "lucide-react";
 
 // Import our world-class components
@@ -268,6 +270,7 @@ const StudioHubWorldClass: React.FC<StudioHubWorldClassProps> = ({
   // File action states
   const [filePreviewModal, setFilePreviewModal] = useState<{ show: boolean; file: any | null }>({ show: false, file: null });
   const [fileActionMenus, setFileActionMenus] = useState<Record<string, boolean>>({});
+  const [projectActionMenus, setProjectActionMenus] = useState<Record<string, boolean>>({});
   const [shareFileModal, setShareFileModal] = useState<{ show: boolean; file: any | null }>({ show: false, file: null });
   const [fileContent, setFileContent] = useState<string>('');
   const [isLoadingContent, setIsLoadingContent] = useState(false);
@@ -1296,6 +1299,21 @@ const StudioHubWorldClass: React.FC<StudioHubWorldClassProps> = ({
     });
   }, [authUser, loading, authError]);
 
+  // Click outside handler for project action menus
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      // Close all project action menus when clicking outside
+      if (Object.values(projectActionMenus).some(isOpen => isOpen)) {
+        setProjectActionMenus({});
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [projectActionMenus]);
+
   const getStorageLimits = () => {
     const userPlanKey = userPlan === 'creator-pro' ? 'creator-pro' :
                        userPlan === 'agency-pro' ? 'agency-pro' : 'free';
@@ -1394,6 +1412,117 @@ const StudioHubWorldClass: React.FC<StudioHubWorldClassProps> = ({
       ...prev,
       [fileId]: !prev[fileId]
     }));
+  };
+
+  const toggleProjectActionMenu = (projectId: string) => {
+    setProjectActionMenus(prev => ({
+      ...prev,
+      [projectId]: !prev[projectId]
+    }));
+  };
+
+  const handleEditProject = (project: any) => {
+    // Close menu
+    setProjectActionMenus(prev => ({ ...prev, [project.id]: false }));
+
+    const newTitle = prompt('Enter new project title:', project.title);
+    if (newTitle && newTitle.trim()) {
+      setProjects(prev => prev.map(p =>
+        p.id === project.id ? { ...p, title: newTitle.trim() } : p
+      ));
+
+      const notification = {
+        id: Date.now().toString(),
+        type: 'success' as const,
+        title: 'Project Updated',
+        message: `Project "${newTitle}" has been updated`,
+        timestamp: new Date(),
+        read: false
+      };
+      setNotifications(prev => [notification, ...prev]);
+    }
+  };
+
+  const handleDuplicateProject = (project: any) => {
+    // Close menu
+    setProjectActionMenus(prev => ({ ...prev, [project.id]: false }));
+
+    const duplicatedProject = {
+      ...project,
+      id: `project-${Date.now()}`,
+      title: `${project.title} (Copy)`,
+      stage: 'planning',
+      progress: 0,
+      createdAt: new Date(),
+      dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days from now
+    };
+
+    setProjects(prev => [duplicatedProject, ...prev]);
+
+    const notification = {
+      id: Date.now().toString(),
+      type: 'success' as const,
+      title: 'Project Duplicated',
+      message: `Project "${duplicatedProject.title}" has been created`,
+      timestamp: new Date(),
+      read: false
+    };
+    setNotifications(prev => [notification, ...prev]);
+  };
+
+  const handleDeleteProject = (project: any) => {
+    // Close menu
+    setProjectActionMenus(prev => ({ ...prev, [project.id]: false }));
+
+    if (confirm(`Are you sure you want to delete "${project.title}"?`)) {
+      setProjects(prev => prev.filter(p => p.id !== project.id));
+
+      const notification = {
+        id: Date.now().toString(),
+        type: 'info' as const,
+        title: 'Project Deleted',
+        message: `Project "${project.title}" has been deleted`,
+        timestamp: new Date(),
+        read: false
+      };
+      setNotifications(prev => [notification, ...prev]);
+    }
+  };
+
+  const handleShareProject = (project: any) => {
+    // Close menu
+    setProjectActionMenus(prev => ({ ...prev, [project.id]: false }));
+
+    const shareUrl = `${window.location.origin}/project/${project.id}`;
+    navigator.clipboard.writeText(shareUrl);
+
+    const notification = {
+      id: Date.now().toString(),
+      type: 'success' as const,
+      title: 'Project Link Copied',
+      message: 'Project sharing link copied to clipboard',
+      timestamp: new Date(),
+      read: false
+    };
+    setNotifications(prev => [notification, ...prev]);
+  };
+
+  const handleSendToCanvas = (project: any) => {
+    // Close menu
+    setProjectActionMenus(prev => ({ ...prev, [project.id]: false }));
+
+    // Navigate to canvas view with project data
+    setActiveView('canvas');
+
+    const notification = {
+      id: Date.now().toString(),
+      type: 'success' as const,
+      title: 'Project Sent to Canvas',
+      message: `"${project.title}" opened in Canvas`,
+      timestamp: new Date(),
+      read: false
+    };
+    setNotifications(prev => [notification, ...prev]);
   };
 
   const handleDownloadFile = async (file: UploadedFile) => {
@@ -2130,9 +2259,66 @@ const StudioHubWorldClass: React.FC<StudioHubWorldClassProps> = ({
                       </td>
                       <td className="py-3 px-4">
                         <div className="flex items-center justify-end space-x-1">
-                          <Button variant="ghost" size="xs">
-                            <MoreHorizontal className="w-4 h-4" />
-                          </Button>
+                          <div className="relative">
+                            <Button
+                              variant="ghost"
+                              size="xs"
+                              onClick={() => toggleProjectActionMenu(project.id)}
+                            >
+                              <MoreHorizontal className="w-4 h-4" />
+                            </Button>
+
+                            {/* Project Action Menu */}
+                            <AnimatePresence>
+                              {projectActionMenus[project.id] && (
+                                <motion.div
+                                  initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                                  exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                                  className="absolute right-0 top-full mt-2 w-48 bg-[var(--surface-secondary)] border border-[var(--border-primary)] rounded-lg shadow-xl z-10 overflow-hidden"
+                                >
+                                  <div className="py-1">
+                                    <button
+                                      onClick={() => handleEditProject(project)}
+                                      className="w-full text-left px-4 py-2 text-sm text-[var(--text-primary)] hover:bg-[var(--surface-tertiary)] flex items-center space-x-2"
+                                    >
+                                      <Edit3 className="w-4 h-4" />
+                                      <span>Edit Project</span>
+                                    </button>
+                                    <button
+                                      onClick={() => handleDuplicateProject(project)}
+                                      className="w-full text-left px-4 py-2 text-sm text-[var(--text-primary)] hover:bg-[var(--surface-tertiary)] flex items-center space-x-2"
+                                    >
+                                      <Copy className="w-4 h-4" />
+                                      <span>Duplicate</span>
+                                    </button>
+                                    <button
+                                      onClick={() => handleSendToCanvas(project)}
+                                      className="w-full text-left px-4 py-2 text-sm text-[var(--text-primary)] hover:bg-[var(--surface-tertiary)] flex items-center space-x-2"
+                                    >
+                                      <Send className="w-4 h-4" />
+                                      <span>Send to Canvas</span>
+                                    </button>
+                                    <button
+                                      onClick={() => handleShareProject(project)}
+                                      className="w-full text-left px-4 py-2 text-sm text-[var(--text-primary)] hover:bg-[var(--surface-tertiary)] flex items-center space-x-2"
+                                    >
+                                      <Share2 className="w-4 h-4" />
+                                      <span>Share Project</span>
+                                    </button>
+                                    <div className="border-t border-[var(--border-primary)] my-1"></div>
+                                    <button
+                                      onClick={() => handleDeleteProject(project)}
+                                      className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-[var(--surface-tertiary)] flex items-center space-x-2"
+                                    >
+                                      <Trash2 className="w-4 h-4" />
+                                      <span>Delete</span>
+                                    </button>
+                                  </div>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </div>
                         </div>
                       </td>
                     </motion.tr>
@@ -2472,7 +2658,7 @@ const StudioHubWorldClass: React.FC<StudioHubWorldClassProps> = ({
 
         <div className="mt-6 text-center">
           <p className="text-sm text-[var(--text-secondary)] mb-4">
-            Each template includes: Content strategy ���� Brand assets • Analytics setup • Pre-built projects • Automation workflows
+            Each template includes: Content strategy ���� Brand assets • Analytics setup �� Pre-built projects • Automation workflows
           </p>
           <div className="flex justify-center space-x-4 text-xs text-[var(--text-tertiary)]">
             <div className="flex items-center space-x-1">
