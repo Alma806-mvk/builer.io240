@@ -985,26 +985,37 @@ const EnhancedHistoryWorldClass: React.FC<EnhancedHistoryWorldClassProps> = ({
                           <RefreshCw className="w-4 h-4" />
                         </Button>
                       </div>
-                      
-                      <div className="flex items-center space-x-1">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            navigator.clipboard.writeText(item.content);
-                          }}
-                          className="p-1 hover:bg-[var(--surface-tertiary)] rounded"
-                        >
-                          <Copy className="w-3 h-3" />
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleDeleteItem(item.id);
-                          }}
-                          className="p-1 hover:bg-red-500/20 hover:text-red-400 rounded"
-                        >
-                          <Trash2 className="w-3 h-3" />
-                        </button>
+
+                      <div className="flex items-center space-x-2">
+                        {/* Rating Buttons */}
+                        <div onClick={(e) => e.stopPropagation()}>
+                          <RatingButtons
+                            rating={item.rating}
+                            onRating={(rating) => handleRating(item.id, rating)}
+                            size="sm"
+                          />
+                        </div>
+
+                        <div className="flex items-center space-x-1">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigator.clipboard.writeText(item.content);
+                            }}
+                            className="p-1 hover:bg-[var(--surface-tertiary)] rounded"
+                          >
+                            <Copy className="w-3 h-3" />
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteItem(item.id);
+                            }}
+                            className="p-1 hover:bg-red-500/20 hover:text-red-400 rounded"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                          </button>
+                        </div>
                       </div>
                     </div>
 
