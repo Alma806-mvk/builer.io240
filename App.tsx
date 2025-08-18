@@ -1876,9 +1876,9 @@ export const App = ({
 
   const addHistoryItemToState = useCallback(
     (
-      itemOutput: HistoryItem["output"],
-      originalContentType: ContentType,
-      originalUserInput: string,
+      itemOutputOrHistoryItem: HistoryItem["output"] | HistoryItem,
+      originalContentType?: ContentType,
+      originalUserInput?: string,
       actionParams?: {
         audience?: string;
         batch?: number;
@@ -1890,30 +1890,44 @@ export const App = ({
         originalPlatform?: Platform;
       },
     ) => {
-      const newHistoryItem: HistoryItem = {
-        id: crypto.randomUUID(),
-        timestamp: Date.now(),
-        platform: actionParams?.originalPlatform || platform,
-        contentType: originalContentType,
-        userInput: originalUserInput,
-        output: itemOutput,
-        targetAudience: actionParams?.audience,
-        batchVariations:
-          BATCH_SUPPORTED_TYPES.includes(originalContentType) &&
-          (actionParams?.batch ?? 0) > 1
-            ? actionParams?.batch
-            : undefined,
-        abTestResults: actionParams?.abResults,
-        isFavorite: false,
-        aiPersonaId: actionParams?.personaId,
-        targetLanguage: actionParams?.language,
-        videoLength:
-          originalContentType === ContentType.Script ? videoLength : undefined,
-        customVideoLength:
-          originalContentType === ContentType.Script && videoLength === "custom"
-            ? customVideoLength
-            : undefined,
-      };
+      let newHistoryItem: HistoryItem;
+
+      // Check if we're passing a complete HistoryItem object
+      if (typeof itemOutputOrHistoryItem === 'object' &&
+          itemOutputOrHistoryItem !== null &&
+          'id' in itemOutputOrHistoryItem &&
+          'timestamp' in itemOutputOrHistoryItem) {
+        // Complete HistoryItem passed
+        newHistoryItem = itemOutputOrHistoryItem as HistoryItem;
+      } else {
+        // Traditional usage - create HistoryItem from output
+        const itemOutput = itemOutputOrHistoryItem as HistoryItem["output"];
+        newHistoryItem = {
+          id: crypto.randomUUID(),
+          timestamp: Date.now(),
+          platform: actionParams?.originalPlatform || platform,
+          contentType: originalContentType!,
+          userInput: originalUserInput!,
+          output: itemOutput,
+          targetAudience: actionParams?.audience,
+          batchVariations:
+            BATCH_SUPPORTED_TYPES.includes(originalContentType!) &&
+            (actionParams?.batch ?? 0) > 1
+              ? actionParams?.batch
+              : undefined,
+          abTestResults: actionParams?.abResults,
+          isFavorite: false,
+          aiPersonaId: actionParams?.personaId,
+          targetLanguage: actionParams?.language,
+          videoLength:
+            originalContentType === ContentType.Script ? videoLength : undefined,
+          customVideoLength:
+            originalContentType === ContentType.Script && videoLength === "custom"
+              ? customVideoLength
+              : undefined,
+        };
+      }
+
       setHistory((prevItems) =>
         [newHistoryItem, ...prevItems].slice(0, MAX_HISTORY_ITEMS),
       );
@@ -16128,7 +16142,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                           });
                         });
                         console.log(
-                          "����������� Color Harmonization: Applied harmonious palette",
+                          "������������ Color Harmonization: Applied harmonious palette",
                         );
                       }
                     }}
