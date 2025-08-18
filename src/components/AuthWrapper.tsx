@@ -28,8 +28,8 @@ const AuthWrapper: React.FC<AuthWrapperProps> = ({ children }) => {
     return <AuthModal
       isOpen={true}
       onClose={() => {}}
-      onNavigateToTerms={() => window.open('https://creategen.ai/terms', '_blank')}
-      onNavigateToPrivacy={() => window.open('https://creategen.ai/privacy', '_blank')}
+      onNavigateToTerms={() => window.open('/terms', '_blank')}
+      onNavigateToPrivacy={() => window.open('/privacy', '_blank')}
     />;
   }
 
