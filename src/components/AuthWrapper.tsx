@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { auth } from '../config/firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
-import PremiumAuth from './PremiumAuth';
+import AuthModal from './AuthModal';
 
 interface AuthWrapperProps {
   children: React.ReactNode;
