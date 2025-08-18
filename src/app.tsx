@@ -492,7 +492,13 @@ function AppContent() {
         >
           ✕
         </button>
-        <AuthModal isOpen={true} onClose={handleCloseAuth} onAuthSuccess={handleCloseAuth} />
+        <AuthModal
+          isOpen={true}
+          onClose={handleCloseAuth}
+          onAuthSuccess={handleCloseAuth}
+          onNavigateToTerms={() => window.open('https://creategen.ai/terms', '_blank')}
+          onNavigateToPrivacy={() => window.open('https://creategen.ai/privacy', '_blank')}
+        />
       </div>
     );
   }
