@@ -44,6 +44,7 @@ export const HistorySection: React.FC<HistorySectionProps> = ({
   setCopied,
   handleCopyToClipboard,
   toggleHistoryItemFavorite,
+  updateItemRating,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedPlatformFilter, setSelectedPlatformFilter] = useState<
