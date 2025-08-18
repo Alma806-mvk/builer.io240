@@ -10,8 +10,6 @@ import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { AuthService } from "../services/authService";
 import { getDetailedAuthError } from "../utils/firebaseTest";
 import { Eye, EyeOff } from "lucide-react";
-import TermsOfService from "./TermsOfService";
-import PrivacyPolicy from "./PrivacyPolicy";
 
 interface AuthModalProps {
   isOpen: boolean;
