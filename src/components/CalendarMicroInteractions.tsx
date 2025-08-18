@@ -655,5 +655,14 @@ export {
   LoadingAnimations,
   PageTransitions,
   StaggerAnimations,
-  ScrollAnimations
+  ScrollAnimations,
+  InteractiveButton,
+  InteractiveCard,
+  ProgressBar,
+  FloatingActionButton,
+  Tooltip,
+  Notification,
+  useParallax,
+  useSmoothScroll,
+  PageWrapper
 };
