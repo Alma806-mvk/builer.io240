@@ -2775,7 +2775,7 @@ export const App = ({
             }
           }
           // Debug the result structure
-          console.log('������� Debug result structure:', {
+          console.log('����� Debug result structure:', {
             type: typeof result,
             hasText: 'text' in result,
             textType: typeof result.text,
@@ -7253,7 +7253,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
         let ideasToRender = parsedIdeas;
         if (parsedIdeas.length <= 1) {
           // Try splitting by the emoji pattern
-          const emojiSplit = contentText.split(/(?=�������)/);
+          const emojiSplit = contentText.split(/(?=������)/);
           if (emojiSplit.length > 1) {
             ideasToRender = emojiSplit
               .filter((section) => section.trim().length > 20)
@@ -7372,7 +7372,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                         {/* Rating Buttons for this content idea */}
                         <div className="flex items-center">
                           <RatingButtons
-                            rating={displayedOutputItem?.rating}
+                            rating={displayedOutputItem?.rating || 0}
                             onRating={(rating) => {
                               if (displayedOutputItem) {
                                 handleRateCurrentContent(rating);
@@ -8679,7 +8679,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 {[
                   "��",
                   "��",
-                  "����",
+                  "������",
                   "���",
                   "����������",
                   "��������",
@@ -9670,7 +9670,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 <option value="cpp">����� C++</option>
                 <option value="csharp">����� C#</option>
                 <option value="php">���� PHP</option>
-                <option value="ruby">����������� Ruby</option>
+                <option value="ruby">������������ Ruby</option>
                 <option value="go">�� Go</option>
                 <option value="rust">������ Rust</option>
                 <option value="swift">�� Swift</option>
