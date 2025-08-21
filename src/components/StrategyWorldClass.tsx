@@ -2539,7 +2539,36 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 <h3 className="heading-3">Competitor Analysis</h3>
                 <p className="body-base">Save and manage competitor intelligence</p>
               </div>
-              <Badge variant="info">{savedCompetitorAnalyses.length} analyses</Badge>
+              <div className="flex items-center space-x-3">
+                <Badge variant="info">{savedCompetitorAnalyses.length} analyses</Badge>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={async () => {
+                    if (!user) return;
+                    try {
+                      setCompetitorsLoading(true);
+                      const analyses = await competitorAnalysisService.getUserCompetitorAnalyses(user.uid);
+                      setSavedCompetitorAnalyses(analyses);
+                    } catch (error) {
+                      console.error('Failed to refresh competitor analyses:', error);
+                    } finally {
+                      setCompetitorsLoading(false);
+                    }
+                  }}
+                  disabled={competitorsLoading}
+                >
+                  <RefreshCw className={`w-4 h-4 ${competitorsLoading ? 'animate-spin' : ''}`} />
+                  Refresh
+                </Button>
+                <Button
+                  variant="primary"
+                  onClick={() => setActiveSection("generated")}
+                >
+                  <Plus className="w-4 h-4" />
+                  Start from Scratch
+                </Button>
+              </div>
             </div>
 
             {competitorsLoading ? (
