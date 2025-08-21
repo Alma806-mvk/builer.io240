@@ -1870,9 +1870,9 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
               <EmptyState
                 icon={<Megaphone className="w-8 h-8" />}
                 title="No Campaign Strategies Yet"
-                description="Generate a content strategy and save campaign frameworks to organize your marketing campaigns"
+                description="Create campaign frameworks to organize and plan your marketing campaigns effectively"
                 actionLabel="Start from Scratch"
-                onAction={() => setActiveSection("generated")}
+                onAction={() => setShowCreateCampaign(true)}
               />
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
