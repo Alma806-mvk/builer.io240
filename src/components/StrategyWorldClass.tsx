@@ -2785,7 +2785,36 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 <h3 className="heading-3">Legal & Compliance</h3>
                 <p className="body-base">Save and manage compliance plans and legal guidelines</p>
               </div>
-              <Badge variant="info">{savedCompliancePlans.length} plans</Badge>
+              <div className="flex items-center space-x-3">
+                <Badge variant="info">{savedCompliancePlans.length} plans</Badge>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={async () => {
+                    if (!user) return;
+                    try {
+                      setComplianceLoading(true);
+                      const plans = await complianceService.getUserCompliancePlans(user.uid);
+                      setSavedCompliancePlans(plans);
+                    } catch (error) {
+                      console.error('Failed to refresh compliance plans:', error);
+                    } finally {
+                      setComplianceLoading(false);
+                    }
+                  }}
+                  disabled={complianceLoading}
+                >
+                  <RefreshCw className={`w-4 h-4 ${complianceLoading ? 'animate-spin' : ''}`} />
+                  Refresh
+                </Button>
+                <Button
+                  variant="primary"
+                  onClick={() => setActiveSection("generated")}
+                >
+                  <Plus className="w-4 h-4" />
+                  Start from Scratch
+                </Button>
+              </div>
             </div>
 
             {complianceLoading ? (
