@@ -451,7 +451,7 @@ export class FirebaseIntegratedGenerationService {
       storagePaths,
       generationDuration: 0, // Will be updated later
       outputSize: JSON.stringify(results).length
-    });
+    }, generationId);
 
     console.log('✅ Generation record saved to Firestore successfully');
 
