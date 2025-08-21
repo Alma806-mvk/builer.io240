@@ -1601,8 +1601,8 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 icon={<Layers className="w-8 h-8" />}
                 title="No Content Pillars Yet"
                 description="Create individual content pillars to build your content strategy foundation"
-                actionLabel="Start from Scratch"
-                onAction={() => setShowCreatePillar(true)}
+                actionLabel="Create Strategy Plan"
+                onAction={() => setActiveSection("generated")}
               />
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
