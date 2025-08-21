@@ -26,6 +26,8 @@ import {
 } from "../../services/geminiService";
 
 import { generateMockContent } from "../services/mockGeminiService";
+import { firebaseIntegratedGenerationService } from "../services/firebaseIntegratedGenerationService";
+import { auth } from "../config/firebase";
 import { useSubscription } from "../context/SubscriptionContext";
 import {
   BATCH_SUPPORTED_TYPES,

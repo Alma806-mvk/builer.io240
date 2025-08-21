@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   GeneratedOutput,
   ContentBriefOutput,
@@ -33,6 +33,8 @@ import {
 import GeneratingContent from "./GeneratingContent";
 import EnhancedTextSelectionTools from "./EnhancedTextSelectionTools";
 import MagicSelectToggle from "./MagicSelectToggle";
+import { firebaseIntegratedGenerationService } from "../services/firebaseIntegratedGenerationService";
+import { auth } from "../config/firebase";
 
 interface GeneratorOutputProps {
   output:
@@ -106,6 +108,96 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
   const [showActions, setShowActions] = useState(false);
   const [showSendToCanvas, setShowSendToCanvas] = useState(false);
   const [isMagicSelectActive, setIsMagicSelectActive] = useState(false);
+
+  // Firebase feedback state
+  const [userFeedback, setUserFeedback] = useState<'positive' | 'negative' | null>(
+    displayedOutputItem?.firebase?.userFeedback?.rating || null
+  );
+  const [feedbackLoading, setFeedbackLoading] = useState(false);
+  const [showFeedbackComment, setShowFeedbackComment] = useState(false);
+  const [feedbackComment, setFeedbackComment] = useState(
+    displayedOutputItem?.firebase?.userFeedback?.comment || ''
+  );
+
+  // Sync feedback state when displayedOutputItem changes
+  useEffect(() => {
+    if (displayedOutputItem?.firebase?.userFeedback) {
+      setUserFeedback(displayedOutputItem.firebase.userFeedback.rating);
+      setFeedbackComment(displayedOutputItem.firebase.userFeedback.comment || '');
+    } else {
+      setUserFeedback(null);
+      setFeedbackComment('');
+    }
+    setShowFeedbackComment(false); // Reset comment modal
+  }, [displayedOutputItem?.id, displayedOutputItem?.firebase?.userFeedback]);
+
+  // Feedback handler functions
+  const handleFeedback = async (rating: 'positive' | 'negative') => {
+    if (!displayedOutputItem?.firebase?.generationId || !auth.currentUser) {
+      console.warn('Cannot save feedback: missing generation ID or user not authenticated');
+      return;
+    }
+
+    setFeedbackLoading(true);
+    try {
+      await firebaseIntegratedGenerationService.saveFeedback(
+        displayedOutputItem.firebase.generationId,
+        {
+          rating,
+          comment: feedbackComment.trim() || undefined
+        }
+      );
+
+      setUserFeedback(rating);
+      console.log('✅ Feedback saved successfully');
+
+      // If negative feedback, show comment input
+      if (rating === 'negative' && !feedbackComment.trim()) {
+        setShowFeedbackComment(true);
+      }
+    } catch (error) {
+      console.error('❌ Failed to save feedback:', error);
+      // Could show a toast notification here
+    } finally {
+      setFeedbackLoading(false);
+    }
+  };
+
+  const saveFeedbackComment = async () => {
+    if (!displayedOutputItem?.firebase?.generationId || !auth.currentUser || !userFeedback) {
+      return;
+    }
+
+    setFeedbackLoading(true);
+    try {
+      await firebaseIntegratedGenerationService.saveFeedback(
+        displayedOutputItem.firebase.generationId,
+        {
+          rating: userFeedback,
+          comment: feedbackComment.trim() || undefined
+        }
+      );
+      setShowFeedbackComment(false);
+      console.log('✅ Feedback comment saved successfully');
+    } catch (error) {
+      console.error('❌ Failed to save feedback comment:', error);
+    } finally {
+      setFeedbackLoading(false);
+    }
+  };
+
+  // Thumb icons (using simple SVG)
+  const ThumbUpIcon = ({ className = "" }) => (
+    <svg className={className} width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M14.828 12l2.828 2.828-1.414 1.414L12 12l4.242-4.242 1.414 1.414L14.828 12zM10 7V4a2 2 0 00-2-2H6v2h2v3H4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2v-8a2 2 0 00-2-2h-4z"/>
+    </svg>
+  );
+
+  const ThumbDownIcon = ({ className = "" }) => (
+    <svg className={className} width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M9.172 12L6.344 9.172l1.414-1.414L12 12l-4.242 4.242-1.414-1.414L9.172 12zM14 17v3a2 2 0 002 2h2v-2h-2v-3h4a2 2 0 002-2V7a2 2 0 00-2-2H8a2 2 0 00-2 2v8a2 2 0 002 2h4z"/>
+    </svg>
+  );
 
   const getSendToCanvasOptions = () => {
     if (!displayedOutputItem?.output) return null;
@@ -782,7 +874,7 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
             gap: "1rem",
           }}
         >
-          <div style={{ display: "flex", gap: "0.75rem" }}>
+          <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
             <button
               onClick={() => onCopyToClipboard()}
               style={{
@@ -804,6 +896,65 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
               />
               {copied ? "Copied!" : "Copy"}
             </button>
+
+            {/* Firebase Feedback Buttons - Only show if user is authenticated and content is saved to Firebase */}
+            {auth.currentUser && displayedOutputItem?.firebase?.generationId && (
+              <div style={{ display: "flex", gap: "0.25rem", alignItems: "center" }}>
+                <button
+                  onClick={() => handleFeedback('positive')}
+                  disabled={feedbackLoading}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.25rem",
+                    padding: "0.5rem",
+                    borderRadius: "0.375rem",
+                    fontSize: "0.75rem",
+                    cursor: feedbackLoading ? "not-allowed" : "pointer",
+                    border: "1px solid #374151",
+                    background: userFeedback === 'positive' ? "#059669" : "#374151",
+                    color: userFeedback === 'positive' ? "white" : "#d1d5db",
+                    opacity: feedbackLoading ? 0.5 : 1,
+                    transition: "all 0.2s",
+                  }}
+                  title="This content was helpful"
+                >
+                  <ThumbUpIcon />
+                </button>
+
+                <button
+                  onClick={() => handleFeedback('negative')}
+                  disabled={feedbackLoading}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.25rem",
+                    padding: "0.5rem",
+                    borderRadius: "0.375rem",
+                    fontSize: "0.75rem",
+                    cursor: feedbackLoading ? "not-allowed" : "pointer",
+                    border: "1px solid #374151",
+                    background: userFeedback === 'negative' ? "#dc2626" : "#374151",
+                    color: userFeedback === 'negative' ? "white" : "#d1d5db",
+                    opacity: feedbackLoading ? 0.5 : 1,
+                    transition: "all 0.2s",
+                  }}
+                  title="This content needs improvement"
+                >
+                  <ThumbDownIcon />
+                </button>
+
+                {userFeedback && (
+                  <span style={{
+                    fontSize: "0.625rem",
+                    color: "#94a3b8",
+                    marginLeft: "0.25rem"
+                  }}>
+                    {userFeedback === 'positive' ? 'Thanks!' : 'Noted'}
+                  </span>
+                )}
+              </div>
+            )}
 
             {/* Magic Select Toggle */}
             <MagicSelectToggle
@@ -1269,6 +1420,129 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
                 </div>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Feedback Comment Modal */}
+      {showFeedbackComment && userFeedback === 'negative' && auth.currentUser && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: "rgba(0, 0, 0, 0.75)",
+            zIndex: 9999,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "1rem",
+          }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setShowFeedbackComment(false);
+            }
+          }}
+        >
+          <div
+            style={{
+              background: "#1e293b",
+              borderRadius: "0.5rem",
+              border: "1px solid #334155",
+              padding: "1.5rem",
+              maxWidth: "500px",
+              width: "100%",
+              maxHeight: "400px",
+              overflowY: "auto",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3
+              style={{
+                margin: "0 0 1rem 0",
+                fontSize: "1.125rem",
+                fontWeight: "600",
+                color: "#f1f5f9",
+              }}
+            >
+              Help us improve
+            </h3>
+            <p
+              style={{
+                margin: "0 0 1rem 0",
+                fontSize: "0.875rem",
+                color: "#94a3b8",
+                lineHeight: "1.5",
+              }}
+            >
+              What could be better about this generated content? Your feedback helps improve our AI.
+            </p>
+
+            <textarea
+              value={feedbackComment}
+              onChange={(e) => setFeedbackComment(e.target.value)}
+              placeholder="Tell us what could be improved..."
+              style={{
+                width: "100%",
+                minHeight: "100px",
+                padding: "0.75rem",
+                borderRadius: "0.375rem",
+                border: "1px solid #374151",
+                background: "#0f172a",
+                color: "#f1f5f9",
+                fontSize: "0.875rem",
+                resize: "vertical",
+                outline: "none",
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = "#3b82f6";
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = "#374151";
+              }}
+            />
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: "0.75rem",
+                marginTop: "1rem",
+              }}
+            >
+              <button
+                onClick={() => setShowFeedbackComment(false)}
+                style={{
+                  padding: "0.5rem 1rem",
+                  borderRadius: "0.375rem",
+                  fontSize: "0.875rem",
+                  cursor: "pointer",
+                  border: "1px solid #374151",
+                  background: "transparent",
+                  color: "#d1d5db",
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={saveFeedbackComment}
+                disabled={feedbackLoading}
+                style={{
+                  padding: "0.5rem 1rem",
+                  borderRadius: "0.375rem",
+                  fontSize: "0.875rem",
+                  cursor: feedbackLoading ? "not-allowed" : "pointer",
+                  border: "none",
+                  background: "#3b82f6",
+                  color: "white",
+                  opacity: feedbackLoading ? 0.5 : 1,
+                }}
+              >
+                {feedbackLoading ? "Saving..." : "Save Feedback"}
+              </button>
+            </div>
           </div>
         </div>
       )}
