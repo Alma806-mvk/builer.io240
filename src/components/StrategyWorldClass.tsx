@@ -37,6 +37,9 @@ import {
   AlertTriangle,
   Scale,
   Briefcase,
+  Filter,
+  FolderOpen,
+  Grid3X3,
 } from "lucide-react";
 
 // Import our world-class components
@@ -49,6 +52,7 @@ import {
   ProgressBar,
   TabHeader,
   GradientText,
+  EmptyState,
 } from "./ui/WorldClassComponents";
 
 // Import types
@@ -175,6 +179,12 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
   const [savedMonetizationItems, setSavedMonetizationItems] = useState<SavedMonetizationItem[]>([]);
   const [monetizationLoading, setMonetizationLoading] = useState(true);
   const [activeMonetizationSubTab, setActiveMonetizationSubTab] = useState<'revenue-streams' | 'pricing-strategy' | 'conversion-funnel'>('revenue-streams');
+
+  // Grouping system state
+  const [availableGroups, setAvailableGroups] = useState<string[]>(['All', 'Ungrouped']);
+  const [selectedGroup, setSelectedGroup] = useState<string>('All');
+  const [showCreateGroup, setShowCreateGroup] = useState(false);
+  const [newGroupName, setNewGroupName] = useState('');
 
   const { user } = useAuth();
 
