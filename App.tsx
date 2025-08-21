@@ -130,6 +130,7 @@ import {
   generateImage,
   performWebSearch,
 } from "./services/geminiService";
+import { firebaseIntegratedGenerationService } from "./src/services/firebaseIntegratedGenerationService";
 import {
   truncateText,
   parseJsonSafely,
@@ -2117,14 +2118,21 @@ export const App = ({
 
         try {
           console.log(`🔍 Fetching real data for channel: ${channel}`);
+          console.log('🔥 Using Firebase service for channel analysis');
 
-          const result = await generateTextContent({
+          const firebaseResult = await firebaseIntegratedGenerationService.generateContentWithFirebaseStorage({
+            userInput: channel,
             platform: Platform.YouTube,
             contentType: ContentType.ChannelAnalysis,
-            userInput: channel,
-            aiPersonaDef: currentPersonaDef,
             targetAudience,
+            aiPersona: currentPersonaDef,
+            saveToFirebase: true,
           });
+
+          const result = {
+            text: firebaseResult.textOutput?.content || '',
+            sources: firebaseResult.textOutput?.groundingSources || [],
+          };
 
           // Reset consecutive failures on success
           consecutiveFailures = 0;
@@ -2477,16 +2485,18 @@ export const App = ({
           setStrategyError(null);
           let strategyResult;
           try {
-            console.log("🚀 Starting strategy generation with real API...");
+            console.log("🚀 Starting strategy generation with Firebase wrapper...");
             console.log("����� Strategy config:", currentActionParams.strategyConfig);
-            strategyResult = await generateTextContent({
+
+            strategyResult = await firebaseIntegratedGenerationService.generateTextContentWithFirebaseBackgroundSave({
               platform,
               contentType: ContentType.ContentStrategyPlan,
               userInput: currentActionParams.strategyConfig.niche,
               aiPersonaDef: currentPersonaDef,
               strategyInputs: currentActionParams.strategyConfig,
             });
-            console.log("✅ Real API strategy generation completed");
+
+            console.log("✅ Strategy generation completed with Firebase save");
           } catch (apiError: any) {
             console.error("❌ Strategy plan generation error:", apiError);
             if (
@@ -2749,13 +2759,13 @@ export const App = ({
               throw new Error('INVALID_API_KEY: Gemini API key is not configured');
             }
 
-            result = await generateTextContent({
+            console.log('🔥 Using Firebase wrapper for trend analysis');
+            result = await firebaseIntegratedGenerationService.generateTextContentWithFirebaseBackgroundSave({
               platform,
               contentType: ContentType.TrendAnalysis,
               userInput: currentActionParams.trendAnalysisConfig.nicheQuery,
               aiPersonaDef: currentPersonaDef,
-              nicheForTrends:
-                currentActionParams.trendAnalysisConfig.nicheQuery,
+              nicheForTrends: currentActionParams.trendAnalysisConfig.nicheQuery,
               trendFilters: currentActionParams.trendAnalysisConfig.filters,
             });
 
@@ -2903,7 +2913,8 @@ export const App = ({
         ) {
           let result;
           try {
-            result = await generateTextContent(textGenOptions); // Generate text content for engagement feedback
+            console.log('🔥 Using Firebase wrapper for engagement feedback');
+            result = await firebaseIntegratedGenerationService.generateTextContentWithFirebaseBackgroundSave(textGenOptions);
           } catch (apiError: any) {
             if (
               apiError.message?.includes("INVALID_API_KEY") ||
@@ -2979,8 +2990,9 @@ export const App = ({
                 responseMimeType: "text/plain",
               };
             } else {
-              // Use standard generation
-              result = await generateTextContent(textGenOptions);
+              // Use Firebase wrapper that preserves original behavior + saves to Firebase
+              console.log('🔥 Using Firebase wrapper for perfect compatibility');
+              result = await firebaseIntegratedGenerationService.generateTextContentWithFirebaseBackgroundSave(textGenOptions);
             }
           } catch (apiError: any) {
             if (
@@ -4614,7 +4626,7 @@ ${strategyPlan.suggestedWeeklySchedule.map((item) => `������� ${it
 🔍 SEO KEYWORDS:
 ${strategyPlan.seoStrategy.primaryKeywords.join(", ")}
 
-����������������� KEY CTAs:
+������������������ KEY CTAs:
 ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
 
 ��� Full strategy plan available in Strategy tab`;
@@ -9505,7 +9517,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 <option value="minimal">⚪ Minimal</option>
                 <option value="colorful">������ Colorful</option>
                 <option value="dark">��������� Dark</option>
-                <option value="professional">����� Professional</option>
+                <option value="professional">������� Professional</option>
               </select>
             </div>
 
@@ -9867,7 +9879,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 onChange={(e) => updateProp("connectorType", e.target.value)}
                 className="p-1.5 bg-slate-700 rounded-md border border-slate-600 text-slate-200 focus:ring-1 focus:ring-sky-500 focus:border-sky-500"
               >
-                <option value="straight">���� Straight</option>
+                <option value="straight">������ Straight</option>
                 <option value="curved">〜 Curved</option>
                 <option value="elbow">����������� Elbow</option>
                 <option value="dashed">┄ Dashed</option>
@@ -11629,7 +11641,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
             epic: "�����",
             story: "��",
             improvement: "📈",
-            research: "�����",
+            research: "������",
           };
           return icons[type as keyof typeof icons] || "📝";
         };
@@ -18731,7 +18743,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                           text: "1K+ subscribers, 10+ videos, active engagement",
                         },
                         {
-                          status: "���� Poor results:",
+                          status: "������ Poor results:",
                           color: "text-red-400",
                           text: "Under 1K subscribers, few videos, dormant channels",
                         },

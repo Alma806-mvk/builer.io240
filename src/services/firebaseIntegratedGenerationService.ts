@@ -47,7 +47,7 @@ export interface FirebaseGenerationResult {
   // Core generation results
   textOutput?: GeneratedTextOutput;
   imageOutput?: GeneratedImageOutput;
-  
+
   // Firebase storage information
   generationId?: string;
   storageUrls?: {
@@ -55,13 +55,20 @@ export interface FirebaseGenerationResult {
     imageContent?: string;
     thumbnailContent?: string;
   };
-  
+
   // Enhanced HistoryItem with Firebase integration
   historyItem: HistoryItem;
-  
+
   // Generation metadata
   generationDuration: number;
   savedToFirebase: boolean;
+}
+
+// Legacy format result for App.tsx compatibility
+export interface LegacyGenerationResult {
+  text: string;
+  sources?: any[];
+  responseMimeType?: string;
 }
 
 export class FirebaseIntegratedGenerationService {
@@ -98,17 +105,27 @@ export class FirebaseIntegratedGenerationService {
       // Step 3: Save to Firebase if enabled and user is authenticated
       let savedToFirebase = false;
       let storageUrls: any = {};
-      
+
+      // Enhanced debugging for Firebase save process
+      console.log('🔍 Firebase Save Debug Info:', {
+        saveToFirebase: options.saveToFirebase,
+        userAuthenticated: !!auth.currentUser,
+        userEmail: auth.currentUser?.email,
+        offlineMode: localStorage.getItem("firebase_offline_mode"),
+        generationId: generationId
+      });
+
       if (options.saveToFirebase !== false && auth.currentUser) {
         try {
+          console.log('🚀 Attempting to save to Firebase...');
           const firebaseResult = await this.saveToFirebase(
-            generationResults, 
-            options, 
+            generationResults,
+            options,
             generationId
           );
           savedToFirebase = true;
           storageUrls = firebaseResult.storageUrls;
-          
+
           // Update HistoryItem with Firebase information
           historyItem.firebase = {
             generationId: firebaseResult.generationId,
@@ -117,14 +134,24 @@ export class FirebaseIntegratedGenerationService {
             savedToFirebase: true,
             lastSyncedAt: Date.now()
           };
-          
-          console.log('✅ Content saved to Firebase:', firebaseResult.generationId);
+
+          console.log('✅ Content saved to Firebase successfully:', {
+            generationId: firebaseResult.generationId,
+            storageUrls: firebaseResult.storageUrls
+          });
         } catch (firebaseError) {
+          console.error('❌ Firebase save failed with error:', firebaseError);
           console.warn('⚠️ Firebase save failed, continuing with local storage:', firebaseError);
           // Don't throw - generation succeeded even if Firebase save failed
         }
       } else {
-        console.log('⏭️ Skipping Firebase save (disabled or user not authenticated)');
+        if (!auth.currentUser) {
+          console.log('⏭️ Skipping Firebase save - User not authenticated');
+        } else if (options.saveToFirebase === false) {
+          console.log('⏭️ Skipping Firebase save - Disabled by options');
+        } else {
+          console.log('⏭️ Skipping Firebase save - Unknown reason');
+        }
       }
 
       const generationDuration = Date.now() - startTime;
@@ -141,6 +168,57 @@ export class FirebaseIntegratedGenerationService {
 
     } catch (error) {
       console.error('❌ Generation failed:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Simple wrapper that calls original generateTextContent and saves to Firebase in background
+   * This preserves 100% compatibility with existing code while adding Firebase storage
+   */
+  async generateTextContentWithFirebaseBackgroundSave(textGenOptions: any): Promise<LegacyGenerationResult> {
+    console.log('🔥 Generating text content with Firebase background save');
+
+    try {
+      // Call original generateTextContent function - this ensures 100% compatibility
+      const result = await generateTextContent(textGenOptions);
+
+      // Save to Firebase in background (don't wait for it)
+      if (auth.currentUser) {
+        const generationId = `gen_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+        // Create simplified generation record for Firestore
+        const generationRecord = {
+          prompt: textGenOptions.userInput,
+          platform: textGenOptions.platform,
+          contentType: textGenOptions.contentType,
+          targetAudience: textGenOptions.targetAudience,
+          batchVariations: textGenOptions.batchVariations,
+          aiPersonaId: textGenOptions.aiPersonaId,
+          targetLanguage: textGenOptions.targetLanguage,
+          videoLength: textGenOptions.videoLength,
+          seoKeywords: textGenOptions.seoKeywords,
+          seoMode: textGenOptions.seoMode,
+          aspectRatioGuidance: textGenOptions.aspectRatioGuidance,
+          storageUrls: {},
+          storagePaths: {},
+          generationDuration: 0,
+          outputSize: JSON.stringify(result).length
+        };
+
+        // Save to Firestore in background
+        generationStorageService.saveGeneration(generationRecord).then(() => {
+          console.log('✅ Content saved to Firebase in background:', generationId);
+        }).catch((error) => {
+          console.warn('⚠️ Background Firebase save failed:', error);
+        });
+      }
+
+      // Return original result unchanged
+      return result;
+
+    } catch (error) {
+      console.error('❌ Firebase background generation failed:', error);
       throw error;
     }
   }
@@ -226,13 +304,13 @@ export class FirebaseIntegratedGenerationService {
     // Generate text content
     if (needsTextGeneration) {
       console.log('🤖 Generating text content...');
-      results.textOutput = await generateTextContent({
+      const textResult = await generateTextContent({
         userInput: options.userInput,
         platform: options.platform,
         contentType: options.contentType,
         targetAudience: options.targetAudience,
         batchVariations: options.batchVariations,
-        aiPersona: options.aiPersona,
+        aiPersonaDef: options.aiPersona,
         aiPersonaId: options.aiPersonaId,
         targetLanguage: options.targetLanguage,
         videoLength: options.videoLength,
@@ -241,20 +319,35 @@ export class FirebaseIntegratedGenerationService {
         seoMode: options.seoMode,
         seoIntensity: options.seoIntensity
       });
+
+      // Convert to GeneratedTextOutput format
+      results.textOutput = {
+        type: "text",
+        content: textResult.text,
+        groundingSources: textResult.sources,
+      } as GeneratedTextOutput;
+
+      // Also keep the raw result for App.tsx compatibility
+      results.rawTextResult = textResult;
     }
 
     // Generate image content
     if (needsImageGeneration) {
       console.log('🎨 Generating image content...');
-      results.imageOutput = await generateImage({
-        userInput: options.userInput,
-        platform: options.platform,
-        contentType: options.contentType,
-        aspectRatioGuidance: options.aspectRatioGuidance,
-        selectedImageStyles: options.selectedImageStyles,
-        selectedImageMoods: options.selectedImageMoods,
-        negativeImagePrompt: options.negativeImagePrompt
-      });
+      const imageResult = await generateImage(
+        options.userInput,
+        options.negativeImagePrompt,
+        options.aspectRatioGuidance,
+      );
+
+      results.imageOutput = {
+        type: "image",
+        base64Data: imageResult.base64Data,
+        mimeType: imageResult.mimeType,
+      } as GeneratedImageOutput;
+
+      // Also keep the raw result for App.tsx compatibility
+      results.rawImageResult = imageResult;
     }
 
     return results;
@@ -329,6 +422,13 @@ export class FirebaseIntegratedGenerationService {
     }
 
     // Save generation record to Firestore
+    console.log('💾 Saving generation record to Firestore...', {
+      generationId,
+      prompt: options.userInput?.substring(0, 50) + '...',
+      contentType: options.contentType,
+      platform: options.platform
+    });
+
     await generationStorageService.saveGeneration({
       prompt: options.userInput,
       platform: options.platform,
@@ -352,6 +452,8 @@ export class FirebaseIntegratedGenerationService {
       generationDuration: 0, // Will be updated later
       outputSize: JSON.stringify(results).length
     });
+
+    console.log('✅ Generation record saved to Firestore successfully');
 
     return {
       generationId,
