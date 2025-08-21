@@ -285,8 +285,25 @@ export const safeFirestoreOperation = async <T>(
   fallback: T,
   operationName: string = "Firestore operation",
 ): Promise<T> => {
+
+  // Enhanced debugging for Firestore operations
+  console.log(`🔍 SafeFirestoreOperation Debug - ${operationName}:`, {
+    isOfflineMode: isOfflineMode(),
+    isFirestoreOnline: isFirestoreOnline,
+    userAuthenticated: !!auth.currentUser,
+    userEmail: auth.currentUser?.email,
+    offlineModeFlag: localStorage.getItem("firebase_offline_mode"),
+    isBuilderEnvironment: isBuilderEnvironment,
+    isLocalDevelopment: isLocalDevelopment
+  });
+
   if (isOfflineMode()) {
-    console.log(`🟡 ${operationName} skipped - offline mode`);
+    console.log(`🟡 ${operationName} skipped - offline mode detected`);
+    console.log('🟡 Offline mode reasons:', {
+      localStorageFlag: localStorage.getItem("firebase_offline_mode"),
+      isBuilderEnv: isBuilderEnvironment,
+      firestoreOnline: isFirestoreOnline
+    });
     return fallback;
   }
 
@@ -297,8 +314,17 @@ export const safeFirestoreOperation = async <T>(
   }
 
   try {
-    return await operation();
+    console.log(`🚀 Executing Firestore operation: ${operationName}`);
+    const result = await operation();
+    console.log(`✅ Firestore operation completed successfully: ${operationName}`);
+    return result;
   } catch (error: any) {
+    console.error(`❌ Firestore operation failed: ${operationName}`, {
+      errorCode: error?.code,
+      errorMessage: error?.message,
+      errorType: typeof error
+    });
+
     // Handle permission errors gracefully
     if (
       error?.code === "permission-denied" ||
