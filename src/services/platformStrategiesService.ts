@@ -27,6 +27,8 @@ export interface SavedPlatformStrategy {
   savedAt: Date;
   userId: string;
   createdAt: string;
+  group?: string;
+  tags?: string[];
 }
 
 class PlatformStrategiesService {
