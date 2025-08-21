@@ -246,13 +246,13 @@ export class FirebaseIntegratedGenerationService {
     // Generate text content
     if (needsTextGeneration) {
       console.log('🤖 Generating text content...');
-      results.textOutput = await generateTextContent({
+      const textResult = await generateTextContent({
         userInput: options.userInput,
         platform: options.platform,
         contentType: options.contentType,
         targetAudience: options.targetAudience,
         batchVariations: options.batchVariations,
-        aiPersona: options.aiPersona,
+        aiPersonaDef: options.aiPersona,
         aiPersonaId: options.aiPersonaId,
         targetLanguage: options.targetLanguage,
         videoLength: options.videoLength,
@@ -261,6 +261,16 @@ export class FirebaseIntegratedGenerationService {
         seoMode: options.seoMode,
         seoIntensity: options.seoIntensity
       });
+
+      // Convert to GeneratedTextOutput format
+      results.textOutput = {
+        type: "text",
+        content: textResult.text,
+        groundingSources: textResult.sources,
+      } as GeneratedTextOutput;
+
+      // Also keep the raw result for App.tsx compatibility
+      results.rawTextResult = textResult;
     }
 
     // Generate image content
