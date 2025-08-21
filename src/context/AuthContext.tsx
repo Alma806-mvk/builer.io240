@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { auth, db } from "../config/firebase"; // Adjust the path if necessary
 import { User, onAuthStateChanged, reload } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { safeGetDoc, createDocRef } from "../utils/firestoreUtils";
 
 interface AuthContextType {
@@ -67,6 +67,31 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
           onboardingCompleted,
           shouldShowOnboarding,
         });
+      } else if (result.success && !result.data) {
+        // User document doesn't exist - create it
+        console.log("📝 Creating missing user document for:", user.uid);
+        try {
+          await setDoc(
+            userDocRef,
+            {
+              uid: user.uid,
+              email: user.email,
+              displayName: user.displayName || user.email?.split("@")[0] || "User",
+              createdAt: serverTimestamp(),
+              photoURL: user.photoURL || "",
+              onboardingCompleted: false,
+              isNewUser: true, // Mark as new user for onboarding
+            },
+            { merge: true }
+          );
+
+          // After creating, set onboarding needed for email verified users
+          setNeedsOnboarding(user.emailVerified);
+          console.log("✅ User document created successfully");
+        } catch (createError: any) {
+          console.error("❌ Failed to create user document:", createError);
+          setNeedsOnboarding(false); // Don't block user if document creation fails
+        }
       } else if (result.error === "offline") {
         console.log("🔌 Firestore offline - skipping onboarding for safety");
         // When offline, don't show onboarding to avoid interrupting user experience

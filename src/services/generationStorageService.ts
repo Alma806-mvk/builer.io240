@@ -64,7 +64,7 @@ export interface GenerationRecord {
   
   // User feedback
   userFeedback?: {
-    rating: 'positive' | 'negative';
+    rating: -1 | 0 | 1; // -1 = negative, 0 = neutral/no rating, 1 = positive
     timestamp: Timestamp;
     comment?: string;
   };
@@ -95,9 +95,9 @@ export class GenerationStorageService {
   /**
    * Save a new generation record to Firestore
    */
-  async saveGeneration(record: Omit<GenerationRecord, 'id' | 'userId' | 'timestamp'>): Promise<string> {
+  async saveGeneration(record: Omit<GenerationRecord, 'id' | 'userId' | 'timestamp'>, providedGenerationId?: string): Promise<string> {
     const userId = this.getCurrentUserId();
-    const generationId = `gen_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const generationId = providedGenerationId || `gen_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
     console.log('🔍 Generation Storage Debug:', {
       userId,
@@ -207,9 +207,9 @@ export class GenerationStorageService {
    * Update user feedback for a generation
    */
   async updateFeedback(
-    generationId: string, 
+    generationId: string,
     feedback: {
-      rating: 'positive' | 'negative';
+      rating: -1 | 0 | 1; // -1 = negative, 0 = neutral/no rating, 1 = positive
       comment?: string;
     }
   ): Promise<void> {

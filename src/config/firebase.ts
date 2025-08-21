@@ -119,9 +119,11 @@ export const db =
         ignoreUndefinedProperties: true,
       });
 
-// Only force offline mode for actual Builder.io iframe environments
-if (isBuilderEnvironment) {
-  console.log("🔧 Builder.io iframe detected - enabling offline mode");
+// Check if we should allow Firebase operations
+const hasValidConfig = !!(import.meta.env.VITE_FIREBASE_PROJECT_ID && import.meta.env.VITE_FIREBASE_API_KEY);
+
+if (isBuilderEnvironment && !hasValidConfig) {
+  console.log("🔧 Builder.io iframe detected without valid config - enabling offline mode");
   localStorage.setItem("firebase_offline_mode", "true");
 
   // Disable Firestore network immediately to prevent fetch errors
@@ -131,6 +133,9 @@ if (isBuilderEnvironment) {
       console.log("🟡 Network already disabled or unavailable");
     });
   }, 100);
+} else if (isBuilderEnvironment && hasValidConfig) {
+  console.log("🌐 Builder.io environment with valid config - Firebase operations allowed");
+  localStorage.removeItem("firebase_offline_mode");
 } else {
   console.log("🌐 Regular environment - Firebase online mode enabled");
   localStorage.removeItem("firebase_offline_mode");
@@ -259,6 +264,14 @@ export const isFirestoreConnected = () => isFirestoreOnline;
 
 // Check if we're in offline mode
 export const isOfflineMode = () => {
+  // If user is authenticated and has valid config, allow Firebase operations even in Builder environment
+  const hasValidConfig = !!(import.meta.env.VITE_FIREBASE_PROJECT_ID && import.meta.env.VITE_FIREBASE_API_KEY);
+
+  if (auth.currentUser && hasValidConfig) {
+    console.log('🔓 Firebase operations enabled - user authenticated with valid config');
+    return false;
+  }
+
   return (
     localStorage.getItem("firebase_offline_mode") === "true" ||
     isBuilderEnvironment ||

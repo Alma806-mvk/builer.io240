@@ -447,7 +447,7 @@ export interface HistoryItem {
       thumbnailContent?: string;
     };
     userFeedback?: {
-      rating: 'positive' | 'negative';
+      rating: -1 | 0 | 1; // -1 = negative, 0 = neutral/no rating, 1 = positive
       timestamp: number;
       comment?: string;
     };

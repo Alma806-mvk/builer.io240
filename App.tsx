@@ -3397,7 +3397,7 @@ EXPAND THIS INTO:
 ����� **SCRIPT FRAMEWORK**: Outline the structure/flow with key talking points
 �� **ENGAGEMENT TACTICS**: Specific techniques to maximize views, comments, shares
 📊 **PERFORMANCE OPTIMIZATION**: Tips for thumbnails, titles, timing, hashtags
-����� **VARIATIONS**: 3-4 alternative approaches or spin-offs
+������� **VARIATIONS**: 3-4 alternative approaches or spin-offs
 �� **TRENDING ELEMENTS**: Current trends that could be incorporated
 ⚡ **ADVANCED TIPS**: Pro-level insights for maximum impact
 
@@ -18147,7 +18147,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl w-full">
                     <div className="group flex items-start space-x-4 p-6 bg-gradient-to-br from-slate-700/50 via-slate-700/30 to-slate-800/50 rounded-2xl border border-slate-600/40 backdrop-blur-sm hover:bg-gradient-to-br hover:from-slate-600/60 hover:via-slate-600/40 hover:to-slate-700/60 transition-all duration-300 hover:scale-105 hover:shadow-2xl">
                       <div className="w-12 h-12 bg-gradient-to-br from-sky-400/30 to-purple-500/30 rounded-xl flex items-center justify-center mt-1 group-hover:scale-110 transition-transform duration-300">
-                        <span className="text-2xl">�����</span>
+                        <span className="text-2xl">�������</span>
                       </div>
                       <div className="flex-1">
                         <h4 className="text-slate-100 font-bold text-lg mb-2 group-hover:text-white transition-colors">

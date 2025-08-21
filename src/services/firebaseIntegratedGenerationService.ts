@@ -227,9 +227,9 @@ export class FirebaseIntegratedGenerationService {
    * Save user feedback for a generation
    */
   async saveFeedback(
-    generationId: string, 
+    generationId: string,
     feedback: {
-      rating: 'positive' | 'negative';
+      rating: -1 | 0 | 1; // -1 = negative, 0 = neutral/no rating, 1 = positive
       comment?: string;
     }
   ): Promise<void> {
@@ -451,7 +451,7 @@ export class FirebaseIntegratedGenerationService {
       storagePaths,
       generationDuration: 0, // Will be updated later
       outputSize: JSON.stringify(results).length
-    });
+    }, generationId);
 
     console.log('✅ Generation record saved to Firestore successfully');
 
