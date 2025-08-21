@@ -173,43 +173,49 @@ export class FirebaseIntegratedGenerationService {
   }
 
   /**
-   * Generate content and save to Firebase, but return in legacy format for App.tsx compatibility
+   * Simple wrapper that calls original generateTextContent and saves to Firebase in background
+   * This preserves 100% compatibility with existing code while adding Firebase storage
    */
-  async generateContentWithFirebaseBackgroundSave(options: GenerationOptions): Promise<LegacyGenerationResult> {
-    console.log('🔥 Generating content with Firebase background save (legacy format)');
+  async generateTextContentWithFirebaseBackgroundSave(textGenOptions: any): Promise<LegacyGenerationResult> {
+    console.log('🔥 Generating text content with Firebase background save');
 
     try {
-      // Generate content using existing services
-      const generationResults = await this.generateContent(options);
+      // Call original generateTextContent function - this ensures 100% compatibility
+      const result = await generateTextContent(textGenOptions);
 
       // Save to Firebase in background (don't wait for it)
-      if (options.saveToFirebase !== false && auth.currentUser) {
+      if (auth.currentUser) {
         const generationId = `gen_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
-        // Fire and forget Firebase save
-        this.saveToFirebase(generationResults, options, generationId).then(() => {
+        // Create simplified generation record for Firestore
+        const generationRecord = {
+          prompt: textGenOptions.userInput,
+          platform: textGenOptions.platform,
+          contentType: textGenOptions.contentType,
+          targetAudience: textGenOptions.targetAudience,
+          batchVariations: textGenOptions.batchVariations,
+          aiPersonaId: textGenOptions.aiPersonaId,
+          targetLanguage: textGenOptions.targetLanguage,
+          videoLength: textGenOptions.videoLength,
+          seoKeywords: textGenOptions.seoKeywords,
+          seoMode: textGenOptions.seoMode,
+          aspectRatioGuidance: textGenOptions.aspectRatioGuidance,
+          storageUrls: {},
+          storagePaths: {},
+          generationDuration: 0,
+          outputSize: JSON.stringify(result).length
+        };
+
+        // Save to Firestore in background
+        generationStorageService.saveGeneration(generationRecord).then(() => {
           console.log('✅ Content saved to Firebase in background:', generationId);
         }).catch((error) => {
           console.warn('⚠️ Background Firebase save failed:', error);
         });
       }
 
-      // Return in legacy format for App.tsx compatibility
-      if (generationResults.rawTextResult) {
-        return {
-          text: generationResults.rawTextResult.text,
-          sources: generationResults.rawTextResult.sources,
-          responseMimeType: generationResults.rawTextResult.responseMimeType,
-        };
-      } else if (generationResults.rawImageResult) {
-        return {
-          text: generationResults.rawImageResult.base64Data,
-          sources: [],
-          responseMimeType: generationResults.rawImageResult.mimeType,
-        };
-      } else {
-        throw new Error('No generation results available');
-      }
+      // Return original result unchanged
+      return result;
 
     } catch (error) {
       console.error('❌ Firebase background generation failed:', error);
