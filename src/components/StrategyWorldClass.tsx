@@ -2157,19 +2157,13 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 <span className="ml-3 text-[var(--text-secondary)]">Loading risk management plans...</span>
               </div>
             ) : savedRiskManagementItems.length === 0 ? (
-              <div className="text-center py-8">
-                <AlertTriangle className="w-12 h-12 text-[var(--text-tertiary)] mx-auto mb-3" />
-                <h4 className="text-lg font-semibold text-[var(--text-primary)] mb-2">
-                  No Risk Management Plans Yet
-                </h4>
-                <p className="text-sm text-[var(--text-secondary)] mb-4 max-w-sm mx-auto">
-                  Generate content strategies and save risk management plans using the 3-dot menu on risk management sections.
-                </p>
-                <Button variant="outline" size="sm" className="mx-auto">
-                  <Plus className="w-4 h-4 mr-2" />
-                  Create First Plan
-                </Button>
-              </div>
+              <EmptyState
+                icon={<AlertTriangle className="w-8 h-8" />}
+                title="No Risk Management Plans Yet"
+                description="Generate content strategies and save risk management plans using the 3-dot menu on risk management sections."
+                actionLabel="Start from Scratch"
+                onAction={() => setActiveSection("generated")}
+              />
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 {savedRiskManagementItems.map((item) => (
