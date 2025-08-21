@@ -1539,6 +1539,13 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                   <RefreshCw className={`w-4 h-4 ${pillarsLoading ? 'animate-spin' : ''}`} />
                   Refresh
                 </Button>
+                <Button
+                  variant="primary"
+                  onClick={() => setShowCreatePillar(true)}
+                >
+                  <Plus className="w-4 h-4" />
+                  Start from Scratch
+                </Button>
               </div>
             </div>
 
