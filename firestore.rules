@@ -57,13 +57,22 @@ service cloud.firestore {
     // =====================================
     // SUBCOLLECTION RULES - NESTED USER CONTENT
     // =====================================
-    // Handle nested subcollections under user documents
+    // Content ratings - simplified rules for user ratings
+    match /users/{userId}/content_ratings/{ratingId} {
+      allow read, write, create: if request.auth != null
+                                 && request.auth.uid == userId;
+    }
+
+    // Handle other nested subcollections under user documents
     match /users/{userId}/{subcollection}/{documentId} {
-      allow read, write: if request.auth != null
+      // Skip content_ratings as it's handled above
+      allow read, write: if subcollection != 'content_ratings'
+                         && request.auth != null
                          && request.auth.uid == userId
                          && isSubcollectionOwner(userId);
-      
-      allow create: if request.auth != null
+
+      allow create: if subcollection != 'content_ratings'
+                    && request.auth != null
                     && request.auth.uid == userId
                     && isValidSubcollectionDocument(userId);
     }
