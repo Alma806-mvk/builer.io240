@@ -33,6 +33,8 @@ import {
 import GeneratingContent from "./GeneratingContent";
 import EnhancedTextSelectionTools from "./EnhancedTextSelectionTools";
 import MagicSelectToggle from "./MagicSelectToggle";
+import { firebaseIntegratedGenerationService } from "../services/firebaseIntegratedGenerationService";
+import { auth } from "../config/firebase";
 
 interface GeneratorOutputProps {
   output:
