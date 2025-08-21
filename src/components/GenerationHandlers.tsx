@@ -425,13 +425,19 @@ export const GenerationHandlers: React.FC<GenerationHandlersProps> = ({
           setChannelAnalysisError(null);
           let result;
           try {
-            result = await generateTextContent({
+            console.log('🔥 Using Firebase service for channel analysis');
+            const firebaseResult = await firebaseIntegratedGenerationService.generateContentWithFirebaseStorage({
+              userInput: currentActionParams.channelInput,
               platform: Platform.YouTube,
               contentType: ContentType.ChannelAnalysis,
-              userInput: currentActionParams.channelInput,
-              aiPersonaDef: currentPersonaDef,
               targetAudience,
+              aiPersona: currentPersonaDef,
+              saveToFirebase: true,
             });
+            result = {
+              text: firebaseResult.textOutput?.content || '',
+              sources: firebaseResult.textOutput?.groundingSources,
+            };
           } catch (apiError: any) {
             if (
               apiError.message?.includes("INVALID_API_KEY") ||
@@ -471,13 +477,18 @@ export const GenerationHandlers: React.FC<GenerationHandlersProps> = ({
           setStrategyError(null);
           let strategyResult;
           try {
-            strategyResult = await generateTextContent({
+            console.log('🔥 Using Firebase service for strategy plan');
+            const firebaseResult = await firebaseIntegratedGenerationService.generateContentWithFirebaseStorage({
+              userInput: currentActionParams.strategyConfig.niche,
               platform,
               contentType: ContentType.ContentStrategyPlan,
-              userInput: currentActionParams.strategyConfig.niche,
-              aiPersonaDef: currentPersonaDef,
-              strategyInputs: currentActionParams.strategyConfig,
+              aiPersona: currentPersonaDef,
+              saveToFirebase: true,
             });
+            strategyResult = {
+              text: firebaseResult.textOutput?.content || '',
+              responseMimeType: 'application/json',
+            };
           } catch (apiError: any) {
             if (
               apiError.message?.includes("INVALID_API_KEY") ||
@@ -549,7 +560,7 @@ export const GenerationHandlers: React.FC<GenerationHandlersProps> = ({
             if (firebaseResult.savedToFirebase) {
               console.log('✅ Content saved to Firebase with ID:', firebaseResult.generationId);
             } else {
-              console.log('⚠�� Content generated but not saved to Firebase');
+              console.log('⚠️ Content generated but not saved to Firebase');
             }
 
           } catch (apiError: any) {
@@ -713,12 +724,19 @@ export const GenerationHandlers: React.FC<GenerationHandlersProps> = ({
         setIsLoading(true);
         setError(null);
 
-        const result = await generateTextContent({
+        console.log('🔥 Using Firebase service for trend analysis');
+        const firebaseResult = await firebaseIntegratedGenerationService.generateContentWithFirebaseStorage({
+          userInput: query,
           platform,
           contentType: ContentType.TrendAnalysis,
-          userInput: query,
-          aiPersonaDef: selectedPersonaDetails,
+          aiPersona: selectedPersonaDetails,
+          saveToFirebase: true,
         });
+
+        const result = {
+          text: firebaseResult.textOutput?.content || '',
+          sources: firebaseResult.textOutput?.groundingSources,
+        };
 
         const trendOutput = parseTrendAnalysisText(
           result.text,
