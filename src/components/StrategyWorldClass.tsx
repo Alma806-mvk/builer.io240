@@ -2022,9 +2022,9 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
               <EmptyState
                 icon={<BarChart3 className="w-8 h-8" />}
                 title="No Analytics Metrics Yet"
-                description="Generate content strategies and save analytics metrics using the 3-dot menu on Analytics & Performance sections."
+                description="Create custom analytics metrics to track your content performance and strategy success"
                 actionLabel="Start from Scratch"
-                onAction={() => setActiveSection("generated")}
+                onAction={() => setShowCreateMetric(true)}
               />
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
