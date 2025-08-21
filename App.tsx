@@ -2913,24 +2913,8 @@ export const App = ({
         ) {
           let result;
           try {
-            console.log('🔥 Using Firebase service for engagement feedback');
-            const firebaseResult = await firebaseIntegratedGenerationService.generateContentWithFirebaseStorage({
-              userInput: textGenOptions.userInput,
-              platform: textGenOptions.platform,
-              contentType: textGenOptions.contentType,
-              targetAudience: textGenOptions.targetAudience,
-              aiPersona: textGenOptions.aiPersonaDef,
-              saveToFirebase: true,
-            });
-
-            result = {
-              text: firebaseResult.textOutput?.content || '',
-              sources: firebaseResult.textOutput?.groundingSources,
-            };
-
-            if (firebaseResult.savedToFirebase) {
-              console.log('✅ Engagement feedback saved to Firebase with ID:', firebaseResult.generationId);
-            }
+            console.log('🔥 Using Firebase wrapper for engagement feedback');
+            result = await firebaseIntegratedGenerationService.generateTextContentWithFirebaseBackgroundSave(textGenOptions);
           } catch (apiError: any) {
             if (
               apiError.message?.includes("INVALID_API_KEY") ||
@@ -4642,10 +4626,10 @@ ${strategyPlan.suggestedWeeklySchedule.map((item) => `������� ${it
 🔍 SEO KEYWORDS:
 ${strategyPlan.seoStrategy.primaryKeywords.join(", ")}
 
-����������������� KEY CTAs:
+������������������ KEY CTAs:
 ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
 
-���� Full strategy plan available in Strategy tab`;
+��� Full strategy plan available in Strategy tab`;
 
       const newCanvasItem: CanvasItem = {
         id: newId,
@@ -8781,7 +8765,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                   "���",
                   "����������",
                   "��������",
-                  "����",
+                  "��",
                   "⚡",
                   "��",
                   "💫",
@@ -9533,7 +9517,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 <option value="minimal">⚪ Minimal</option>
                 <option value="colorful">������ Colorful</option>
                 <option value="dark">��������� Dark</option>
-                <option value="professional">����� Professional</option>
+                <option value="professional">������� Professional</option>
               </select>
             </div>
 
@@ -11657,7 +11641,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
             epic: "�����",
             story: "��",
             improvement: "📈",
-            research: "�����",
+            research: "������",
           };
           return icons[type as keyof typeof icons] || "📝";
         };
@@ -12670,7 +12654,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
           onMouseDown={(e) => handleCanvasItemMouseDown(e, canvasItem.id)}
           onClick={() => setSelectedCanvasItemId(canvasItem.id)}
         >
-          <div style={{ fontSize: "24px", marginBottom: "8px" }}>���������������</div>
+          <div style={{ fontSize: "24px", marginBottom: "8px" }}>��������������</div>
           <div style={{ fontSize: "12px", fontWeight: "bold" }}>
             {canvasItem.embedType || "Embed"} Content
           </div>
@@ -18654,7 +18638,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                       <span>��️</span> Smart Background Removal
                     </span>
                     <span className="flex items-center gap-2">
-                      <span>�����</span> Cloud Save & Sync
+                      <span>����</span> Cloud Save & Sync
                     </span>
                     <span className="flex items-center gap-2">
                       <span>📱</span> Mobile Preview
@@ -18759,7 +18743,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                           text: "1K+ subscribers, 10+ videos, active engagement",
                         },
                         {
-                          status: "���� Poor results:",
+                          status: "������ Poor results:",
                           color: "text-red-400",
                           text: "Under 1K subscribers, few videos, dormant channels",
                         },
