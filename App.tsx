@@ -3022,28 +3022,9 @@ export const App = ({
                 responseMimeType: "text/plain",
               };
             } else {
-              // Use Firebase integrated generation with legacy format
-              console.log('🔥 Using Firebase integrated service (legacy format) for content generation');
-
-              // Convert textGenOptions to Firebase service format
-              const firebaseOptions = {
-                userInput: textGenOptions.userInput,
-                platform: textGenOptions.platform,
-                contentType: textGenOptions.contentType,
-                targetAudience: textGenOptions.targetAudience,
-                batchVariations: textGenOptions.batchVariations,
-                aiPersona: textGenOptions.aiPersonaDef,
-                aiPersonaId: selectedAiPersonaId,
-                targetLanguage: textGenOptions.targetLanguage,
-                videoLength: textGenOptions.videoLength,
-                seoKeywords: textGenOptions.seoKeywords,
-                seoMode: textGenOptions.seoMode,
-                aspectRatioGuidance: textGenOptions.aspectRatioGuidance,
-                saveToFirebase: true, // Enable Firebase storage
-              };
-
-              // This returns data in the same format as original generateTextContent
-              result = await firebaseIntegratedGenerationService.generateContentWithFirebaseBackgroundSave(firebaseOptions);
+              // Use Firebase wrapper that preserves original behavior + saves to Firebase
+              console.log('🔥 Using Firebase wrapper for perfect compatibility');
+              result = await firebaseIntegratedGenerationService.generateTextContentWithFirebaseBackgroundSave(textGenOptions);
             }
           } catch (apiError: any) {
             if (
@@ -4672,7 +4653,7 @@ ${strategyPlan.goals.map((goal) => `• ${goal}`).join("\n")}
 ${strategyPlan.contentPillars.map((pillar) => `���� ${pillar.pillarName}: ${pillar.description.substring(0, 100)}${pillar.description.length > 100 ? "..." : ""}`).join("\n")}
 
 ���� POSTING SCHEDULE:
-${strategyPlan.suggestedWeeklySchedule.map((item) => `�������� ${item.dayOfWeek}: ${item.contentType} (${item.optimalTime})`).join("\n")}
+${strategyPlan.suggestedWeeklySchedule.map((item) => `������� ${item.dayOfWeek}: ${item.contentType} (${item.optimalTime})`).join("\n")}
 
 🔍 SEO KEYWORDS:
 ${strategyPlan.seoStrategy.primaryKeywords.join(", ")}
@@ -9519,7 +9500,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 <option value="testing">���� Testing</option>
                 <option value="done">���� Done</option>
                 <option value="blocked">✗ Blocked</option>
-                <option value="archived">���� Archived</option>
+                <option value="archived">����� Archived</option>
               </select>
             </div>
 
@@ -20332,7 +20313,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                           {[
                             { icon: "🎨", label: "Colors" },
                             { icon: "����", label: "Text" },
-                            { icon: "������", label: "Images" },
+                            { icon: "��������", label: "Images" },
                             { icon: "���", label: "Effects" },
                             { icon: "����", label: "Guides" },
                           ].map((tool, index) => (
