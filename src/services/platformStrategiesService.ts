@@ -51,7 +51,9 @@ class PlatformStrategiesService {
         source: strategyData.source || 'content-strategy-planner',
         savedAt: new Date(),
         userId,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        group: strategyData.group || 'Ungrouped',
+        tags: strategyData.tags || []
       };
 
       // Try Firebase first
