@@ -18,6 +18,7 @@ import AppNotifications from "./src/utils/appNotifications";
 import "./src/utils/appHealthMonitor";
 import FirebaseErrorBoundary from "./src/components/FirebaseErrorBoundary";
 import { initializeEmojiRuntimeFixer } from "./src/utils/emojiRuntimeFixer";
+import { FirebaseTestPanel } from "./src/components/FirebaseTestPanel";
 
 // Import types and constants from centralized location
 import {
@@ -9904,7 +9905,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
               >
                 <option value="solid">��� Solid</option>
                 <option value="dashed">▭ Dashed</option>
-                <option value="dotted">���������� Dotted</option>
+                <option value="dotted">������������ Dotted</option>
                 <option value="double">═ Double</option>
               </select>
             </div>
