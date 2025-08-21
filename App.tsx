@@ -9905,7 +9905,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
               >
                 <option value="solid">��� Solid</option>
                 <option value="dashed">▭ Dashed</option>
-                <option value="dotted">������������ Dotted</option>
+                <option value="dotted">���������� Dotted</option>
                 <option value="double">═ Double</option>
               </select>
             </div>
@@ -20686,6 +20686,9 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
         </div>
       </div>
       </SidebarProvider>
+
+      {/* Firebase Test Panel - for development testing */}
+      <FirebaseTestPanel />
     </FirebaseErrorBoundary>
   );
 };
