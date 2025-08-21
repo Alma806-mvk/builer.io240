@@ -926,6 +926,7 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
                   <button
                     onClick={() => handleFeedback(1)}
                     disabled={feedbackLoading}
+                    className={`feedback-button ${userFeedback === 1 ? 'feedback-selected' : ''}`}
                     style={{
                       display: "flex",
                       alignItems: "center",
@@ -938,11 +939,11 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
                       background: userFeedback === 1 ? "#059669" : "#374151",
                       color: userFeedback === 1 ? "white" : "#d1d5db",
                       opacity: feedbackLoading ? 0.5 : 1,
-                      transition: "all 0.3s ease",
                       transform: userFeedback === 1 ? "scale(1.05)" : "scale(1)",
                       boxShadow: userFeedback === 1 ? "0 0 0 3px rgba(5, 150, 105, 0.2)" : "none",
                     }}
                     title={userFeedback === 1 ? "You liked this content! Click to remove rating." : "This content was helpful"}
+                    aria-label={userFeedback === 1 ? "Remove positive rating" : "Rate content as helpful"}
                   >
                     <ThumbUpIcon />
                     {userFeedback === 1 && <span style={{ fontSize: "0.625rem", marginLeft: "0.25rem" }}>Liked!</span>}
@@ -951,6 +952,7 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
                   <button
                     onClick={() => handleFeedback(-1)}
                     disabled={feedbackLoading}
+                    className={`feedback-button ${userFeedback === -1 ? 'feedback-selected' : ''}`}
                     style={{
                       display: "flex",
                       alignItems: "center",
@@ -963,11 +965,11 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
                       background: userFeedback === -1 ? "#dc2626" : "#374151",
                       color: userFeedback === -1 ? "white" : "#d1d5db",
                       opacity: feedbackLoading ? 0.5 : 1,
-                      transition: "all 0.3s ease",
                       transform: userFeedback === -1 ? "scale(1.05)" : "scale(1)",
                       boxShadow: userFeedback === -1 ? "0 0 0 3px rgba(220, 38, 38, 0.2)" : "none",
                     }}
                     title={userFeedback === -1 ? "You didn't like this content. Click to remove rating." : "This content needs improvement"}
+                    aria-label={userFeedback === -1 ? "Remove negative rating" : "Rate content as needing improvement"}
                   >
                     <ThumbDownIcon />
                     {userFeedback === -1 && <span style={{ fontSize: "0.625rem", marginLeft: "0.25rem" }}>Noted</span>}
@@ -986,16 +988,21 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
 
                 {/* Confirmation Message */}
                 {showConfirmation && (
-                  <div style={{
-                    padding: "0.5rem 0.75rem",
-                    backgroundColor: userFeedback === 1 ? "#dcfdf7" : "#fef2f2",
-                    border: `1px solid ${userFeedback === 1 ? "#059669" : "#dc2626"}`,
-                    borderRadius: "0.375rem",
-                    fontSize: "0.75rem",
-                    color: userFeedback === 1 ? "#065f46" : "#7f1d1d",
-                    animation: "fadeIn 0.3s ease-in",
-                    textAlign: "center" as const
-                  }}>
+                  <div
+                    className="feedback-confirmation"
+                    style={{
+                      padding: "0.5rem 0.75rem",
+                      backgroundColor: userFeedback === 1 ? "#dcfdf7" : "#fef2f2",
+                      border: `1px solid ${userFeedback === 1 ? "#059669" : "#dc2626"}`,
+                      borderRadius: "0.375rem",
+                      fontSize: "0.75rem",
+                      color: userFeedback === 1 ? "#065f46" : "#7f1d1d",
+                      textAlign: "center" as const,
+                      fontWeight: "500"
+                    }}
+                    role="alert"
+                    aria-live="polite"
+                  >
                     {confirmationMessage}
                   </div>
                 )}
