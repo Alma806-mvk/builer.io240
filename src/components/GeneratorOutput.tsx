@@ -119,6 +119,18 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
     displayedOutputItem?.firebase?.userFeedback?.comment || ''
   );
 
+  // Sync feedback state when displayedOutputItem changes
+  useEffect(() => {
+    if (displayedOutputItem?.firebase?.userFeedback) {
+      setUserFeedback(displayedOutputItem.firebase.userFeedback.rating);
+      setFeedbackComment(displayedOutputItem.firebase.userFeedback.comment || '');
+    } else {
+      setUserFeedback(null);
+      setFeedbackComment('');
+    }
+    setShowFeedbackComment(false); // Reset comment modal
+  }, [displayedOutputItem?.id, displayedOutputItem?.firebase?.userFeedback]);
+
   // Feedback handler functions
   const handleFeedback = async (rating: 'positive' | 'negative') => {
     if (!displayedOutputItem?.firebase?.generationId || !auth.currentUser) {
