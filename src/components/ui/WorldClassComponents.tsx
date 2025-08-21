@@ -385,6 +385,7 @@ interface EmptyStateProps {
   title: string;
   description: string;
   actionLabel?: string;
+  actionIcon?: ReactNode;
   onAction?: () => void;
   className?: string;
 }
@@ -394,6 +395,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   title,
   description,
   actionLabel,
+  actionIcon,
   onAction,
   className = ''
 }) => {
@@ -433,6 +435,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
             transition={{ duration: 0.5, delay: 0.4 }}
           >
             <Button variant="primary" onClick={onAction}>
+              {actionIcon && <span className="mr-2">{actionIcon}</span>}
               {actionLabel}
             </Button>
           </motion.div>

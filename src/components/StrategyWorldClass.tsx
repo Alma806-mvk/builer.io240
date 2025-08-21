@@ -153,6 +153,9 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
   const [strategyView, setStrategyView] = useState<'list' | 'details'>('list');
   const [editingGoal, setEditingGoal] = useState<string | null>(null);
   const [newGoalTitle, setNewGoalTitle] = useState("");
+  const [newGoalDescription, setNewGoalDescription] = useState("");
+  const [newGoalCategory, setNewGoalCategory] = useState<'strategy' | 'content' | 'growth' | 'engagement'>('strategy');
+  const [newGoalPriority, setNewGoalPriority] = useState<'low' | 'medium' | 'high'>('medium');
   const [showAddGoal, setShowAddGoal] = useState(false);
   const [showTemplatesModal, setShowTemplatesModal] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState<ContentTemplate | null>(null);
@@ -1358,7 +1361,7 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                   onClick={() => setShowAddGoal(true)}
                 >
                   <Plus className="w-4 h-4" />
-                  Create Strategy Plan
+                  Start from Scratch
                 </Button>
               </div>
             </div>
@@ -1373,26 +1376,87 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 >
                   <Card>
                     <h4 className="heading-4 mb-4">Create New Goal</h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <Input
-                        label="Goal Title"
-                        placeholder="e.g., Increase YouTube subscribers by 50K"
-                        value={newGoalTitle}
-                        onChange={setNewGoalTitle}
-                      />
-                      <div>
-                        <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
-                          Priority
-                        </label>
-                        <select className="input-base">
-                          <option value="high">High Priority</option>
-                          <option value="medium">Medium Priority</option>
-                          <option value="low">Low Priority</option>
-                        </select>
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <Input
+                          label="Goal Title"
+                          placeholder="e.g., Increase YouTube subscribers by 50K"
+                          value={newGoalTitle}
+                          onChange={setNewGoalTitle}
+                        />
+                        <div>
+                          <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
+                            Category
+                          </label>
+                          <select
+                            className="input-base"
+                            value={newGoalCategory}
+                            onChange={(e) => setNewGoalCategory(e.target.value as 'strategy' | 'content' | 'growth' | 'engagement')}
+                          >
+                            <option value="strategy">Strategy</option>
+                            <option value="content">Content</option>
+                            <option value="growth">Growth</option>
+                            <option value="engagement">Engagement</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <Input
+                          label="Description"
+                          placeholder="Describe your goal in detail..."
+                          value={newGoalDescription}
+                          onChange={setNewGoalDescription}
+                        />
+                        <div>
+                          <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
+                            Priority
+                          </label>
+                          <select
+                            className="input-base"
+                            value={newGoalPriority}
+                            onChange={(e) => setNewGoalPriority(e.target.value as 'low' | 'medium' | 'high')}
+                          >
+                            <option value="high">High Priority</option>
+                            <option value="medium">Medium Priority</option>
+                            <option value="low">Low Priority</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
                     <div className="flex items-center space-x-3 mt-4">
-                      <Button variant="primary">
+                      <Button
+                        variant="primary"
+                        onClick={async () => {
+                          if (!user || !newGoalTitle.trim()) return;
+
+                          try {
+                            const newGoal = {
+                              title: newGoalTitle.trim(),
+                              description: newGoalDescription.trim() || 'No description provided',
+                              category: newGoalCategory,
+                              priority: newGoalPriority,
+                              completed: false,
+                              progress: 0,
+                              createdAt: new Date().toISOString(),
+                              source: 'manual',
+                              dueDate: null
+                            };
+
+                            const savedGoal = await goalsService.saveGoal(user.uid, newGoal);
+                            setStrategyGoals(prev => [savedGoal, ...prev]);
+
+                            // Reset form
+                            setNewGoalTitle('');
+                            setNewGoalDescription('');
+                            setNewGoalCategory('strategy');
+                            setNewGoalPriority('medium');
+                            setShowAddGoal(false);
+                          } catch (error) {
+                            console.error('Failed to save goal:', error);
+                          }
+                        }}
+                        disabled={!newGoalTitle.trim()}
+                      >
                         <Save className="w-4 h-4" />
                         Save Goal
                       </Button>
@@ -1601,8 +1665,9 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 icon={<Layers className="w-8 h-8" />}
                 title="No Content Pillars Yet"
                 description="Create individual content pillars to build your content strategy foundation"
-                actionLabel="Start from Scratch"
-                onAction={() => setShowCreatePillar(true)}
+                actionLabel="Create Strategy Plan"
+                actionIcon={<Plus className="w-4 h-4" />}
+                onAction={() => setActiveSection("generated")}
               />
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -1748,8 +1813,9 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 icon={<Share2 className="w-8 h-8" />}
                 title="No Platform Strategies Yet"
                 description="Create platform-specific strategies to optimize your content for each social media platform"
-                actionLabel="Start from Scratch"
-                onAction={() => setShowCreatePlatformStrategy(true)}
+                actionLabel="Create Strategy Plan"
+                actionIcon={<Plus className="w-4 h-4" />}
+                onAction={() => setActiveSection("generated")}
               />
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -1892,8 +1958,9 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 icon={<Megaphone className="w-8 h-8" />}
                 title="No Campaign Strategies Yet"
                 description="Create campaign frameworks to organize and plan your marketing campaigns effectively"
-                actionLabel="Start from Scratch"
-                onAction={() => setShowCreateCampaign(true)}
+                actionLabel="Create Strategy Plan"
+                actionIcon={<Plus className="w-4 h-4" />}
+                onAction={() => setActiveSection("generated")}
               />
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -2051,8 +2118,9 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 icon={<BarChart3 className="w-8 h-8" />}
                 title="No Analytics Metrics Yet"
                 description="Create custom analytics metrics to track your content performance and strategy success"
-                actionLabel="Start from Scratch"
-                onAction={() => setShowCreateMetric(true)}
+                actionLabel="Create Strategy Plan"
+                actionIcon={<Plus className="w-4 h-4" />}
+                onAction={() => setActiveSection("generated")}
               />
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -2448,7 +2516,8 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 icon={<AlertTriangle className="w-8 h-8" />}
                 title="No Risk Management Plans Yet"
                 description="Generate content strategies and save risk management plans using the 3-dot menu on risk management sections."
-                actionLabel="Start from Scratch"
+                actionLabel="Create Strategy Plan"
+                actionIcon={<Plus className="w-4 h-4" />}
                 onAction={() => setActiveSection("generated")}
               />
             ) : (
@@ -2581,7 +2650,8 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 icon={<TrendingDown className="w-8 h-8" />}
                 title="No Competitor Analyses Yet"
                 description="Generate competitor analysis from content strategies to build your competitive intelligence"
-                actionLabel="Start from Scratch"
+                actionLabel="Create Strategy Plan"
+                actionIcon={<Plus className="w-4 h-4" />}
                 onAction={() => setActiveSection("generated")}
               />
             ) : (
