@@ -98,17 +98,27 @@ export class FirebaseIntegratedGenerationService {
       // Step 3: Save to Firebase if enabled and user is authenticated
       let savedToFirebase = false;
       let storageUrls: any = {};
-      
+
+      // Enhanced debugging for Firebase save process
+      console.log('🔍 Firebase Save Debug Info:', {
+        saveToFirebase: options.saveToFirebase,
+        userAuthenticated: !!auth.currentUser,
+        userEmail: auth.currentUser?.email,
+        offlineMode: localStorage.getItem("firebase_offline_mode"),
+        generationId: generationId
+      });
+
       if (options.saveToFirebase !== false && auth.currentUser) {
         try {
+          console.log('🚀 Attempting to save to Firebase...');
           const firebaseResult = await this.saveToFirebase(
-            generationResults, 
-            options, 
+            generationResults,
+            options,
             generationId
           );
           savedToFirebase = true;
           storageUrls = firebaseResult.storageUrls;
-          
+
           // Update HistoryItem with Firebase information
           historyItem.firebase = {
             generationId: firebaseResult.generationId,
@@ -117,14 +127,24 @@ export class FirebaseIntegratedGenerationService {
             savedToFirebase: true,
             lastSyncedAt: Date.now()
           };
-          
-          console.log('✅ Content saved to Firebase:', firebaseResult.generationId);
+
+          console.log('✅ Content saved to Firebase successfully:', {
+            generationId: firebaseResult.generationId,
+            storageUrls: firebaseResult.storageUrls
+          });
         } catch (firebaseError) {
+          console.error('❌ Firebase save failed with error:', firebaseError);
           console.warn('⚠️ Firebase save failed, continuing with local storage:', firebaseError);
           // Don't throw - generation succeeded even if Firebase save failed
         }
       } else {
-        console.log('⏭️ Skipping Firebase save (disabled or user not authenticated)');
+        if (!auth.currentUser) {
+          console.log('⏭️ Skipping Firebase save - User not authenticated');
+        } else if (options.saveToFirebase === false) {
+          console.log('⏭️ Skipping Firebase save - Disabled by options');
+        } else {
+          console.log('⏭️ Skipping Firebase save - Unknown reason');
+        }
       }
 
       const generationDuration = Date.now() - startTime;
