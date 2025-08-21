@@ -47,7 +47,7 @@ export interface FirebaseGenerationResult {
   // Core generation results
   textOutput?: GeneratedTextOutput;
   imageOutput?: GeneratedImageOutput;
-  
+
   // Firebase storage information
   generationId?: string;
   storageUrls?: {
@@ -55,13 +55,20 @@ export interface FirebaseGenerationResult {
     imageContent?: string;
     thumbnailContent?: string;
   };
-  
+
   // Enhanced HistoryItem with Firebase integration
   historyItem: HistoryItem;
-  
+
   // Generation metadata
   generationDuration: number;
   savedToFirebase: boolean;
+}
+
+// Legacy format result for App.tsx compatibility
+export interface LegacyGenerationResult {
+  text: string;
+  sources?: any[];
+  responseMimeType?: string;
 }
 
 export class FirebaseIntegratedGenerationService {
