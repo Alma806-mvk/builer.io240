@@ -119,6 +119,74 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
     displayedOutputItem?.firebase?.userFeedback?.comment || ''
   );
 
+  // Feedback handler functions
+  const handleFeedback = async (rating: 'positive' | 'negative') => {
+    if (!displayedOutputItem?.firebase?.generationId || !auth.currentUser) {
+      console.warn('Cannot save feedback: missing generation ID or user not authenticated');
+      return;
+    }
+
+    setFeedbackLoading(true);
+    try {
+      await firebaseIntegratedGenerationService.saveFeedback(
+        displayedOutputItem.firebase.generationId,
+        {
+          rating,
+          comment: feedbackComment.trim() || undefined
+        }
+      );
+
+      setUserFeedback(rating);
+      console.log('✅ Feedback saved successfully');
+
+      // If negative feedback, show comment input
+      if (rating === 'negative' && !feedbackComment.trim()) {
+        setShowFeedbackComment(true);
+      }
+    } catch (error) {
+      console.error('❌ Failed to save feedback:', error);
+      // Could show a toast notification here
+    } finally {
+      setFeedbackLoading(false);
+    }
+  };
+
+  const saveFeedbackComment = async () => {
+    if (!displayedOutputItem?.firebase?.generationId || !auth.currentUser || !userFeedback) {
+      return;
+    }
+
+    setFeedbackLoading(true);
+    try {
+      await firebaseIntegratedGenerationService.saveFeedback(
+        displayedOutputItem.firebase.generationId,
+        {
+          rating: userFeedback,
+          comment: feedbackComment.trim() || undefined
+        }
+      );
+      setShowFeedbackComment(false);
+      console.log('✅ Feedback comment saved successfully');
+    } catch (error) {
+      console.error('❌ Failed to save feedback comment:', error);
+    } finally {
+      setFeedbackLoading(false);
+    }
+  };
+
+  // Thumb icons (using simple SVG)
+  const ThumbUpIcon = ({ className = "" }) => (
+    <svg className={className} width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M14.828 12l2.828 2.828-1.414 1.414L12 12l4.242-4.242 1.414 1.414L14.828 12zM10 7V4a2 2 0 00-2-2H6v2h2v3H4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2v-8a2 2 0 00-2-2h-4z"/>
+    </svg>
+  );
+
+  const ThumbDownIcon = ({ className = "" }) => (
+    <svg className={className} width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M9.172 12L6.344 9.172l1.414-1.414L12 12l-4.242 4.242-1.414-1.414L9.172 12zM14 17v3a2 2 0 002 2h2v-2h-2v-3h4a2 2 0 002-2V7a2 2 0 00-2-2H8a2 2 0 00-2 2v8a2 2 0 002 2h4z"/>
+    </svg>
+  );
+
   const getSendToCanvasOptions = () => {
     if (!displayedOutputItem?.output) return null;
 
@@ -312,7 +380,7 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
         );
         if (ctaMatch) {
           options.push({
-            label: "📢 CTA Only",
+            label: "���� CTA Only",
             content: ctaMatch[1].trim(),
             title: "Script - CTA",
           });
