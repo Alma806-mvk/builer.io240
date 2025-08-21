@@ -515,53 +515,94 @@ export const GenerationHandlers: React.FC<GenerationHandlersProps> = ({
           }
           setIsGeneratingStrategy(false);
         } else {
-          // Handle other content types
-          let result;
+          // Handle other content types using Firebase integrated service
           try {
-            result = await generateTextContent(textGenOptions);
-          } catch (apiError: any) {
-            if (
-              apiError.message?.includes("INVALID_API_KEY") ||
-              apiError.message?.includes("overloaded") ||
-              apiError.message?.includes("503") ||
-              apiError.message?.includes("UNAVAILABLE") ||
-              apiError.message?.includes("body stream already read") ||
-              (apiError.code &&
-                (apiError.code === 503 || apiError.code === 429)) ||
-              (apiError.status &&
-                (apiError.status === "UNAVAILABLE" ||
-                  apiError.status === "RESOURCE_EXHAUSTED"))
-            ) {
-              console.warn(
-                `API error detected (${apiError.message || apiError.code || apiError.status}), using fallback content`,
-              );
-              result = generateMockContent(
-                effectiveContentType,
-                effectiveUserInput,
-                platform,
-              );
+            console.log('🔥 Using Firebase integrated generation service');
+
+            // Convert textGenOptions to Firebase service format
+            const firebaseOptions = {
+              userInput: textGenOptions.userInput,
+              platform: textGenOptions.platform,
+              contentType: textGenOptions.contentType,
+              targetAudience: textGenOptions.targetAudience,
+              batchVariations: textGenOptions.batchVariations,
+              aiPersona: textGenOptions.aiPersonaDef,
+              aiPersonaId: selectedAiPersona?.id,
+              targetLanguage: textGenOptions.targetLanguage,
+              videoLength: textGenOptions.videoLength,
+              seoKeywords: textGenOptions.seoKeywords,
+              seoMode: textGenOptions.seoMode,
+              aspectRatioGuidance: textGenOptions.aspectRatioGuidance,
+              saveToFirebase: true, // Enable Firebase storage
+            };
+
+            const firebaseResult = await firebaseIntegratedGenerationService.generateContentWithFirebaseStorage(firebaseOptions);
+
+            // Extract the generated content from Firebase result
+            if (firebaseResult.textOutput) {
+              finalOutputForDisplay = firebaseResult.textOutput;
+            } else if (firebaseResult.imageOutput) {
+              finalOutputForDisplay = firebaseResult.imageOutput;
+            }
+
+            // Log Firebase storage status
+            if (firebaseResult.savedToFirebase) {
+              console.log('✅ Content saved to Firebase with ID:', firebaseResult.generationId);
             } else {
-              throw apiError;
+              console.log('⚠�� Content generated but not saved to Firebase');
             }
-          }
 
-          text = result.text;
-          sources = result.sources;
+          } catch (apiError: any) {
+            console.warn('❌ Firebase integrated generation failed, falling back to direct service:', apiError);
 
-          // Parse different response types
-          if (result.responseMimeType === "application/json") {
-            // Handle JSON responses
-            const parsed = parseJsonSafely(text);
-            if (parsed) {
-              finalOutputForDisplay = parsed;
+            // Fallback to direct service call
+            let result;
+            try {
+              result = await generateTextContent(textGenOptions);
+            } catch (fallbackError: any) {
+              if (
+                fallbackError.message?.includes("INVALID_API_KEY") ||
+                fallbackError.message?.includes("overloaded") ||
+                fallbackError.message?.includes("503") ||
+                fallbackError.message?.includes("UNAVAILABLE") ||
+                fallbackError.message?.includes("body stream already read") ||
+                (fallbackError.code &&
+                  (fallbackError.code === 503 || fallbackError.code === 429)) ||
+                (fallbackError.status &&
+                  (fallbackError.status === "UNAVAILABLE" ||
+                    fallbackError.status === "RESOURCE_EXHAUSTED"))
+              ) {
+                console.warn(
+                  `API error detected (${fallbackError.message || fallbackError.code || fallbackError.status}), using fallback content`,
+                );
+                result = generateMockContent(
+                  effectiveContentType,
+                  effectiveUserInput,
+                  platform,
+                );
+              } else {
+                throw fallbackError;
+              }
             }
-          } else {
-            // Handle text responses
-            finalOutputForDisplay = {
-              type: "text",
-              content: text,
-              groundingSources: sources,
-            } as GeneratedTextOutput;
+
+            text = result.text;
+            sources = result.sources;
+
+            // Parse different response types
+            if (result.responseMimeType === "application/json") {
+              // Handle JSON responses
+              const parsed = parseJsonSafely(text);
+              if (parsed) {
+                finalOutputForDisplay = parsed;
+              }
+            } else {
+              // Handle text responses
+              finalOutputForDisplay = {
+                type: "text",
+                content: text,
+                groundingSources: sources,
+              } as GeneratedTextOutput;
+            }
           }
         }
 
