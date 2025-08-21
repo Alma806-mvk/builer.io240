@@ -2408,6 +2408,33 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 <Badge variant="secondary" className="text-xs">
                   {savedRiskManagementItems.length} saved
                 </Badge>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={async () => {
+                    if (!user) return;
+                    try {
+                      setRiskManagementLoading(true);
+                      const items = await riskManagementService.getUserRiskManagementItems(user.uid);
+                      setSavedRiskManagementItems(items);
+                    } catch (error) {
+                      console.error('Failed to refresh risk management items:', error);
+                    } finally {
+                      setRiskManagementLoading(false);
+                    }
+                  }}
+                  disabled={riskManagementLoading}
+                >
+                  <RefreshCw className={`w-4 h-4 ${riskManagementLoading ? 'animate-spin' : ''}`} />
+                  Refresh
+                </Button>
+                <Button
+                  variant="primary"
+                  onClick={() => setActiveSection("generated")}
+                >
+                  <Plus className="w-4 h-4" />
+                  Start from Scratch
+                </Button>
               </div>
             </div>
 
