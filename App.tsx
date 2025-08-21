@@ -2485,26 +2485,18 @@ export const App = ({
           setStrategyError(null);
           let strategyResult;
           try {
-            console.log("🚀 Starting strategy generation with Firebase service...");
+            console.log("🚀 Starting strategy generation with Firebase wrapper...");
             console.log("����� Strategy config:", currentActionParams.strategyConfig);
 
-            const firebaseResult = await firebaseIntegratedGenerationService.generateContentWithFirebaseStorage({
-              userInput: currentActionParams.strategyConfig.niche,
+            strategyResult = await firebaseIntegratedGenerationService.generateTextContentWithFirebaseBackgroundSave({
               platform,
               contentType: ContentType.ContentStrategyPlan,
-              aiPersona: currentPersonaDef,
-              saveToFirebase: true,
+              userInput: currentActionParams.strategyConfig.niche,
+              aiPersonaDef: currentPersonaDef,
+              strategyInputs: currentActionParams.strategyConfig,
             });
 
-            strategyResult = {
-              text: firebaseResult.textOutput?.content || '',
-              responseMimeType: 'application/json',
-            };
-
-            console.log("✅ Firebase strategy generation completed");
-            if (firebaseResult.savedToFirebase) {
-              console.log('✅ Strategy saved to Firebase with ID:', firebaseResult.generationId);
-            }
+            console.log("✅ Strategy generation completed with Firebase save");
           } catch (apiError: any) {
             console.error("❌ Strategy plan generation error:", apiError);
             if (
@@ -9500,7 +9492,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 <option value="testing">���� Testing</option>
                 <option value="done">���� Done</option>
                 <option value="blocked">✗ Blocked</option>
-                <option value="archived">����� Archived</option>
+                <option value="archived">���� Archived</option>
               </select>
             </div>
 
@@ -9522,7 +9514,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
               >
                 <option value="low">⬇ Low</option>
                 <option value="medium">➡ Medium</option>
-                <option value="high">⬆�� High</option>
+                <option value="high">⬆���� High</option>
                 <option value="urgent">!! Urgent</option>
                 <option value="critical">!!! Critical</option>
               </select>
@@ -20313,7 +20305,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                           {[
                             { icon: "🎨", label: "Colors" },
                             { icon: "����", label: "Text" },
-                            { icon: "��������", label: "Images" },
+                            { icon: "������", label: "Images" },
                             { icon: "���", label: "Effects" },
                             { icon: "����", label: "Guides" },
                           ].map((tool, index) => (
