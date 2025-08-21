@@ -227,9 +227,9 @@ export class FirebaseIntegratedGenerationService {
    * Save user feedback for a generation
    */
   async saveFeedback(
-    generationId: string, 
+    generationId: string,
     feedback: {
-      rating: 'positive' | 'negative';
+      rating: -1 | 0 | 1; // -1 = negative, 0 = neutral/no rating, 1 = positive
       comment?: string;
     }
   ): Promise<void> {
