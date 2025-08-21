@@ -3296,6 +3296,544 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Content Pillar Creation Modal */}
+      <AnimatePresence>
+        {showCreatePillar && (
+          <motion.div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowCreatePillar(false)}
+          >
+            <motion.div
+              className="bg-[var(--card-background)] border border-[var(--border-primary)] rounded-xl p-6 w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="heading-4 flex items-center space-x-2">
+                  <Layers className="w-5 h-5" />
+                  <span>Create Content Pillar</span>
+                </h3>
+                <Button variant="ghost" size="sm" onClick={() => setShowCreatePillar(false)}>
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Pillar Name *
+                  </label>
+                  <Input
+                    value={newPillar.name}
+                    onChange={(e) => setNewPillar(prev => ({ ...prev, name: e.target.value }))}
+                    placeholder="e.g., Educational Content, Behind the Scenes..."
+                    className="w-full"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Description
+                  </label>
+                  <Input
+                    value={newPillar.description}
+                    onChange={(e) => setNewPillar(prev => ({ ...prev, description: e.target.value }))}
+                    placeholder="Describe what this pillar covers..."
+                    className="w-full"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                      Color
+                    </label>
+                    <input
+                      type="color"
+                      value={newPillar.color}
+                      onChange={(e) => setNewPillar(prev => ({ ...prev, color: e.target.value }))}
+                      className="w-full h-10 rounded-lg border border-[var(--border-primary)] cursor-pointer"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                      Percentage (%)
+                    </label>
+                    <Input
+                      type="number"
+                      min="1"
+                      max="100"
+                      value={newPillar.percentage}
+                      onChange={(e) => setNewPillar(prev => ({ ...prev, percentage: parseInt(e.target.value) || 25 }))}
+                      className="w-full"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Group
+                  </label>
+                  <select
+                    value={newPillar.group}
+                    onChange={(e) => setNewPillar(prev => ({ ...prev, group: e.target.value }))}
+                    className="w-full p-2 border border-[var(--border-primary)] rounded-lg bg-[var(--surface-secondary)] text-[var(--text-primary)]"
+                  >
+                    {availableGroups.filter(g => g !== 'All').map(group => (
+                      <option key={group} value={group}>{group}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="flex items-center justify-end space-x-3">
+                  <Button variant="ghost" onClick={() => setShowCreatePillar(false)}>
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="primary"
+                    onClick={handleSavePillar}
+                    disabled={!newPillar.name.trim()}
+                  >
+                    Create Pillar
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Platform Strategy Creation Modal */}
+      <AnimatePresence>
+        {showCreatePlatformStrategy && (
+          <motion.div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowCreatePlatformStrategy(false)}
+          >
+            <motion.div
+              className="bg-[var(--card-background)] border border-[var(--border-primary)] rounded-xl p-6 w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="heading-4 flex items-center space-x-2">
+                  <Share2 className="w-5 h-5" />
+                  <span>Create Platform Strategy</span>
+                </h3>
+                <Button variant="ghost" size="sm" onClick={() => setShowCreatePlatformStrategy(false)}>
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Platform *
+                  </label>
+                  <select
+                    value={newPlatformStrategy.platform}
+                    onChange={(e) => setNewPlatformStrategy(prev => ({ ...prev, platform: e.target.value }))}
+                    className="w-full p-2 border border-[var(--border-primary)] rounded-lg bg-[var(--surface-secondary)] text-[var(--text-primary)]"
+                  >
+                    <option value="">Select a platform...</option>
+                    <option value="Instagram">Instagram</option>
+                    <option value="TikTok">TikTok</option>
+                    <option value="YouTube">YouTube</option>
+                    <option value="LinkedIn">LinkedIn</option>
+                    <option value="Twitter">Twitter</option>
+                    <option value="Facebook">Facebook</option>
+                    <option value="Pinterest">Pinterest</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Focus Area
+                  </label>
+                  <Input
+                    value={newPlatformStrategy.focus}
+                    onChange={(e) => setNewPlatformStrategy(prev => ({ ...prev, focus: e.target.value }))}
+                    placeholder="e.g., Brand awareness, Lead generation..."
+                    className="w-full"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Posting Frequency
+                  </label>
+                  <select
+                    value={newPlatformStrategy.postingFrequency}
+                    onChange={(e) => setNewPlatformStrategy(prev => ({ ...prev, postingFrequency: e.target.value }))}
+                    className="w-full p-2 border border-[var(--border-primary)] rounded-lg bg-[var(--surface-secondary)] text-[var(--text-primary)]"
+                  >
+                    <option value="">Select frequency...</option>
+                    <option value="Daily">Daily</option>
+                    <option value="3-4x/week">3-4x per week</option>
+                    <option value="2-3x/week">2-3x per week</option>
+                    <option value="Weekly">Weekly</option>
+                    <option value="Bi-weekly">Bi-weekly</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Engagement Strategy
+                  </label>
+                  <Input
+                    value={newPlatformStrategy.engagementStrategy}
+                    onChange={(e) => setNewPlatformStrategy(prev => ({ ...prev, engagementStrategy: e.target.value }))}
+                    placeholder="How will you engage your audience..."
+                    className="w-full"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Target Audience
+                  </label>
+                  <Input
+                    value={newPlatformStrategy.audienceTargeting}
+                    onChange={(e) => setNewPlatformStrategy(prev => ({ ...prev, audienceTargeting: e.target.value }))}
+                    placeholder="Describe your target audience..."
+                    className="w-full"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Group
+                  </label>
+                  <select
+                    value={newPlatformStrategy.group}
+                    onChange={(e) => setNewPlatformStrategy(prev => ({ ...prev, group: e.target.value }))}
+                    className="w-full p-2 border border-[var(--border-primary)] rounded-lg bg-[var(--surface-secondary)] text-[var(--text-primary)]"
+                  >
+                    {availableGroups.filter(g => g !== 'All').map(group => (
+                      <option key={group} value={group}>{group}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="flex items-center justify-end space-x-3">
+                  <Button variant="ghost" onClick={() => setShowCreatePlatformStrategy(false)}>
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="primary"
+                    onClick={handleSavePlatformStrategy}
+                    disabled={!newPlatformStrategy.platform.trim()}
+                  >
+                    Create Strategy
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Campaign Strategy Creation Modal */}
+      <AnimatePresence>
+        {showCreateCampaign && (
+          <motion.div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowCreateCampaign(false)}
+          >
+            <motion.div
+              className="bg-[var(--card-background)] border border-[var(--border-primary)] rounded-xl p-6 w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="heading-4 flex items-center space-x-2">
+                  <Megaphone className="w-5 h-5" />
+                  <span>Create Campaign Strategy</span>
+                </h3>
+                <Button variant="ghost" size="sm" onClick={() => setShowCreateCampaign(false)}>
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Campaign Name *
+                  </label>
+                  <Input
+                    value={newCampaign.name}
+                    onChange={(e) => setNewCampaign(prev => ({ ...prev, name: e.target.value }))}
+                    placeholder="e.g., Summer Product Launch..."
+                    className="w-full"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Campaign Type
+                  </label>
+                  <select
+                    value={newCampaign.type}
+                    onChange={(e) => setNewCampaign(prev => ({ ...prev, type: e.target.value }))}
+                    className="w-full p-2 border border-[var(--border-primary)] rounded-lg bg-[var(--surface-secondary)] text-[var(--text-primary)]"
+                  >
+                    <option value="">Select type...</option>
+                    <option value="Product Launch">Product Launch</option>
+                    <option value="Brand Awareness">Brand Awareness</option>
+                    <option value="Lead Generation">Lead Generation</option>
+                    <option value="Seasonal">Seasonal</option>
+                    <option value="Event Promotion">Event Promotion</option>
+                    <option value="User Generated Content">User Generated Content</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Description
+                  </label>
+                  <Input
+                    value={newCampaign.description}
+                    onChange={(e) => setNewCampaign(prev => ({ ...prev, description: e.target.value }))}
+                    placeholder="Brief description of the campaign..."
+                    className="w-full"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                      Start Date
+                    </label>
+                    <Input
+                      type="date"
+                      value={newCampaign.startDate}
+                      onChange={(e) => setNewCampaign(prev => ({ ...prev, startDate: e.target.value }))}
+                      className="w-full"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                      End Date
+                    </label>
+                    <Input
+                      type="date"
+                      value={newCampaign.endDate}
+                      onChange={(e) => setNewCampaign(prev => ({ ...prev, endDate: e.target.value }))}
+                      className="w-full"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Budget
+                  </label>
+                  <select
+                    value={newCampaign.budget}
+                    onChange={(e) => setNewCampaign(prev => ({ ...prev, budget: e.target.value }))}
+                    className="w-full p-2 border border-[var(--border-primary)] rounded-lg bg-[var(--surface-secondary)] text-[var(--text-primary)]"
+                  >
+                    <option value="">Select budget range...</option>
+                    <option value="Under $1,000">Under $1,000</option>
+                    <option value="$1,000 - $5,000">$1,000 - $5,000</option>
+                    <option value="$5,000 - $10,000">$5,000 - $10,000</option>
+                    <option value="$10,000+">$10,000+</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Target Audience
+                  </label>
+                  <Input
+                    value={newCampaign.targetAudience}
+                    onChange={(e) => setNewCampaign(prev => ({ ...prev, targetAudience: e.target.value }))}
+                    placeholder="Who is this campaign targeting..."
+                    className="w-full"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Group
+                  </label>
+                  <select
+                    value={newCampaign.group}
+                    onChange={(e) => setNewCampaign(prev => ({ ...prev, group: e.target.value }))}
+                    className="w-full p-2 border border-[var(--border-primary)] rounded-lg bg-[var(--surface-secondary)] text-[var(--text-primary)]"
+                  >
+                    {availableGroups.filter(g => g !== 'All').map(group => (
+                      <option key={group} value={group}>{group}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="flex items-center justify-end space-x-3">
+                  <Button variant="ghost" onClick={() => setShowCreateCampaign(false)}>
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="primary"
+                    onClick={handleSaveCampaign}
+                    disabled={!newCampaign.name.trim()}
+                  >
+                    Create Campaign
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Analytics Metric Creation Modal */}
+      <AnimatePresence>
+        {showCreateMetric && (
+          <motion.div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowCreateMetric(false)}
+          >
+            <motion.div
+              className="bg-[var(--card-background)] border border-[var(--border-primary)] rounded-xl p-6 w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="heading-4 flex items-center space-x-2">
+                  <BarChart3 className="w-5 h-5" />
+                  <span>Create Analytics Metric</span>
+                </h3>
+                <Button variant="ghost" size="sm" onClick={() => setShowCreateMetric(false)}>
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Metric Title *
+                  </label>
+                  <Input
+                    value={newMetric.title}
+                    onChange={(e) => setNewMetric(prev => ({ ...prev, title: e.target.value }))}
+                    placeholder="e.g., Monthly Engagement Rate..."
+                    className="w-full"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Description
+                  </label>
+                  <Input
+                    value={newMetric.description}
+                    onChange={(e) => setNewMetric(prev => ({ ...prev, description: e.target.value }))}
+                    placeholder="What does this metric measure..."
+                    className="w-full"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                      Type
+                    </label>
+                    <select
+                      value={newMetric.type}
+                      onChange={(e) => setNewMetric(prev => ({ ...prev, type: e.target.value as 'primary' | 'advanced' }))}
+                      className="w-full p-2 border border-[var(--border-primary)] rounded-lg bg-[var(--surface-secondary)] text-[var(--text-primary)]"
+                    >
+                      <option value="primary">Primary</option>
+                      <option value="advanced">Advanced</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                      Category
+                    </label>
+                    <select
+                      value={newMetric.category}
+                      onChange={(e) => setNewMetric(prev => ({ ...prev, category: e.target.value }))}
+                      className="w-full p-2 border border-[var(--border-primary)] rounded-lg bg-[var(--surface-secondary)] text-[var(--text-primary)]"
+                    >
+                      <option value="">Select category...</option>
+                      <option value="Engagement">Engagement</option>
+                      <option value="Reach">Reach</option>
+                      <option value="Conversion">Conversion</option>
+                      <option value="Growth">Growth</option>
+                      <option value="Revenue">Revenue</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Target/Goal
+                  </label>
+                  <Input
+                    value={newMetric.target}
+                    onChange={(e) => setNewMetric(prev => ({ ...prev, target: e.target.value }))}
+                    placeholder="e.g., 5%, 1000 followers, $10,000..."
+                    className="w-full"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Group
+                  </label>
+                  <select
+                    value={newMetric.group}
+                    onChange={(e) => setNewMetric(prev => ({ ...prev, group: e.target.value }))}
+                    className="w-full p-2 border border-[var(--border-primary)] rounded-lg bg-[var(--surface-secondary)] text-[var(--text-primary)]"
+                  >
+                    {availableGroups.filter(g => g !== 'All').map(group => (
+                      <option key={group} value={group}>{group}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="flex items-center justify-end space-x-3">
+                  <Button variant="ghost" onClick={() => setShowCreateMetric(false)}>
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="primary"
+                    onClick={handleSaveMetric}
+                    disabled={!newMetric.title.trim()}
+                  >
+                    Create Metric
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
