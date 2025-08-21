@@ -432,6 +432,28 @@ export interface HistoryItem {
   targetLanguage?: Language;
   videoLength?: string; // For script generation
   customVideoLength?: string; // Custom video length input
+
+  // Firebase Storage Integration
+  firebase?: {
+    generationId?: string; // Reference to GenerationRecord in Firestore
+    storageUrls?: {
+      textContent?: string;
+      imageContent?: string;
+      thumbnailContent?: string;
+    };
+    storagePaths?: {
+      textContent?: string;
+      imageContent?: string;
+      thumbnailContent?: string;
+    };
+    userFeedback?: {
+      rating: 'positive' | 'negative';
+      timestamp: number;
+      comment?: string;
+    };
+    savedToFirebase?: boolean;
+    lastSyncedAt?: number;
+  };
 }
 
 export interface PromptTemplate {
