@@ -380,7 +380,7 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
         );
         if (ctaMatch) {
           options.push({
-            label: "���� CTA Only",
+            label: "📢 CTA Only",
             content: ctaMatch[1].trim(),
             title: "Script - CTA",
           });
@@ -862,7 +862,7 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
             gap: "1rem",
           }}
         >
-          <div style={{ display: "flex", gap: "0.75rem" }}>
+          <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
             <button
               onClick={() => onCopyToClipboard()}
               style={{
@@ -884,6 +884,65 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
               />
               {copied ? "Copied!" : "Copy"}
             </button>
+
+            {/* Firebase Feedback Buttons - Only show if user is authenticated and content is saved to Firebase */}
+            {auth.currentUser && displayedOutputItem?.firebase?.generationId && (
+              <div style={{ display: "flex", gap: "0.25rem", alignItems: "center" }}>
+                <button
+                  onClick={() => handleFeedback('positive')}
+                  disabled={feedbackLoading}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.25rem",
+                    padding: "0.5rem",
+                    borderRadius: "0.375rem",
+                    fontSize: "0.75rem",
+                    cursor: feedbackLoading ? "not-allowed" : "pointer",
+                    border: "1px solid #374151",
+                    background: userFeedback === 'positive' ? "#059669" : "#374151",
+                    color: userFeedback === 'positive' ? "white" : "#d1d5db",
+                    opacity: feedbackLoading ? 0.5 : 1,
+                    transition: "all 0.2s",
+                  }}
+                  title="This content was helpful"
+                >
+                  <ThumbUpIcon />
+                </button>
+
+                <button
+                  onClick={() => handleFeedback('negative')}
+                  disabled={feedbackLoading}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.25rem",
+                    padding: "0.5rem",
+                    borderRadius: "0.375rem",
+                    fontSize: "0.75rem",
+                    cursor: feedbackLoading ? "not-allowed" : "pointer",
+                    border: "1px solid #374151",
+                    background: userFeedback === 'negative' ? "#dc2626" : "#374151",
+                    color: userFeedback === 'negative' ? "white" : "#d1d5db",
+                    opacity: feedbackLoading ? 0.5 : 1,
+                    transition: "all 0.2s",
+                  }}
+                  title="This content needs improvement"
+                >
+                  <ThumbDownIcon />
+                </button>
+
+                {userFeedback && (
+                  <span style={{
+                    fontSize: "0.625rem",
+                    color: "#94a3b8",
+                    marginLeft: "0.25rem"
+                  }}>
+                    {userFeedback === 'positive' ? 'Thanks!' : 'Noted'}
+                  </span>
+                )}
+              </div>
+            )}
 
             {/* Magic Select Toggle */}
             <MagicSelectToggle
