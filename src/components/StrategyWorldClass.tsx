@@ -195,6 +195,48 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
   const [showCreateCampaign, setShowCreateCampaign] = useState(false);
   const [showCreateMetric, setShowCreateMetric] = useState(false);
 
+  // Form states for creation
+  const [newPillar, setNewPillar] = useState({
+    name: '',
+    description: '',
+    color: '#3b82f6',
+    percentage: 25,
+    topics: [] as string[],
+    group: 'Ungrouped'
+  });
+  const [newPlatformStrategy, setNewPlatformStrategy] = useState({
+    platform: '',
+    focus: '',
+    contentTypes: [] as string[],
+    postingFrequency: '',
+    bestTimes: [] as string[],
+    engagementStrategy: '',
+    monetizationApproach: '',
+    keyMetrics: [] as string[],
+    audienceTargeting: '',
+    group: 'Ungrouped'
+  });
+  const [newCampaign, setNewCampaign] = useState({
+    name: '',
+    type: '',
+    description: '',
+    startDate: '',
+    endDate: '',
+    budget: '',
+    targetAudience: '',
+    channels: [] as string[],
+    goals: [] as string[],
+    group: 'Ungrouped'
+  });
+  const [newMetric, setNewMetric] = useState({
+    title: '',
+    description: '',
+    type: 'primary' as 'primary' | 'advanced',
+    category: '',
+    target: '',
+    group: 'Ungrouped'
+  });
+
   const { user } = useAuth();
 
   // Group management functions
