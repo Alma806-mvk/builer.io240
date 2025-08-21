@@ -95,9 +95,9 @@ export class GenerationStorageService {
   /**
    * Save a new generation record to Firestore
    */
-  async saveGeneration(record: Omit<GenerationRecord, 'id' | 'userId' | 'timestamp'>): Promise<string> {
+  async saveGeneration(record: Omit<GenerationRecord, 'id' | 'userId' | 'timestamp'>, providedGenerationId?: string): Promise<string> {
     const userId = this.getCurrentUserId();
-    const generationId = `gen_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const generationId = providedGenerationId || `gen_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
     console.log('🔍 Generation Storage Debug:', {
       userId,
