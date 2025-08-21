@@ -18,7 +18,6 @@ import AppNotifications from "./src/utils/appNotifications";
 import "./src/utils/appHealthMonitor";
 import FirebaseErrorBoundary from "./src/components/FirebaseErrorBoundary";
 import { initializeEmojiRuntimeFixer } from "./src/utils/emojiRuntimeFixer";
-import { FirebaseTestPanel } from "./src/components/FirebaseTestPanel";
 
 // Import types and constants from centralized location
 import {
@@ -16622,7 +16621,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                     {
                       name: "Minimal",
                       color: "#ffffff",
-                      emoji: "�����",
+                      emoji: "�������",
                       bg: "from-slate-400 to-slate-500",
                       description: "Clean and simple design",
                       applyPreset: () => ({
@@ -18363,7 +18362,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                         desc: "Smart suggestions for colors, text placement, and visual hierarchy",
                       },
                       {
-                        icon: "🎨",
+                        icon: "����",
                         title: "Professional Templates",
                         desc: "100+ proven high-CTR thumbnail designs across niches",
                       },
