@@ -2759,23 +2759,15 @@ export const App = ({
               throw new Error('INVALID_API_KEY: Gemini API key is not configured');
             }
 
-            console.log('🔥 Using Firebase service for trend analysis');
-            const firebaseResult = await firebaseIntegratedGenerationService.generateContentWithFirebaseStorage({
-              userInput: currentActionParams.trendAnalysisConfig.nicheQuery,
+            console.log('🔥 Using Firebase wrapper for trend analysis');
+            result = await firebaseIntegratedGenerationService.generateTextContentWithFirebaseBackgroundSave({
               platform,
               contentType: ContentType.TrendAnalysis,
-              aiPersona: currentPersonaDef,
-              saveToFirebase: true,
+              userInput: currentActionParams.trendAnalysisConfig.nicheQuery,
+              aiPersonaDef: currentPersonaDef,
+              nicheForTrends: currentActionParams.trendAnalysisConfig.nicheQuery,
+              trendFilters: currentActionParams.trendAnalysisConfig.filters,
             });
-
-            result = {
-              text: firebaseResult.textOutput?.content || '',
-              sources: firebaseResult.textOutput?.groundingSources,
-            };
-
-            if (firebaseResult.savedToFirebase) {
-              console.log('✅ Trend analysis saved to Firebase with ID:', firebaseResult.generationId);
-            }
 
             console.log('✅ Successfully generated real trend analysis');
           } catch (apiError: any) {
@@ -4653,7 +4645,7 @@ ${strategyPlan.seoStrategy.primaryKeywords.join(", ")}
 ����������������� KEY CTAs:
 ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
 
-��� Full strategy plan available in Strategy tab`;
+���� Full strategy plan available in Strategy tab`;
 
       const newCanvasItem: CanvasItem = {
         id: newId,
@@ -8789,7 +8781,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                   "���",
                   "����������",
                   "��������",
-                  "��",
+                  "����",
                   "⚡",
                   "��",
                   "💫",
@@ -9514,7 +9506,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
               >
                 <option value="low">⬇ Low</option>
                 <option value="medium">➡ Medium</option>
-                <option value="high">⬆���� High</option>
+                <option value="high">⬆�� High</option>
                 <option value="urgent">!! Urgent</option>
                 <option value="critical">!!! Critical</option>
               </select>
@@ -12678,7 +12670,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
           onMouseDown={(e) => handleCanvasItemMouseDown(e, canvasItem.id)}
           onClick={() => setSelectedCanvasItemId(canvasItem.id)}
         >
-          <div style={{ fontSize: "24px", marginBottom: "8px" }}>��������������</div>
+          <div style={{ fontSize: "24px", marginBottom: "8px" }}>���������������</div>
           <div style={{ fontSize: "12px", fontWeight: "bold" }}>
             {canvasItem.embedType || "Embed"} Content
           </div>
@@ -18662,7 +18654,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                       <span>��️</span> Smart Background Removal
                     </span>
                     <span className="flex items-center gap-2">
-                      <span>����</span> Cloud Save & Sync
+                      <span>�����</span> Cloud Save & Sync
                     </span>
                     <span className="flex items-center gap-2">
                       <span>📱</span> Mobile Preview
