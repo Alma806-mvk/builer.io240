@@ -1411,6 +1411,129 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
           </div>
         </div>
       )}
+
+      {/* Feedback Comment Modal */}
+      {showFeedbackComment && userFeedback === 'negative' && auth.currentUser && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: "rgba(0, 0, 0, 0.75)",
+            zIndex: 9999,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "1rem",
+          }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setShowFeedbackComment(false);
+            }
+          }}
+        >
+          <div
+            style={{
+              background: "#1e293b",
+              borderRadius: "0.5rem",
+              border: "1px solid #334155",
+              padding: "1.5rem",
+              maxWidth: "500px",
+              width: "100%",
+              maxHeight: "400px",
+              overflowY: "auto",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3
+              style={{
+                margin: "0 0 1rem 0",
+                fontSize: "1.125rem",
+                fontWeight: "600",
+                color: "#f1f5f9",
+              }}
+            >
+              Help us improve
+            </h3>
+            <p
+              style={{
+                margin: "0 0 1rem 0",
+                fontSize: "0.875rem",
+                color: "#94a3b8",
+                lineHeight: "1.5",
+              }}
+            >
+              What could be better about this generated content? Your feedback helps improve our AI.
+            </p>
+
+            <textarea
+              value={feedbackComment}
+              onChange={(e) => setFeedbackComment(e.target.value)}
+              placeholder="Tell us what could be improved..."
+              style={{
+                width: "100%",
+                minHeight: "100px",
+                padding: "0.75rem",
+                borderRadius: "0.375rem",
+                border: "1px solid #374151",
+                background: "#0f172a",
+                color: "#f1f5f9",
+                fontSize: "0.875rem",
+                resize: "vertical",
+                outline: "none",
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = "#3b82f6";
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = "#374151";
+              }}
+            />
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: "0.75rem",
+                marginTop: "1rem",
+              }}
+            >
+              <button
+                onClick={() => setShowFeedbackComment(false)}
+                style={{
+                  padding: "0.5rem 1rem",
+                  borderRadius: "0.375rem",
+                  fontSize: "0.875rem",
+                  cursor: "pointer",
+                  border: "1px solid #374151",
+                  background: "transparent",
+                  color: "#d1d5db",
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={saveFeedbackComment}
+                disabled={feedbackLoading}
+                style={{
+                  padding: "0.5rem 1rem",
+                  borderRadius: "0.375rem",
+                  fontSize: "0.875rem",
+                  cursor: feedbackLoading ? "not-allowed" : "pointer",
+                  border: "none",
+                  background: "#3b82f6",
+                  color: "white",
+                  opacity: feedbackLoading ? 0.5 : 1,
+                }}
+              >
+                {feedbackLoading ? "Saving..." : "Save Feedback"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
