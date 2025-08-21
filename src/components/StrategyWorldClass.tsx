@@ -271,6 +271,145 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
     }
   };
 
+  // Save functions for creation modals
+  const handleSavePillar = async () => {
+    if (!user || !newPillar.name.trim()) return;
+
+    try {
+      const pillarData = {
+        ...newPillar,
+        topics: newPillar.topics.filter(topic => topic.trim()),
+        source: 'manual-creation'
+      };
+
+      await contentPillarsService.saveContentPillar(user.uid, pillarData);
+
+      // Refresh the pillars list
+      const updatedPillars = await contentPillarsService.getUserContentPillars(user.uid);
+      setSavedContentPillars(updatedPillars);
+
+      // Reset form and close modal
+      setNewPillar({
+        name: '',
+        description: '',
+        color: '#3b82f6',
+        percentage: 25,
+        topics: [],
+        group: 'Ungrouped'
+      });
+      setShowCreatePillar(false);
+    } catch (error) {
+      console.error('Failed to save content pillar:', error);
+      alert('Failed to save content pillar. Please try again.');
+    }
+  };
+
+  const handleSavePlatformStrategy = async () => {
+    if (!user || !newPlatformStrategy.platform.trim()) return;
+
+    try {
+      const strategyData = {
+        ...newPlatformStrategy,
+        contentTypes: newPlatformStrategy.contentTypes.filter(type => type.trim()),
+        bestTimes: newPlatformStrategy.bestTimes.filter(time => time.trim()),
+        keyMetrics: newPlatformStrategy.keyMetrics.filter(metric => metric.trim()),
+        source: 'manual-creation'
+      };
+
+      await platformStrategiesService.savePlatformStrategy(user.uid, strategyData);
+
+      // Refresh the strategies list
+      const updatedStrategies = await platformStrategiesService.getUserPlatformStrategies(user.uid);
+      setSavedPlatformStrategies(updatedStrategies);
+
+      // Reset form and close modal
+      setNewPlatformStrategy({
+        platform: '',
+        focus: '',
+        contentTypes: [],
+        postingFrequency: '',
+        bestTimes: [],
+        engagementStrategy: '',
+        monetizationApproach: '',
+        keyMetrics: [],
+        audienceTargeting: '',
+        group: 'Ungrouped'
+      });
+      setShowCreatePlatformStrategy(false);
+    } catch (error) {
+      console.error('Failed to save platform strategy:', error);
+      alert('Failed to save platform strategy. Please try again.');
+    }
+  };
+
+  const handleSaveCampaign = async () => {
+    if (!user || !newCampaign.name.trim()) return;
+
+    try {
+      const campaignData = {
+        ...newCampaign,
+        channels: newCampaign.channels.filter(channel => channel.trim()),
+        goals: newCampaign.goals.filter(goal => goal.trim()),
+        source: 'manual-creation'
+      };
+
+      await campaignStrategiesService.saveCampaignStrategy(user.uid, campaignData);
+
+      // Refresh the campaigns list
+      const updatedCampaigns = await campaignStrategiesService.getUserCampaignStrategies(user.uid);
+      setSavedCampaignStrategies(updatedCampaigns);
+
+      // Reset form and close modal
+      setNewCampaign({
+        name: '',
+        type: '',
+        description: '',
+        startDate: '',
+        endDate: '',
+        budget: '',
+        targetAudience: '',
+        channels: [],
+        goals: [],
+        group: 'Ungrouped'
+      });
+      setShowCreateCampaign(false);
+    } catch (error) {
+      console.error('Failed to save campaign strategy:', error);
+      alert('Failed to save campaign strategy. Please try again.');
+    }
+  };
+
+  const handleSaveMetric = async () => {
+    if (!user || !newMetric.title.trim()) return;
+
+    try {
+      const metricData = {
+        ...newMetric,
+        source: 'manual-creation'
+      };
+
+      await analyticsService.saveAnalyticsMetric(user.uid, metricData);
+
+      // Refresh the metrics list
+      const updatedMetrics = await analyticsService.getUserAnalyticsMetrics(user.uid);
+      setSavedAnalyticsMetrics(updatedMetrics);
+
+      // Reset form and close modal
+      setNewMetric({
+        title: '',
+        description: '',
+        type: 'primary',
+        category: '',
+        target: '',
+        group: 'Ungrouped'
+      });
+      setShowCreateMetric(false);
+    } catch (error) {
+      console.error('Failed to save analytics metric:', error);
+      alert('Failed to save analytics metric. Please try again.');
+    }
+  };
+
   // Load goals from Firebase/localStorage
   React.useEffect(() => {
     const loadGoals = async () => {
