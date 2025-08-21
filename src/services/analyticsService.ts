@@ -23,6 +23,8 @@ export interface SavedAnalyticsMetric {
   updatedAt: string;
   source?: string; // Strategy plan source
   userId: string;
+  group?: string;
+  tags?: string[];
 }
 
 export interface AnalyticsData {
