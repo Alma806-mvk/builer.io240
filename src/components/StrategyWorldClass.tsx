@@ -185,6 +185,9 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
   const [selectedGroup, setSelectedGroup] = useState<string>('All');
   const [showCreateGroup, setShowCreateGroup] = useState(false);
   const [newGroupName, setNewGroupName] = useState('');
+  const [showManageGroups, setShowManageGroups] = useState(false);
+  const [editingGroup, setEditingGroup] = useState<string | null>(null);
+  const [editGroupName, setEditGroupName] = useState('');
 
   const { user } = useAuth();
 
