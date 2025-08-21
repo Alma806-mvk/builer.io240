@@ -2633,7 +2633,7 @@ export const App = ({
 
           console.log("��� Strategy generation debug:");
           console.log("���� Strategy text length:", strategyText?.length);
-          console.log("🏷️ Mime type received:", strategyMimeType);
+          console.log("🏷�� Mime type received:", strategyMimeType);
           console.log("📝 Strategy text preview:", strategyText?.substring(0, 200));
 
           if (strategyMimeType === "application/json") {
@@ -2987,8 +2987,41 @@ export const App = ({
                 responseMimeType: "text/plain",
               };
             } else {
-              // Use standard generation
-              result = await generateTextContent(textGenOptions);
+              // Use Firebase integrated generation service
+              console.log('🔥 Using Firebase integrated service for content generation');
+
+              // Convert textGenOptions to Firebase service format
+              const firebaseOptions = {
+                userInput: textGenOptions.userInput,
+                platform: textGenOptions.platform,
+                contentType: textGenOptions.contentType,
+                targetAudience: textGenOptions.targetAudience,
+                batchVariations: textGenOptions.batchVariations,
+                aiPersona: textGenOptions.aiPersonaDef,
+                aiPersonaId: selectedAiPersonaId,
+                targetLanguage: textGenOptions.targetLanguage,
+                videoLength: textGenOptions.videoLength,
+                seoKeywords: textGenOptions.seoKeywords,
+                seoMode: textGenOptions.seoMode,
+                aspectRatioGuidance: textGenOptions.aspectRatioGuidance,
+                saveToFirebase: true, // Enable Firebase storage
+              };
+
+              const firebaseResult = await firebaseIntegratedGenerationService.generateContentWithFirebaseStorage(firebaseOptions);
+
+              // Convert Firebase result to standard format
+              result = {
+                text: firebaseResult.textOutput?.content || firebaseResult.imageOutput?.base64Data || '',
+                sources: firebaseResult.textOutput?.groundingSources,
+                responseMimeType: firebaseResult.textOutput ? 'text/plain' : 'image/jpeg',
+              };
+
+              // Log Firebase storage status
+              if (firebaseResult.savedToFirebase) {
+                console.log('✅ Content saved to Firebase with ID:', firebaseResult.generationId);
+              } else {
+                console.log('⚠️ Content generated but not saved to Firebase');
+              }
             }
           } catch (apiError: any) {
             if (
@@ -16465,7 +16498,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                     }}
                     className="w-full p-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-lg transition-all duration-200 transform hover:scale-105"
                   >
-                    �������� AI Size Optimizer
+                    ���������� AI Size Optimizer
                   </button>
 
                   <div className="border-t border-slate-600/50 pt-3 mt-4">
