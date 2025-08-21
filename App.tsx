@@ -2255,7 +2255,7 @@ export const App = ({
           } else {
             // For other errors, retry or fail gracefully
             console.warn(
-              `⚠️��️⚠️ Failed to analyze ${channel}, will retry next time`,
+              `⚠️⚠️⚠️ Failed to analyze ${channel}, will retry next time`,
             );
             // Don't add mock data, just skip this channel
           }
@@ -2767,15 +2767,23 @@ export const App = ({
               throw new Error('INVALID_API_KEY: Gemini API key is not configured');
             }
 
-            result = await generateTextContent({
+            console.log('🔥 Using Firebase service for trend analysis');
+            const firebaseResult = await firebaseIntegratedGenerationService.generateContentWithFirebaseStorage({
+              userInput: currentActionParams.trendAnalysisConfig.nicheQuery,
               platform,
               contentType: ContentType.TrendAnalysis,
-              userInput: currentActionParams.trendAnalysisConfig.nicheQuery,
-              aiPersonaDef: currentPersonaDef,
-              nicheForTrends:
-                currentActionParams.trendAnalysisConfig.nicheQuery,
-              trendFilters: currentActionParams.trendAnalysisConfig.filters,
+              aiPersona: currentPersonaDef,
+              saveToFirebase: true,
             });
+
+            result = {
+              text: firebaseResult.textOutput?.content || '',
+              sources: firebaseResult.textOutput?.groundingSources,
+            };
+
+            if (firebaseResult.savedToFirebase) {
+              console.log('✅ Trend analysis saved to Firebase with ID:', firebaseResult.generationId);
+            }
 
             console.log('✅ Successfully generated real trend analysis');
           } catch (apiError: any) {
@@ -3521,7 +3529,7 @@ VARIATIONS: Alternative approaches
       finishGeneration();
       setIsExpandingIdea(false);
     } catch (error) {
-      console.error("����������� Error expanding idea:", error);
+      console.error("��������� Error expanding idea:", error);
 
       // Provide helpful fallback content even on error
       const fallbackContent = `TARGET: DETAILED CONCEPT
@@ -12622,7 +12630,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 }}
                 title="Copy code"
               >
-                �������������
+                ���������������
               </button>
             )}
           </div>
@@ -15623,7 +15631,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                               subtitle: "2024 Performance Overview",
                             },
                             {
-                              name: "������� Team Directory",
+                              name: "��������� Team Directory",
                               description: "Employee information and contacts",
                               theme: "orange",
                               style: "corporate",
@@ -18772,7 +18780,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                       icon="📈"
                       guidelines={[
                         {
-                          status: "������ Optimal:",
+                          status: "������� Optimal:",
                           color: "text-green-400",
                           text: "10K+ subscribers, 20+ videos, consistent uploads",
                         },
