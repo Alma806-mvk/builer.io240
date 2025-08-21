@@ -2929,7 +2929,24 @@ export const App = ({
         ) {
           let result;
           try {
-            result = await generateTextContent(textGenOptions); // Generate text content for engagement feedback
+            console.log('🔥 Using Firebase service for engagement feedback');
+            const firebaseResult = await firebaseIntegratedGenerationService.generateContentWithFirebaseStorage({
+              userInput: textGenOptions.userInput,
+              platform: textGenOptions.platform,
+              contentType: textGenOptions.contentType,
+              targetAudience: textGenOptions.targetAudience,
+              aiPersona: textGenOptions.aiPersonaDef,
+              saveToFirebase: true,
+            });
+
+            result = {
+              text: firebaseResult.textOutput?.content || '',
+              sources: firebaseResult.textOutput?.groundingSources,
+            };
+
+            if (firebaseResult.savedToFirebase) {
+              console.log('✅ Engagement feedback saved to Firebase with ID:', firebaseResult.generationId);
+            }
           } catch (apiError: any) {
             if (
               apiError.message?.includes("INVALID_API_KEY") ||
@@ -3439,7 +3456,7 @@ export const App = ({
 ${originalIdea}
 
 EXPAND THIS INTO:
-🎯 **DETAILED CONCEPT**: Provide a comprehensive 4-5 sentence explanation with specific examples
+��� **DETAILED CONCEPT**: Provide a comprehensive 4-5 sentence explanation with specific examples
 �������� **EXECUTION GUIDE**: Step-by-step breakdown of how to create this content
 ����� **SCRIPT FRAMEWORK**: Outline the structure/flow with key talking points
 �� **ENGAGEMENT TACTICS**: Specific techniques to maximize views, comments, shares
@@ -12630,7 +12647,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 }}
                 title="Copy code"
               >
-                ���������������
+                �������������
               </button>
             )}
           </div>
@@ -15542,7 +15559,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                               subtitle: "Q4 2024 Results",
                             },
                             {
-                              name: "������ Project Tasks",
+                              name: "������� Project Tasks",
                               description:
                                 "Task management with status tracking",
                               theme: "green",
@@ -15631,7 +15648,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                               subtitle: "2024 Performance Overview",
                             },
                             {
-                              name: "��������� Team Directory",
+                              name: "������� Team Directory",
                               description: "Employee information and contacts",
                               theme: "orange",
                               style: "corporate",
@@ -18780,7 +18797,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                       icon="📈"
                       guidelines={[
                         {
-                          status: "������� Optimal:",
+                          status: "������ Optimal:",
                           color: "text-green-400",
                           text: "10K+ subscribers, 20+ videos, consistent uploads",
                         },
