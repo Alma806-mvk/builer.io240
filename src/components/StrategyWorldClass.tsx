@@ -1320,28 +1320,51 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
               </div>
             </div>
 
+            {/* Grouping Controls */}
+            {!pillarsLoading && savedContentPillars.length > 0 && (
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-2">
+                    <Filter className="w-4 h-4 text-[var(--text-secondary)]" />
+                    <span className="text-sm font-medium text-[var(--text-secondary)]">Group:</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    {availableGroups.map((group) => (
+                      <Button
+                        key={group}
+                        variant={selectedGroup === group ? "primary" : "ghost"}
+                        size="sm"
+                        onClick={() => setSelectedGroup(group)}
+                      >
+                        {group}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowCreateGroup(true)}
+                >
+                  <Plus className="w-4 h-4" />
+                  New Group
+                </Button>
+              </div>
+            )}
+
             {pillarsLoading ? (
               <div className="flex items-center justify-center py-8">
                 <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
                 <span className="ml-3 text-[var(--text-secondary)]">Loading content pillars...</span>
               </div>
             ) : savedContentPillars.length === 0 ? (
-              <Card className="text-center py-12">
-                <div className="p-4 rounded-xl bg-gradient-to-br from-[var(--brand-primary)] to-[var(--brand-secondary)] text-white mx-auto w-fit mb-4">
-                  <Layers className="w-12 h-12" />
-                </div>
-                <h3 className="heading-4 mb-2">No Saved Content Pillars Yet</h3>
-                <p className="body-base mb-4 text-[var(--text-secondary)]">
-                  Generate a content strategy and save individual pillars to build your content pillar library
-                </p>
-                <Button
-                  variant="primary"
-                  onClick={() => setActiveSection("generated")}
-                >
-                  <Plus className="w-4 h-4" />
-                  Generate Content Strategy
-                </Button>
-              </Card>
+              <EmptyState
+                icon={<Layers className="w-8 h-8" />}
+                title="No Content Pillars Yet"
+                description="Generate a content strategy and save individual pillars to build your content pillar library"
+                actionLabel="Start from Scratch"
+                onAction={() => setActiveSection("generated")}
+              />
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {savedContentPillars.map((pillar) => (
