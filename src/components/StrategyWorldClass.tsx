@@ -2261,19 +2261,13 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 <span className="ml-3 text-[var(--text-secondary)]">Loading competitor analyses...</span>
               </div>
             ) : savedCompetitorAnalyses.length === 0 ? (
-              <Card className="text-center py-8">
-                <div className="p-4 rounded-xl bg-gradient-to-br from-red-600 to-red-700 text-white mx-auto w-fit mb-4">
-                  <TrendingDown className="w-12 h-12" />
-                </div>
-                <h3 className="heading-4 mb-2">No Competitor Analyses Yet</h3>
-                <p className="body-base mb-4 text-[var(--text-secondary)]">
-                  Generate competitor analysis from content strategies to build your competitive intelligence
-                </p>
-                <Button variant="primary" onClick={() => setActiveSection("generated")}>
-                  <Plus className="w-4 h-4" />
-                  Generate Content Strategy
-                </Button>
-              </Card>
+              <EmptyState
+                icon={<TrendingDown className="w-8 h-8" />}
+                title="No Competitor Analyses Yet"
+                description="Generate competitor analysis from content strategies to build your competitive intelligence"
+                actionLabel="Start from Scratch"
+                onAction={() => setActiveSection("generated")}
+              />
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {savedCompetitorAnalyses.map((analysis) => (
