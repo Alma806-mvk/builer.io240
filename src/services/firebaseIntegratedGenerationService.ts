@@ -173,6 +173,51 @@ export class FirebaseIntegratedGenerationService {
   }
 
   /**
+   * Generate content and save to Firebase, but return in legacy format for App.tsx compatibility
+   */
+  async generateContentWithFirebaseBackgroundSave(options: GenerationOptions): Promise<LegacyGenerationResult> {
+    console.log('🔥 Generating content with Firebase background save (legacy format)');
+
+    try {
+      // Generate content using existing services
+      const generationResults = await this.generateContent(options);
+
+      // Save to Firebase in background (don't wait for it)
+      if (options.saveToFirebase !== false && auth.currentUser) {
+        const generationId = `gen_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+        // Fire and forget Firebase save
+        this.saveToFirebase(generationResults, options, generationId).then(() => {
+          console.log('✅ Content saved to Firebase in background:', generationId);
+        }).catch((error) => {
+          console.warn('⚠️ Background Firebase save failed:', error);
+        });
+      }
+
+      // Return in legacy format for App.tsx compatibility
+      if (generationResults.rawTextResult) {
+        return {
+          text: generationResults.rawTextResult.text,
+          sources: generationResults.rawTextResult.sources,
+          responseMimeType: generationResults.rawTextResult.responseMimeType,
+        };
+      } else if (generationResults.rawImageResult) {
+        return {
+          text: generationResults.rawImageResult.base64Data,
+          sources: [],
+          responseMimeType: generationResults.rawImageResult.mimeType,
+        };
+      } else {
+        throw new Error('No generation results available');
+      }
+
+    } catch (error) {
+      console.error('❌ Firebase background generation failed:', error);
+      throw error;
+    }
+  }
+
+  /**
    * Save user feedback for a generation
    */
   async saveFeedback(
