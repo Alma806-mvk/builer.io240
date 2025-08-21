@@ -349,6 +349,13 @@ export class FirebaseIntegratedGenerationService {
     }
 
     // Save generation record to Firestore
+    console.log('💾 Saving generation record to Firestore...', {
+      generationId,
+      prompt: options.userInput?.substring(0, 50) + '...',
+      contentType: options.contentType,
+      platform: options.platform
+    });
+
     await generationStorageService.saveGeneration({
       prompt: options.userInput,
       platform: options.platform,
@@ -372,6 +379,8 @@ export class FirebaseIntegratedGenerationService {
       generationDuration: 0, // Will be updated later
       outputSize: JSON.stringify(results).length
     });
+
+    console.log('✅ Generation record saved to Firestore successfully');
 
     return {
       generationId,
