@@ -1749,8 +1749,9 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 icon={<Share2 className="w-8 h-8" />}
                 title="No Platform Strategies Yet"
                 description="Create platform-specific strategies to optimize your content for each social media platform"
-                actionLabel="Start from Scratch"
-                onAction={() => setShowCreatePlatformStrategy(true)}
+                actionLabel="Create Strategy Plan"
+                actionIcon={<Plus className="w-4 h-4" />}
+                onAction={() => setActiveSection("generated")}
               />
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -1893,8 +1894,9 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 icon={<Megaphone className="w-8 h-8" />}
                 title="No Campaign Strategies Yet"
                 description="Create campaign frameworks to organize and plan your marketing campaigns effectively"
-                actionLabel="Start from Scratch"
-                onAction={() => setShowCreateCampaign(true)}
+                actionLabel="Create Strategy Plan"
+                actionIcon={<Plus className="w-4 h-4" />}
+                onAction={() => setActiveSection("generated")}
               />
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -2052,8 +2054,9 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 icon={<BarChart3 className="w-8 h-8" />}
                 title="No Analytics Metrics Yet"
                 description="Create custom analytics metrics to track your content performance and strategy success"
-                actionLabel="Start from Scratch"
-                onAction={() => setShowCreateMetric(true)}
+                actionLabel="Create Strategy Plan"
+                actionIcon={<Plus className="w-4 h-4" />}
+                onAction={() => setActiveSection("generated")}
               />
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -2449,7 +2452,8 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 icon={<AlertTriangle className="w-8 h-8" />}
                 title="No Risk Management Plans Yet"
                 description="Generate content strategies and save risk management plans using the 3-dot menu on risk management sections."
-                actionLabel="Start from Scratch"
+                actionLabel="Create Strategy Plan"
+                actionIcon={<Plus className="w-4 h-4" />}
                 onAction={() => setActiveSection("generated")}
               />
             ) : (
@@ -2582,7 +2586,8 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 icon={<TrendingDown className="w-8 h-8" />}
                 title="No Competitor Analyses Yet"
                 description="Generate competitor analysis from content strategies to build your competitive intelligence"
-                actionLabel="Start from Scratch"
+                actionLabel="Create Strategy Plan"
+                actionIcon={<Plus className="w-4 h-4" />}
                 onAction={() => setActiveSection("generated")}
               />
             ) : (
