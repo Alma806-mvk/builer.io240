@@ -98,7 +98,15 @@ export class GenerationStorageService {
   async saveGeneration(record: Omit<GenerationRecord, 'id' | 'userId' | 'timestamp'>): Promise<string> {
     const userId = this.getCurrentUserId();
     const generationId = `gen_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    
+
+    console.log('🔍 Generation Storage Debug:', {
+      userId,
+      generationId,
+      collectionName: this.collectionName,
+      hasRecord: !!record,
+      recordKeys: Object.keys(record)
+    });
+
     const generationRecord: GenerationRecord = {
       id: generationId,
       userId,
@@ -107,11 +115,20 @@ export class GenerationStorageService {
       ...record
     };
 
+    console.log('📋 Final generation record structure:', {
+      id: generationRecord.id,
+      userId: generationRecord.userId,
+      prompt: generationRecord.prompt?.substring(0, 50) + '...',
+      contentType: generationRecord.contentType,
+      platform: generationRecord.platform
+    });
+
     return safeFirestoreOperation(
       async () => {
+        console.log('🏪 Attempting Firestore write to collection:', this.collectionName);
         const docRef = doc(db, this.collectionName, generationId);
         await setDoc(docRef, generationRecord);
-        console.log('✅ Generation saved to Firestore:', generationId);
+        console.log('✅ Generation saved to Firestore successfully:', generationId);
         return generationId;
       },
       generationId,
