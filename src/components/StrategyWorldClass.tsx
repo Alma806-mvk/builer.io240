@@ -1358,7 +1358,7 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                   onClick={() => setShowAddGoal(true)}
                 >
                   <Plus className="w-4 h-4" />
-                  Add Goal
+                  Create Strategy Plan
                 </Button>
               </div>
             </div>
