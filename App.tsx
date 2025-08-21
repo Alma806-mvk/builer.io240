@@ -2255,7 +2255,7 @@ export const App = ({
           } else {
             // For other errors, retry or fail gracefully
             console.warn(
-              `⚠️⚠️⚠️ Failed to analyze ${channel}, will retry next time`,
+              `⚠️��️⚠️ Failed to analyze ${channel}, will retry next time`,
             );
             // Don't add mock data, just skip this channel
           }
@@ -2485,16 +2485,26 @@ export const App = ({
           setStrategyError(null);
           let strategyResult;
           try {
-            console.log("🚀 Starting strategy generation with real API...");
+            console.log("🚀 Starting strategy generation with Firebase service...");
             console.log("����� Strategy config:", currentActionParams.strategyConfig);
-            strategyResult = await generateTextContent({
+
+            const firebaseResult = await firebaseIntegratedGenerationService.generateContentWithFirebaseStorage({
+              userInput: currentActionParams.strategyConfig.niche,
               platform,
               contentType: ContentType.ContentStrategyPlan,
-              userInput: currentActionParams.strategyConfig.niche,
-              aiPersonaDef: currentPersonaDef,
-              strategyInputs: currentActionParams.strategyConfig,
+              aiPersona: currentPersonaDef,
+              saveToFirebase: true,
             });
-            console.log("✅ Real API strategy generation completed");
+
+            strategyResult = {
+              text: firebaseResult.textOutput?.content || '',
+              responseMimeType: 'application/json',
+            };
+
+            console.log("✅ Firebase strategy generation completed");
+            if (firebaseResult.savedToFirebase) {
+              console.log('✅ Strategy saved to Firebase with ID:', firebaseResult.generationId);
+            }
           } catch (apiError: any) {
             console.error("❌ Strategy plan generation error:", apiError);
             if (
@@ -2633,7 +2643,7 @@ export const App = ({
 
           console.log("��� Strategy generation debug:");
           console.log("���� Strategy text length:", strategyText?.length);
-          console.log("🏷�� Mime type received:", strategyMimeType);
+          console.log("🏷️ Mime type received:", strategyMimeType);
           console.log("📝 Strategy text preview:", strategyText?.substring(0, 200));
 
           if (strategyMimeType === "application/json") {
@@ -3511,7 +3521,7 @@ VARIATIONS: Alternative approaches
       finishGeneration();
       setIsExpandingIdea(false);
     } catch (error) {
-      console.error("��������� Error expanding idea:", error);
+      console.error("����������� Error expanding idea:", error);
 
       // Provide helpful fallback content even on error
       const fallbackContent = `TARGET: DETAILED CONCEPT
@@ -16498,7 +16508,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                     }}
                     className="w-full p-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-lg transition-all duration-200 transform hover:scale-105"
                   >
-                    ���������� AI Size Optimizer
+                    �������� AI Size Optimizer
                   </button>
 
                   <div className="border-t border-slate-600/50 pt-3 mt-4">
