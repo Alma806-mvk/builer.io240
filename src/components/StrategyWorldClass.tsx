@@ -1602,6 +1602,7 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 title="No Content Pillars Yet"
                 description="Create individual content pillars to build your content strategy foundation"
                 actionLabel="Create Strategy Plan"
+                actionIcon={<Plus className="w-4 h-4" />}
                 onAction={() => setActiveSection("generated")}
               />
             ) : (
