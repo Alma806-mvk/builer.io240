@@ -109,6 +109,16 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
   const [showSendToCanvas, setShowSendToCanvas] = useState(false);
   const [isMagicSelectActive, setIsMagicSelectActive] = useState(false);
 
+  // Firebase feedback state
+  const [userFeedback, setUserFeedback] = useState<'positive' | 'negative' | null>(
+    displayedOutputItem?.firebase?.userFeedback?.rating || null
+  );
+  const [feedbackLoading, setFeedbackLoading] = useState(false);
+  const [showFeedbackComment, setShowFeedbackComment] = useState(false);
+  const [feedbackComment, setFeedbackComment] = useState(
+    displayedOutputItem?.firebase?.userFeedback?.comment || ''
+  );
+
   const getSendToCanvasOptions = () => {
     if (!displayedOutputItem?.output) return null;
 
