@@ -276,15 +276,20 @@ export class FirebaseIntegratedGenerationService {
     // Generate image content
     if (needsImageGeneration) {
       console.log('🎨 Generating image content...');
-      results.imageOutput = await generateImage({
-        userInput: options.userInput,
-        platform: options.platform,
-        contentType: options.contentType,
-        aspectRatioGuidance: options.aspectRatioGuidance,
-        selectedImageStyles: options.selectedImageStyles,
-        selectedImageMoods: options.selectedImageMoods,
-        negativeImagePrompt: options.negativeImagePrompt
-      });
+      const imageResult = await generateImage(
+        options.userInput,
+        options.negativeImagePrompt,
+        options.aspectRatioGuidance,
+      );
+
+      results.imageOutput = {
+        type: "image",
+        base64Data: imageResult.base64Data,
+        mimeType: imageResult.mimeType,
+      } as GeneratedImageOutput;
+
+      // Also keep the raw result for App.tsx compatibility
+      results.rawImageResult = imageResult;
     }
 
     return results;
