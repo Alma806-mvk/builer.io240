@@ -1733,9 +1733,9 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
               <EmptyState
                 icon={<Share2 className="w-8 h-8" />}
                 title="No Platform Strategies Yet"
-                description="Generate a content strategy and save platform-specific strategies to build your platform library"
+                description="Create platform-specific strategies to optimize your content for each social media platform"
                 actionLabel="Start from Scratch"
-                onAction={() => setActiveSection("generated")}
+                onAction={() => setShowCreatePlatformStrategy(true)}
               />
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
