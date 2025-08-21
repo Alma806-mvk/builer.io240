@@ -153,6 +153,9 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
   const [strategyView, setStrategyView] = useState<'list' | 'details'>('list');
   const [editingGoal, setEditingGoal] = useState<string | null>(null);
   const [newGoalTitle, setNewGoalTitle] = useState("");
+  const [newGoalDescription, setNewGoalDescription] = useState("");
+  const [newGoalCategory, setNewGoalCategory] = useState<'strategy' | 'content' | 'growth' | 'engagement'>('strategy');
+  const [newGoalPriority, setNewGoalPriority] = useState<'low' | 'medium' | 'high'>('medium');
   const [showAddGoal, setShowAddGoal] = useState(false);
   const [showTemplatesModal, setShowTemplatesModal] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState<ContentTemplate | null>(null);
@@ -1358,7 +1361,7 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                   onClick={() => setShowAddGoal(true)}
                 >
                   <Plus className="w-4 h-4" />
-                  Create Strategy Plan
+                  Start from Scratch
                 </Button>
               </div>
             </div>
@@ -1392,7 +1395,39 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                       </div>
                     </div>
                     <div className="flex items-center space-x-3 mt-4">
-                      <Button variant="primary">
+                      <Button
+                        variant="primary"
+                        onClick={async () => {
+                          if (!user || !newGoalTitle.trim()) return;
+
+                          try {
+                            const newGoal = {
+                              title: newGoalTitle.trim(),
+                              description: newGoalDescription.trim() || 'No description provided',
+                              category: newGoalCategory,
+                              priority: newGoalPriority,
+                              completed: false,
+                              progress: 0,
+                              createdAt: new Date().toISOString(),
+                              source: 'manual',
+                              dueDate: null
+                            };
+
+                            const savedGoal = await goalsService.saveGoal(user.uid, newGoal);
+                            setStrategyGoals(prev => [savedGoal, ...prev]);
+
+                            // Reset form
+                            setNewGoalTitle('');
+                            setNewGoalDescription('');
+                            setNewGoalCategory('strategy');
+                            setNewGoalPriority('medium');
+                            setShowAddGoal(false);
+                          } catch (error) {
+                            console.error('Failed to save goal:', error);
+                          }
+                        }}
+                        disabled={!newGoalTitle.trim()}
+                      >
                         <Save className="w-4 h-4" />
                         Save Goal
                       </Button>
