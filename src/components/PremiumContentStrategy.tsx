@@ -1418,21 +1418,23 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
     string | null
   >(null);
   const [isLoadingTemplate, setIsLoadingTemplate] = useState(false);
+  const defaultStrategyConfig = {
+    niche: "",
+    targetAudience: "",
+    goals: [],
+    platforms: [],
+    contentTypes: [],
+    timeframe: "3months",
+    budget: "medium",
+    competitorAnalysis: false,
+    aiPersona: "expert",
+    industryFocus: "",
+    geographicFocus: [],
+    languagePreferences: ["English"],
+  };
+
   const [localStrategyConfig, setLocalStrategyConfig] =
-    useState<StrategyConfig>({
-      niche: "",
-      targetAudience: "",
-      goals: [],
-      platforms: [],
-      contentTypes: [],
-      timeframe: "3months",
-      budget: "medium",
-      competitorAnalysis: false,
-      aiPersona: "expert",
-      industryFocus: "",
-      geographicFocus: [],
-      languagePreferences: ["English"],
-    });
+    useState<StrategyConfig>(defaultStrategyConfig);
 
   // Generate dynamic metrics based on niche and config
   const generateDynamicSummary = () => {
