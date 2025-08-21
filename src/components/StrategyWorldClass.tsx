@@ -1376,22 +1376,51 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 >
                   <Card>
                     <h4 className="heading-4 mb-4">Create New Goal</h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <Input
-                        label="Goal Title"
-                        placeholder="e.g., Increase YouTube subscribers by 50K"
-                        value={newGoalTitle}
-                        onChange={setNewGoalTitle}
-                      />
-                      <div>
-                        <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
-                          Priority
-                        </label>
-                        <select className="input-base">
-                          <option value="high">High Priority</option>
-                          <option value="medium">Medium Priority</option>
-                          <option value="low">Low Priority</option>
-                        </select>
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <Input
+                          label="Goal Title"
+                          placeholder="e.g., Increase YouTube subscribers by 50K"
+                          value={newGoalTitle}
+                          onChange={setNewGoalTitle}
+                        />
+                        <div>
+                          <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
+                            Category
+                          </label>
+                          <select
+                            className="input-base"
+                            value={newGoalCategory}
+                            onChange={(e) => setNewGoalCategory(e.target.value as 'strategy' | 'content' | 'growth' | 'engagement')}
+                          >
+                            <option value="strategy">Strategy</option>
+                            <option value="content">Content</option>
+                            <option value="growth">Growth</option>
+                            <option value="engagement">Engagement</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <Input
+                          label="Description"
+                          placeholder="Describe your goal in detail..."
+                          value={newGoalDescription}
+                          onChange={setNewGoalDescription}
+                        />
+                        <div>
+                          <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
+                            Priority
+                          </label>
+                          <select
+                            className="input-base"
+                            value={newGoalPriority}
+                            onChange={(e) => setNewGoalPriority(e.target.value as 'low' | 'medium' | 'high')}
+                          >
+                            <option value="high">High Priority</option>
+                            <option value="medium">Medium Priority</option>
+                            <option value="low">Low Priority</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
                     <div className="flex items-center space-x-3 mt-4">
