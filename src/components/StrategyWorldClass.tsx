@@ -1703,25 +1703,51 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
               </div>
             </div>
 
+            {/* Grouping Controls */}
+            {!analyticsLoading && savedAnalyticsMetrics.length > 0 && (
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-2">
+                    <Filter className="w-4 h-4 text-[var(--text-secondary)]" />
+                    <span className="text-sm font-medium text-[var(--text-secondary)]">Group:</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    {availableGroups.map((group) => (
+                      <Button
+                        key={group}
+                        variant={selectedGroup === group ? "primary" : "ghost"}
+                        size="sm"
+                        onClick={() => setSelectedGroup(group)}
+                      >
+                        {group}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowCreateGroup(true)}
+                >
+                  <Plus className="w-4 h-4" />
+                  New Group
+                </Button>
+              </div>
+            )}
+
             {analyticsLoading ? (
               <div className="flex items-center justify-center py-12">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--brand-primary)]"></div>
                 <span className="ml-3 text-[var(--text-secondary)]">Loading analytics metrics...</span>
               </div>
             ) : savedAnalyticsMetrics.length === 0 ? (
-              <div className="text-center py-8">
-                <BarChart3 className="w-12 h-12 text-[var(--text-tertiary)] mx-auto mb-3" />
-                <h4 className="text-lg font-semibold text-[var(--text-primary)] mb-2">
-                  No Analytics Metrics Yet
-                </h4>
-                <p className="text-sm text-[var(--text-secondary)] mb-4 max-w-sm mx-auto">
-                  Generate content strategies and save analytics metrics using the 3-dot menu on Analytics & Performance sections.
-                </p>
-                <Button variant="outline" size="sm" className="mx-auto">
-                  <Plus className="w-4 h-4 mr-2" />
-                  Create First Metric
-                </Button>
-              </div>
+              <EmptyState
+                icon={<BarChart3 className="w-8 h-8" />}
+                title="No Analytics Metrics Yet"
+                description="Generate content strategies and save analytics metrics using the 3-dot menu on Analytics & Performance sections."
+                actionLabel="Start from Scratch"
+                onAction={() => setActiveSection("generated")}
+              />
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 {savedAnalyticsMetrics.map((metric) => (
