@@ -2118,14 +2118,21 @@ export const App = ({
 
         try {
           console.log(`🔍 Fetching real data for channel: ${channel}`);
+          console.log('🔥 Using Firebase service for channel analysis');
 
-          const result = await generateTextContent({
+          const firebaseResult = await firebaseIntegratedGenerationService.generateContentWithFirebaseStorage({
+            userInput: channel,
             platform: Platform.YouTube,
             contentType: ContentType.ChannelAnalysis,
-            userInput: channel,
-            aiPersonaDef: currentPersonaDef,
             targetAudience,
+            aiPersona: currentPersonaDef,
+            saveToFirebase: true,
           });
+
+          const result = {
+            text: firebaseResult.textOutput?.content || '',
+            sources: firebaseResult.textOutput?.groundingSources || [],
+          };
 
           // Reset consecutive failures on success
           consecutiveFailures = 0;
@@ -8754,7 +8761,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                   "���",
                   "����������",
                   "��������",
-                  "����",
+                  "��",
                   "⚡",
                   "��",
                   "💫",
@@ -9868,7 +9875,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 onChange={(e) => updateProp("connectorType", e.target.value)}
                 className="p-1.5 bg-slate-700 rounded-md border border-slate-600 text-slate-200 focus:ring-1 focus:ring-sky-500 focus:border-sky-500"
               >
-                <option value="straight">���� Straight</option>
+                <option value="straight">������ Straight</option>
                 <option value="curved">〜 Curved</option>
                 <option value="elbow">����������� Elbow</option>
                 <option value="dashed">┄ Dashed</option>
@@ -16708,7 +16715,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
 
                         // Show feedback message
                         console.log(
-                          `���� ${preset.name}: ${preset.description || "Applied successfully"}`,
+                          `🎨 ${preset.name}: ${preset.description || "Applied successfully"}`,
                         );
                       }}
                       className={`group relative p-3 bg-gradient-to-r ${preset.bg} hover:scale-105 text-white rounded-lg transition-all duration-200 transform flex flex-col items-center gap-1 overflow-hidden`}
