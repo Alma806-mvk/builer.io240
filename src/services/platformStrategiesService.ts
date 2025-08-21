@@ -27,6 +27,8 @@ export interface SavedPlatformStrategy {
   savedAt: Date;
   userId: string;
   createdAt: string;
+  group?: string;
+  tags?: string[];
 }
 
 class PlatformStrategiesService {
@@ -49,7 +51,9 @@ class PlatformStrategiesService {
         source: strategyData.source || 'content-strategy-planner',
         savedAt: new Date(),
         userId,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        group: strategyData.group || 'Ungrouped',
+        tags: strategyData.tags || []
       };
 
       // Try Firebase first
@@ -205,6 +209,44 @@ class PlatformStrategiesService {
       console.log('🗑️ Platform strategy removed from localStorage');
     } catch (error) {
       console.error('❌ Failed to remove from localStorage:', error);
+    }
+  }
+
+  async updateStrategyGroup(strategyId: string, userId: string, group: string): Promise<void> {
+    try {
+      // Try Firebase first
+      const strategyDoc = doc(db, 'platformStrategies', strategyId);
+      await updateDoc(strategyDoc, { group });
+      console.log('✅ Platform strategy group updated in Firebase');
+    } catch (error) {
+      console.warn('⚠️ Firebase update failed, updating localStorage only:', error);
+
+      // Update localStorage
+      try {
+        const key = `platformStrategies_${userId}`;
+        const existing = JSON.parse(localStorage.getItem(key) || '[]');
+        const updated = existing.map((strategy: SavedPlatformStrategy) =>
+          strategy.id === strategyId ? { ...strategy, group } : strategy
+        );
+        localStorage.setItem(key, JSON.stringify(updated));
+        console.log('💾 Platform strategy group updated in localStorage');
+      } catch (localError) {
+        console.error('❌ Failed to update group in localStorage:', localError);
+        throw localError;
+      }
+    }
+  }
+
+  async getUserPlatformStrategiesByGroup(userId: string, group?: string): Promise<SavedPlatformStrategy[]> {
+    try {
+      const strategies = await this.getUserPlatformStrategies(userId);
+      if (!group || group === 'All') {
+        return strategies;
+      }
+      return strategies.filter(strategy => strategy.group === group);
+    } catch (error) {
+      console.error('❌ Failed to get platform strategies by group:', error);
+      return [];
     }
   }
 }

@@ -37,6 +37,9 @@ import {
   AlertTriangle,
   Scale,
   Briefcase,
+  Filter,
+  FolderOpen,
+  Grid3X3,
 } from "lucide-react";
 
 // Import our world-class components
@@ -49,6 +52,7 @@ import {
   ProgressBar,
   TabHeader,
   GradientText,
+  EmptyState,
 } from "./ui/WorldClassComponents";
 
 // Import types
@@ -176,7 +180,235 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
   const [monetizationLoading, setMonetizationLoading] = useState(true);
   const [activeMonetizationSubTab, setActiveMonetizationSubTab] = useState<'revenue-streams' | 'pricing-strategy' | 'conversion-funnel'>('revenue-streams');
 
+  // Grouping system state
+  const [availableGroups, setAvailableGroups] = useState<string[]>(['All', 'Ungrouped']);
+  const [selectedGroup, setSelectedGroup] = useState<string>('All');
+  const [showCreateGroup, setShowCreateGroup] = useState(false);
+  const [newGroupName, setNewGroupName] = useState('');
+  const [showManageGroups, setShowManageGroups] = useState(false);
+  const [editingGroup, setEditingGroup] = useState<string | null>(null);
+  const [editGroupName, setEditGroupName] = useState('');
+
+  // Creation modal states
+  const [showCreatePillar, setShowCreatePillar] = useState(false);
+  const [showCreatePlatformStrategy, setShowCreatePlatformStrategy] = useState(false);
+  const [showCreateCampaign, setShowCreateCampaign] = useState(false);
+  const [showCreateMetric, setShowCreateMetric] = useState(false);
+
+  // Form states for creation
+  const [newPillar, setNewPillar] = useState({
+    name: '',
+    description: '',
+    color: '#3b82f6',
+    percentage: 25,
+    topics: [] as string[],
+    group: 'Ungrouped'
+  });
+  const [newPlatformStrategy, setNewPlatformStrategy] = useState({
+    platform: '',
+    focus: '',
+    contentTypes: [] as string[],
+    postingFrequency: '',
+    bestTimes: [] as string[],
+    engagementStrategy: '',
+    monetizationApproach: '',
+    keyMetrics: [] as string[],
+    audienceTargeting: '',
+    group: 'Ungrouped'
+  });
+  const [newCampaign, setNewCampaign] = useState({
+    name: '',
+    type: '',
+    description: '',
+    startDate: '',
+    endDate: '',
+    budget: '',
+    targetAudience: '',
+    channels: [] as string[],
+    goals: [] as string[],
+    group: 'Ungrouped'
+  });
+  const [newMetric, setNewMetric] = useState({
+    title: '',
+    description: '',
+    type: 'primary' as 'primary' | 'advanced',
+    category: '',
+    target: '',
+    group: 'Ungrouped'
+  });
+
   const { user } = useAuth();
+
+  // Group management functions
+  const handleCreateGroup = () => {
+    if (newGroupName.trim() && !availableGroups.includes(newGroupName.trim())) {
+      setAvailableGroups([...availableGroups, newGroupName.trim()]);
+      setSelectedGroup(newGroupName.trim());
+      setShowCreateGroup(false);
+      setNewGroupName('');
+    }
+  };
+
+  const handleRenameGroup = (oldName: string, newName: string) => {
+    if (newName.trim() && !availableGroups.includes(newName.trim()) && oldName !== 'All' && oldName !== 'Ungrouped') {
+      const updatedGroups = availableGroups.map(group => group === oldName ? newName.trim() : group);
+      setAvailableGroups(updatedGroups);
+      if (selectedGroup === oldName) {
+        setSelectedGroup(newName.trim());
+      }
+      setEditingGroup(null);
+      setEditGroupName('');
+    }
+  };
+
+  const handleDeleteGroup = (groupName: string) => {
+    if (groupName !== 'All' && groupName !== 'Ungrouped') {
+      const updatedGroups = availableGroups.filter(group => group !== groupName);
+      setAvailableGroups(updatedGroups);
+      if (selectedGroup === groupName) {
+        setSelectedGroup('All');
+      }
+    }
+  };
+
+  // Save functions for creation modals
+  const handleSavePillar = async () => {
+    if (!user || !newPillar.name.trim()) return;
+
+    try {
+      const pillarData = {
+        ...newPillar,
+        topics: newPillar.topics.filter(topic => topic.trim()),
+        source: 'manual-creation'
+      };
+
+      await contentPillarsService.saveContentPillar(user.uid, pillarData);
+
+      // Refresh the pillars list
+      const updatedPillars = await contentPillarsService.getUserContentPillars(user.uid);
+      setSavedContentPillars(updatedPillars);
+
+      // Reset form and close modal
+      setNewPillar({
+        name: '',
+        description: '',
+        color: '#3b82f6',
+        percentage: 25,
+        topics: [],
+        group: 'Ungrouped'
+      });
+      setShowCreatePillar(false);
+    } catch (error) {
+      console.error('Failed to save content pillar:', error);
+      alert('Failed to save content pillar. Please try again.');
+    }
+  };
+
+  const handleSavePlatformStrategy = async () => {
+    if (!user || !newPlatformStrategy.platform.trim()) return;
+
+    try {
+      const strategyData = {
+        ...newPlatformStrategy,
+        contentTypes: newPlatformStrategy.contentTypes.filter(type => type.trim()),
+        bestTimes: newPlatformStrategy.bestTimes.filter(time => time.trim()),
+        keyMetrics: newPlatformStrategy.keyMetrics.filter(metric => metric.trim()),
+        source: 'manual-creation'
+      };
+
+      await platformStrategiesService.savePlatformStrategy(user.uid, strategyData);
+
+      // Refresh the strategies list
+      const updatedStrategies = await platformStrategiesService.getUserPlatformStrategies(user.uid);
+      setSavedPlatformStrategies(updatedStrategies);
+
+      // Reset form and close modal
+      setNewPlatformStrategy({
+        platform: '',
+        focus: '',
+        contentTypes: [],
+        postingFrequency: '',
+        bestTimes: [],
+        engagementStrategy: '',
+        monetizationApproach: '',
+        keyMetrics: [],
+        audienceTargeting: '',
+        group: 'Ungrouped'
+      });
+      setShowCreatePlatformStrategy(false);
+    } catch (error) {
+      console.error('Failed to save platform strategy:', error);
+      alert('Failed to save platform strategy. Please try again.');
+    }
+  };
+
+  const handleSaveCampaign = async () => {
+    if (!user || !newCampaign.name.trim()) return;
+
+    try {
+      const campaignData = {
+        ...newCampaign,
+        channels: newCampaign.channels.filter(channel => channel.trim()),
+        goals: newCampaign.goals.filter(goal => goal.trim()),
+        source: 'manual-creation'
+      };
+
+      await campaignStrategiesService.saveCampaignStrategy(user.uid, campaignData);
+
+      // Refresh the campaigns list
+      const updatedCampaigns = await campaignStrategiesService.getUserCampaignStrategies(user.uid);
+      setSavedCampaignStrategies(updatedCampaigns);
+
+      // Reset form and close modal
+      setNewCampaign({
+        name: '',
+        type: '',
+        description: '',
+        startDate: '',
+        endDate: '',
+        budget: '',
+        targetAudience: '',
+        channels: [],
+        goals: [],
+        group: 'Ungrouped'
+      });
+      setShowCreateCampaign(false);
+    } catch (error) {
+      console.error('Failed to save campaign strategy:', error);
+      alert('Failed to save campaign strategy. Please try again.');
+    }
+  };
+
+  const handleSaveMetric = async () => {
+    if (!user || !newMetric.title.trim()) return;
+
+    try {
+      const metricData = {
+        ...newMetric,
+        source: 'manual-creation'
+      };
+
+      await analyticsService.saveAnalyticsMetric(user.uid, metricData);
+
+      // Refresh the metrics list
+      const updatedMetrics = await analyticsService.getUserAnalyticsMetrics(user.uid);
+      setSavedAnalyticsMetrics(updatedMetrics);
+
+      // Reset form and close modal
+      setNewMetric({
+        title: '',
+        description: '',
+        type: 'primary',
+        category: '',
+        target: '',
+        group: 'Ungrouped'
+      });
+      setShowCreateMetric(false);
+    } catch (error) {
+      console.error('Failed to save analytics metric:', error);
+      alert('Failed to save analytics metric. Please try again.');
+    }
+  };
 
   // Load goals from Firebase/localStorage
   React.useEffect(() => {
@@ -734,7 +966,7 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
     },
     {
       id: "enterprise-transformation-masterpiece",
-      name: "🚀 Enterprise Transformation Masterpiece",
+      name: "���� Enterprise Transformation Masterpiece",
       description: "The ultimate comprehensive transformation framework - the crown jewel of strategic consulting",
       category: "platform",
       tier: "agency",
@@ -1126,7 +1358,7 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                   onClick={() => setShowAddGoal(true)}
                 >
                   <Plus className="w-4 h-4" />
-                  Add Goal
+                  Create Strategy Plan
                 </Button>
               </div>
             </div>
@@ -1307,8 +1539,57 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                   <RefreshCw className={`w-4 h-4 ${pillarsLoading ? 'animate-spin' : ''}`} />
                   Refresh
                 </Button>
+                <Button
+                  variant="primary"
+                  onClick={() => setShowCreatePillar(true)}
+                >
+                  <Plus className="w-4 h-4" />
+                  Start from Scratch
+                </Button>
               </div>
             </div>
+
+            {/* Grouping Controls */}
+            {!pillarsLoading && savedContentPillars.length > 0 && (
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-2">
+                    <Filter className="w-4 h-4 text-[var(--text-secondary)]" />
+                    <span className="text-sm font-medium text-[var(--text-secondary)]">Group:</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    {availableGroups.map((group) => (
+                      <Button
+                        key={group}
+                        variant={selectedGroup === group ? "primary" : "ghost"}
+                        size="sm"
+                        onClick={() => setSelectedGroup(group)}
+                      >
+                        {group}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowCreateGroup(true)}
+                  >
+                    <Plus className="w-4 h-4" />
+                    New Group
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowManageGroups(true)}
+                  >
+                    <Settings className="w-4 h-4" />
+                    Manage
+                  </Button>
+                </div>
+              </div>
+            )}
 
             {pillarsLoading ? (
               <div className="flex items-center justify-center py-8">
@@ -1316,22 +1597,13 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 <span className="ml-3 text-[var(--text-secondary)]">Loading content pillars...</span>
               </div>
             ) : savedContentPillars.length === 0 ? (
-              <Card className="text-center py-12">
-                <div className="p-4 rounded-xl bg-gradient-to-br from-[var(--brand-primary)] to-[var(--brand-secondary)] text-white mx-auto w-fit mb-4">
-                  <Layers className="w-12 h-12" />
-                </div>
-                <h3 className="heading-4 mb-2">No Saved Content Pillars Yet</h3>
-                <p className="body-base mb-4 text-[var(--text-secondary)]">
-                  Generate a content strategy and save individual pillars to build your content pillar library
-                </p>
-                <Button
-                  variant="primary"
-                  onClick={() => setActiveSection("generated")}
-                >
-                  <Plus className="w-4 h-4" />
-                  Generate Content Strategy
-                </Button>
-              </Card>
+              <EmptyState
+                icon={<Layers className="w-8 h-8" />}
+                title="No Content Pillars Yet"
+                description="Create individual content pillars to build your content strategy foundation"
+                actionLabel="Start from Scratch"
+                onAction={() => setShowCreatePillar(true)}
+              />
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {savedContentPillars.map((pillar) => (
@@ -1424,8 +1696,47 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                   <RefreshCw className={`w-4 h-4 ${platformsLoading ? 'animate-spin' : ''}`} />
                   Refresh
                 </Button>
+                <Button
+                  variant="primary"
+                  onClick={() => setShowCreatePlatformStrategy(true)}
+                >
+                  <Plus className="w-4 h-4" />
+                  Start from Scratch
+                </Button>
               </div>
             </div>
+
+            {/* Grouping Controls */}
+            {!platformsLoading && savedPlatformStrategies.length > 0 && (
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-2">
+                    <Filter className="w-4 h-4 text-[var(--text-secondary)]" />
+                    <span className="text-sm font-medium text-[var(--text-secondary)]">Group:</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    {availableGroups.map((group) => (
+                      <Button
+                        key={group}
+                        variant={selectedGroup === group ? "primary" : "ghost"}
+                        size="sm"
+                        onClick={() => setSelectedGroup(group)}
+                      >
+                        {group}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowCreateGroup(true)}
+                >
+                  <Plus className="w-4 h-4" />
+                  New Group
+                </Button>
+              </div>
+            )}
 
             {platformsLoading ? (
               <div className="flex items-center justify-center py-8">
@@ -1433,22 +1744,13 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 <span className="ml-3 text-[var(--text-secondary)]">Loading platform strategies...</span>
               </div>
             ) : savedPlatformStrategies.length === 0 ? (
-              <Card className="text-center py-8">
-                <div className="p-4 rounded-xl bg-gradient-to-br from-[var(--brand-primary)] to-[var(--brand-secondary)] text-white mx-auto w-fit mb-4">
-                  <Share2 className="w-12 h-12" />
-                </div>
-                <h3 className="heading-4 mb-2">No Platform Strategies Yet</h3>
-                <p className="body-base mb-4 text-[var(--text-secondary)]">
-                  Generate a content strategy and save platform-specific strategies to build your platform library
-                </p>
-                <Button
-                  variant="primary"
-                  onClick={() => setActiveSection("generated")}
-                >
-                  <Plus className="w-4 h-4" />
-                  Generate Content Strategy
-                </Button>
-              </Card>
+              <EmptyState
+                icon={<Share2 className="w-8 h-8" />}
+                title="No Platform Strategies Yet"
+                description="Create platform-specific strategies to optimize your content for each social media platform"
+                actionLabel="Start from Scratch"
+                onAction={() => setShowCreatePlatformStrategy(true)}
+              />
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {savedPlatformStrategies.map((strategy) => (
@@ -1538,8 +1840,47 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                   <RefreshCw className={`w-4 h-4 ${campaignsLoading ? 'animate-spin' : ''}`} />
                   Refresh
                 </Button>
+                <Button
+                  variant="primary"
+                  onClick={() => setShowCreateCampaign(true)}
+                >
+                  <Plus className="w-4 h-4" />
+                  Start from Scratch
+                </Button>
               </div>
             </div>
+
+            {/* Grouping Controls */}
+            {!campaignsLoading && savedCampaignStrategies.length > 0 && (
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-2">
+                    <Filter className="w-4 h-4 text-[var(--text-secondary)]" />
+                    <span className="text-sm font-medium text-[var(--text-secondary)]">Group:</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    {availableGroups.map((group) => (
+                      <Button
+                        key={group}
+                        variant={selectedGroup === group ? "primary" : "ghost"}
+                        size="sm"
+                        onClick={() => setSelectedGroup(group)}
+                      >
+                        {group}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowCreateGroup(true)}
+                >
+                  <Plus className="w-4 h-4" />
+                  New Group
+                </Button>
+              </div>
+            )}
 
             {campaignsLoading ? (
               <div className="flex items-center justify-center py-8">
@@ -1547,22 +1888,13 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 <span className="ml-3 text-[var(--text-secondary)]">Loading campaign strategies...</span>
               </div>
             ) : savedCampaignStrategies.length === 0 ? (
-              <Card className="text-center py-8">
-                <div className="p-4 rounded-xl bg-gradient-to-br from-purple-600 to-purple-700 text-white mx-auto w-fit mb-4">
-                  <Megaphone className="w-12 h-12" />
-                </div>
-                <h3 className="heading-4 mb-2">No Campaign Strategies Yet</h3>
-                <p className="body-base mb-4 text-[var(--text-secondary)]">
-                  Generate a content strategy and save campaign frameworks to organize your marketing campaigns
-                </p>
-                <Button
-                  variant="primary"
-                  onClick={() => setActiveSection("generated")}
-                >
-                  <Plus className="w-4 h-4" />
-                  Generate Content Strategy
-                </Button>
-              </Card>
+              <EmptyState
+                icon={<Megaphone className="w-8 h-8" />}
+                title="No Campaign Strategies Yet"
+                description="Create campaign frameworks to organize and plan your marketing campaigns effectively"
+                actionLabel="Start from Scratch"
+                onAction={() => setShowCreateCampaign(true)}
+              />
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {savedCampaignStrategies.map((campaign) => (
@@ -1667,8 +1999,47 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                   <RefreshCw className={`w-4 h-4 ${analyticsLoading ? 'animate-spin' : ''}`} />
                   Refresh
                 </Button>
+                <Button
+                  variant="primary"
+                  onClick={() => setShowCreateMetric(true)}
+                >
+                  <Plus className="w-4 h-4" />
+                  Start from Scratch
+                </Button>
               </div>
             </div>
+
+            {/* Grouping Controls */}
+            {!analyticsLoading && savedAnalyticsMetrics.length > 0 && (
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-2">
+                    <Filter className="w-4 h-4 text-[var(--text-secondary)]" />
+                    <span className="text-sm font-medium text-[var(--text-secondary)]">Group:</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    {availableGroups.map((group) => (
+                      <Button
+                        key={group}
+                        variant={selectedGroup === group ? "primary" : "ghost"}
+                        size="sm"
+                        onClick={() => setSelectedGroup(group)}
+                      >
+                        {group}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowCreateGroup(true)}
+                >
+                  <Plus className="w-4 h-4" />
+                  New Group
+                </Button>
+              </div>
+            )}
 
             {analyticsLoading ? (
               <div className="flex items-center justify-center py-12">
@@ -1676,19 +2047,13 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 <span className="ml-3 text-[var(--text-secondary)]">Loading analytics metrics...</span>
               </div>
             ) : savedAnalyticsMetrics.length === 0 ? (
-              <div className="text-center py-8">
-                <BarChart3 className="w-12 h-12 text-[var(--text-tertiary)] mx-auto mb-3" />
-                <h4 className="text-lg font-semibold text-[var(--text-primary)] mb-2">
-                  No Analytics Metrics Yet
-                </h4>
-                <p className="text-sm text-[var(--text-secondary)] mb-4 max-w-sm mx-auto">
-                  Generate content strategies and save analytics metrics using the 3-dot menu on Analytics & Performance sections.
-                </p>
-                <Button variant="outline" size="sm" className="mx-auto">
-                  <Plus className="w-4 h-4 mr-2" />
-                  Create First Metric
-                </Button>
-              </div>
+              <EmptyState
+                icon={<BarChart3 className="w-8 h-8" />}
+                title="No Analytics Metrics Yet"
+                description="Create custom analytics metrics to track your content performance and strategy success"
+                actionLabel="Start from Scratch"
+                onAction={() => setShowCreateMetric(true)}
+              />
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 {savedAnalyticsMetrics.map((metric) => (
@@ -2043,6 +2408,33 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 <Badge variant="secondary" className="text-xs">
                   {savedRiskManagementItems.length} saved
                 </Badge>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={async () => {
+                    if (!user) return;
+                    try {
+                      setRiskManagementLoading(true);
+                      const items = await riskManagementService.getUserRiskManagementItems(user.uid);
+                      setSavedRiskManagementItems(items);
+                    } catch (error) {
+                      console.error('Failed to refresh risk management items:', error);
+                    } finally {
+                      setRiskManagementLoading(false);
+                    }
+                  }}
+                  disabled={riskManagementLoading}
+                >
+                  <RefreshCw className={`w-4 h-4 ${riskManagementLoading ? 'animate-spin' : ''}`} />
+                  Refresh
+                </Button>
+                <Button
+                  variant="primary"
+                  onClick={() => setActiveSection("generated")}
+                >
+                  <Plus className="w-4 h-4" />
+                  Start from Scratch
+                </Button>
               </div>
             </div>
 
@@ -2052,19 +2444,13 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 <span className="ml-3 text-[var(--text-secondary)]">Loading risk management plans...</span>
               </div>
             ) : savedRiskManagementItems.length === 0 ? (
-              <div className="text-center py-8">
-                <AlertTriangle className="w-12 h-12 text-[var(--text-tertiary)] mx-auto mb-3" />
-                <h4 className="text-lg font-semibold text-[var(--text-primary)] mb-2">
-                  No Risk Management Plans Yet
-                </h4>
-                <p className="text-sm text-[var(--text-secondary)] mb-4 max-w-sm mx-auto">
-                  Generate content strategies and save risk management plans using the 3-dot menu on risk management sections.
-                </p>
-                <Button variant="outline" size="sm" className="mx-auto">
-                  <Plus className="w-4 h-4 mr-2" />
-                  Create First Plan
-                </Button>
-              </div>
+              <EmptyState
+                icon={<AlertTriangle className="w-8 h-8" />}
+                title="No Risk Management Plans Yet"
+                description="Generate content strategies and save risk management plans using the 3-dot menu on risk management sections."
+                actionLabel="Start from Scratch"
+                onAction={() => setActiveSection("generated")}
+              />
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 {savedRiskManagementItems.map((item) => (
@@ -2153,7 +2539,36 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 <h3 className="heading-3">Competitor Analysis</h3>
                 <p className="body-base">Save and manage competitor intelligence</p>
               </div>
-              <Badge variant="info">{savedCompetitorAnalyses.length} analyses</Badge>
+              <div className="flex items-center space-x-3">
+                <Badge variant="info">{savedCompetitorAnalyses.length} analyses</Badge>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={async () => {
+                    if (!user) return;
+                    try {
+                      setCompetitorsLoading(true);
+                      const analyses = await competitorAnalysisService.getUserCompetitorAnalyses(user.uid);
+                      setSavedCompetitorAnalyses(analyses);
+                    } catch (error) {
+                      console.error('Failed to refresh competitor analyses:', error);
+                    } finally {
+                      setCompetitorsLoading(false);
+                    }
+                  }}
+                  disabled={competitorsLoading}
+                >
+                  <RefreshCw className={`w-4 h-4 ${competitorsLoading ? 'animate-spin' : ''}`} />
+                  Refresh
+                </Button>
+                <Button
+                  variant="primary"
+                  onClick={() => setActiveSection("generated")}
+                >
+                  <Plus className="w-4 h-4" />
+                  Start from Scratch
+                </Button>
+              </div>
             </div>
 
             {competitorsLoading ? (
@@ -2162,19 +2577,13 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 <span className="ml-3 text-[var(--text-secondary)]">Loading competitor analyses...</span>
               </div>
             ) : savedCompetitorAnalyses.length === 0 ? (
-              <Card className="text-center py-8">
-                <div className="p-4 rounded-xl bg-gradient-to-br from-red-600 to-red-700 text-white mx-auto w-fit mb-4">
-                  <TrendingDown className="w-12 h-12" />
-                </div>
-                <h3 className="heading-4 mb-2">No Competitor Analyses Yet</h3>
-                <p className="body-base mb-4 text-[var(--text-secondary)]">
-                  Generate competitor analysis from content strategies to build your competitive intelligence
-                </p>
-                <Button variant="primary" onClick={() => setActiveSection("generated")}>
-                  <Plus className="w-4 h-4" />
-                  Generate Content Strategy
-                </Button>
-              </Card>
+              <EmptyState
+                icon={<TrendingDown className="w-8 h-8" />}
+                title="No Competitor Analyses Yet"
+                description="Generate competitor analysis from content strategies to build your competitive intelligence"
+                actionLabel="Start from Scratch"
+                onAction={() => setActiveSection("generated")}
+              />
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {savedCompetitorAnalyses.map((analysis) => (
@@ -2208,7 +2617,36 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 <h3 className="heading-3">Customer Journey</h3>
                 <p className="body-base">Save and manage customer journey maps</p>
               </div>
-              <Badge variant="info">{savedCustomerJourneys.length} journeys</Badge>
+              <div className="flex items-center space-x-3">
+                <Badge variant="info">{savedCustomerJourneys.length} journeys</Badge>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={async () => {
+                    if (!user) return;
+                    try {
+                      setJourneysLoading(true);
+                      const journeys = await customerJourneyService.getUserCustomerJourneys(user.uid);
+                      setSavedCustomerJourneys(journeys);
+                    } catch (error) {
+                      console.error('Failed to refresh customer journeys:', error);
+                    } finally {
+                      setJourneysLoading(false);
+                    }
+                  }}
+                  disabled={journeysLoading}
+                >
+                  <RefreshCw className={`w-4 h-4 ${journeysLoading ? 'animate-spin' : ''}`} />
+                  Refresh
+                </Button>
+                <Button
+                  variant="primary"
+                  onClick={() => setActiveSection("generated")}
+                >
+                  <Plus className="w-4 h-4" />
+                  Start from Scratch
+                </Button>
+              </div>
             </div>
 
             {journeysLoading ? (
@@ -2263,7 +2701,36 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 <h3 className="heading-3">Resource Planning</h3>
                 <p className="body-base">Save and manage resource plans and budgets</p>
               </div>
-              <Badge variant="info">{savedResourcePlans.length} plans</Badge>
+              <div className="flex items-center space-x-3">
+                <Badge variant="info">{savedResourcePlans.length} plans</Badge>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={async () => {
+                    if (!user) return;
+                    try {
+                      setResourcesLoading(true);
+                      const plans = await resourcePlanningService.getUserResourcePlans(user.uid);
+                      setSavedResourcePlans(plans);
+                    } catch (error) {
+                      console.error('Failed to refresh resource plans:', error);
+                    } finally {
+                      setResourcesLoading(false);
+                    }
+                  }}
+                  disabled={resourcesLoading}
+                >
+                  <RefreshCw className={`w-4 h-4 ${resourcesLoading ? 'animate-spin' : ''}`} />
+                  Refresh
+                </Button>
+                <Button
+                  variant="primary"
+                  onClick={() => setActiveSection("generated")}
+                >
+                  <Plus className="w-4 h-4" />
+                  Start from Scratch
+                </Button>
+              </div>
             </div>
 
             {resourcesLoading ? (
@@ -2318,7 +2785,36 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 <h3 className="heading-3">Legal & Compliance</h3>
                 <p className="body-base">Save and manage compliance plans and legal guidelines</p>
               </div>
-              <Badge variant="info">{savedCompliancePlans.length} plans</Badge>
+              <div className="flex items-center space-x-3">
+                <Badge variant="info">{savedCompliancePlans.length} plans</Badge>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={async () => {
+                    if (!user) return;
+                    try {
+                      setComplianceLoading(true);
+                      const plans = await complianceService.getUserCompliancePlans(user.uid);
+                      setSavedCompliancePlans(plans);
+                    } catch (error) {
+                      console.error('Failed to refresh compliance plans:', error);
+                    } finally {
+                      setComplianceLoading(false);
+                    }
+                  }}
+                  disabled={complianceLoading}
+                >
+                  <RefreshCw className={`w-4 h-4 ${complianceLoading ? 'animate-spin' : ''}`} />
+                  Refresh
+                </Button>
+                <Button
+                  variant="primary"
+                  onClick={() => setActiveSection("generated")}
+                >
+                  <Plus className="w-4 h-4" />
+                  Start from Scratch
+                </Button>
+              </div>
             </div>
 
             {complianceLoading ? (
@@ -2800,6 +3296,709 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                       Close
                     </Button>
                   </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Group Management Modal */}
+      <AnimatePresence>
+        {showManageGroups && (
+          <motion.div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowManageGroups(false)}
+          >
+            <motion.div
+              className="bg-[var(--card-background)] border border-[var(--border-primary)] rounded-xl p-6 w-full max-w-md mx-4"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="heading-4 flex items-center space-x-2">
+                  <Grid3X3 className="w-5 h-5" />
+                  <span>Manage Groups</span>
+                </h3>
+                <Button variant="ghost" size="sm" onClick={() => setShowManageGroups(false)}>
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+
+              <div className="space-y-2 max-h-64 overflow-y-auto">
+                {availableGroups.filter(group => group !== 'All' && group !== 'Ungrouped').map((group) => (
+                  <div key={group} className="flex items-center justify-between p-3 bg-[var(--surface-tertiary)] rounded-lg">
+                    {editingGroup === group ? (
+                      <div className="flex items-center space-x-2 flex-1">
+                        <Input
+                          value={editGroupName}
+                          onChange={(e) => setEditGroupName(e.target.value)}
+                          placeholder="Group name..."
+                          className="flex-1"
+                          autoFocus
+                        />
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleRenameGroup(group, editGroupName)}
+                          disabled={!editGroupName.trim() || availableGroups.includes(editGroupName.trim())}
+                        >
+                          <CheckCircle className="w-4 h-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            setEditingGroup(null);
+                            setEditGroupName('');
+                          }}
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    ) : (
+                      <>
+                        <span className="text-sm font-medium text-[var(--text-primary)]">{group}</span>
+                        <div className="flex items-center space-x-1">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              setEditingGroup(group);
+                              setEditGroupName(group);
+                            }}
+                          >
+                            <Edit3 className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleDeleteGroup(group)}
+                            className="text-red-500 hover:text-red-600"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                ))}
+
+                {availableGroups.filter(group => group !== 'All' && group !== 'Ungrouped').length === 0 && (
+                  <div className="text-center py-8 text-[var(--text-secondary)]">
+                    <FolderOpen className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                    <p className="text-sm">No custom groups yet</p>
+                  </div>
+                )}
+              </div>
+
+              <div className="flex items-center justify-end mt-6">
+                <Button variant="ghost" onClick={() => setShowManageGroups(false)}>
+                  Done
+                </Button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Group Creation Modal */}
+      <AnimatePresence>
+        {showCreateGroup && (
+          <motion.div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowCreateGroup(false)}
+          >
+            <motion.div
+              className="bg-[var(--card-background)] border border-[var(--border-primary)] rounded-xl p-6 w-full max-w-md mx-4"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="heading-4 flex items-center space-x-2">
+                  <FolderOpen className="w-5 h-5" />
+                  <span>Create New Group</span>
+                </h3>
+                <Button variant="ghost" size="sm" onClick={() => setShowCreateGroup(false)}>
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Group Name
+                  </label>
+                  <Input
+                    value={newGroupName}
+                    onChange={(e) => setNewGroupName(e.target.value)}
+                    placeholder="Enter group name..."
+                    className="w-full"
+                  />
+                </div>
+
+                <div className="flex items-center justify-end space-x-3">
+                  <Button variant="ghost" onClick={() => {
+                    setShowCreateGroup(false);
+                    setNewGroupName('');
+                  }}>
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="primary"
+                    onClick={handleCreateGroup}
+                    disabled={!newGroupName.trim() || availableGroups.includes(newGroupName.trim())}
+                  >
+                    Create Group
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Content Pillar Creation Modal */}
+      <AnimatePresence>
+        {showCreatePillar && (
+          <motion.div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowCreatePillar(false)}
+          >
+            <motion.div
+              className="bg-[var(--card-background)] border border-[var(--border-primary)] rounded-xl p-6 w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="heading-4 flex items-center space-x-2">
+                  <Layers className="w-5 h-5" />
+                  <span>Create Content Pillar</span>
+                </h3>
+                <Button variant="ghost" size="sm" onClick={() => setShowCreatePillar(false)}>
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Pillar Name *
+                  </label>
+                  <Input
+                    value={newPillar.name}
+                    onChange={(e) => setNewPillar(prev => ({ ...prev, name: e.target.value }))}
+                    placeholder="e.g., Educational Content, Behind the Scenes..."
+                    className="w-full"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Description
+                  </label>
+                  <Input
+                    value={newPillar.description}
+                    onChange={(e) => setNewPillar(prev => ({ ...prev, description: e.target.value }))}
+                    placeholder="Describe what this pillar covers..."
+                    className="w-full"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                      Color
+                    </label>
+                    <input
+                      type="color"
+                      value={newPillar.color}
+                      onChange={(e) => setNewPillar(prev => ({ ...prev, color: e.target.value }))}
+                      className="w-full h-10 rounded-lg border border-[var(--border-primary)] cursor-pointer"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                      Percentage (%)
+                    </label>
+                    <Input
+                      type="number"
+                      min="1"
+                      max="100"
+                      value={newPillar.percentage}
+                      onChange={(e) => setNewPillar(prev => ({ ...prev, percentage: parseInt(e.target.value) || 25 }))}
+                      className="w-full"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Group
+                  </label>
+                  <select
+                    value={newPillar.group}
+                    onChange={(e) => setNewPillar(prev => ({ ...prev, group: e.target.value }))}
+                    className="w-full p-2 border border-[var(--border-primary)] rounded-lg bg-[var(--surface-secondary)] text-[var(--text-primary)]"
+                  >
+                    {availableGroups.filter(g => g !== 'All').map(group => (
+                      <option key={group} value={group}>{group}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="flex items-center justify-end space-x-3">
+                  <Button variant="ghost" onClick={() => setShowCreatePillar(false)}>
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="primary"
+                    onClick={handleSavePillar}
+                    disabled={!newPillar.name.trim()}
+                  >
+                    Create Pillar
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Platform Strategy Creation Modal */}
+      <AnimatePresence>
+        {showCreatePlatformStrategy && (
+          <motion.div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowCreatePlatformStrategy(false)}
+          >
+            <motion.div
+              className="bg-[var(--card-background)] border border-[var(--border-primary)] rounded-xl p-6 w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="heading-4 flex items-center space-x-2">
+                  <Share2 className="w-5 h-5" />
+                  <span>Create Platform Strategy</span>
+                </h3>
+                <Button variant="ghost" size="sm" onClick={() => setShowCreatePlatformStrategy(false)}>
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Platform *
+                  </label>
+                  <select
+                    value={newPlatformStrategy.platform}
+                    onChange={(e) => setNewPlatformStrategy(prev => ({ ...prev, platform: e.target.value }))}
+                    className="w-full p-2 border border-[var(--border-primary)] rounded-lg bg-[var(--surface-secondary)] text-[var(--text-primary)]"
+                  >
+                    <option value="">Select a platform...</option>
+                    <option value="Instagram">Instagram</option>
+                    <option value="TikTok">TikTok</option>
+                    <option value="YouTube">YouTube</option>
+                    <option value="LinkedIn">LinkedIn</option>
+                    <option value="Twitter">Twitter</option>
+                    <option value="Facebook">Facebook</option>
+                    <option value="Pinterest">Pinterest</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Focus Area
+                  </label>
+                  <Input
+                    value={newPlatformStrategy.focus}
+                    onChange={(e) => setNewPlatformStrategy(prev => ({ ...prev, focus: e.target.value }))}
+                    placeholder="e.g., Brand awareness, Lead generation..."
+                    className="w-full"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Posting Frequency
+                  </label>
+                  <select
+                    value={newPlatformStrategy.postingFrequency}
+                    onChange={(e) => setNewPlatformStrategy(prev => ({ ...prev, postingFrequency: e.target.value }))}
+                    className="w-full p-2 border border-[var(--border-primary)] rounded-lg bg-[var(--surface-secondary)] text-[var(--text-primary)]"
+                  >
+                    <option value="">Select frequency...</option>
+                    <option value="Daily">Daily</option>
+                    <option value="3-4x/week">3-4x per week</option>
+                    <option value="2-3x/week">2-3x per week</option>
+                    <option value="Weekly">Weekly</option>
+                    <option value="Bi-weekly">Bi-weekly</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Engagement Strategy
+                  </label>
+                  <Input
+                    value={newPlatformStrategy.engagementStrategy}
+                    onChange={(e) => setNewPlatformStrategy(prev => ({ ...prev, engagementStrategy: e.target.value }))}
+                    placeholder="How will you engage your audience..."
+                    className="w-full"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Target Audience
+                  </label>
+                  <Input
+                    value={newPlatformStrategy.audienceTargeting}
+                    onChange={(e) => setNewPlatformStrategy(prev => ({ ...prev, audienceTargeting: e.target.value }))}
+                    placeholder="Describe your target audience..."
+                    className="w-full"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Group
+                  </label>
+                  <select
+                    value={newPlatformStrategy.group}
+                    onChange={(e) => setNewPlatformStrategy(prev => ({ ...prev, group: e.target.value }))}
+                    className="w-full p-2 border border-[var(--border-primary)] rounded-lg bg-[var(--surface-secondary)] text-[var(--text-primary)]"
+                  >
+                    {availableGroups.filter(g => g !== 'All').map(group => (
+                      <option key={group} value={group}>{group}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="flex items-center justify-end space-x-3">
+                  <Button variant="ghost" onClick={() => setShowCreatePlatformStrategy(false)}>
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="primary"
+                    onClick={handleSavePlatformStrategy}
+                    disabled={!newPlatformStrategy.platform.trim()}
+                  >
+                    Create Strategy
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Campaign Strategy Creation Modal */}
+      <AnimatePresence>
+        {showCreateCampaign && (
+          <motion.div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowCreateCampaign(false)}
+          >
+            <motion.div
+              className="bg-[var(--card-background)] border border-[var(--border-primary)] rounded-xl p-6 w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="heading-4 flex items-center space-x-2">
+                  <Megaphone className="w-5 h-5" />
+                  <span>Create Campaign Strategy</span>
+                </h3>
+                <Button variant="ghost" size="sm" onClick={() => setShowCreateCampaign(false)}>
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Campaign Name *
+                  </label>
+                  <Input
+                    value={newCampaign.name}
+                    onChange={(e) => setNewCampaign(prev => ({ ...prev, name: e.target.value }))}
+                    placeholder="e.g., Summer Product Launch..."
+                    className="w-full"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Campaign Type
+                  </label>
+                  <select
+                    value={newCampaign.type}
+                    onChange={(e) => setNewCampaign(prev => ({ ...prev, type: e.target.value }))}
+                    className="w-full p-2 border border-[var(--border-primary)] rounded-lg bg-[var(--surface-secondary)] text-[var(--text-primary)]"
+                  >
+                    <option value="">Select type...</option>
+                    <option value="Product Launch">Product Launch</option>
+                    <option value="Brand Awareness">Brand Awareness</option>
+                    <option value="Lead Generation">Lead Generation</option>
+                    <option value="Seasonal">Seasonal</option>
+                    <option value="Event Promotion">Event Promotion</option>
+                    <option value="User Generated Content">User Generated Content</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Description
+                  </label>
+                  <Input
+                    value={newCampaign.description}
+                    onChange={(e) => setNewCampaign(prev => ({ ...prev, description: e.target.value }))}
+                    placeholder="Brief description of the campaign..."
+                    className="w-full"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                      Start Date
+                    </label>
+                    <Input
+                      type="date"
+                      value={newCampaign.startDate}
+                      onChange={(e) => setNewCampaign(prev => ({ ...prev, startDate: e.target.value }))}
+                      className="w-full"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                      End Date
+                    </label>
+                    <Input
+                      type="date"
+                      value={newCampaign.endDate}
+                      onChange={(e) => setNewCampaign(prev => ({ ...prev, endDate: e.target.value }))}
+                      className="w-full"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Budget
+                  </label>
+                  <select
+                    value={newCampaign.budget}
+                    onChange={(e) => setNewCampaign(prev => ({ ...prev, budget: e.target.value }))}
+                    className="w-full p-2 border border-[var(--border-primary)] rounded-lg bg-[var(--surface-secondary)] text-[var(--text-primary)]"
+                  >
+                    <option value="">Select budget range...</option>
+                    <option value="Under $1,000">Under $1,000</option>
+                    <option value="$1,000 - $5,000">$1,000 - $5,000</option>
+                    <option value="$5,000 - $10,000">$5,000 - $10,000</option>
+                    <option value="$10,000+">$10,000+</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Target Audience
+                  </label>
+                  <Input
+                    value={newCampaign.targetAudience}
+                    onChange={(e) => setNewCampaign(prev => ({ ...prev, targetAudience: e.target.value }))}
+                    placeholder="Who is this campaign targeting..."
+                    className="w-full"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Group
+                  </label>
+                  <select
+                    value={newCampaign.group}
+                    onChange={(e) => setNewCampaign(prev => ({ ...prev, group: e.target.value }))}
+                    className="w-full p-2 border border-[var(--border-primary)] rounded-lg bg-[var(--surface-secondary)] text-[var(--text-primary)]"
+                  >
+                    {availableGroups.filter(g => g !== 'All').map(group => (
+                      <option key={group} value={group}>{group}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="flex items-center justify-end space-x-3">
+                  <Button variant="ghost" onClick={() => setShowCreateCampaign(false)}>
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="primary"
+                    onClick={handleSaveCampaign}
+                    disabled={!newCampaign.name.trim()}
+                  >
+                    Create Campaign
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Analytics Metric Creation Modal */}
+      <AnimatePresence>
+        {showCreateMetric && (
+          <motion.div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowCreateMetric(false)}
+          >
+            <motion.div
+              className="bg-[var(--card-background)] border border-[var(--border-primary)] rounded-xl p-6 w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="heading-4 flex items-center space-x-2">
+                  <BarChart3 className="w-5 h-5" />
+                  <span>Create Analytics Metric</span>
+                </h3>
+                <Button variant="ghost" size="sm" onClick={() => setShowCreateMetric(false)}>
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Metric Title *
+                  </label>
+                  <Input
+                    value={newMetric.title}
+                    onChange={(e) => setNewMetric(prev => ({ ...prev, title: e.target.value }))}
+                    placeholder="e.g., Monthly Engagement Rate..."
+                    className="w-full"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Description
+                  </label>
+                  <Input
+                    value={newMetric.description}
+                    onChange={(e) => setNewMetric(prev => ({ ...prev, description: e.target.value }))}
+                    placeholder="What does this metric measure..."
+                    className="w-full"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                      Type
+                    </label>
+                    <select
+                      value={newMetric.type}
+                      onChange={(e) => setNewMetric(prev => ({ ...prev, type: e.target.value as 'primary' | 'advanced' }))}
+                      className="w-full p-2 border border-[var(--border-primary)] rounded-lg bg-[var(--surface-secondary)] text-[var(--text-primary)]"
+                    >
+                      <option value="primary">Primary</option>
+                      <option value="advanced">Advanced</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                      Category
+                    </label>
+                    <select
+                      value={newMetric.category}
+                      onChange={(e) => setNewMetric(prev => ({ ...prev, category: e.target.value }))}
+                      className="w-full p-2 border border-[var(--border-primary)] rounded-lg bg-[var(--surface-secondary)] text-[var(--text-primary)]"
+                    >
+                      <option value="">Select category...</option>
+                      <option value="Engagement">Engagement</option>
+                      <option value="Reach">Reach</option>
+                      <option value="Conversion">Conversion</option>
+                      <option value="Growth">Growth</option>
+                      <option value="Revenue">Revenue</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Target/Goal
+                  </label>
+                  <Input
+                    value={newMetric.target}
+                    onChange={(e) => setNewMetric(prev => ({ ...prev, target: e.target.value }))}
+                    placeholder="e.g., 5%, 1000 followers, $10,000..."
+                    className="w-full"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Group
+                  </label>
+                  <select
+                    value={newMetric.group}
+                    onChange={(e) => setNewMetric(prev => ({ ...prev, group: e.target.value }))}
+                    className="w-full p-2 border border-[var(--border-primary)] rounded-lg bg-[var(--surface-secondary)] text-[var(--text-primary)]"
+                  >
+                    {availableGroups.filter(g => g !== 'All').map(group => (
+                      <option key={group} value={group}>{group}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="flex items-center justify-end space-x-3">
+                  <Button variant="ghost" onClick={() => setShowCreateMetric(false)}>
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="primary"
+                    onClick={handleSaveMetric}
+                    disabled={!newMetric.title.trim()}
+                  >
+                    Create Metric
+                  </Button>
                 </div>
               </div>
             </motion.div>

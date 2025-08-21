@@ -48,6 +48,7 @@ import {
   Briefcase,
   Scale,
   AlertTriangle,
+  RotateCcw,
   FileText,
   Network,
   Sparkles,
@@ -1418,21 +1419,23 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
     string | null
   >(null);
   const [isLoadingTemplate, setIsLoadingTemplate] = useState(false);
+  const defaultStrategyConfig = {
+    niche: "",
+    targetAudience: "",
+    goals: [],
+    platforms: [],
+    contentTypes: [],
+    timeframe: "3months",
+    budget: "medium",
+    competitorAnalysis: false,
+    aiPersona: "expert",
+    industryFocus: "",
+    geographicFocus: [],
+    languagePreferences: ["English"],
+  };
+
   const [localStrategyConfig, setLocalStrategyConfig] =
-    useState<StrategyConfig>({
-      niche: "",
-      targetAudience: "",
-      goals: [],
-      platforms: [],
-      contentTypes: [],
-      timeframe: "3months",
-      budget: "medium",
-      competitorAnalysis: false,
-      aiPersona: "expert",
-      industryFocus: "",
-      geographicFocus: [],
-      languagePreferences: ["English"],
-    });
+    useState<StrategyConfig>(defaultStrategyConfig);
 
   // Generate dynamic metrics based on niche and config
   const generateDynamicSummary = () => {
@@ -3855,6 +3858,15 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
     }
   };
 
+  const handleStartFromScratch = () => {
+    setLocalStrategyConfig(defaultStrategyConfig);
+    setLocalSelectedTemplate(null);
+    if (onUpdateStrategyPlan) {
+      onUpdateStrategyPlan(null as any);
+    }
+    setActiveView("create");
+  };
+
   const exportStrategy = (format: "pdf" | "docx" | "json") => {
     if (!strategyPlan) {
       alert("No strategy to export. Please generate a strategy first.");
@@ -4776,6 +4788,15 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                   <Badge variant={isLoading ? 'warning' : strategyPlan ? 'success' : 'neutral'}>
                     {isLoading ? 'Creating...' : strategyPlan ? 'Ready' : 'Configure'}
                   </Badge>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleStartFromScratch}
+                    className="ml-2"
+                  >
+                    <RotateCcw className="w-4 h-4 mr-2" />
+                    Start from Scratch
+                  </Button>
                 </div>
               }
             />
