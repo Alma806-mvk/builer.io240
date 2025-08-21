@@ -2911,6 +2911,74 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Group Creation Modal */}
+      <AnimatePresence>
+        {showCreateGroup && (
+          <motion.div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowCreateGroup(false)}
+          >
+            <motion.div
+              className="bg-[var(--card-background)] border border-[var(--border-primary)] rounded-xl p-6 w-full max-w-md mx-4"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="heading-4 flex items-center space-x-2">
+                  <FolderOpen className="w-5 h-5" />
+                  <span>Create New Group</span>
+                </h3>
+                <Button variant="ghost" size="sm" onClick={() => setShowCreateGroup(false)}>
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium text-[var(--text-secondary)] mb-2 block">
+                    Group Name
+                  </label>
+                  <Input
+                    value={newGroupName}
+                    onChange={(e) => setNewGroupName(e.target.value)}
+                    placeholder="Enter group name..."
+                    className="w-full"
+                  />
+                </div>
+
+                <div className="flex items-center justify-end space-x-3">
+                  <Button variant="ghost" onClick={() => {
+                    setShowCreateGroup(false);
+                    setNewGroupName('');
+                  }}>
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="primary"
+                    onClick={() => {
+                      if (newGroupName.trim() && !availableGroups.includes(newGroupName.trim())) {
+                        setAvailableGroups([...availableGroups, newGroupName.trim()]);
+                        setSelectedGroup(newGroupName.trim());
+                        setShowCreateGroup(false);
+                        setNewGroupName('');
+                      }
+                    }}
+                    disabled={!newGroupName.trim() || availableGroups.includes(newGroupName.trim())}
+                  >
+                    Create Group
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
