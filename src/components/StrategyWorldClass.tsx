@@ -2984,14 +2984,7 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                   </Button>
                   <Button
                     variant="primary"
-                    onClick={() => {
-                      if (newGroupName.trim() && !availableGroups.includes(newGroupName.trim())) {
-                        setAvailableGroups([...availableGroups, newGroupName.trim()]);
-                        setSelectedGroup(newGroupName.trim());
-                        setShowCreateGroup(false);
-                        setNewGroupName('');
-                      }
-                    }}
+                    onClick={handleCreateGroup}
                     disabled={!newGroupName.trim() || availableGroups.includes(newGroupName.trim())}
                   >
                     Create Group
