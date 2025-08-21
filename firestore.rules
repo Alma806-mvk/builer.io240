@@ -80,7 +80,32 @@ service cloud.firestore {
     // =====================================
     // SPECIAL COLLECTION RULES
     // =====================================
-    
+
+    // Generations - AI Generated Content
+    match /generations/{generationId} {
+      // Read: Only if user owns the generation
+      allow get: if request.auth != null
+                 && resource.data.userId == request.auth.uid;
+
+      // List: Only user's own generations with query constraints
+      allow list: if request.auth != null
+                  && request.query.where('userId', '==', request.auth.uid).size() > 0;
+
+      // Create: Only if creating for themselves with valid structure
+      allow create: if request.auth != null
+                    && request.resource.data.userId == request.auth.uid
+                    && isValidGeneration();
+
+      // Update: Only to update metadata like feedback for user's own generations
+      allow update: if request.auth != null
+                    && resource.data.userId == request.auth.uid
+                    && request.resource.data.userId == request.auth.uid;
+
+      // Delete: Allow users to delete their own generations
+      allow delete: if request.auth != null
+                    && resource.data.userId == request.auth.uid;
+    }
+
     // Credit Transactions - Enhanced Security
     match /credit_transactions/{transactionId} {
       // Read: Only if user owns the transaction
