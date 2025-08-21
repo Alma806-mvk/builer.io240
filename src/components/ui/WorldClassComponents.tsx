@@ -385,6 +385,7 @@ interface EmptyStateProps {
   title: string;
   description: string;
   actionLabel?: string;
+  actionIcon?: ReactNode;
   onAction?: () => void;
   className?: string;
 }
