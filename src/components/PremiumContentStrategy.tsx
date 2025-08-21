@@ -48,6 +48,7 @@ import {
   Briefcase,
   Scale,
   AlertTriangle,
+  RotateCcw,
   FileText,
   Network,
   Sparkles,
@@ -1166,7 +1167,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
         });
       }, 2000);
     } catch (error) {
-      console.error('❌ Failed to copy pillar text:', error);
+      console.error('��� Failed to copy pillar text:', error);
       setPillarActionStatus(prev => ({...prev, [index]: 'Error'}));
 
       // Show user-friendly error message
