@@ -191,6 +191,38 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
 
   const { user } = useAuth();
 
+  // Group management functions
+  const handleCreateGroup = () => {
+    if (newGroupName.trim() && !availableGroups.includes(newGroupName.trim())) {
+      setAvailableGroups([...availableGroups, newGroupName.trim()]);
+      setSelectedGroup(newGroupName.trim());
+      setShowCreateGroup(false);
+      setNewGroupName('');
+    }
+  };
+
+  const handleRenameGroup = (oldName: string, newName: string) => {
+    if (newName.trim() && !availableGroups.includes(newName.trim()) && oldName !== 'All' && oldName !== 'Ungrouped') {
+      const updatedGroups = availableGroups.map(group => group === oldName ? newName.trim() : group);
+      setAvailableGroups(updatedGroups);
+      if (selectedGroup === oldName) {
+        setSelectedGroup(newName.trim());
+      }
+      setEditingGroup(null);
+      setEditGroupName('');
+    }
+  };
+
+  const handleDeleteGroup = (groupName: string) => {
+    if (groupName !== 'All' && groupName !== 'Ungrouped') {
+      const updatedGroups = availableGroups.filter(group => group !== groupName);
+      setAvailableGroups(updatedGroups);
+      if (selectedGroup === groupName) {
+        setSelectedGroup('All');
+      }
+    }
+  };
+
   // Load goals from Firebase/localStorage
   React.useEffect(() => {
     const loadGoals = async () => {
