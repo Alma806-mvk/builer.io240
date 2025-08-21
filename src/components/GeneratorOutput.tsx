@@ -110,7 +110,7 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
   const [isMagicSelectActive, setIsMagicSelectActive] = useState(false);
 
   // Firebase feedback state
-  const [userFeedback, setUserFeedback] = useState<'positive' | 'negative' | null>(
+  const [userFeedback, setUserFeedback] = useState<-1 | 0 | 1 | null>(
     displayedOutputItem?.firebase?.userFeedback?.rating || null
   );
   const [feedbackLoading, setFeedbackLoading] = useState(false);
@@ -132,7 +132,7 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
   }, [displayedOutputItem?.id, displayedOutputItem?.firebase?.userFeedback]);
 
   // Feedback handler functions
-  const handleFeedback = async (rating: 'positive' | 'negative') => {
+  const handleFeedback = async (rating: -1 | 0 | 1) => {
     if (!displayedOutputItem?.firebase?.generationId || !auth.currentUser) {
       console.warn('Cannot save feedback: missing generation ID or user not authenticated');
       return;
@@ -152,7 +152,7 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
       console.log('✅ Feedback saved successfully');
 
       // If negative feedback, show comment input
-      if (rating === 'negative' && !feedbackComment.trim()) {
+      if (rating === -1 && !feedbackComment.trim()) {
         setShowFeedbackComment(true);
       }
     } catch (error) {
@@ -901,7 +901,7 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
             {auth.currentUser && displayedOutputItem?.firebase?.generationId && (
               <div style={{ display: "flex", gap: "0.25rem", alignItems: "center" }}>
                 <button
-                  onClick={() => handleFeedback('positive')}
+                  onClick={() => handleFeedback(1)}
                   disabled={feedbackLoading}
                   style={{
                     display: "flex",
@@ -912,8 +912,8 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
                     fontSize: "0.75rem",
                     cursor: feedbackLoading ? "not-allowed" : "pointer",
                     border: "1px solid #374151",
-                    background: userFeedback === 'positive' ? "#059669" : "#374151",
-                    color: userFeedback === 'positive' ? "white" : "#d1d5db",
+                    background: userFeedback === 1 ? "#059669" : "#374151",
+                    color: userFeedback === 1 ? "white" : "#d1d5db",
                     opacity: feedbackLoading ? 0.5 : 1,
                     transition: "all 0.2s",
                   }}
@@ -923,7 +923,7 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
                 </button>
 
                 <button
-                  onClick={() => handleFeedback('negative')}
+                  onClick={() => handleFeedback(-1)}
                   disabled={feedbackLoading}
                   style={{
                     display: "flex",
@@ -934,8 +934,8 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
                     fontSize: "0.75rem",
                     cursor: feedbackLoading ? "not-allowed" : "pointer",
                     border: "1px solid #374151",
-                    background: userFeedback === 'negative' ? "#dc2626" : "#374151",
-                    color: userFeedback === 'negative' ? "white" : "#d1d5db",
+                    background: userFeedback === -1 ? "#dc2626" : "#374151",
+                    color: userFeedback === -1 ? "white" : "#d1d5db",
                     opacity: feedbackLoading ? 0.5 : 1,
                     transition: "all 0.2s",
                   }}
@@ -950,7 +950,7 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
                     color: "#94a3b8",
                     marginLeft: "0.25rem"
                   }}>
-                    {userFeedback === 'positive' ? 'Thanks!' : 'Noted'}
+                    {userFeedback === 1 ? 'Thanks!' : userFeedback === -1 ? 'Noted' : ''}
                   </span>
                 )}
               </div>
@@ -1425,7 +1425,7 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
       )}
 
       {/* Feedback Comment Modal */}
-      {showFeedbackComment && userFeedback === 'negative' && auth.currentUser && (
+      {showFeedbackComment && userFeedback === -1 && auth.currentUser && (
         <div
           style={{
             position: "fixed",
