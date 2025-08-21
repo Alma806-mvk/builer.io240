@@ -1376,14 +1376,24 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                     ))}
                   </div>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setShowCreateGroup(true)}
-                >
-                  <Plus className="w-4 h-4" />
-                  New Group
-                </Button>
+                <div className="flex items-center space-x-2">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowCreateGroup(true)}
+                  >
+                    <Plus className="w-4 h-4" />
+                    New Group
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowManageGroups(true)}
+                  >
+                    <Settings className="w-4 h-4" />
+                    Manage
+                  </Button>
+                </div>
               </div>
             )}
 
