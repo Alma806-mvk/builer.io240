@@ -130,6 +130,7 @@ import {
   generateImage,
   performWebSearch,
 } from "./services/geminiService";
+import { firebaseIntegratedGenerationService } from "./src/services/firebaseIntegratedGenerationService";
 import {
   truncateText,
   parseJsonSafely,
@@ -8753,7 +8754,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                   "���",
                   "����������",
                   "��������",
-                  "��",
+                  "����",
                   "⚡",
                   "��",
                   "💫",
@@ -16707,7 +16708,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
 
                         // Show feedback message
                         console.log(
-                          `🎨 ${preset.name}: ${preset.description || "Applied successfully"}`,
+                          `���� ${preset.name}: ${preset.description || "Applied successfully"}`,
                         );
                       }}
                       className={`group relative p-3 bg-gradient-to-r ${preset.bg} hover:scale-105 text-white rounded-lg transition-all duration-200 transform flex flex-col items-center gap-1 overflow-hidden`}
