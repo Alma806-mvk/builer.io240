@@ -704,7 +704,7 @@ export const App = ({
   useEffect(() => {
     try {
       localStorage.setItem('creategen_tab_states', JSON.stringify(tabStates));
-      console.log('📄 Tab states saved to localStorage:', {
+      console.log('�� Tab states saved to localStorage:', {
         trends: !!tabStates.trends?.outputs,
         channelAnalysis: !!tabStates.channelAnalysis?.outputs,
         trendsInputs: !!tabStates.trends?.inputs,
@@ -3149,6 +3149,20 @@ export const App = ({
                 originalPlatform: platform,
               },
             );
+
+            // Now save the completed generation to Firebase with full output
+            try {
+              const generationDuration = Date.now() - (generationStartTime?.getTime() || Date.now());
+              const generationId = await firebaseIntegratedGenerationService.saveCompletedGeneration(
+                textGenOptions,
+                finalOutputForDisplay,
+                generationDuration
+              );
+              console.log('✅ Generation saved to Firebase after output completion:', generationId);
+            } catch (firebaseError) {
+              console.warn('⚠️ Firebase save after completion failed:', firebaseError);
+              // Don't throw - generation succeeded even if Firebase save failed
+            }
           }
 
           finishAllSteps();
@@ -4609,7 +4623,7 @@ VARIATIONS: Alternative approaches
       const newId = crypto.randomUUID();
 
       // Create a comprehensive but concise summary for the canvas
-      const strategySummary = `����������� CONTENT STRATEGY: ${niche}
+      const strategySummary = `������������ CONTENT STRATEGY: ${niche}
 
 ����������������������������������� TARGET AUDIENCE:
 ${strategyPlan.targetAudienceOverview.substring(0, 200)}${strategyPlan.targetAudienceOverview.length > 200 ? "..." : ""}
@@ -7327,7 +7341,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
         let ideasToRender = parsedIdeas;
         if (parsedIdeas.length <= 1) {
           // Try splitting by the emoji pattern
-          const emojiSplit = contentText.split(/(?=������)/);
+          const emojiSplit = contentText.split(/(?=��������)/);
           if (emojiSplit.length > 1) {
             ideasToRender = emojiSplit
               .filter((section) => section.trim().length > 20)
