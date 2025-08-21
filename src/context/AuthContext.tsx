@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { auth, db } from "../config/firebase"; // Adjust the path if necessary
 import { User, onAuthStateChanged, reload } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { safeGetDoc, createDocRef } from "../utils/firestoreUtils";
 
 interface AuthContextType {
