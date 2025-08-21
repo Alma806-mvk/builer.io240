@@ -189,6 +189,12 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
   const [editingGroup, setEditingGroup] = useState<string | null>(null);
   const [editGroupName, setEditGroupName] = useState('');
 
+  // Creation modal states
+  const [showCreatePillar, setShowCreatePillar] = useState(false);
+  const [showCreatePlatformStrategy, setShowCreatePlatformStrategy] = useState(false);
+  const [showCreateCampaign, setShowCreateCampaign] = useState(false);
+  const [showCreateMetric, setShowCreateMetric] = useState(false);
+
   const { user } = useAuth();
 
   // Group management functions
