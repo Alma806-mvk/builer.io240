@@ -1167,7 +1167,7 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
         });
       }, 2000);
     } catch (error) {
-      console.error('��� Failed to copy pillar text:', error);
+      console.error('❌ Failed to copy pillar text:', error);
       setPillarActionStatus(prev => ({...prev, [index]: 'Error'}));
 
       // Show user-friendly error message
@@ -4788,6 +4788,15 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
                   <Badge variant={isLoading ? 'warning' : strategyPlan ? 'success' : 'neutral'}>
                     {isLoading ? 'Creating...' : strategyPlan ? 'Ready' : 'Configure'}
                   </Badge>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleStartFromScratch}
+                    className="ml-2"
+                  >
+                    <RotateCcw className="w-4 h-4 mr-2" />
+                    Start from Scratch
+                  </Button>
                 </div>
               }
             />
