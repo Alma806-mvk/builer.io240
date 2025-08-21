@@ -3857,6 +3857,15 @@ export const PremiumContentStrategy: React.FC<PremiumContentStrategyProps> = ({
     }
   };
 
+  const handleStartFromScratch = () => {
+    setLocalStrategyConfig(defaultStrategyConfig);
+    setLocalSelectedTemplate(null);
+    if (onUpdateStrategyPlan) {
+      onUpdateStrategyPlan(null as any);
+    }
+    setActiveView("create");
+  };
+
   const exportStrategy = (format: "pdf" | "docx" | "json") => {
     if (!strategyPlan) {
       alert("No strategy to export. Please generate a strategy first.");
