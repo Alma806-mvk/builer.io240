@@ -2945,6 +2945,110 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
         )}
       </AnimatePresence>
 
+      {/* Group Management Modal */}
+      <AnimatePresence>
+        {showManageGroups && (
+          <motion.div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowManageGroups(false)}
+          >
+            <motion.div
+              className="bg-[var(--card-background)] border border-[var(--border-primary)] rounded-xl p-6 w-full max-w-md mx-4"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="heading-4 flex items-center space-x-2">
+                  <Grid3X3 className="w-5 h-5" />
+                  <span>Manage Groups</span>
+                </h3>
+                <Button variant="ghost" size="sm" onClick={() => setShowManageGroups(false)}>
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+
+              <div className="space-y-2 max-h-64 overflow-y-auto">
+                {availableGroups.filter(group => group !== 'All' && group !== 'Ungrouped').map((group) => (
+                  <div key={group} className="flex items-center justify-between p-3 bg-[var(--surface-tertiary)] rounded-lg">
+                    {editingGroup === group ? (
+                      <div className="flex items-center space-x-2 flex-1">
+                        <Input
+                          value={editGroupName}
+                          onChange={(e) => setEditGroupName(e.target.value)}
+                          placeholder="Group name..."
+                          className="flex-1"
+                          autoFocus
+                        />
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleRenameGroup(group, editGroupName)}
+                          disabled={!editGroupName.trim() || availableGroups.includes(editGroupName.trim())}
+                        >
+                          <CheckCircle className="w-4 h-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            setEditingGroup(null);
+                            setEditGroupName('');
+                          }}
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    ) : (
+                      <>
+                        <span className="text-sm font-medium text-[var(--text-primary)]">{group}</span>
+                        <div className="flex items-center space-x-1">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              setEditingGroup(group);
+                              setEditGroupName(group);
+                            }}
+                          >
+                            <Edit3 className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleDeleteGroup(group)}
+                            className="text-red-500 hover:text-red-600"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                ))}
+
+                {availableGroups.filter(group => group !== 'All' && group !== 'Ungrouped').length === 0 && (
+                  <div className="text-center py-8 text-[var(--text-secondary)]">
+                    <FolderOpen className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                    <p className="text-sm">No custom groups yet</p>
+                  </div>
+                )}
+              </div>
+
+              <div className="flex items-center justify-end mt-6">
+                <Button variant="ghost" onClick={() => setShowManageGroups(false)}>
+                  Done
+                </Button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Group Creation Modal */}
       <AnimatePresence>
         {showCreateGroup && (
