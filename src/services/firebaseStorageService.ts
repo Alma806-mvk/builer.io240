@@ -187,45 +187,64 @@ export class FirebaseStorageService {
 
 export const firebaseStorageService = FirebaseStorageService.getInstance();
 
-// Export standalone functions for compatibility with existing storageService.ts
-export const uploadFile = async (content: any, metadata: any): Promise<UploadResult> => {
-  return firebaseStorageService.uploadGeneratedContent(content, metadata);
-};
-
-export const deleteFile = async (path: string): Promise<void> => {
-  return firebaseStorageService.deleteFile(path);
-};
-
-export const downloadFile = async (path: string): Promise<string> => {
-  // This would be implemented if needed for the existing storage service
-  throw new Error('downloadFile not implemented in firebaseStorageService');
-};
-
-export const getFileContent = async (path: string): Promise<string> => {
-  // This would be implemented if needed for the existing storage service
-  throw new Error('getFileContent not implemented in firebaseStorageService');
-};
-
-export const getUserFiles = async (): Promise<any[]> => {
-  // This would be implemented if needed for the existing storage service
-  return [];
-};
-
-export const isTextFile = (file: any): boolean => {
-  // This would be implemented if needed for the existing storage service
-  return file?.contentType?.startsWith('text/') || false;
-};
-
-// For compatibility with existing types
+// For compatibility with existing storage service interface
 export type UploadedFile = {
-  path: string;
-  url: string;
+  id: string;
+  name: string;
   size: number;
-  contentType: string;
+  type: string;
+  lastModified: string;
+  url: string;
+  downloadUrl: string;
+  path: string;
+  projectId: string;
+  userId: string;
 };
 
 export type UploadProgress = {
-  loaded: number;
-  total: number;
-  percentage: number;
+  fileId: string;
+  progress: number;
+  status: 'uploading' | 'completed' | 'error';
+  error?: string;
+};
+
+// Export standalone functions for compatibility with existing storageService.ts
+export const uploadFile = async (
+  file: File,
+  projectId: string,
+  onProgress?: (progress: UploadProgress) => void
+): Promise<UploadedFile> => {
+  // This would need to be implemented to upload actual File objects
+  // For now, throw an error since our service is designed for generated content
+  throw new Error('uploadFile for File objects not implemented in firebaseStorageService - use firebaseIntegratedGenerationService instead');
+};
+
+export const deleteFile = async (file: UploadedFile): Promise<void> => {
+  return firebaseStorageService.deleteFile(file.path);
+};
+
+export const downloadFile = async (file: UploadedFile): Promise<void> => {
+  // Download the file by opening the URL
+  const link = document.createElement('a');
+  link.href = file.downloadUrl || file.url;
+  link.download = file.name;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
+export const getFileContent = async (file: UploadedFile): Promise<string> => {
+  // This would need to be implemented to fetch file content from Firebase Storage
+  throw new Error('getFileContent not implemented in firebaseStorageService');
+};
+
+export const getUserFiles = async (projectId: string): Promise<UploadedFile[]> => {
+  // This would need to be implemented to list user files from Firebase Storage
+  return [];
+};
+
+export const isTextFile = (fileName: string, fileType?: string): boolean => {
+  const textExtensions = ['.txt', '.md', '.json', '.csv', '.xml', '.log', '.js', '.ts', '.jsx', '.tsx', '.py', '.java', '.cpp', '.c', '.php', '.rb', '.go', '.rs', '.swift', '.kt', '.scala', '.yml', '.yaml', '.toml', '.ini', '.conf', '.html', '.css', '.scss', '.less'];
+  const extension = fileName.toLowerCase().substring(fileName.lastIndexOf('.'));
+  return textExtensions.includes(extension) || (fileType && fileType.startsWith('text/'));
 };
