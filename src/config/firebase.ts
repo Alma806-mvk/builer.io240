@@ -260,7 +260,9 @@ export const isFirestoreConnected = () => isFirestoreOnline;
 // Check if we're in offline mode
 export const isOfflineMode = () => {
   // If user is authenticated and has valid config, allow Firebase operations even in Builder environment
-  if (auth.currentUser && firebaseConfig.projectId && firebaseConfig.apiKey) {
+  const hasValidConfig = !!(import.meta.env.VITE_FIREBASE_PROJECT_ID && import.meta.env.VITE_FIREBASE_API_KEY);
+
+  if (auth.currentUser && hasValidConfig) {
     console.log('🔓 Firebase operations enabled - user authenticated with valid config');
     return false;
   }
