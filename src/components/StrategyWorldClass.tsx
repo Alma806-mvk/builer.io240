@@ -966,7 +966,7 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
     },
     {
       id: "enterprise-transformation-masterpiece",
-      name: "🚀 Enterprise Transformation Masterpiece",
+      name: "���� Enterprise Transformation Masterpiece",
       description: "The ultimate comprehensive transformation framework - the crown jewel of strategic consulting",
       category: "platform",
       tier: "agency",
@@ -2617,7 +2617,36 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 <h3 className="heading-3">Customer Journey</h3>
                 <p className="body-base">Save and manage customer journey maps</p>
               </div>
-              <Badge variant="info">{savedCustomerJourneys.length} journeys</Badge>
+              <div className="flex items-center space-x-3">
+                <Badge variant="info">{savedCustomerJourneys.length} journeys</Badge>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={async () => {
+                    if (!user) return;
+                    try {
+                      setJourneysLoading(true);
+                      const journeys = await customerJourneyService.getUserCustomerJourneys(user.uid);
+                      setSavedCustomerJourneys(journeys);
+                    } catch (error) {
+                      console.error('Failed to refresh customer journeys:', error);
+                    } finally {
+                      setJourneysLoading(false);
+                    }
+                  }}
+                  disabled={journeysLoading}
+                >
+                  <RefreshCw className={`w-4 h-4 ${journeysLoading ? 'animate-spin' : ''}`} />
+                  Refresh
+                </Button>
+                <Button
+                  variant="primary"
+                  onClick={() => setActiveSection("generated")}
+                >
+                  <Plus className="w-4 h-4" />
+                  Start from Scratch
+                </Button>
+              </div>
             </div>
 
             {journeysLoading ? (
