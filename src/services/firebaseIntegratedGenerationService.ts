@@ -177,42 +177,15 @@ export class FirebaseIntegratedGenerationService {
    * This preserves 100% compatibility with existing code while adding Firebase storage
    */
   async generateTextContentWithFirebaseBackgroundSave(textGenOptions: any): Promise<LegacyGenerationResult> {
-    console.log('🔥 Generating text content with Firebase background save');
+    console.log('🔥 Generating text content (Firebase save will happen after output is processed)');
 
     try {
       // Call original generateTextContent function - this ensures 100% compatibility
       const result = await generateTextContent(textGenOptions);
 
-      // Save to Firebase in background (don't wait for it)
-      if (auth.currentUser) {
-        const generationId = `gen_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-
-        // Create simplified generation record for Firestore
-        const generationRecord = {
-          prompt: textGenOptions.userInput,
-          platform: textGenOptions.platform,
-          contentType: textGenOptions.contentType,
-          targetAudience: textGenOptions.targetAudience,
-          batchVariations: textGenOptions.batchVariations,
-          aiPersonaId: textGenOptions.aiPersonaId,
-          targetLanguage: textGenOptions.targetLanguage,
-          videoLength: textGenOptions.videoLength,
-          seoKeywords: textGenOptions.seoKeywords,
-          seoMode: textGenOptions.seoMode,
-          aspectRatioGuidance: textGenOptions.aspectRatioGuidance,
-          storageUrls: {},
-          storagePaths: {},
-          generationDuration: 0,
-          outputSize: JSON.stringify(result).length
-        };
-
-        // Save to Firestore in background
-        generationStorageService.saveGeneration(generationRecord).then(() => {
-          console.log('✅ Content saved to Firebase in background:', generationId);
-        }).catch((error) => {
-          console.warn('⚠️ Background Firebase save failed:', error);
-        });
-      }
+      // Note: Firebase saving is now deferred until output is fully processed
+      // This will be handled by calling saveCompletedGeneration() after the output is ready
+      console.log('✅ Text generation completed, Firebase save will happen after output processing');
 
       // Return original result unchanged
       return result;
@@ -220,6 +193,72 @@ export class FirebaseIntegratedGenerationService {
     } catch (error) {
       console.error('❌ Firebase background generation failed:', error);
       throw error;
+    }
+  }
+
+  /**
+   * Save a completed generation with full output to Firebase
+   * This should be called AFTER the output is generated and processed
+   */
+  async saveCompletedGeneration(
+    textGenOptions: any,
+    generatedOutput: any,
+    generationDuration: number = 0
+  ): Promise<string> {
+    if (!auth.currentUser) {
+      console.log('⏭️ Skipping Firebase save - User not authenticated');
+      return '';
+    }
+
+    try {
+      const generationId = `gen_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+      console.log('💾 Saving completed generation to Firebase:', {
+        generationId,
+        contentType: textGenOptions.contentType,
+        hasOutput: !!generatedOutput
+      });
+
+      // Create complete generation record with actual output
+      const generationRecord = {
+        prompt: textGenOptions.userInput,
+        platform: textGenOptions.platform,
+        contentType: textGenOptions.contentType,
+        targetAudience: textGenOptions.targetAudience,
+        batchVariations: textGenOptions.batchVariations,
+        aiPersonaId: textGenOptions.aiPersonaId,
+        targetLanguage: textGenOptions.targetLanguage,
+        videoLength: textGenOptions.videoLength,
+        seoKeywords: textGenOptions.seoKeywords,
+        seoMode: textGenOptions.seoMode,
+        aspectRatioGuidance: textGenOptions.aspectRatioGuidance,
+
+        // Store the actual generated output
+        generatedOutput: generatedOutput,
+        outputText: typeof generatedOutput === 'object' && generatedOutput.content
+          ? generatedOutput.content
+          : typeof generatedOutput === 'string'
+            ? generatedOutput
+            : JSON.stringify(generatedOutput),
+
+        storageUrls: {},
+        storagePaths: {},
+        generationDuration,
+        outputSize: JSON.stringify(generatedOutput).length,
+
+        // Add metadata
+        createdAt: new Date().toISOString(),
+        status: 'completed'
+      };
+
+      // Save to Firestore
+      await generationStorageService.saveGeneration(generationRecord, generationId);
+      console.log('✅ Completed generation saved to Firebase:', generationId);
+
+      return generationId;
+    } catch (error) {
+      console.error('❌ Failed to save completed generation:', error);
+      return '';
     }
   }
 

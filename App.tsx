@@ -704,7 +704,7 @@ export const App = ({
   useEffect(() => {
     try {
       localStorage.setItem('creategen_tab_states', JSON.stringify(tabStates));
-      console.log('📄 Tab states saved to localStorage:', {
+      console.log('�� Tab states saved to localStorage:', {
         trends: !!tabStates.trends?.outputs,
         channelAnalysis: !!tabStates.channelAnalysis?.outputs,
         trendsInputs: !!tabStates.trends?.inputs,
@@ -3149,6 +3149,42 @@ export const App = ({
                 originalPlatform: platform,
               },
             );
+
+            // Now save the completed generation to Firebase with full output
+            try {
+              const generationDuration = Date.now() - (generationStartTime?.getTime() || Date.now());
+              const generationId = await firebaseIntegratedGenerationService.saveCompletedGeneration(
+                textGenOptions,
+                finalOutputForDisplay,
+                generationDuration
+              );
+              console.log('✅ Generation saved to Firebase after output completion:', generationId);
+
+              // Update the history item with Firebase information for thumbs up/down functionality
+              if (generationId) {
+                setHistory((prevHistory) => {
+                  const updatedHistory = [...prevHistory];
+                  if (updatedHistory.length > 0) {
+                    // Update the most recent item (which was just added)
+                    updatedHistory[0] = {
+                      ...updatedHistory[0],
+                      firebase: {
+                        generationId,
+                        savedToFirebase: true,
+                        lastSyncedAt: Date.now(),
+                        storageUrls: {},
+                        storagePaths: {}
+                      }
+                    };
+                  }
+                  return updatedHistory;
+                });
+                console.log('✅ History item updated with Firebase generationId:', generationId);
+              }
+            } catch (firebaseError) {
+              console.warn('⚠️ Firebase save after completion failed:', firebaseError);
+              // Don't throw - generation succeeded even if Firebase save failed
+            }
           }
 
           finishAllSteps();
@@ -4609,7 +4645,7 @@ VARIATIONS: Alternative approaches
       const newId = crypto.randomUUID();
 
       // Create a comprehensive but concise summary for the canvas
-      const strategySummary = `����������� CONTENT STRATEGY: ${niche}
+      const strategySummary = `������������ CONTENT STRATEGY: ${niche}
 
 ����������������������������������� TARGET AUDIENCE:
 ${strategyPlan.targetAudienceOverview.substring(0, 200)}${strategyPlan.targetAudienceOverview.length > 200 ? "..." : ""}
@@ -7327,7 +7363,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
         let ideasToRender = parsedIdeas;
         if (parsedIdeas.length <= 1) {
           // Try splitting by the emoji pattern
-          const emojiSplit = contentText.split(/(?=������)/);
+          const emojiSplit = contentText.split(/(?=����������)/);
           if (emojiSplit.length > 1) {
             ideasToRender = emojiSplit
               .filter((section) => section.trim().length > 20)
@@ -9751,7 +9787,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 <option value="java">☕ Java</option>
                 <option value="cpp">����� C++</option>
                 <option value="csharp">����� C#</option>
-                <option value="php">���� PHP</option>
+                <option value="php">������ PHP</option>
                 <option value="ruby">������������ Ruby</option>
                 <option value="go">�� Go</option>
                 <option value="rust">������ Rust</option>
@@ -15040,7 +15076,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                             }}
                             className="w-full px-3 py-2 text-xs text-center bg-gradient-to-r from-sky-600 to-purple-600 hover:from-sky-500 hover:to-purple-500 text-white rounded-md transition-all font-medium"
                           >
-                            ����� Browse All {CANVAS_SHAPE_VARIANTS.length} Shapes
+                            ������ Browse All {CANVAS_SHAPE_VARIANTS.length} Shapes
                           </button>
                         </div>
                       </div>
@@ -17196,7 +17232,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                 {/* Analysis Loading State */}
                 {isAnalyzingChannel && !channelAnalysisProgress && (
                   <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-3xl border border-slate-700/50 p-8 shadow-2xl mb-6">
-                    <GeneratingContent message="������� Preparing channel analysis..." />
+                    <GeneratingContent message="��������� Preparing channel analysis..." />
                   </div>
                 )}
 

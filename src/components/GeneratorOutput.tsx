@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "../styles/feedbackConfirmation.css";
 import {
   GeneratedOutput,
   ContentBriefOutput,
@@ -118,6 +119,8 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
   const [feedbackComment, setFeedbackComment] = useState(
     displayedOutputItem?.firebase?.userFeedback?.comment || ''
   );
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [confirmationMessage, setConfirmationMessage] = useState('');
 
   // Sync feedback state when displayedOutputItem changes
   useEffect(() => {
@@ -129,6 +132,8 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
       setFeedbackComment('');
     }
     setShowFeedbackComment(false); // Reset comment modal
+    setShowConfirmation(false); // Reset confirmation message
+    setConfirmationMessage(''); // Clear confirmation message
   }, [displayedOutputItem?.id, displayedOutputItem?.firebase?.userFeedback]);
 
   // Feedback handler functions
@@ -138,21 +143,38 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
       return;
     }
 
+    // If clicking the same rating again, remove it (toggle off)
+    const newRating = userFeedback === rating ? 0 : rating;
+
     setFeedbackLoading(true);
     try {
       await firebaseIntegratedGenerationService.saveFeedback(
         displayedOutputItem.firebase.generationId,
         {
-          rating,
+          rating: newRating,
           comment: feedbackComment.trim() || undefined
         }
       );
 
-      setUserFeedback(rating);
+      setUserFeedback(newRating);
       console.log('✅ Feedback saved successfully');
 
+      // Show confirmation message
+      if (newRating !== 0) {
+        const message = newRating === 1
+          ? "Thank you for your positive feedback! 🎉"
+          : "Thank you for sharing your experience. We'll work to improve! 💪";
+        setConfirmationMessage(message);
+        setShowConfirmation(true);
+
+        // Hide confirmation after 3 seconds
+        setTimeout(() => {
+          setShowConfirmation(false);
+        }, 3000);
+      }
+
       // If negative feedback, show comment input
-      if (rating === -1 && !feedbackComment.trim()) {
+      if (newRating === -1 && !feedbackComment.trim()) {
         setShowFeedbackComment(true);
       }
     } catch (error) {
@@ -899,59 +921,90 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
 
             {/* Firebase Feedback Buttons - Only show if user is authenticated and content is saved to Firebase */}
             {auth.currentUser && displayedOutputItem?.firebase?.generationId && (
-              <div style={{ display: "flex", gap: "0.25rem", alignItems: "center" }}>
-                <button
-                  onClick={() => handleFeedback(1)}
-                  disabled={feedbackLoading}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.25rem",
-                    padding: "0.5rem",
-                    borderRadius: "0.375rem",
-                    fontSize: "0.75rem",
-                    cursor: feedbackLoading ? "not-allowed" : "pointer",
-                    border: "1px solid #374151",
-                    background: userFeedback === 1 ? "#059669" : "#374151",
-                    color: userFeedback === 1 ? "white" : "#d1d5db",
-                    opacity: feedbackLoading ? 0.5 : 1,
-                    transition: "all 0.2s",
-                  }}
-                  title="This content was helpful"
-                >
-                  <ThumbUpIcon />
-                </button>
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                <div style={{ display: "flex", gap: "0.25rem", alignItems: "center" }}>
+                  <button
+                    onClick={() => handleFeedback(1)}
+                    disabled={feedbackLoading}
+                    className={`feedback-button ${userFeedback === 1 ? 'feedback-selected' : ''}`}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.25rem",
+                      padding: "0.5rem",
+                      borderRadius: "0.375rem",
+                      fontSize: "0.75rem",
+                      cursor: feedbackLoading ? "not-allowed" : "pointer",
+                      border: userFeedback === 1 ? "2px solid #059669" : "1px solid #374151",
+                      background: userFeedback === 1 ? "#059669" : "#374151",
+                      color: userFeedback === 1 ? "white" : "#d1d5db",
+                      opacity: feedbackLoading ? 0.5 : 1,
+                      transform: userFeedback === 1 ? "scale(1.05)" : "scale(1)",
+                      boxShadow: userFeedback === 1 ? "0 0 0 3px rgba(5, 150, 105, 0.2)" : "none",
+                    }}
+                    title={userFeedback === 1 ? "You liked this content! Click to remove rating." : "This content was helpful"}
+                    aria-label={userFeedback === 1 ? "Remove positive rating" : "Rate content as helpful"}
+                  >
+                    <ThumbUpIcon />
+                    {userFeedback === 1 && <span style={{ fontSize: "0.625rem", marginLeft: "0.25rem" }}>Liked!</span>}
+                  </button>
 
-                <button
-                  onClick={() => handleFeedback(-1)}
-                  disabled={feedbackLoading}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.25rem",
-                    padding: "0.5rem",
-                    borderRadius: "0.375rem",
-                    fontSize: "0.75rem",
-                    cursor: feedbackLoading ? "not-allowed" : "pointer",
-                    border: "1px solid #374151",
-                    background: userFeedback === -1 ? "#dc2626" : "#374151",
-                    color: userFeedback === -1 ? "white" : "#d1d5db",
-                    opacity: feedbackLoading ? 0.5 : 1,
-                    transition: "all 0.2s",
-                  }}
-                  title="This content needs improvement"
-                >
-                  <ThumbDownIcon />
-                </button>
+                  <button
+                    onClick={() => handleFeedback(-1)}
+                    disabled={feedbackLoading}
+                    className={`feedback-button ${userFeedback === -1 ? 'feedback-selected' : ''}`}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.25rem",
+                      padding: "0.5rem",
+                      borderRadius: "0.375rem",
+                      fontSize: "0.75rem",
+                      cursor: feedbackLoading ? "not-allowed" : "pointer",
+                      border: userFeedback === -1 ? "2px solid #dc2626" : "1px solid #374151",
+                      background: userFeedback === -1 ? "#dc2626" : "#374151",
+                      color: userFeedback === -1 ? "white" : "#d1d5db",
+                      opacity: feedbackLoading ? 0.5 : 1,
+                      transform: userFeedback === -1 ? "scale(1.05)" : "scale(1)",
+                      boxShadow: userFeedback === -1 ? "0 0 0 3px rgba(220, 38, 38, 0.2)" : "none",
+                    }}
+                    title={userFeedback === -1 ? "You didn't like this content. Click to remove rating." : "This content needs improvement"}
+                    aria-label={userFeedback === -1 ? "Remove negative rating" : "Rate content as needing improvement"}
+                  >
+                    <ThumbDownIcon />
+                    {userFeedback === -1 && <span style={{ fontSize: "0.625rem", marginLeft: "0.25rem" }}>Noted</span>}
+                  </button>
 
-                {userFeedback && (
-                  <span style={{
-                    fontSize: "0.625rem",
-                    color: "#94a3b8",
-                    marginLeft: "0.25rem"
-                  }}>
-                    {userFeedback === 1 ? 'Thanks!' : userFeedback === -1 ? 'Noted' : ''}
-                  </span>
+                  {feedbackLoading && (
+                    <span style={{
+                      fontSize: "0.625rem",
+                      color: "#94a3b8",
+                      marginLeft: "0.25rem"
+                    }}>
+                      Saving...
+                    </span>
+                  )}
+                </div>
+
+                {/* Confirmation Message */}
+                {showConfirmation && (
+                  <div
+                    className="feedback-confirmation"
+                    style={{
+                      padding: "0.5rem 0.75rem",
+                      backgroundColor: userFeedback === 1 ? "#dcfdf7" : "#fef2f2",
+                      border: `1px solid ${userFeedback === 1 ? "#059669" : "#dc2626"}`,
+                      borderRadius: "0.375rem",
+                      fontSize: "0.75rem",
+                      color: userFeedback === 1 ? "#065f46" : "#7f1d1d",
+                      textAlign: "center" as const,
+                      fontWeight: "500"
+                    }}
+                    role="alert"
+                    aria-live="polite"
+                  >
+                    {confirmationMessage}
+                  </div>
                 )}
               </div>
             )}
