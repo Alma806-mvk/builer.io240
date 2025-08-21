@@ -209,7 +209,25 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuccess, d
     clearMessages();
 
     try {
-      await signInWithPopup(auth, provider);
+      const userCredential = await signInWithPopup(auth, provider);
+      const user = userCredential.user;
+
+      // Create user document in Firestore for Google signups (if it doesn't exist)
+      const userDocRef = doc(db, "users", user.uid);
+      await setDoc(
+        userDocRef,
+        {
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName || user.email?.split("@")[0] || "User",
+          createdAt: serverTimestamp(),
+          photoURL: user.photoURL || "",
+          onboardingCompleted: false,
+          isNewUser: true, // Mark as new user for onboarding
+        },
+        { merge: true }, // This will only create if document doesn't exist
+      );
+
       onAuthSuccess?.();
       onClose();
     } catch (err: any) {
