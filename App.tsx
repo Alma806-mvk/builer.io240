@@ -3022,8 +3022,8 @@ export const App = ({
                 responseMimeType: "text/plain",
               };
             } else {
-              // Use Firebase integrated generation service
-              console.log('🔥 Using Firebase integrated service for content generation');
+              // Use Firebase integrated generation with legacy format
+              console.log('🔥 Using Firebase integrated service (legacy format) for content generation');
 
               // Convert textGenOptions to Firebase service format
               const firebaseOptions = {
@@ -3042,21 +3042,8 @@ export const App = ({
                 saveToFirebase: true, // Enable Firebase storage
               };
 
-              const firebaseResult = await firebaseIntegratedGenerationService.generateContentWithFirebaseStorage(firebaseOptions);
-
-              // Convert Firebase result to standard format
-              result = {
-                text: firebaseResult.textOutput?.content || firebaseResult.imageOutput?.base64Data || '',
-                sources: firebaseResult.textOutput?.groundingSources,
-                responseMimeType: firebaseResult.textOutput ? 'text/plain' : 'image/jpeg',
-              };
-
-              // Log Firebase storage status
-              if (firebaseResult.savedToFirebase) {
-                console.log('✅ Content saved to Firebase with ID:', firebaseResult.generationId);
-              } else {
-                console.log('⚠️ Content generated but not saved to Firebase');
-              }
+              // This returns data in the same format as original generateTextContent
+              result = await firebaseIntegratedGenerationService.generateContentWithFirebaseBackgroundSave(firebaseOptions);
             }
           } catch (apiError: any) {
             if (
@@ -3456,7 +3443,7 @@ export const App = ({
 ${originalIdea}
 
 EXPAND THIS INTO:
-��� **DETAILED CONCEPT**: Provide a comprehensive 4-5 sentence explanation with specific examples
+🎯 **DETAILED CONCEPT**: Provide a comprehensive 4-5 sentence explanation with specific examples
 �������� **EXECUTION GUIDE**: Step-by-step breakdown of how to create this content
 ����� **SCRIPT FRAMEWORK**: Outline the structure/flow with key talking points
 �� **ENGAGEMENT TACTICS**: Specific techniques to maximize views, comments, shares
@@ -4685,7 +4672,7 @@ ${strategyPlan.goals.map((goal) => `• ${goal}`).join("\n")}
 ${strategyPlan.contentPillars.map((pillar) => `���� ${pillar.pillarName}: ${pillar.description.substring(0, 100)}${pillar.description.length > 100 ? "..." : ""}`).join("\n")}
 
 ���� POSTING SCHEDULE:
-${strategyPlan.suggestedWeeklySchedule.map((item) => `������� ${item.dayOfWeek}: ${item.contentType} (${item.optimalTime})`).join("\n")}
+${strategyPlan.suggestedWeeklySchedule.map((item) => `�������� ${item.dayOfWeek}: ${item.contentType} (${item.optimalTime})`).join("\n")}
 
 🔍 SEO KEYWORDS:
 ${strategyPlan.seoStrategy.primaryKeywords.join(", ")}
@@ -15559,7 +15546,7 @@ ${strategyPlan.ctaStrategy.engagementCTAs.slice(0, 3).join(", ")}
                               subtitle: "Q4 2024 Results",
                             },
                             {
-                              name: "������� Project Tasks",
+                              name: "������ Project Tasks",
                               description:
                                 "Task management with status tracking",
                               theme: "green",
