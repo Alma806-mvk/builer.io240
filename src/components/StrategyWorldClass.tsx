@@ -2701,7 +2701,36 @@ const StrategyWorldClass: React.FC<StrategyWorldClassProps> = ({
                 <h3 className="heading-3">Resource Planning</h3>
                 <p className="body-base">Save and manage resource plans and budgets</p>
               </div>
-              <Badge variant="info">{savedResourcePlans.length} plans</Badge>
+              <div className="flex items-center space-x-3">
+                <Badge variant="info">{savedResourcePlans.length} plans</Badge>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={async () => {
+                    if (!user) return;
+                    try {
+                      setResourcesLoading(true);
+                      const plans = await resourcePlanningService.getUserResourcePlans(user.uid);
+                      setSavedResourcePlans(plans);
+                    } catch (error) {
+                      console.error('Failed to refresh resource plans:', error);
+                    } finally {
+                      setResourcesLoading(false);
+                    }
+                  }}
+                  disabled={resourcesLoading}
+                >
+                  <RefreshCw className={`w-4 h-4 ${resourcesLoading ? 'animate-spin' : ''}`} />
+                  Refresh
+                </Button>
+                <Button
+                  variant="primary"
+                  onClick={() => setActiveSection("generated")}
+                >
+                  <Plus className="w-4 h-4" />
+                  Start from Scratch
+                </Button>
+              </div>
             </div>
 
             {resourcesLoading ? (
