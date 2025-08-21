@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "../styles/feedbackConfirmation.css";
 import {
   GeneratedOutput,
   ContentBriefOutput,
@@ -131,6 +132,8 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
       setFeedbackComment('');
     }
     setShowFeedbackComment(false); // Reset comment modal
+    setShowConfirmation(false); // Reset confirmation message
+    setConfirmationMessage(''); // Clear confirmation message
   }, [displayedOutputItem?.id, displayedOutputItem?.firebase?.userFeedback]);
 
   // Feedback handler functions

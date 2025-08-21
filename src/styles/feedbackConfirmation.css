@@ -1,0 +1,45 @@
+/* Feedback confirmation animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Button hover effects for feedback */
+.feedback-button {
+  transition: all 0.3s ease;
+}
+
+.feedback-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.feedback-button:active {
+  transform: translateY(0);
+}
+
+.feedback-confirmation {
+  animation: fadeIn 0.3s ease-in;
+}
+
+.feedback-selected {
+  animation: pulse 0.6s ease-in-out;
+}
