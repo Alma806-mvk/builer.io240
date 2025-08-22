@@ -67,6 +67,9 @@ import {
   QuickActionCard,
 } from "./ui/WorldClassComponents";
 
+// Import the rating component
+import RatingButtons from "./ui/RatingButtons";
+
 // Import services
 import {
   enhancedHistoryService,
