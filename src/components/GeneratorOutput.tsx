@@ -138,8 +138,13 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
 
   // Feedback handler functions
   const handleFeedback = async (rating: -1 | 0 | 1) => {
-    if (!displayedOutputItem?.firebase?.generationId || !auth.currentUser) {
-      console.warn('Cannot save feedback: missing generation ID or user not authenticated');
+    if (!auth.currentUser) {
+      console.warn('Cannot save feedback: user not authenticated');
+      return;
+    }
+
+    if (!displayedOutputItem) {
+      console.warn('Cannot save feedback: no content to rate');
       return;
     }
 
@@ -148,16 +153,22 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
 
     setFeedbackLoading(true);
     try {
-      await firebaseIntegratedGenerationService.saveFeedback(
-        displayedOutputItem.firebase.generationId,
-        {
-          rating: newRating,
-          comment: feedbackComment.trim() || undefined
-        }
-      );
+      // If content is saved to Firebase, save feedback there
+      if (displayedOutputItem.firebase?.generationId) {
+        await firebaseIntegratedGenerationService.saveFeedback(
+          displayedOutputItem.firebase.generationId,
+          {
+            rating: newRating,
+            comment: feedbackComment.trim() || undefined
+          }
+        );
+        console.log('✅ Feedback saved to Firebase successfully');
+      } else {
+        // For unsaved content, just update local state
+        console.log('📝 Feedback saved locally (content not saved to Firebase)');
+      }
 
       setUserFeedback(newRating);
-      console.log('✅ Feedback saved successfully');
 
       // Show confirmation message
       if (newRating !== 0) {
