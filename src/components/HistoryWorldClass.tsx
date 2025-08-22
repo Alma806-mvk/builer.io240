@@ -827,19 +827,29 @@ const HistoryWorldClass: React.FC<HistoryWorldClassProps> = ({
               </div>
 
               {/* Star Button */}
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onStarItem?.(item.id);
-                }}
-                className={`absolute top-4 right-4 z-10 p-1 rounded-lg transition-colors ${
-                  item.starred 
-                    ? "text-yellow-400 bg-yellow-400/20" 
-                    : "text-[var(--text-tertiary)] hover:text-yellow-400 hover:bg-yellow-400/20"
-                }`}
-              >
-                <Star className="w-4 h-4" fill={item.starred ? "currentColor" : "none"} />
-              </button>
+              <div className="absolute top-4 right-4 z-10 flex items-center space-x-2">
+                <span className="text-xs text-[var(--text-tertiary)] bg-[var(--surface-tertiary)] px-2 py-1 rounded-md">
+                  Generator • {item.type === 'text' ? 'Content Idea' :
+                             item.type === 'image' ? 'Image Idea' :
+                             item.type === 'video' ? 'Video Idea' :
+                             item.type === 'analytics' ? 'Analytics' :
+                             item.type === 'strategy' ? 'Strategy' :
+                             item.type.charAt(0).toUpperCase() + item.type.slice(1)} • {item.platform}
+                </span>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onStarItem?.(item.id);
+                  }}
+                  className={`p-1 rounded-lg transition-colors ${
+                    item.starred
+                      ? "text-yellow-400 bg-yellow-400/20"
+                      : "text-[var(--text-tertiary)] hover:text-yellow-400 hover:bg-yellow-400/20"
+                  }`}
+                >
+                  <Star className="w-4 h-4" fill={item.starred ? "currentColor" : "none"} />
+                </button>
+              </div>
 
               <div className="pt-8">
                 {/* Type Icon and Platform */}
