@@ -86,13 +86,14 @@ interface HistoryItem {
   type: 'text' | 'image' | 'video' | 'analytics' | 'strategy';
   content: string;
   platform: string;
-  timestamp: Date;
+  timestamp: Date | number;
   tags: string[];
   starred: boolean;
   views?: number;
   performance?: number;
   thumbnail?: string;
   rating?: 1 | -1 | 0;
+  userInput?: string;
 }
 
 interface HistoryWorldClassProps {
@@ -408,15 +409,16 @@ const HistoryWorldClass: React.FC<HistoryWorldClassProps> = ({
     }
   };
 
-  const formatTimeAgo = (date: Date) => {
+  const formatTimeAgo = (date: Date | number) => {
     const now = new Date();
-    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-    
+    const targetDate = typeof date === 'number' ? new Date(date) : date;
+    const diffInSeconds = Math.floor((now.getTime() - targetDate.getTime()) / 1000);
+
     if (diffInSeconds < 60) return "Just now";
     if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
     if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
     if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)}d ago`;
-    return date.toLocaleDateString();
+    return targetDate.toLocaleDateString();
   };
 
   const toggleItemSelection = (itemId: string) => {
@@ -826,19 +828,29 @@ const HistoryWorldClass: React.FC<HistoryWorldClassProps> = ({
               </div>
 
               {/* Star Button */}
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onStarItem?.(item.id);
-                }}
-                className={`absolute top-4 right-4 z-10 p-1 rounded-lg transition-colors ${
-                  item.starred 
-                    ? "text-yellow-400 bg-yellow-400/20" 
-                    : "text-[var(--text-tertiary)] hover:text-yellow-400 hover:bg-yellow-400/20"
-                }`}
-              >
-                <Star className="w-4 h-4" fill={item.starred ? "currentColor" : "none"} />
-              </button>
+              <div className="absolute top-3 right-3 z-10 flex items-center gap-2">
+                <span className="text-xs text-[var(--text-tertiary)] bg-[var(--surface-tertiary)] px-2 py-1 rounded-md whitespace-nowrap">
+                  Generator • {item.type === 'text' ? 'Content Idea' :
+                             item.type === 'image' ? 'Image Idea' :
+                             item.type === 'video' ? 'Video Idea' :
+                             item.type === 'analytics' ? 'Analytics' :
+                             item.type === 'strategy' ? 'Strategy' :
+                             item.type.charAt(0).toUpperCase() + item.type.slice(1)} • {item.platform}
+                </span>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onStarItem?.(item.id);
+                  }}
+                  className={`p-1.5 rounded-lg transition-colors ${
+                    item.starred
+                      ? "text-yellow-400 bg-yellow-400/20"
+                      : "text-[var(--text-tertiary)] hover:text-yellow-400 hover:bg-yellow-400/20"
+                  }`}
+                >
+                  <Star className="w-4 h-4" fill={item.starred ? "currentColor" : "none"} />
+                </button>
+              </div>
 
               <div className="pt-8">
                 {/* Type Icon and Platform */}
@@ -854,7 +866,14 @@ const HistoryWorldClass: React.FC<HistoryWorldClassProps> = ({
                 </div>
 
                 {/* Title and Content */}
-                <h3 className="heading-4 mb-2 line-clamp-2">{item.title}</h3>
+                <h3 className="heading-4 mb-2 line-clamp-2">
+                  {item.type === 'text' ? 'Content Idea' :
+                   item.type === 'image' ? 'Image Idea' :
+                   item.type === 'video' ? 'Video Idea' :
+                   item.type === 'analytics' ? 'Analytics' :
+                   item.type === 'strategy' ? 'Strategy' :
+                   item.type.charAt(0).toUpperCase() + item.type.slice(1)} for {item.platform}
+                </h3>
                 <p className="body-sm mb-4 line-clamp-3">{item.content}</p>
 
                 {/* Tags */}
@@ -891,24 +910,6 @@ const HistoryWorldClass: React.FC<HistoryWorldClassProps> = ({
                   </div>
                 )}
 
-                {/* Performance Metrics */}
-                {(item.analyticsData?.performance || item.performance) && (
-                  <div className="mb-4">
-                    <div className="flex justify-between items-center mb-1">
-                      <span className="text-xs text-[var(--text-tertiary)]">Performance</span>
-                      <span className="text-xs font-medium text-[var(--text-primary)]">{item.analyticsData?.performance || item.performance}%</span>
-                    </div>
-                    <ProgressBar
-                      value={item.analyticsData?.performance || item.performance || 0}
-                      size="sm"
-                      color={
-                        (item.analyticsData?.performance || item.performance || 0) >= 80 ? "var(--color-success)" :
-                        (item.analyticsData?.performance || item.performance || 0) >= 60 ? "var(--color-warning)" :
-                        "var(--color-error)"
-                      }
-                    />
-                  </div>
-                )}
 
                 {/* Action Buttons */}
                 <div className="flex items-center justify-between mb-4">
@@ -988,12 +989,6 @@ const HistoryWorldClass: React.FC<HistoryWorldClassProps> = ({
                       <Clock className="w-3 h-3" />
                       <span>{formatTimeAgo(item.timestamp)}</span>
                     </span>
-                    {(item.analyticsData?.views || item.views) && (
-                      <span className="flex items-center space-x-1">
-                        <Eye className="w-3 h-3" />
-                        <span>{item.analyticsData?.views || item.views}</span>
-                      </span>
-                    )}
                     {item.sentToCanvas && (
                       <span className="flex items-center space-x-1 text-[var(--brand-primary)]">
                         <Send className="w-3 h-3" />
