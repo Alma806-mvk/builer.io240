@@ -865,14 +865,7 @@ const HistoryWorldClass: React.FC<HistoryWorldClassProps> = ({
                 </div>
 
                 {/* Title and Content */}
-                <h3
-                  className="heading-4 mb-2 line-clamp-2 cursor-pointer hover:text-[var(--brand-primary)] transition-colors"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onViewItem?.(item);
-                  }}
-                  title="Click to view generated content"
-                >
+                <h3 className="heading-4 mb-2 line-clamp-2">
                   {item.type === 'text' ? 'Content Idea' :
                    item.type === 'image' ? 'Image Idea' :
                    item.type === 'video' ? 'Video Idea' :
