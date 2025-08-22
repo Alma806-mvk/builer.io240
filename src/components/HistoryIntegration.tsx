@@ -9,6 +9,7 @@ interface HistoryItem {
   platform?: string;
   timestamp: Date;
   tags?: string[];
+  userInput?: string;
 }
 
 interface HistoryIntegrationProps {
