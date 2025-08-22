@@ -38,6 +38,26 @@ const HistoryIntegration: React.FC<HistoryIntegrationProps> = ({
     performance: Math.floor(Math.random() * 40) + 60,
   }));
 
+  // Rating handler function
+  const handleUpdateItemRating = (itemId: string, rating: 1 | -1 | 0) => {
+    const updatedHistory = history.map(item =>
+      item.id === itemId
+        ? { ...item, rating }
+        : item
+    );
+    setHistory(updatedHistory);
+
+    // Show confirmation message
+    const confirmationMessage = rating === 1
+      ? "Thank you for your positive feedback! 🎉"
+      : rating === -1
+        ? "Thank you for sharing your experience. We'll work to improve! 💪"
+        : "Rating removed";
+
+    // You can add toast notification here if available
+    console.log(confirmationMessage);
+  };
+
   return (
     <HistoryWorldClass
       historyItems={historyItems}
@@ -57,6 +77,7 @@ const HistoryIntegration: React.FC<HistoryIntegrationProps> = ({
       onExportItems={(items) => {
         console.log("Exporting items:", items);
       }}
+      updateItemRating={handleUpdateItemRating}
       onNavigateToTab={onNavigateToTab}
     />
   );
