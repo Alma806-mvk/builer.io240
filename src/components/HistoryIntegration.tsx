@@ -54,8 +54,52 @@ const HistoryIntegration: React.FC<HistoryIntegrationProps> = ({
         ? "Thank you for sharing your experience. We'll work to improve! 💪"
         : "Rating removed";
 
-    // You can add toast notification here if available
-    console.log(confirmationMessage);
+    // Create and show a temporary confirmation message
+    const messageEl = document.createElement('div');
+    messageEl.innerHTML = `
+      <div style="
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #0f172a, #1e293b);
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        border: 1px solid #334155;
+        z-index: 9999;
+        animation: slideIn 0.3s ease-out;
+        font-size: 14px;
+        font-weight: 500;
+        max-width: 300px;
+      ">
+        ${confirmationMessage}
+      </div>
+      <style>
+        @keyframes slideIn {
+          from { transform: translateX(100%); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOut {
+          from { transform: translateX(0); opacity: 1; }
+          to { transform: translateX(100%); opacity: 0; }
+        }
+      </style>
+    `;
+
+    document.body.appendChild(messageEl);
+
+    // Auto-remove after 3 seconds
+    setTimeout(() => {
+      if (messageEl.firstElementChild) {
+        (messageEl.firstElementChild as HTMLElement).style.animation = 'slideOut 0.3s ease-in';
+        setTimeout(() => {
+          if (document.body.contains(messageEl)) {
+            document.body.removeChild(messageEl);
+          }
+        }, 300);
+      }
+    }, 3000);
   };
 
   return (
