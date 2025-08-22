@@ -409,15 +409,16 @@ const HistoryWorldClass: React.FC<HistoryWorldClassProps> = ({
     }
   };
 
-  const formatTimeAgo = (date: Date) => {
+  const formatTimeAgo = (date: Date | number) => {
     const now = new Date();
-    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-    
+    const targetDate = typeof date === 'number' ? new Date(date) : date;
+    const diffInSeconds = Math.floor((now.getTime() - targetDate.getTime()) / 1000);
+
     if (diffInSeconds < 60) return "Just now";
     if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
     if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
     if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)}d ago`;
-    return date.toLocaleDateString();
+    return targetDate.toLocaleDateString();
   };
 
   const toggleItemSelection = (itemId: string) => {
