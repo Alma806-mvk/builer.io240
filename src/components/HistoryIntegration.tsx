@@ -106,7 +106,79 @@ const HistoryIntegration: React.FC<HistoryIntegrationProps> = ({
     <HistoryWorldClass
       historyItems={historyItems}
       onViewItem={(item) => {
-        console.log("Viewing item:", item);
+        // Find the original history item to get full input and output
+        const originalItem = history.find(h => h.id === item.id);
+        if (originalItem) {
+          // Create a detailed view of the item
+          const modal = document.createElement('div');
+          modal.innerHTML = `
+            <div style="
+              position: fixed;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              background: rgba(0,0,0,0.8);
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              z-index: 10000;
+              padding: 20px;
+            " onclick="this.remove()">
+              <div style="
+                background: linear-gradient(135deg, #0f172a, #1e293b);
+                border: 1px solid #334155;
+                border-radius: 12px;
+                padding: 24px;
+                max-width: 800px;
+                max-height: 80vh;
+                overflow-y: auto;
+                color: white;
+                box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+              " onclick="event.stopPropagation()">
+                <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 20px;">
+                  <h2 style="margin: 0; font-size: 24px; font-weight: 600; color: #38bdf8;">
+                    ${item.type === 'text' ? 'Content Idea' :
+                      item.type === 'image' ? 'Image Idea' :
+                      item.type === 'video' ? 'Video Idea' :
+                      item.type === 'analytics' ? 'Analytics' :
+                      item.type === 'strategy' ? 'Strategy' :
+                      item.type.charAt(0).toUpperCase() + item.type.slice(1)} for ${item.platform}
+                  </h2>
+                  <button onclick="this.closest('[style*=\"position: fixed\"]').remove()" style="
+                    background: none;
+                    border: none;
+                    color: #94a3b8;
+                    font-size: 24px;
+                    cursor: pointer;
+                    padding: 0;
+                    margin-left: auto;
+                  ">×</button>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                  <h3 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 500; color: #60a5fa;">User Input:</h3>
+                  <p style="margin: 0; padding: 12px; background: #1e293b; border-radius: 8px; border: 1px solid #475569; line-height: 1.5;">
+                    ${originalItem.userInput || item.userInput || 'No input provided'}
+                  </p>
+                </div>
+
+                <div>
+                  <h3 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 500; color: #60a5fa;">Generated Output:</h3>
+                  <div style="padding: 12px; background: #1e293b; border-radius: 8px; border: 1px solid #475569; line-height: 1.5;">
+                    ${typeof originalItem.content === 'object' ?
+                      Object.entries(originalItem.content).map(([key, value]) =>
+                        `<div style="margin-bottom: 12px;"><strong style="color: #fbbf24;">${key}:</strong><br/>${value}</div>`
+                      ).join('') :
+                      originalItem.content || item.content}
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+
+          document.body.appendChild(modal);
+        }
       }}
       onDeleteItem={(itemId) => {
         const confirmDelete = confirm("Are you sure you want to delete this item?");
