@@ -86,7 +86,7 @@ interface HistoryItem {
   type: 'text' | 'image' | 'video' | 'analytics' | 'strategy';
   content: string;
   platform: string;
-  timestamp: Date;
+  timestamp: Date | number;
   tags: string[];
   starred: boolean;
   views?: number;
