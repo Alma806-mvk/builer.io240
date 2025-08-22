@@ -114,6 +114,7 @@ const HistoryWorldClass: React.FC<HistoryWorldClassProps> = ({
   onSendToCalendar,
   onSendToGenerator,
   onNavigateToTab,
+  updateItemRating,
 }) => {
   // Enhanced State
   const [enhancedItems, setEnhancedItems] = useState<EnhancedHistoryItem[]>([]);
