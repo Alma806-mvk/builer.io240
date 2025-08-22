@@ -92,6 +92,7 @@ interface HistoryItem {
   views?: number;
   performance?: number;
   thumbnail?: string;
+  rating?: 1 | -1 | 0;
 }
 
 interface HistoryWorldClassProps {
