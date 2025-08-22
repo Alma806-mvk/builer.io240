@@ -203,15 +203,21 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
 
     setFeedbackLoading(true);
     try {
-      await firebaseIntegratedGenerationService.saveFeedback(
-        displayedOutputItem.firebase.generationId,
-        {
-          rating: userFeedback,
-          comment: feedbackComment.trim() || undefined
-        }
-      );
+      // If content is saved to Firebase, save feedback there
+      if (displayedOutputItem.firebase?.generationId) {
+        await firebaseIntegratedGenerationService.saveFeedback(
+          displayedOutputItem.firebase.generationId,
+          {
+            rating: userFeedback,
+            comment: feedbackComment.trim() || undefined
+          }
+        );
+        console.log('✅ Feedback comment saved to Firebase successfully');
+      } else {
+        // For unsaved content, just update local state
+        console.log('📝 Feedback comment saved locally (content not saved to Firebase)');
+      }
       setShowFeedbackComment(false);
-      console.log('✅ Feedback comment saved successfully');
     } catch (error) {
       console.error('❌ Failed to save feedback comment:', error);
     } finally {
