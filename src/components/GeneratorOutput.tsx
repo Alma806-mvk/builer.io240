@@ -919,8 +919,8 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
               {copied ? "Copied!" : "Copy"}
             </button>
 
-            {/* Firebase Feedback Buttons - Only show if user is authenticated and content is saved to Firebase */}
-            {auth.currentUser && displayedOutputItem?.firebase?.generationId && (
+            {/* Firebase Feedback Buttons - Show for all authenticated users */}
+            {auth.currentUser && displayedOutputItem && (
               <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
                 <div style={{ display: "flex", gap: "0.25rem", alignItems: "center" }}>
                   <button
