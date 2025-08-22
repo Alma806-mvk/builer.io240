@@ -7,7 +7,7 @@ interface HistoryItem {
   contentType: string;
   content: any;
   platform?: string;
-  timestamp: Date;
+  timestamp: Date | number;
   tags?: string[];
   userInput?: string;
 }
