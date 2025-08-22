@@ -946,7 +946,19 @@ const HistoryWorldClass: React.FC<HistoryWorldClassProps> = ({
                     </Button>
                   </div>
 
-                  <div className="flex items-center space-x-1">
+                  <div className="flex items-center space-x-2">
+                    {/* Rating Buttons */}
+                    {updateItemRating && (
+                      <div onClick={(e) => e.stopPropagation()}>
+                        <RatingButtons
+                          rating={item.rating}
+                          onRating={(rating) => updateItemRating(item.id, rating)}
+                          size="sm"
+                          showTooltip={true}
+                        />
+                      </div>
+                    )}
+
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
