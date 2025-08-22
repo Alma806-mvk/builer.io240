@@ -828,8 +828,8 @@ const HistoryWorldClass: React.FC<HistoryWorldClassProps> = ({
               </div>
 
               {/* Star Button */}
-              <div className="absolute top-4 right-4 z-10 flex items-center space-x-2">
-                <span className="text-xs text-[var(--text-tertiary)] bg-[var(--surface-tertiary)] px-2 py-1 rounded-md">
+              <div className="absolute top-3 right-3 z-10 flex items-center gap-2">
+                <span className="text-xs text-[var(--text-tertiary)] bg-[var(--surface-tertiary)] px-2 py-1 rounded-md whitespace-nowrap">
                   Generator • {item.type === 'text' ? 'Content Idea' :
                              item.type === 'image' ? 'Image Idea' :
                              item.type === 'video' ? 'Video Idea' :
@@ -842,7 +842,7 @@ const HistoryWorldClass: React.FC<HistoryWorldClassProps> = ({
                     e.stopPropagation();
                     onStarItem?.(item.id);
                   }}
-                  className={`p-1 rounded-lg transition-colors ${
+                  className={`p-1.5 rounded-lg transition-colors ${
                     item.starred
                       ? "text-yellow-400 bg-yellow-400/20"
                       : "text-[var(--text-tertiary)] hover:text-yellow-400 hover:bg-yellow-400/20"
