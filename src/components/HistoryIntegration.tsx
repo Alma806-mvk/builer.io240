@@ -26,7 +26,7 @@ const HistoryIntegration: React.FC<HistoryIntegrationProps> = ({
   const historyItems = history.map(item => ({
     id: item.id,
     title: item.title || `${item.contentType} Content`,
-    type: item.contentType === 'YoutubeChannelStats' ? 'analytics' as const : 
+    type: item.contentType === 'YoutubeChannelStats' ? 'analytics' as const :
           item.contentType === 'ChannelAnalysis' ? 'analytics' as const :
           item.contentType === 'ThumbnailMaker' ? 'image' as const :
           item.contentType === 'ContentStrategy' ? 'strategy' as const : 'text' as const,
@@ -35,8 +35,7 @@ const HistoryIntegration: React.FC<HistoryIntegrationProps> = ({
     timestamp: item.timestamp,
     tags: item.tags || [],
     starred: false,
-    views: Math.floor(Math.random() * 2000) + 100,
-    performance: Math.floor(Math.random() * 40) + 60,
+    userInput: item.userInput || item.title || '',
   }));
 
   // Rating handler function
