@@ -101,6 +101,7 @@ interface HistoryWorldClassProps {
   onSendToCalendar?: (item: HistoryItem) => void;
   onSendToGenerator?: (item: HistoryItem) => void;
   onNavigateToTab?: (tabId: string) => void;
+  updateItemRating?: (itemId: string, rating: 1 | -1 | 0) => void;
 }
 
 const HistoryWorldClass: React.FC<HistoryWorldClassProps> = ({
