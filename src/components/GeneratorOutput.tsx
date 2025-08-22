@@ -197,7 +197,7 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
   };
 
   const saveFeedbackComment = async () => {
-    if (!displayedOutputItem?.firebase?.generationId || !auth.currentUser || !userFeedback) {
+    if (!auth.currentUser || !userFeedback || !displayedOutputItem) {
       return;
     }
 
