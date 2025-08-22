@@ -67,6 +67,9 @@ import {
   QuickActionCard,
 } from "./ui/WorldClassComponents";
 
+// Import the rating component
+import RatingButtons from "./ui/RatingButtons";
+
 // Import services
 import {
   enhancedHistoryService,
@@ -89,6 +92,7 @@ interface HistoryItem {
   views?: number;
   performance?: number;
   thumbnail?: string;
+  rating?: 1 | -1 | 0;
 }
 
 interface HistoryWorldClassProps {
@@ -101,6 +105,7 @@ interface HistoryWorldClassProps {
   onSendToCalendar?: (item: HistoryItem) => void;
   onSendToGenerator?: (item: HistoryItem) => void;
   onNavigateToTab?: (tabId: string) => void;
+  updateItemRating?: (itemId: string, rating: 1 | -1 | 0) => void;
 }
 
 const HistoryWorldClass: React.FC<HistoryWorldClassProps> = ({
@@ -113,6 +118,7 @@ const HistoryWorldClass: React.FC<HistoryWorldClassProps> = ({
   onSendToCalendar,
   onSendToGenerator,
   onNavigateToTab,
+  updateItemRating,
 }) => {
   // Enhanced State
   const [enhancedItems, setEnhancedItems] = useState<EnhancedHistoryItem[]>([]);
@@ -941,7 +947,19 @@ const HistoryWorldClass: React.FC<HistoryWorldClassProps> = ({
                     </Button>
                   </div>
 
-                  <div className="flex items-center space-x-1">
+                  <div className="flex items-center space-x-2">
+                    {/* Rating Buttons */}
+                    {updateItemRating && (
+                      <div onClick={(e) => e.stopPropagation()}>
+                        <RatingButtons
+                          rating={item.rating}
+                          onRating={(rating) => updateItemRating(item.id, rating)}
+                          size="sm"
+                          showTooltip={true}
+                        />
+                      </div>
+                    )}
+
                     <button
                       onClick={(e) => {
                         e.stopPropagation();

@@ -138,8 +138,13 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
 
   // Feedback handler functions
   const handleFeedback = async (rating: -1 | 0 | 1) => {
-    if (!displayedOutputItem?.firebase?.generationId || !auth.currentUser) {
-      console.warn('Cannot save feedback: missing generation ID or user not authenticated');
+    if (!auth.currentUser) {
+      console.warn('Cannot save feedback: user not authenticated');
+      return;
+    }
+
+    if (!displayedOutputItem) {
+      console.warn('Cannot save feedback: no content to rate');
       return;
     }
 
@@ -148,16 +153,22 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
 
     setFeedbackLoading(true);
     try {
-      await firebaseIntegratedGenerationService.saveFeedback(
-        displayedOutputItem.firebase.generationId,
-        {
-          rating: newRating,
-          comment: feedbackComment.trim() || undefined
-        }
-      );
+      // If content is saved to Firebase, save feedback there
+      if (displayedOutputItem.firebase?.generationId) {
+        await firebaseIntegratedGenerationService.saveFeedback(
+          displayedOutputItem.firebase.generationId,
+          {
+            rating: newRating,
+            comment: feedbackComment.trim() || undefined
+          }
+        );
+        console.log('✅ Feedback saved to Firebase successfully');
+      } else {
+        // For unsaved content, just update local state
+        console.log('📝 Feedback saved locally (content not saved to Firebase)');
+      }
 
       setUserFeedback(newRating);
-      console.log('✅ Feedback saved successfully');
 
       // Show confirmation message
       if (newRating !== 0) {
@@ -186,21 +197,27 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
   };
 
   const saveFeedbackComment = async () => {
-    if (!displayedOutputItem?.firebase?.generationId || !auth.currentUser || !userFeedback) {
+    if (!auth.currentUser || !userFeedback || !displayedOutputItem) {
       return;
     }
 
     setFeedbackLoading(true);
     try {
-      await firebaseIntegratedGenerationService.saveFeedback(
-        displayedOutputItem.firebase.generationId,
-        {
-          rating: userFeedback,
-          comment: feedbackComment.trim() || undefined
-        }
-      );
+      // If content is saved to Firebase, save feedback there
+      if (displayedOutputItem.firebase?.generationId) {
+        await firebaseIntegratedGenerationService.saveFeedback(
+          displayedOutputItem.firebase.generationId,
+          {
+            rating: userFeedback,
+            comment: feedbackComment.trim() || undefined
+          }
+        );
+        console.log('✅ Feedback comment saved to Firebase successfully');
+      } else {
+        // For unsaved content, just update local state
+        console.log('📝 Feedback comment saved locally (content not saved to Firebase)');
+      }
       setShowFeedbackComment(false);
-      console.log('✅ Feedback comment saved successfully');
     } catch (error) {
       console.error('❌ Failed to save feedback comment:', error);
     } finally {
@@ -919,8 +936,8 @@ export const GeneratorOutput: React.FC<GeneratorOutputProps> = ({
               {copied ? "Copied!" : "Copy"}
             </button>
 
-            {/* Firebase Feedback Buttons - Only show if user is authenticated and content is saved to Firebase */}
-            {auth.currentUser && displayedOutputItem?.firebase?.generationId && (
+            {/* Firebase Feedback Buttons - Show for all authenticated users */}
+            {auth.currentUser && displayedOutputItem && (
               <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
                 <div style={{ display: "flex", gap: "0.25rem", alignItems: "center" }}>
                   <button
