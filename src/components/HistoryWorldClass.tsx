@@ -891,24 +891,6 @@ const HistoryWorldClass: React.FC<HistoryWorldClassProps> = ({
                   </div>
                 )}
 
-                {/* Performance Metrics */}
-                {(item.analyticsData?.performance || item.performance) && (
-                  <div className="mb-4">
-                    <div className="flex justify-between items-center mb-1">
-                      <span className="text-xs text-[var(--text-tertiary)]">Performance</span>
-                      <span className="text-xs font-medium text-[var(--text-primary)]">{item.analyticsData?.performance || item.performance}%</span>
-                    </div>
-                    <ProgressBar
-                      value={item.analyticsData?.performance || item.performance || 0}
-                      size="sm"
-                      color={
-                        (item.analyticsData?.performance || item.performance || 0) >= 80 ? "var(--color-success)" :
-                        (item.analyticsData?.performance || item.performance || 0) >= 60 ? "var(--color-warning)" :
-                        "var(--color-error)"
-                      }
-                    />
-                  </div>
-                )}
 
                 {/* Action Buttons */}
                 <div className="flex items-center justify-between mb-4">
