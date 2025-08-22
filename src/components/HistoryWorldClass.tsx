@@ -863,7 +863,12 @@ const HistoryWorldClass: React.FC<HistoryWorldClassProps> = ({
                   }}
                   title="Click to view generated content"
                 >
-                  {item.type.charAt(0).toUpperCase() + item.type.slice(1)} for {item.platform}: {item.userInput || item.title}
+                  {item.type === 'text' ? 'Content Idea' :
+                   item.type === 'image' ? 'Image Idea' :
+                   item.type === 'video' ? 'Video Idea' :
+                   item.type === 'analytics' ? 'Analytics' :
+                   item.type === 'strategy' ? 'Strategy' :
+                   item.type.charAt(0).toUpperCase() + item.type.slice(1)} for {item.platform}
                 </h3>
                 <p className="body-sm mb-4 line-clamp-3">{item.content}</p>
 
