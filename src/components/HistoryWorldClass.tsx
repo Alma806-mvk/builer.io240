@@ -93,6 +93,7 @@ interface HistoryItem {
   performance?: number;
   thumbnail?: string;
   rating?: 1 | -1 | 0;
+  userInput?: string;
 }
 
 interface HistoryWorldClassProps {
