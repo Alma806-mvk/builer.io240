@@ -855,7 +855,9 @@ const HistoryWorldClass: React.FC<HistoryWorldClassProps> = ({
                 </div>
 
                 {/* Title and Content */}
-                <h3 className="heading-4 mb-2 line-clamp-2">{item.title}</h3>
+                <h3 className="heading-4 mb-2 line-clamp-2">
+                  {item.type.charAt(0).toUpperCase() + item.type.slice(1)} for {item.platform}: {item.userInput || item.title}
+                </h3>
                 <p className="body-sm mb-4 line-clamp-3">{item.content}</p>
 
                 {/* Tags */}
