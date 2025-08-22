@@ -970,12 +970,6 @@ const HistoryWorldClass: React.FC<HistoryWorldClassProps> = ({
                       <Clock className="w-3 h-3" />
                       <span>{formatTimeAgo(item.timestamp)}</span>
                     </span>
-                    {(item.analyticsData?.views || item.views) && (
-                      <span className="flex items-center space-x-1">
-                        <Eye className="w-3 h-3" />
-                        <span>{item.analyticsData?.views || item.views}</span>
-                      </span>
-                    )}
                     {item.sentToCanvas && (
                       <span className="flex items-center space-x-1 text-[var(--brand-primary)]">
                         <Send className="w-3 h-3" />
